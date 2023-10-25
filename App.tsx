@@ -1,20 +1,39 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ *
+ * Generated with the TypeScript template
+ * https://github.com/react-native-community/react-native-template-typescript
+ *
+ * @format
+ */
 
-export default function App() {
+import { Provider } from "react-redux";
+import React, { useEffect } from "react";
+import { StatusBar, StyleSheet, View } from "react-native";
+
+import store from "./src/redux";
+import { colors } from "./src/theme/Colors";
+import MainNavigator from "./src/navigations/MainNavigator";
+import useCachedResources from "./src/hook/useCachedResources";
+
+
+
+const App = () => {
+
+  const isLoadingComplete = useCachedResources();
+  if (!isLoadingComplete) {
+    return null;
+  }
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Provider store={store}>
+        <View style={{ flex: 1 }}>
+          <MainNavigator />
+        </View>
+    </Provider>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const styles = StyleSheet.create({});
+
+export default App;

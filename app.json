@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "toolcab",
-    "slug": "toolcab",
+    "slug": "toolscab",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -25,6 +25,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "79b1c08d-ff3a-4295-81f1-f7e847138c74"
+      }
+    },
+    "owner": "chiragk"
   }
 }
