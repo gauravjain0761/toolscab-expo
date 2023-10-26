@@ -1,4 +1,4 @@
-import { Dimensions, Platform } from "react-native";
+import { Dimensions, PixelRatio, Platform } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 import {
   heightPercentageToDP,
@@ -11,11 +11,11 @@ export const screen_width: number = Dimensions.get("window").width;
 export const screen_height: number = Dimensions.get("window").height;
 
 export const wp = (val: number) => {
-  return widthPercentageToDP(val);
+  return widthPercentageToDP(((val / 2) * 100) / screen_width);
 };
 
 export const hp = (val: number) => {
-  return heightPercentageToDP(val);
+  return heightPercentageToDP(((val / 2) * 100) / screen_height);
 };
 
 export const isIos = Platform.OS === "ios";

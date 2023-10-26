@@ -3,10 +3,14 @@ export const screenName = {
 };
 
 export const fontFamily = {
-  bold: "ReadexPro-Bold",
-  light: "ReadexPro-Light",
-  medium: "ReadexPro-Medium",
-  regular: "ReadexPro-Regular",
-  semiBold: "ReadexPro-SemiBold",
-  extraLight: "ReadexPro-ExtraLight",
+  bold: "oddval-bold",
+  light: "oddval-light",
+  medium: "oddval-medium",
+  regular: "oddval-regular",
+  semiBold: "oddval-semibold",
+
+  articulat_bold: "articulatCF-bold",
+  articulat_regular: "articulatCF-",
+  articulat_medium: "articulatCF-medium",
+  articulat_normal: "articulatCF-normal",
 };

@@ -7,5 +7,6 @@ export const colors = {
   placeholderTextColor: "#888888",
   grey: "#C1A185",
   black: "#000000",
-  headerBG:'#191917'
+  headerBG: "#191917",
+  roheline: "#E6FF00",
 };
