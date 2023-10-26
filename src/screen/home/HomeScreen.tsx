@@ -1,5 +1,5 @@
 //import liraries
-import React, { Component } from "react";
+import React, { Component, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -8,14 +8,20 @@ import {
   Image,
   TouchableOpacity,
   ImageBackground,
+  FlatList,
 } from "react-native";
 import { colors } from "../../theme/Colors";
-import { Header } from "../../components";
+import { CommonMapView, Header, HomeProductcart } from "../../components";
 import { hp, wp } from "../../helper/globalFunctions";
 import { fontFamily } from "../../helper/constants";
-
+import MapView from "react-native-maps";
+import { productDetails } from "../../helper/constantData";
+import { icons } from "../../theme/Icons";
 // create a component
 const HomeScreen = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const flatlistRef = useRef(null);
+
   return (
     <View style={styles.container}>
       <Header />
@@ -148,16 +154,172 @@ const HomeScreen = () => {
             />
           </View>
         </View>
+        <View style={{ marginTop: hp(140) }}>
+          <Text
+            style={{
+              fontSize: 34,
+              lineHeight: 50,
+              fontFamily: fontFamily.regular,
+              letterSpacing: -0.8,
+              color: colors.black,
+              alignSelf: "center",
+              marginBottom: 24,
+            }}
+          >
+            {"Asukohad"}
+          </Text>
+          <CommonMapView />
+        </View>
+        <View
+          style={{
+            marginTop: hp(147),
+            width: 1102,
+            alignSelf: "center",
+            marginBottom: 30,
+          }}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              flex: 1,
+              justifyContent: "space-between",
+            }}
+          >
+            <View />
+            <Text
+              style={{
+                fontSize: 34,
+                lineHeight: 50,
+                fontFamily: fontFamily.regular,
+                letterSpacing: -0.8,
+                color: colors.black,
+                alignSelf: "center",
+                marginBottom: 24,
+              }}
+            >
+              {"Tutvu meie seadmetega"}
+            </Text>
+            <TouchableOpacity>
+              <Text
+                style={{
+                  fontSize: 15,
+                  lineHeight: 21,
+                  fontFamily: fontFamily.articulat_regular,
+                  letterSpacing: -0.8,
+                  color: colors.black,
+                  marginBottom: 24,
+                  marginTop: 5,
+                }}
+              >
+                {"Laienda"}
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          <FlatList
+            ref={flatlistRef}
+            horizontal
+            showsVerticalScrollIndicator={false}
+            initialScrollIndex={currentIndex}
+            contentContainerStyle={{ flex: 1 }}
+            data={productDetails}
+            renderItem={({ item }) => <HomeProductcart data={item} />}
+          />
+          <TouchableOpacity
+            onPress={() => {
+              setCurrentIndex(currentIndex + 1);
+              flatlistRef?.current?.scrollToIndex({
+                animated: true,
+                index: currentIndex + 1,
+              });
+            }}
+            style={{
+              width: 50,
+              height: 50,
+              justifyContent: "center",
+              alignItems: "center",
+              borderTopLeftRadius: 10,
+              borderBottomRightRadius: 10,
+              shadowColor: "#000",
+              position: "absolute",
+              right: -25,
+              top: "45%",
+              backgroundColor: colors.white,
+            }}
+          >
+            <Image source={icons.rightBack} style={{ width: 20, height: 20 }} />
+          </TouchableOpacity>
+
+          <View style={{ flexDirection: "row", alignSelf: "center" }}>
+            {productDetails.map((item, index) => {
+              return (
+                <View>
+                  <View
+                    style={{
+                      width: 69,
+                      height: 5,
+                      marginRight: 8,
+                      backgroundColor:
+                        index <= currentIndex
+                          ? colors.roheline
+                          : colors.homecartBG,
+                    }}
+                  />
+                </View>
+              );
+            })}
+          </View>
+        </View>
+        <View
+          style={{
+            height: 600,
+            backgroundColor: "#E5E1CC",
+            alignItems: "center",
+            justifyContent:'center',
+            flexDirection:'row'
+          }}
+        >
+          <View>
+            <Image source={icons.TarkRentImg} />
+            <Text
+              style={{
+                fontSize: 128,
+                fontFamily: fontFamily.bold,
+                // letterSpacing: -2.84,
+                color: colors.black,
+                lineHeight:115
+              }}
+            >
+              {"Tark"}<Text style={{color:colors.roheline}}>{"\nRent"}</Text>
+            </Text>
+            <Text
+              style={{
+                fontSize: 18,
+                lineHeight: 20,
+                fontFamily: fontFamily.articulat_regular,
+                letterSpacing: -0.8,
+                color: colors.black,
+                alignSelf: "center",
+              }}
+            >{`Toolscab sündis Marie Kondo filosoofiast hoida\nelus ainult neid asju mis toovad su ellu rõõmu.\nEsemed mida me kasutame harva hakkavad\nrõõmu toomise asemel kapis ruumi võtma.\nToolscabi visiooniks on anda sulle tööriistad,\net saaksid keskenduda projektile mis parajasti käsil.`}</Text>
+          </View>
+          <Image source={icons.phoneImg} style={{width:390,height:510}} resizeMode="contain"/>
+        </View>
+        <View style={{backgroundColor:'#222629',height:400,alignItems:'center',justifyContent:'center'}}>
+          {/* <View>
+              <Text>sda</Text>
+          </View> */}
+          <Image source={icons.homeFooter} style={{width:450,height:400,position:'absolute',right:0}}/>
+        </View>
       </ScrollView>
     </View>
   );
 };
-
 // define your styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.white,
+    backgroundColor: "#FCFCFC",
   },
   bannerContainer: {
     backgroundColor: colors.roheline,

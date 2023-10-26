@@ -5,6 +5,7 @@ export const icons = {
   bgImge: require("../assets/icon/bgImge.png"),
   cartIcon: require("../assets/icon/cartIcon.png"),
   facebook: require("../assets/icon/facebook.png"),
+  toolscab: require("../assets/icon/toolscab.png"),
   homeFooter: require("../assets/icon/homeFooter.png"),
   image1: require("../assets/icon/image1.png"),
   image2: require("../assets/icon/image2.png"),
@@ -16,6 +17,9 @@ export const icons = {
   phoneImg: require("../assets/icon/phoneImg.png"),
   userIcone: require("../assets/icon/userIcone.png"),
   userImg: require("../assets/icon/userImg.png"),
+  mapImg: require("../assets/icon/mapImg.png"),
+  rightBack: require("../assets/icon/rightBack.png"),
+  TarkRentImg: require("../assets/icon/TarkRentImg.png"),
 
  
 };
