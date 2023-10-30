@@ -20,6 +20,10 @@ export const icons = {
   mapImg: require("../assets/icon/mapImg.png"),
   rightBack: require("../assets/icon/rightBack.png"),
   TarkRentImg: require("../assets/icon/TarkRentImg.png"),
+  closecircle: require("../assets/icon/closecircle.png"),
+  downarrow: require("../assets/icon/downarrow.png"),
+  image6: require("../assets/icon/image6.png"),
+  imageBg: require("../assets/icon/imageBg.png"),
 
  
 };

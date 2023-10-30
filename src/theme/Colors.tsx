@@ -10,5 +10,6 @@ export const colors = {
   headerBG: "#191917",
   roheline: "#E6FF00",
   homecartBG:'#F5F1EF',
-  headerColorBg:'#E5E1CC'
+  headerColorBg:'#E5E1CC',
+  filterText:'#787878'
 };
