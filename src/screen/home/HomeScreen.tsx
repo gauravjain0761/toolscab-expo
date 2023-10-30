@@ -11,7 +11,7 @@ import {
   FlatList,
 } from "react-native";
 import { colors } from "../../theme/Colors";
-import { CommonMapView, Header, HomeProductcart } from "../../components";
+import { CommonMapView, FooterView, Header, HomeProductcart } from "../../components";
 import { hp, wp } from "../../helper/globalFunctions";
 import { fontFamily } from "../../helper/constants";
 import MapView from "react-native-maps";
@@ -24,7 +24,7 @@ const HomeScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Header />
+      <Header isMainScreen={true}/>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <View style={styles.bannerContainer}>
           <View style={{ flexDirection: "row", flex: 1 }}>
@@ -305,12 +305,7 @@ const HomeScreen = () => {
           </View>
           <Image source={icons.phoneImg} style={{width:390,height:510}} resizeMode="contain"/>
         </View>
-        <View style={{backgroundColor:'#222629',height:400,alignItems:'center',justifyContent:'center'}}>
-          {/* <View>
-              <Text>sda</Text>
-          </View> */}
-          <Image source={icons.homeFooter} style={{width:450,height:400,position:'absolute',right:0}}/>
-        </View>
+        <FooterView />
       </ScrollView>
     </View>
   );

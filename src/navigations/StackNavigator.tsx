@@ -5,6 +5,7 @@ import {
 } from "@react-navigation/native-stack";
 import { screenName } from "../helper/constants";
 import HomeScreen from "../screen/home/HomeScreen";
+import ProductFilter from "../screen/product/ProductFilter";
 
 export type RootStackParamList = {
   HomeScreen: undefined;
@@ -22,13 +23,18 @@ const StackNavigator: FC = () => {
   return (
     <Stack.Navigator
       // @ts-ignore
-      initialRouteName={screenName.homeScreen}
+      initialRouteName={screenName.productFilter}
       screenOptions={options}
     >
       <Stack.Screen
         // @ts-ignore
         name={screenName.homeScreen}
         component={HomeScreen}
+      />
+      <Stack.Screen
+        // @ts-ignore
+        name={screenName.productFilter}
+        component={ProductFilter}
       />
     </Stack.Navigator>
   );

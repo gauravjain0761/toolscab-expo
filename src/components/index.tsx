@@ -3,9 +3,12 @@ import Header from "./common/Header";
 import CommonMapView from "./common/CommonMapView.web";
 import HomeProductcart from "./Product/HomeProductcart";
 
+import FooterView from "./web/FooterView";
+
 
 export {
     Header,
     CommonMapView,
-    HomeProductcart
+    HomeProductcart,
+    FooterView
 }

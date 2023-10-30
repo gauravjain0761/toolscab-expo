@@ -1,5 +1,6 @@
 export const screenName = {
   homeScreen: "HomeScreen",
+  productFilter: "ProductFilter",
 };
 
 export const fontFamily = {
