@@ -1,6 +1,7 @@
 export const screenName = {
   homeScreen: "HomeScreen",
   productFilter: "ProductFilter",
+  productDetail: "ProductDetail"
 };
 
 export const fontFamily = {
@@ -11,7 +12,7 @@ export const fontFamily = {
   semiBold: "oddval-semibold",
 
   articulat_bold: "articulatCF-bold",
-  articulat_regular: "articulatCF-",
+  articulat_regular: "articulatCF-regular",
   articulat_medium: "articulatCF-medium",
   articulat_normal: "articulatCF-normal",
 };

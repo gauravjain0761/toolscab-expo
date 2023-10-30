@@ -6,6 +6,7 @@ import {
 import { screenName } from "../helper/constants";
 import HomeScreen from "../screen/home/HomeScreen";
 import ProductFilter from "../screen/product/ProductFilter";
+import ProductDetail from "../screen/product/ProductDetail";
 
 export type RootStackParamList = {
   HomeScreen: undefined;
@@ -23,7 +24,7 @@ const StackNavigator: FC = () => {
   return (
     <Stack.Navigator
       // @ts-ignore
-      initialRouteName={screenName.productFilter}
+      initialRouteName={screenName.productDetail}
       screenOptions={options}
     >
       <Stack.Screen
@@ -35,6 +36,11 @@ const StackNavigator: FC = () => {
         // @ts-ignore
         name={screenName.productFilter}
         component={ProductFilter}
+      />
+      <Stack.Screen
+        // @ts-ignore
+        name={screenName.productDetail}
+        component={ProductDetail}
       />
     </Stack.Navigator>
   );

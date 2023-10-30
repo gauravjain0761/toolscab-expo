@@ -20,7 +20,7 @@ import { navigationRef } from "../../navigations/MainNavigator";
 const width = Dimensions.get("window").width;
 
 interface Props {
-  containerStyle: ViewStyle;
+  containerStyle?: ViewStyle;
   isMainScreen: boolean;
 }
 const data = [
@@ -29,7 +29,11 @@ const data = [
     name: "Seadmed",
     onPress: () => navigationRef.navigate(screenName.productFilter),
   },
-  { id: 2, name: "Asukohad" },
+  {
+    id: 2,
+    name: "Asukohad",
+    onPress: () => navigationRef.navigate(screenName.productDetail)
+  },
   { id: 3, name: "Meist" },
   { id: 4, name: "KKK" },
   { id: 5, name: "Renditingimused" },
