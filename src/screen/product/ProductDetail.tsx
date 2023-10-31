@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, ScrollView, Image } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity } from 'react-native'
+import React, { useState } from 'react'
 import { FooterView, Header } from '../../components'
 import { colors } from '../../theme/Colors'
 import { hp, screen_width, wp } from '../../helper/globalFunctions'
@@ -13,17 +13,13 @@ import CommonGreenBtn from '../../components/common/CommonGreenBtn'
 type Props = {}
 
 const ProductDetail = (props: Props) => {
+    const [selectedTab, setselectedTab] = useState(1)
+
     return (
         <View style={styles.container}>
             <Header isMainScreen={false} />
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                <View
-                    style={{
-                        width: screen_width * 0.75,
-                        alignSelf: "center",
-                        marginTop: hp(60),
-                    }}
-                >
+                <View style={styles.mainContainer}>
                     <HeaderBottomPathView heading="Kodu / seadmed / pesurid / KARCHER Puzzi 10/1" />
                     <View style={styles.mainContentView}>
                         <View >
@@ -63,13 +59,37 @@ const ProductDetail = (props: Props) => {
                                     marginLeft: 10
                                 }} />
                             </View>
+                            <Text style={styles.btnBottomText}>Renditingimused</Text>
+                            <View style={styles.botomLine} />
+                            <Text style={styles.title2}>Komplekt sisaldab</Text>
+                            <Text style={styles.des2}>Tekstiilipesur</Text>
+                            <Text style={styles.des2}>Voolik</Text>
+                            <Text style={styles.des2}>Pesuaine</Text>
                         </View>
+
+                    </View>
+
+                </View>
+                <View style={styles.mainContainer}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                        <TouchableOpacity onPress={() => setselectedTab(1)} style={[styles.tabView, { borderBottomColor: selectedTab == 1 ? colors.roheline : 'transparent' }]}>
+                            <Text style={styles.tabText}>Tehnilised andmed</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => setselectedTab(2)} style={[styles.tabView, { borderBottomColor: selectedTab == 2 ? colors.roheline : 'transparent' }]}>
+                            <Text style={styles.tabText}>Saadavus</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => setselectedTab(3)} style={[styles.tabView, { borderBottomColor: selectedTab == 3 ? colors.roheline : 'transparent' }]}>
+                            <Text style={styles.tabText}>Kasutamine</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                <View style={styles.middleMainView}>
+                    <View style={styles.mainContainer}>
 
                     </View>
                 </View>
                 <FooterView />
             </ScrollView>
-
         </View>
     )
 }
@@ -80,6 +100,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: colors.white,
+    },
+    mainContainer: {
+        width: screen_width * 0.75,
+        alignSelf: "center",
+        marginTop: hp(60),
     },
     bodyHeader: {
         alignItems: "flex-start",
@@ -97,7 +122,7 @@ const styles = StyleSheet.create({
 
     },
     imageProduct: {
-        height: 300,
+        height: 350,
         width: (screen_width * 0.75) / 1.7,
         resizeMode: 'contain',
     },
@@ -138,5 +163,31 @@ const styles = StyleSheet.create({
     btnRow: {
         flexDirection: 'row',
         marginTop: 20
+    },
+    btnBottomText: {
+        ...commonFontStyle(fontFamily.articulat_regular, 12, colors.black),
+        paddingVertical: 10
+    },
+    title2: {
+        ...commonFontStyle(fontFamily.articulat_bold, 14, colors.black),
+        marginTop: 10,
+        marginBottom: 3
+    },
+    des2: {
+        ...commonFontStyle(fontFamily.articulat_regular, 12, colors.headerBG),
+    },
+    middleMainView: {
+        backgroundColor: colors.homecartBG,
+        paddingVertical: 60
+    },
+    tabView: {
+        width: '30%',
+        borderBottomWidth: 3,
+        borderBottomColor: 'transparent',
+        alignItems: 'center',
+        paddingVertical: 5
+    },
+    tabText: {
+        ...commonFontStyle(fontFamily.articulat_regular, 18, colors.headerBG)
     }
 })
