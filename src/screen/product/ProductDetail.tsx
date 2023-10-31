@@ -8,6 +8,7 @@ import { icons } from '../../theme/Icons'
 import { FlatList } from 'react-native'
 import { commonFontStyle } from "../../theme/Fonts";
 import { fontFamily } from '../../helper/constants'
+import CommonGreenBtn from '../../components/common/CommonGreenBtn'
 
 type Props = {}
 
@@ -54,6 +55,14 @@ const ProductDetail = (props: Props) => {
                                 </View>
                             </View>
                             <View style={styles.botomLine} />
+                            <View style={styles.btnRow}>
+                                <CommonGreenBtn title='Rendi' onPress={() => { }} />
+                                <CommonGreenBtn title='Leia kapp' onPress={() => { }} style={{
+                                    backgroundColor: colors.white,
+                                    borderColor: colors.black,
+                                    marginLeft: 10
+                                }} />
+                            </View>
                         </View>
 
                     </View>
@@ -125,5 +134,9 @@ const styles = StyleSheet.create({
     },
     arrowImage: {
         height: 32, width: 32, resizeMode: 'contain', marginRight: 10
+    },
+    btnRow: {
+        flexDirection: 'row',
+        marginTop: 20
     }
 })
