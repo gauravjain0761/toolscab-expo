@@ -7,6 +7,9 @@ import { screenName } from "../helper/constants";
 import HomeScreen from "../screen/home/HomeScreen";
 import ProductFilter from "../screen/product/ProductFilter";
 import ProductDetail from "../screen/product/ProductDetail";
+import OurOfUsScreen from "../screen/home/OurOfUsScreen";
+import FAQScreen from "../screen/home/FAQScreen";
+import RentalConditionsScreen from "../screen/home/RentalConditionsScreen";
 
 export type RootStackParamList = {
   HomeScreen: undefined;
@@ -24,7 +27,7 @@ const StackNavigator: FC = () => {
   return (
     <Stack.Navigator
       // @ts-ignore
-      initialRouteName={screenName.productDetail}
+      initialRouteName={screenName.homeScreen}
       screenOptions={options}
     >
       <Stack.Screen
@@ -41,6 +44,21 @@ const StackNavigator: FC = () => {
         // @ts-ignore
         name={screenName.productDetail}
         component={ProductDetail}
+      />
+      <Stack.Screen
+        // @ts-ignore
+        name={screenName.ourOfUsScreen}
+        component={OurOfUsScreen}
+      />
+      <Stack.Screen
+        // @ts-ignore
+        name={screenName.faqScreen}
+        component={FAQScreen}
+      />
+      <Stack.Screen
+        // @ts-ignore
+        name={screenName.rentalConditionsScreen}
+        component={RentalConditionsScreen}
       />
     </Stack.Navigator>
   );

@@ -1,7 +1,10 @@
 export const screenName = {
   homeScreen: "HomeScreen",
   productFilter: "ProductFilter",
-  productDetail: "ProductDetail"
+  productDetail: "ProductDetail",
+  ourOfUsScreen: "OurOfUsScreen",
+  faqScreen: "FAQScreen",
+  rentalConditionsScreen: "RentalConditionsScreen",
 };
 
 export const fontFamily = {

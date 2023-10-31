@@ -34,9 +34,9 @@ const data = [
     name: "Asukohad",
     onPress: () => navigationRef.navigate(screenName.productDetail)
   },
-  { id: 3, name: "Meist" },
-  { id: 4, name: "KKK" },
-  { id: 5, name: "Renditingimused" },
+  { id: 3, name: "Meist", onPress: () => navigationRef.navigate(screenName.ourOfUsScreen) },
+  { id: 4, name: "KKK",  onPress: () => navigationRef.navigate(screenName.faqScreen) },
+  { id: 5, name: "Renditingimused",  onPress: () => navigationRef.navigate(screenName.rentalConditionsScreen) },
   { id: 6, name: "Kontakt" },
 ];
 

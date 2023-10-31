@@ -1,23 +1,193 @@
 //import liraries
-import React, { Component } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import React, { Component, useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  FlatList,
+  useWindowDimensions,
+  Image,
+  ImageBackground,
+} from "react-native";
 import { colors } from "../../theme/Colors";
-import { DropDownMenu, FooterView, Header } from "../../components";
-import { hp, screen_width, wp } from "../../helper/globalFunctions";
+import {
+  CheckboxView,
+  DropDownMenu,
+  FooterView,
+  Header,
+  Productcart,
+} from "../../components";
+import {
+  hp,
+  screen_height,
+  screen_width,
+  wp,
+} from "../../helper/globalFunctions";
 import { commonFontStyle } from "../../theme/Fonts";
-import { fontFamily } from "../../helper/constants";
+import { fontFamily, screenName } from "../../helper/constants";
 import HeaderBottomPathView from "../../components/common/HeaderBottomPathView";
+import { icons } from "../../theme/Icons";
+import { navigationRef } from "../../navigations/MainNavigator";
 
 const filterData = [
-  { id: 1, name: "Pesurid" },
-  { id: 2, name: "Tolmuimejad" },
-  { id: 3, name: "Saed" },
-  { id: 4, name: "Puhurid" },
-  { id: 5, name: "Trellid" },
-  { id: 6, name: "Lõikurid" },
+  {
+    id: 1,
+    name: "Pesurid",
+    icon: icons.image1,
+    productList: [
+      { id: 1, icon: icons.image6, title: "Pesurid", label: "Loe lisaks" },
+      {
+        id: 2,
+        icon: icons.image1,
+        title: "KARCHER Puzzi 10/1",
+        label: "Tekstiilipesur",
+        aircon: 3240,
+        volumeflow: 1,
+        hoselength: 1,
+      },
+      {
+        id: 3,
+        icon: icons.image8,
+        title: "KARCHER SC 1",
+        label: "Aurupesur",
+        aircon: 3240,
+        volumeflow: 1,
+        hoselength: 1,
+      },
+      {
+        id: 4,
+        icon: icons.image9,
+        title: "KARCHER SC 2",
+        label: "Aurupesur",
+        aircon: 3240,
+        volumeflow: 1,
+        hoselength: 1,
+      },
+      {
+        id: 5,
+        icon: icons.image8,
+        title: "KARCHER Puzzi 10/1",
+        label: "Tekstiilipesur",
+        aircon: 3240,
+        volumeflow: 1,
+        hoselength: 1,
+      },
+      {
+        id: 6,
+        icon: icons.image1,
+        title: "KARCHER Puzzi 10/1",
+        label: "Aurupesur",
+        aircon: 3240,
+        volumeflow: 1,
+        hoselength: 1,
+      },
+      {
+        id: 7,
+        icon: icons.image9,
+        title: "KARCHER SC 2",
+        label: "Aurupesur",
+        aircon: 3240,
+        volumeflow: 1,
+        hoselength: 1,
+      },
+    ],
+  },
+  { id: 2, name: "Tolmuimejad", icon: icons.image2 },
+  { id: 3, name: "Saed", icon: icons.image4 },
+  { id: 4, name: "Puhurid", icon: icons.image3 },
+  { id: 5, name: "Trellid", icon: icons.image5 },
+  { id: 6, name: "Lõikurid", icon: icons.image7 },
+];
+
+const checkList = [
+  {
+    id: 1,
+    title: "Saadavus:",
+    list: [
+      { id: 1, name: "Kõik" },
+      { id: 2, name: "Praegu saadaval" },
+    ],
+  },
+  {
+    id: 2,
+    title: "Tootja",
+    list: [
+      { id: 1, name: "Karcher" },
+      { id: 2, name: "Makita" },
+    ],
+  },
+  {
+    id: 3,
+    title: "Tüüp",
+    list: [
+      { id: 1, name: "Akutoitel" },
+      { id: 2, name: "Juhtmega" },
+    ],
+  },
 ];
 // create a component
+
+const ProductcartList = ({ setShowProduct, mainView, showProduct }: any) => {
+  const onSelectPress = (item: any) => {
+    setShowProduct(item);
+  };
+  return (
+    <View>
+      <Text
+        style={{
+          marginBottom: 30,
+          ...commonFontStyle(fontFamily.bold, 30, colors.black),
+        }}
+      >
+        {mainView ? "Meie seadmed" : showProduct?.name}
+      </Text>
+      {mainView ? (
+        <FlatList
+          data={filterData}
+          numColumns={3}
+          keyExtractor={(_i, index) => index.toString()}
+          renderItem={({ item }) => {
+            return (
+              <Productcart
+                icon={item.icon}
+                title={item.name}
+                onSelectPress={() => onSelectPress(item)}
+                mainView={true}
+              />
+            );
+          }}
+        />
+      ) : (
+        <FlatList
+          data={showProduct?.productList}
+          numColumns={3}
+          keyExtractor={(_i, index) => index.toString()}
+          renderItem={({ item, index }) => {
+            return (
+              <Productcart
+                index={index}
+                icon={item?.icon}
+                title={item?.title}
+                label={item?.label}
+                onSelectPress={() => navigationRef.navigate(screenName.productDetail)}
+                mainView={false}
+                aircon={item?.aircon}
+                volumeflow={item?.volumeflow}
+                hoselength={item?.hoselength}
+              />
+            );
+          }}
+        />
+      )}
+    </View>
+  );
+};
+
 const ProductFilter = () => {
+  const { height } = useWindowDimensions();
+  const [showProduct, setShowProduct] = useState([]);
+
   return (
     <View style={styles.container}>
       <Header isMainScreen={false} />
@@ -28,26 +198,84 @@ const ProductFilter = () => {
           marginTop: hp(60),
         }}
       >
-        <HeaderBottomPathView heading="kodu / Seadmed" />
+        <HeaderBottomPathView
+          heading={" Seadmed "}
+          heading1={`/ ${showProduct?.name}`}
+          onHeadingPress={() => setShowProduct([])}
+        />
         <View style={styles.containerBody}>
           <View style={styles.leftView}>
             <Text style={styles.leftHeaderText}>Tootekategooriad</Text>
             {filterData.map((item) => {
-              return <TouchableOpacity>
-                <Text style={styles.leftHeaderItemText}>{item?.name}</Text>
-              </TouchableOpacity>
+              return (
+                <TouchableOpacity>
+                  <Text
+                    style={[
+                      styles.leftHeaderItemText,
+                      {
+                        fontFamily:
+                          showProduct?.name === item?.name
+                            ? fontFamily.articulat_bold
+                            : fontFamily.articulat_normal,
+                      },
+                    ]}
+                  >
+                    {item?.name}
+                  </Text>
+                </TouchableOpacity>
+              );
             })}
-            <Text style={[styles.leftHeaderText, { marginTop: hp(32) }]}>Filtreeri</Text>
+            <Text style={[styles.leftHeaderText, { marginTop: hp(32) }]}>
+              Filtreeri
+            </Text>
             <DropDownMenu />
+            <View style={{ marginTop: 16 }}>
+              {checkList.map((item) => {
+                return <CheckboxView title={item.title} list={item.list} />;
+              })}
+            </View>
           </View>
           <View style={styles.rightView}>
-            <Text>right</Text>
+            {showProduct?.length == 0 ? (
+              <ProductcartList
+                mainView={true}
+                setShowProduct={setShowProduct}
+              />
+            ) : (
+              <ProductcartList mainView={false} showProduct={showProduct} />
+            )}
           </View>
-          H</View>
+        </View>
       </View>
-      {/* <View  style={{justifyContent:'flex-end',flex:1}}>
-      <FooterView />
-      </View> */}
+      {showProduct?.length == 0 ? (
+        <View
+          style={{ marginTop: 115, alignItems: "center", marginBottom: 65 }}
+        >
+          <ImageBackground
+            source={icons.imageBg}
+            resizeMode="contain"
+            style={{
+              width: screen_width * 0.65,
+              height: screen_height * 0.35,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Text
+              style={{
+                ...commonFontStyle(
+                  fontFamily.articulat_regular,
+                  14,
+                  colors.white
+                ),
+              }}
+            >{`See sektsioon siin on lihtsalt sellejaoks, et lehte kuidagi ära lõpetada\nja ülemisele osale jalgu anda. Siia võib panna Vaata lisaks sektsiooni või blogipostitused`}</Text>
+          </ImageBackground>
+        </View>
+      ) : <View style={{marginTop:90}} />}
+      <View style={{ justifyContent: "flex-end" }}>
+        <FooterView />
+      </View>
     </View>
   );
 };
@@ -67,6 +295,7 @@ const styles = StyleSheet.create({
   leftView: {
     flex: 0.3,
     alignItems: "flex-start",
+    height: screen_height * 0.62,
   },
   leftHeaderText: {
     marginBottom: 10,
