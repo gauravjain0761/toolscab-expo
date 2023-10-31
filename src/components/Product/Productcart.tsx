@@ -44,7 +44,7 @@ const Productcart = ({
       {index == 0 ? (
         <ImageBackground
           source={icon}
-          resizeMode="contain"
+          resizeMode="cover"
           imageStyle={{ borderTopLeftRadius: 30, borderBottomRightRadius: 30 }}
           style={styles.containerImg}
         >
@@ -167,7 +167,7 @@ const Productcart = ({
 const styles = StyleSheet.create({
   container: {
     width: screen_width * 0.165,
-    height: screen_height * 0.49,
+    // height: screen_height * 0.49,
     backgroundColor: colors.homecartBG,
     borderTopLeftRadius: 30,
     borderBottomRightRadius: 30,
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
   },
   containerImg: {
     width: screen_width * 0.165,
-    height: screen_height * 0.49,
+    height: undefined,
     borderRadius: 30,
     paddingHorizontal: 16,
     paddingVertical: 20,

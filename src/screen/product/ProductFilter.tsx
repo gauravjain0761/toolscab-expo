@@ -272,7 +272,7 @@ const ProductFilter = () => {
             >{`See sektsioon siin on lihtsalt sellejaoks, et lehte kuidagi ära lõpetada\nja ülemisele osale jalgu anda. Siia võib panna Vaata lisaks sektsiooni või blogipostitused`}</Text>
           </ImageBackground>
         </View>
-      ) : <View style={{marginTop:90}} />}
+      ) : <View style={{ marginTop: 90 }} />}
       <View style={{ justifyContent: "flex-end" }}>
         <FooterView />
       </View>
@@ -295,7 +295,7 @@ const styles = StyleSheet.create({
   leftView: {
     flex: 0.3,
     alignItems: "flex-start",
-    height: screen_height * 0.62,
+    // height: screen_height * 0.62,
   },
   leftHeaderText: {
     marginBottom: 10,

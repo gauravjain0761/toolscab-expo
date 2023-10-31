@@ -17,11 +17,11 @@ const DropDownMenu = () => {
           width: 150,
           paddingVertical: 5,
           paddingHorizontal: 8,
-          flexDirection:'row',
-          alignItems:'center',
-          justifyContent:'space-between',
-          borderRadius:5,
-          marginTop:5
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          borderRadius: 5,
+          marginTop: 5
         }}
       >
         <View
@@ -32,11 +32,11 @@ const DropDownMenu = () => {
             padding: 6,
             borderRadius: 6,
             width: 70,
-            justifyContent:'space-between'
-            
+            justifyContent: 'space-between'
+
           }}
         >
-          <Text style={{fontSize:14,fontFamily:'roboto'}}>{"Tallinn"}</Text>
+          <Text style={{ fontSize: 14, fontFamily: 'roboto' }}>{"Tallinn"}</Text>
           <Image source={icons.closecircle} style={{ width: 12, height: 12 }} />
         </View>
         <Image source={icons.downarrow} style={{ width: 12, height: 12 }} />
@@ -48,7 +48,7 @@ const DropDownMenu = () => {
 // define your styles
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
   },
   headerText: {
     ...commonFontStyle(fontFamily.articulat_normal, 12, colors.filterText),

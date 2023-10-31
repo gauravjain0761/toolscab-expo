@@ -1,19 +1,55 @@
-import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity, TextInput } from 'react-native'
 import React, { useState } from 'react'
-import { FooterView, Header } from '../../components'
+import { CommonMapView, FooterView, Header, Productcart } from '../../components'
 import { colors } from '../../theme/Colors'
 import { hp, screen_width, wp } from '../../helper/globalFunctions'
 import HeaderBottomPathView from '../../components/common/HeaderBottomPathView'
 import { icons } from '../../theme/Icons'
 import { FlatList } from 'react-native'
 import { commonFontStyle } from "../../theme/Fonts";
-import { fontFamily } from '../../helper/constants'
+import { fontFamily, screenName } from '../../helper/constants'
 import CommonGreenBtn from '../../components/common/CommonGreenBtn'
+import { widthPercentageToDP } from 'react-native-responsive-screen'
+import { navigationRef } from '../../navigations/MainNavigator'
 
 type Props = {}
 
 const ProductDetail = (props: Props) => {
     const [selectedTab, setselectedTab] = useState(1)
+
+    const RenderRow = ({ title, value }: any) => {
+        return (
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                <View style={{ width: '80%', paddingLeft: 40 }}>
+                    <Text style={commonFontStyle(fontFamily.arial_regular, 13, colors.blackType)}>{title}</Text>
+                </View>
+                <View style={{ flex: 1 }}>
+                    <Text>{value}</Text>
+                </View>
+            </View>
+        )
+    }
+
+    const RenderMapRow = ({ }: any) => {
+        return (
+            <View>
+                <Text style={commonFontStyle(fontFamily.articulat_regular, 12, colors.headerBG)}>Vahemaa 1.20km</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderBottomWidth: 1, borderBottomColor: colors.Roheline2, paddingBottom: 10, marginBottom: 10 }}>
+                    <View style={{ flex: 1, marginTop: 5 }}>
+                        <Text style={commonFontStyle(fontFamily.articulat_bold, 14, colors.headerBG)}>{'Automaat Tallinna Nautica keskus'}</Text>
+                        <Text style={[commonFontStyle(fontFamily.articulat_regular, 9, colors.filterText), { marginTop: -3 }]}>Ahtri 9</Text>
+                        <Text style={commonFontStyle(fontFamily.articulat_regular, 9, colors.filterText)}>10151 TALLINN</Text>
+                    </View>
+                    <CommonGreenBtn title='Broneeri' onPress={() => { }} style={{
+                        borderColor: colors.headerBG,
+                        marginLeft: 10
+                    }} />
+                </View>
+
+            </View>
+
+        )
+    }
 
     return (
         <View style={styles.container}>
@@ -83,10 +119,112 @@ const ProductDetail = (props: Props) => {
                         </TouchableOpacity>
                     </View>
                 </View>
-                <View style={styles.middleMainView}>
-                    <View style={styles.mainContainer}>
 
+                <View style={styles.middleMainView}>
+
+                    <View style={[styles.mainContainer, { marginTop: 0 }]}>
+                        {(selectedTab == 1 || selectedTab == 3) &&
+                            <View style={styles.tab1View}>
+                                <Text style={commonFontStyle(fontFamily.arial_regular, 16, colors.blackType)}>Tehnilised andmed</Text>
+                                <View style={styles.whiteLine} />
+                                <RenderRow title={'Maksimaalne puhastatav pind (m²/h)'} value={'20 - 25'} />
+                                <View style={styles.whiteLineHalf} />
+                                <RenderRow title={'Õhuvoolu hulk (l/s)'} value={'74'} />
+
+                                <View style={styles.whiteLine} />
+                                <RenderRow title={'Vaakum (mbar/kPa)'} value={'254 / 25,4'} />
+                                <View style={styles.whiteLineHalf} />
+                                <RenderRow title={'Pihustusmäär (l/min)'} value={'1'} />
+
+                                <View style={styles.whiteLine} />
+                                <RenderRow title={'Pihustusrõhk (bar)'} value={'1'} />
+                                <View style={styles.whiteLineHalf} />
+                                <RenderRow title={'Puhta/musta vee paak (l)'} value={'10 / 9'} />
+
+                                <View style={styles.whiteLine} />
+                                <RenderRow title={'Turbiini võimsus (W)'} value={'1250'} />
+                                <View style={styles.whiteLineHalf} />
+                                <RenderRow title={'Pumba võimsus (W)'} value={'40'} />
+
+                                <View style={styles.whiteLine} />
+                                <RenderRow title={'Toitepinge (V/Hz)'} value={'220 - 240 / 50 - 60'} />
+                                <View style={styles.whiteLineHalf} />
+                                <RenderRow title={'Kaal ilma lisatarvikuteta (kg)'} value={'10,5'} />
+
+                                <View style={styles.whiteLine} />
+                                <RenderRow title={'Kaal, sh pakend (kg)'} value={'16,1'} />
+                                <View style={styles.whiteLineHalf} />
+                                <RenderRow title={'Mõõdud (pikkus x laius x kõrgus) (mm)'} value={'690 x 325 x 440'} />
+                            </View>
+                        }
+                        {selectedTab == 2 &&
+                            <View style={styles.tab2View}>
+                                <CommonMapView width={widthPercentageToDP(45)} />
+                                <View style={{
+                                    flex: 1, paddingVertical: 60,
+                                    paddingLeft: 50
+                                }}>
+                                    <Text style={commonFontStyle(fontFamily.articulat_normal, 14, colors.headerBG)}>Sisesta oma asukoht ning leia endale lähim kapp:</Text>
+                                    <View style={{
+                                        flexDirection: "row", alignItems: "center",
+                                        borderWidth: 1, borderColor: colors.black, borderRadius: 100, marginVertical: 10
+                                    }}>
+                                        <TextInput placeholder='' style={{ flex: 1, height: 45 }} />
+                                        <Image source={require('../../assets/icon/search.png')} style={{ height: 18, width: 18, resizeMode: 'contain', marginRight: 20 }} />
+                                    </View>
+                                    <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 50 }}>
+                                        <Image source={require('../../assets/icon/checkbox.png')} style={{ height: 18, width: 18, resizeMode: 'contain', marginRight: 10 }} />
+                                        <Text style={commonFontStyle(fontFamily.articulat_regular, 12, colors.checkBoxText)}>Tuvasta asukoht automaatselt</Text>
+                                    </View>
+                                    <RenderMapRow />
+                                    <RenderMapRow />
+                                    <RenderMapRow />
+                                    <RenderMapRow />
+                                </View>
+                            </View>
+                        }
                     </View>
+                </View>
+                <View style={styles.mainContainer}>
+                    <Text style={commonFontStyle(fontFamily.articulat_regular, 24, colors.black)}>Viimati vaadatud seadmed</Text>
+                    <FlatList
+                        style={{ marginTop: 20, marginBottom: 50 }}
+                        data={[{
+                            id: 2,
+                            icon: icons.image1,
+                            title: "KARCHER Puzzi 10/1",
+                            label: "Tekstiilipesur",
+                            aircon: 3240,
+                            volumeflow: 1,
+                            hoselength: 1,
+                        },
+                        {
+                            id: 4,
+                            icon: icons.image9,
+                            title: "KARCHER SC 2",
+                            label: "Aurupesur",
+                            aircon: 3240,
+                            volumeflow: 1,
+                            hoselength: 1,
+                        }]}
+                        numColumns={3}
+                        keyExtractor={(_i, index) => index.toString()}
+                        renderItem={({ item, index }) => {
+                            return (
+                                <Productcart
+                                    index={item?.id}
+                                    icon={item?.icon}
+                                    title={item?.title}
+                                    label={item?.label}
+                                    onSelectPress={() => navigationRef.navigate(screenName.productDetail)}
+                                    mainView={false}
+                                    aircon={item?.aircon}
+                                    volumeflow={item?.volumeflow}
+                                    hoselength={item?.hoselength}
+                                />
+                            );
+                        }}
+                    />
                 </View>
                 <FooterView />
             </ScrollView>
@@ -178,7 +316,7 @@ const styles = StyleSheet.create({
     },
     middleMainView: {
         backgroundColor: colors.homecartBG,
-        paddingVertical: 60
+
     },
     tabView: {
         width: '30%',
@@ -189,5 +327,25 @@ const styles = StyleSheet.create({
     },
     tabText: {
         ...commonFontStyle(fontFamily.articulat_regular, 18, colors.headerBG)
+    },
+    whiteLine: {
+        height: 1,
+        backgroundColor: colors.white,
+        marginVertical: 12
+    },
+    tab1View: {
+        width: screen_width * 0.55,
+        alignSelf: 'center',
+        paddingVertical: 60
+    },
+    whiteLineHalf: {
+        height: 0.5,
+        backgroundColor: colors.white,
+        marginVertical: 12
+    },
+    tab2View: {
+        flexDirection: 'row',
+        width: screen_width * 0.75,
+        paddingVertical: 30
     }
 })

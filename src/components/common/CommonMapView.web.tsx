@@ -7,7 +7,7 @@ import { hp, wp } from "../../helper/globalFunctions";
 import { icons } from "../../theme/Icons";
 // create a component
 
-const CommonMapView = () => {
+const CommonMapView = ({ width }: any) => {
   const [region, setRegion] = useState<Region | null>(null);
 
   const mapRef = useRef<MapView>(null);
@@ -21,7 +21,7 @@ const CommonMapView = () => {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { width: width ? width : 1102, height: width ? width : 390 }]}>
       <MapView
         ref={mapRef}
         provider="google"
@@ -32,7 +32,7 @@ const CommonMapView = () => {
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
-        style={{ height: 390, width: 1102,borderWidth:30 }}
+        style={{ height: 390, width: 1102, borderWidth: 30 }}
         customMapStyle={{ borderRadius: 40 }}
         zoomEnabled={false}
         onRegionChange={setRegion}
