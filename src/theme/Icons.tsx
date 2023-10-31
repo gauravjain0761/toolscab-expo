@@ -11,6 +11,11 @@ export const icons = {
   image2: require("../assets/icon/image2.png"),
   image3: require("../assets/icon/image3.png"),
   image4: require("../assets/icon/image4.png"),
+  image5: require("../assets/icon/image5.png"),
+  image7: require("../assets/icon/image7.png"),
+  image8: require("../assets/icon/image8.png"),
+  image9: require("../assets/icon/image9.png"),
+  done: require("../assets/icon/done.png"),
   instagram: require("../assets/icon/instagram.png"),
   map: require("../assets/icon/map.png"),
   notification: require("../assets/icon/notification.png"),
@@ -27,3 +32,9 @@ export const icons = {
 
  
 };
+
+export const image={
+  esimenetark: require("../assets/Image/esimenetark.png"),
+  toolscab2: require("../assets/Image/toolscab2.png"),
+
+}
