@@ -13,7 +13,7 @@ type Props = {
   list: any;
 };
 
-const CartList = ({ title, list }: Props) => {
+const CartPreviousList = ({ title, list }: Props) => {
   const [isSelect, setIsSelect] = useState(false);
   return (
     <View style={styles.container}>
@@ -32,18 +32,17 @@ const CartList = ({ title, list }: Props) => {
             <Text style={styles.headerSubText2}>Ahtri 9, Tallinn, Eesti</Text>
           </Text>
           <View style={{ flexDirection: "row", marginTop: 8 }}>
+            <Text style={[styles.headerText4,{color:colors.black,marginRight:8}]}>Maksumus:</Text>
             <Text style={styles.headerText3}>0,22€/min</Text>
-            <Text style={styles.headerText4}>eemalda</Text>
           </View>
           <View></View>
         </View>
       </View>
       <View>
-        <Text style={styles.headerText5}>{"+0,05€/min"}</Text>
-        <Text style={styles.headerText6}>{"14:59"}</Text>
-        <Text style={styles.headerText7}>{"Tasuta broneering"}</Text>
+        <Text style={styles.headerText6}>{"00:25 min"}</Text>
+        <Text style={styles.headerText7}>{"23.05.2023"}</Text>
         <CommonGreenBtn
-          title="Ava kapp"
+          title="Rendi uuesti"
           onPress={() => {}}
           style={{
             borderColor: colors.headerBG,
@@ -51,19 +50,22 @@ const CartList = ({ title, list }: Props) => {
             width:widthPercentageToDP(7),marginTop:8
           }}
         />
+        <Text style={styles.headerText5}>{"PDF arve"}</Text>
       </View>
     </View>
   );
 };
 
-export default CartList;
+export default CartPreviousList;
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 24,
-    marginBottom:10
+    marginBottom:10,
+    marginLeft:-20,
+    marginTop:20,
   },
   leftContainer: {
     flexDirection: "row",
@@ -121,7 +123,9 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     textAlign: "center",
     marginBottom: 5,
-    ...commonFontStyle(fontFamily.articulat_normal, 12, colors.red),
+    marginTop:4,
+    textDecorationLine:'underline',
+    ...commonFontStyle(fontFamily.articulat_normal, 12, colors.black),
   },
   headerText6: {
     textAlign: "center",

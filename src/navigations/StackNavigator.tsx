@@ -11,6 +11,7 @@ import OurOfUsScreen from "../screen/home/OurOfUsScreen";
 import FAQScreen from "../screen/home/FAQScreen";
 import RentalConditionsScreen from "../screen/home/RentalConditionsScreen";
 import CartScreen from "../screen/cart/CartScreen";
+import ProfileScreen from "../screen/profile/ProfileScreen";
 
 export type RootStackParamList = {
   HomeScreen: undefined;
@@ -28,7 +29,7 @@ const StackNavigator: FC = () => {
   return (
     <Stack.Navigator
       // @ts-ignore
-      initialRouteName={screenName.cartScreen}
+      initialRouteName={screenName.profileScreen}
       screenOptions={options}
     >
       <Stack.Screen
@@ -65,6 +66,11 @@ const StackNavigator: FC = () => {
         // @ts-ignore
         name={screenName.cartScreen}
         component={CartScreen}
+      />
+      <Stack.Screen
+        // @ts-ignore
+        name={screenName.profileScreen}
+        component={ProfileScreen}
       />
     </Stack.Navigator>
   );

@@ -13,7 +13,7 @@ type Props = {
   list: any;
 };
 
-const CartList = ({ title, list }: Props) => {
+const CartProfileList = ({ title, list }: Props) => {
   const [isSelect, setIsSelect] = useState(false);
   return (
     <View style={styles.container}>
@@ -33,17 +33,18 @@ const CartList = ({ title, list }: Props) => {
           </Text>
           <View style={{ flexDirection: "row", marginTop: 8 }}>
             <Text style={styles.headerText3}>0,22€/min</Text>
+            <Text style={[styles.headerText4,{marginRight:9,color:colors.black}]}>Teata probleemist</Text>
             <Text style={styles.headerText4}>eemalda</Text>
           </View>
           <View></View>
         </View>
       </View>
       <View>
-        <Text style={styles.headerText5}>{"+0,05€/min"}</Text>
-        <Text style={styles.headerText6}>{"14:59"}</Text>
-        <Text style={styles.headerText7}>{"Tasuta broneering"}</Text>
+        {/* <Text style={styles.headerText5}>{"+0,05€/min"}</Text> */}
+        <Text style={styles.headerText6}>{"0,59€"}</Text>
+        <Text style={styles.headerText7}>{"00:12 min"}</Text>
         <CommonGreenBtn
-          title="Ava kapp"
+          title="Tagasta"
           onPress={() => {}}
           style={{
             borderColor: colors.headerBG,
@@ -56,14 +57,15 @@ const CartList = ({ title, list }: Props) => {
   );
 };
 
-export default CartList;
+export default CartProfileList;
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 24,
-    marginBottom:10
+    // paddingHorizontal: 24,
+    marginBottom:10,
+    marginLeft:-20
   },
   leftContainer: {
     flexDirection: "row",

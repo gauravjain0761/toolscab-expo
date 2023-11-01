@@ -13,11 +13,13 @@ import {
 import { colors } from "../../theme/Colors";
 import {
   CartList,
+  CartProfileList,
   CommonMapView,
   FooterView,
   Header,
   HomeProductcart,
   PaymentView,
+  PreviousView,
 } from "../../components";
 import {
   hp,
@@ -61,9 +63,26 @@ const listData = [
   },
 ];
 
+const tabData = [
+  { id: 1, name: "Rendid" },
+  { id: 2, name: "Minu profiil" },
+  { id: 3, name: "Maksevahendid" },
+];
+
 // create a component
-const CartScreen = () => {
+const ProfileScreen = () => {
+  const [selectedTab, setselectedTab] = useState(1);
   const [downData, setDownData] = useState(listData);
+
+  const HeaderCommonView = ({title,style}:any) => {
+    return (
+      <View style={style}>
+        <View style={{ height: 50, }} />
+        <Text style={styles.headerSubText}>{title}</Text>
+        <View style={[styles.unLineStyle,style]} />
+      </View>
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -71,13 +90,37 @@ const CartScreen = () => {
       <ScrollView contentContainerStyle={{ flexGrow: 1, marginTop: 120 }}>
         <View
           style={{
-            width: screen_width * 0.75,
+            width: screen_width * 0.7,
             alignSelf: "center",
           }}
         >
-          <Text style={styles.headerText}>Rendikorvx</Text>
-          <View style={styles.unLineStyle} />
-          <Text style={styles.headerSubText}>Korvis kokku 2 toodet</Text>
+          <Text style={styles.headerText}>{"Minu rendid & profiil"}</Text>
+
+          <View style={{ flexDirection: "row" }}>
+            {tabData.map((item) => {
+              return (
+                <TouchableOpacity
+                  onPress={() => setselectedTab(item?.id)}
+                  style={[
+                    styles.tabView,
+                    {
+                      backgroundColor:
+                        selectedTab == item?.id
+                          ? colors.roheline
+                          : "transparent",
+                      borderColor:
+                        selectedTab == item?.id
+                          ? colors.roheline
+                          : "transparent",
+                    },
+                  ]}
+                >
+                  <Text style={styles.tabText}>{item?.name}</Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+          <HeaderCommonView title={"Aktiivsed rendid"}/>
           <View
             style={{
               flex: 1,
@@ -86,23 +129,15 @@ const CartScreen = () => {
               marginTop: 30,
             }}
           >
-            <View style={{ flex: 1,marginRight:18 }}>
+            <View style={{ flex: 1 }}>
               {[0, 1].map(() => {
-                return <CartList />
+                return <CartProfileList />;
               })}
             </View>
-            <View
-              style={{
-                flex: 0.3,
-                backgroundColor: colors.homecartBG,
-                padding: 18,
-                borderRadius: 16,
-                alignSelf:'flex-start'
-              }}
-            >
-              <PaymentView />
-            </View>
           </View>
+          <HeaderCommonView title={"Varasemad rendid"} style={{marginBottom:45}}/>
+          <PreviousView />
+          <PreviousView />
         </View>
         <View style={{ height: 150 }} />
         <FooterView />
@@ -117,12 +152,26 @@ const styles = StyleSheet.create({
     backgroundColor: "#FCFCFC",
   },
   unLineStyle: {
-    width: screen_width * 0.75,
+    width: screen_width * 0.7,
     borderWidth: 0.5,
     height: 1,
     borderColor: colors.black,
-    // marginTop:10,
     marginBottom: 12,
+    alignItems: "center",
+    alignSelf: "center",
+  },
+  tabText: {
+    ...commonFontStyle(fontFamily.articulat_regular, 18, colors.black),
+  },
+  tabView: {
+    // width: '1%',
+    // borderBottomColor: 'transparent',
+    paddingHorizontal: 40,
+    borderWidth: 1,
+    alignItems: "center",
+    paddingVertical: 5,
+    borderTopLeftRadius: 18,
+    borderBottomRightRadius: 18,
   },
   ofusText: {
     textAlign: "left",
@@ -138,9 +187,9 @@ const styles = StyleSheet.create({
     ...commonFontStyle(fontFamily.bold, 32, colors.black),
   },
   headerSubText: {
-    ...commonFontStyle(fontFamily.articulat_normal, 14, colors.black),
+    ...commonFontStyle(fontFamily.articulat_normal, 18, colors.black),
   },
 });
 
 //make this component available to the app
-export default CartScreen;
+export default ProfileScreen;

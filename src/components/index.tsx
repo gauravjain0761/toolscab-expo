@@ -6,6 +6,10 @@ import HomeProductcart from "./Product/HomeProductcart";
 import Productcart from "./Product/Productcart";
 import CheckboxView from "./common/CheckboxView";
 import CartList from "./common/CartList";
+import PaymentView from "./common/PaymentView";
+import CartProfileList from "./common/CartProfileList";
+import PreviousView from "./common/PreviousView";
+import CartPreviousList from "./common/CartPreviousList";
 
 import FooterView from "./web/FooterView";
 
@@ -18,6 +22,10 @@ export {
     DropDownMenu,
     CheckboxView,
     Productcart,
-    CartList
+    CartList,
+    PaymentView,
+    CartProfileList,
+    PreviousView,
+    CartPreviousList
 
 }

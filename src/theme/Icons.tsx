@@ -29,6 +29,9 @@ export const icons = {
   downarrow: require("../assets/icon/downarrow.png"),
   image6: require("../assets/icon/image6.png"),
   imageBg: require("../assets/icon/imageBg.png"),
+  pay3: require("../assets/icon/pay3.png"),
+  pay1: require("../assets/icon/pay1.png"),
+  pay2: require("../assets/icon/pay2.png"),
 
  
 };

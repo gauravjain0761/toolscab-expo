@@ -32,11 +32,23 @@ const data = [
   {
     id: 2,
     name: "Asukohad",
-    onPress: () => navigationRef.navigate(screenName.productDetail)
+    onPress: () => navigationRef.navigate(screenName.productDetail),
   },
-  { id: 3, name: "Meist", onPress: () => navigationRef.navigate(screenName.ourOfUsScreen) },
-  { id: 4, name: "KKK",  onPress: () => navigationRef.navigate(screenName.faqScreen) },
-  { id: 5, name: "Renditingimused",  onPress: () => navigationRef.navigate(screenName.rentalConditionsScreen) },
+  {
+    id: 3,
+    name: "Meist",
+    onPress: () => navigationRef.navigate(screenName.ourOfUsScreen),
+  },
+  {
+    id: 4,
+    name: "KKK",
+    onPress: () => navigationRef.navigate(screenName.faqScreen),
+  },
+  {
+    id: 5,
+    name: "Renditingimused",
+    onPress: () => navigationRef.navigate(screenName.rentalConditionsScreen),
+  },
   { id: 6, name: "Kontakt" },
 ];
 
@@ -66,18 +78,30 @@ const Header = ({ containerStyle, isMainScreen }: Props) => {
         </View>
         <View style={[styles.headerContent, { marginRight: 20 }]}>
           <Text style={[styles.userText, { color: textColor }]}>SISENE</Text>
-          <Image
-            source={icons.userIcone}
-            style={[styles.userIconeStyle, { tintColor: textColor }]}
-          />
-          <Image
-            source={icons.cartIcon}
-            style={[styles.iconStyle, { tintColor: textColor }]}
-          />
-          <Image
-            source={icons.notification}
-            style={[styles.userIconeStyle, { tintColor: textColor }]}
-          />
+          <TouchableOpacity
+            onPress={() => navigationRef.navigate(screenName.profileScreen)}
+          >
+            <Image
+              source={icons.userIcone}
+              style={[styles.userIconeStyle, { tintColor: textColor }]}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigationRef.navigate(screenName.cartScreen)}
+          >
+            <Image
+              source={icons.cartIcon}
+              style={[styles.iconStyle, { tintColor: textColor }]}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigationRef.navigate(screenName.cartScreen)}
+          >
+            <Image
+              source={icons.notification}
+              style={[styles.userIconeStyle, { tintColor: textColor }]}
+            />
+          </TouchableOpacity>
           <Text style={[styles.userText, { fontSize: 12, color: textColor }]}>
             EST
           </Text>
