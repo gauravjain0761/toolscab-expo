@@ -10,6 +10,9 @@ import PaymentView from "./common/PaymentView";
 import CartProfileList from "./common/CartProfileList";
 import PreviousView from "./common/PreviousView";
 import CartPreviousList from "./common/CartPreviousList";
+import MyProfileView from "./profile/MyProfileView";
+import PaymentViewCart from "./profile/PaymentViewCart";
+import EmailSettingView from "./profile/EmailSettingView";
 
 import FooterView from "./web/FooterView";
 
@@ -26,6 +29,9 @@ export {
     PaymentView,
     CartProfileList,
     PreviousView,
-    CartPreviousList
+    CartPreviousList,
+    MyProfileView,
+    PaymentViewCart,
+    EmailSettingView
 
 }

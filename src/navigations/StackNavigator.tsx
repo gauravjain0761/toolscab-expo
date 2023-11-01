@@ -76,7 +76,7 @@ const StackNavigator: FC = () => {
   return (
     <Stack.Navigator
       // @ts-ignore
-      initialRouteName={screenName.homeScreen}
+      initialRouteName={screenName.profileScreen}
       screenOptions={options}
     >
       <Stack.Screen

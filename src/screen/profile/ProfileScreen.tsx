@@ -15,10 +15,13 @@ import {
   CartList,
   CartProfileList,
   CommonMapView,
+  EmailSettingView,
   FooterView,
   Header,
   HomeProductcart,
+  MyProfileView,
   PaymentView,
+  PaymentViewCart,
   PreviousView,
 } from "../../components";
 import {
@@ -71,7 +74,7 @@ const tabData = [
 
 // create a component
 const ProfileScreen = () => {
-  const [selectedTab, setselectedTab] = useState(1);
+  const [selectedTab, setselectedTab] = useState(2);
   const [downData, setDownData] = useState(listData);
 
   const HeaderCommonView = ({title,style}:any) => {
@@ -90,7 +93,7 @@ const ProfileScreen = () => {
       <ScrollView contentContainerStyle={{ flexGrow: 1, marginTop: 120 }}>
         <View
           style={{
-            width: screen_width * 0.7,
+            width: screen_width * 0.6,
             alignSelf: "center",
           }}
         >
@@ -120,6 +123,7 @@ const ProfileScreen = () => {
               );
             })}
           </View>
+        {selectedTab ==1 &&  <>
           <HeaderCommonView title={"Aktiivsed rendid"}/>
           <View
             style={{
@@ -138,6 +142,15 @@ const ProfileScreen = () => {
           <HeaderCommonView title={"Varasemad rendid"} style={{marginBottom:45}}/>
           <PreviousView />
           <PreviousView />
+          </>}
+          {selectedTab ==2 &&<>
+            <HeaderCommonView title={"Minu profiil"}/>
+            <MyProfileView />
+            <HeaderCommonView title={"Maksevahendid"}/>
+            <PaymentViewCart />
+            <HeaderCommonView title={"E-maili seaded"}/>
+            <EmailSettingView />
+          </>}
         </View>
         <View style={{ height: 150 }} />
         <FooterView />
@@ -152,7 +165,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FCFCFC",
   },
   unLineStyle: {
-    width: screen_width * 0.7,
+    width: screen_width * 0.6,
     borderWidth: 0.5,
     height: 1,
     borderColor: colors.black,
@@ -187,6 +200,7 @@ const styles = StyleSheet.create({
     ...commonFontStyle(fontFamily.bold, 32, colors.black),
   },
   headerSubText: {
+    marginBottom:5,
     ...commonFontStyle(fontFamily.articulat_normal, 18, colors.black),
   },
 });

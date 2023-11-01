@@ -32,7 +32,7 @@ const data = [
   {
     id: 2,
     name: "Asukohad",
-    onPress: () => navigationRef.navigate(screenName.productDetail),
+    onPress: () => navigationRef.navigate(screenName.productFilter),
   },
   {
     id: 3,

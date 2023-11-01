@@ -16,7 +16,7 @@ const PreviousView = ({ title, list }: Props) => {
   const [isSelect, setIsSelect] = useState(false);
   return (
     <View>
-      <View style={styles.conainer}>
+      <View style={[styles.conainer,{width:screen_width*0.65,marginLeft:-40}]}>
         <View style={[styles.conainer]}>
           <Text style={styles.headerText}>{"Tekstiilipesur"}</Text>
           <Text style={styles.headerText1}>{"KARCHER Puzzi 10/1"}</Text>

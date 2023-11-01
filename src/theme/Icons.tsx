@@ -32,6 +32,8 @@ export const icons = {
   pay3: require("../assets/icon/pay3.png"),
   pay1: require("../assets/icon/pay1.png"),
   pay2: require("../assets/icon/pay2.png"),
+  pen: require("../assets/icon/pen.png"),
+  dotsthreefill: require("../assets/icon/dotsthreefill.png"),
 
   menuIcon: require("../assets/icon/menuIcon.png"),
 
