@@ -1,6 +1,7 @@
 export const screenName = {
   homeScreen: "HomeScreen",
   productFilter: "ProductFilter",
+  subProducts: "SubProducts",
   productDetail: "ProductDetail",
   ourOfUsScreen: "OurOfUsScreen",
   faqScreen: "FAQScreen",

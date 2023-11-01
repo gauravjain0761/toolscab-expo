@@ -1,10 +1,11 @@
-import { GET_DASHBOARD_DATA, ITEM_DEATILS } from "../actions/dispatchTypes";
+import { GET_DASHBOARD_DATA, ITEM_DEATILS, TOGGLE_DRAWER } from "../actions/dispatchTypes";
 
 const initialState = {
   dashBoardData: {
     banners: [],
   },
   itemDetails: {},
+  toggleDrawer: false
 };
 
 export default function (state = initialState, action: any) {
@@ -14,6 +15,11 @@ export default function (state = initialState, action: any) {
     }
     case ITEM_DEATILS: {
       return { ...state, itemDetails: action.payload };
+    }
+
+
+    case TOGGLE_DRAWER: {
+      return { ...state, toggleDrawer: action.payload }
     }
     default:
       return state;

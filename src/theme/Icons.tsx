@@ -36,6 +36,7 @@ export const icons = {
   dotsthreefill: require("../assets/icon/dotsthreefill.png"),
 
   menuIcon: require("../assets/icon/menuIcon.png"),
+  closeIcon: require("../assets/icon/close.png"),
 
 
 };

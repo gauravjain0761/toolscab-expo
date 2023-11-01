@@ -9,6 +9,9 @@ import {
   useWindowDimensions,
   Image,
   ImageBackground,
+  Platform,
+  ScrollView,
+  SafeAreaView,
 } from "react-native";
 import { colors } from "../../theme/Colors";
 import {
@@ -24,11 +27,13 @@ import {
   screen_width,
   wp,
 } from "../../helper/globalFunctions";
-import { commonFontStyle } from "../../theme/Fonts";
+import { SCREEN_WIDTH, commonFontStyle } from "../../theme/Fonts";
 import { fontFamily, screenName } from "../../helper/constants";
 import HeaderBottomPathView from "../../components/common/HeaderBottomPathView";
 import { icons } from "../../theme/Icons";
 import { navigationRef } from "../../navigations/MainNavigator";
+import { defaultFont } from "../../theme/Fonts";
+import { heightPercentageToDP } from "react-native-responsive-screen";
 
 const filterData = [
   {
@@ -133,6 +138,7 @@ const ProductcartList = ({ setShowProduct, mainView, showProduct }: any) => {
     setShowProduct(item);
   };
   return (
+    // Platform.OS == 'web' ?
     <View>
       <Text
         style={{
@@ -181,6 +187,10 @@ const ProductcartList = ({ setShowProduct, mainView, showProduct }: any) => {
         />
       )}
     </View>
+    // :
+    // <View>
+
+    // </View>
   );
 };
 
@@ -189,100 +199,160 @@ const ProductFilter = () => {
   const [showProduct, setShowProduct] = useState([]);
 
   return (
-    <View style={styles.container}>
-      <Header isMainScreen={false} />
-      <View
-        style={{
-          width: screen_width * 0.75,
-          alignSelf: "center",
-          marginTop: hp(60),
-        }}
-      >
-        <HeaderBottomPathView
-          heading={" Seadmed "}
-          heading1={`/ ${showProduct?.name}`}
-          onHeadingPress={() => setShowProduct([])}
-        />
-        <View style={styles.containerBody}>
-          <View style={styles.leftView}>
-            <Text style={styles.leftHeaderText}>Tootekategooriad</Text>
-            {filterData.map((item) => {
-              return (
-                <TouchableOpacity>
-                  <Text
-                    style={[
-                      styles.leftHeaderItemText,
-                      {
-                        fontFamily:
-                          showProduct?.name === item?.name
-                            ? fontFamily.articulat_bold
-                            : fontFamily.articulat_normal,
-                      },
-                    ]}
-                  >
-                    {item?.name}
-                  </Text>
-                </TouchableOpacity>
-              );
-            })}
-            <Text style={[styles.leftHeaderText, { marginTop: hp(32) }]}>
-              Filtreeri
-            </Text>
-            <DropDownMenu />
-            <View style={{ marginTop: 16 }}>
-              {checkList.map((item) => {
-                return <CheckboxView title={item.title} list={item.list} />;
+    Platform.OS == 'web' ?
+      <View style={styles.container}>
+        <Header isMainScreen={false} />
+        <View
+          style={{
+            width: screen_width * 0.75,
+            alignSelf: "center",
+            marginTop: hp(60),
+          }}
+        >
+          <HeaderBottomPathView
+            heading={" Seadmed "}
+            heading1={`/ ${showProduct?.name}`}
+            onHeadingPress={() => setShowProduct([])}
+          />
+          <View style={styles.containerBody}>
+            <View style={styles.leftView}>
+              <Text style={styles.leftHeaderText}>Tootekategooriad</Text>
+              {filterData.map((item) => {
+                return (
+                  <TouchableOpacity>
+                    <Text
+                      style={[
+                        styles.leftHeaderItemText,
+                        {
+                          fontFamily:
+                            showProduct?.name === item?.name
+                              ? fontFamily.articulat_bold
+                              : fontFamily.articulat_normal,
+                        },
+                      ]}
+                    >
+                      {item?.name}
+                    </Text>
+                  </TouchableOpacity>
+                );
               })}
+              <Text style={[styles.leftHeaderText, { marginTop: hp(32) }]}>
+                Filtreeri
+              </Text>
+              <DropDownMenu />
+              <View style={{ marginTop: 16 }}>
+                {checkList.map((item) => {
+                  return <CheckboxView title={item.title} list={item.list} />;
+                })}
+              </View>
+            </View>
+            <View style={styles.rightView}>
+              {showProduct?.length == 0 ? (
+                <ProductcartList
+                  mainView={true}
+                  setShowProduct={setShowProduct}
+                />
+              ) : (
+                <ProductcartList mainView={false} showProduct={showProduct} />
+              )}
             </View>
           </View>
-          <View style={styles.rightView}>
-            {showProduct?.length == 0 ? (
-              <ProductcartList
-                mainView={true}
-                setShowProduct={setShowProduct}
-              />
-            ) : (
-              <ProductcartList mainView={false} showProduct={showProduct} />
-            )}
+        </View>
+        {showProduct?.length == 0 ? (
+          <View
+            style={{ marginTop: 115, alignItems: "center", marginBottom: 65 }}
+          >
+            <ImageBackground
+              source={icons.imageBg}
+              resizeMode="contain"
+              style={{
+                width: screen_width * 0.65,
+                height: screen_height * 0.35,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Text
+                style={{
+                  ...commonFontStyle(
+                    fontFamily.articulat_regular,
+                    14,
+                    colors.white
+                  ),
+                }}
+              >{`See sektsioon siin on lihtsalt sellejaoks, et lehte kuidagi ära lõpetada\nja ülemisele osale jalgu anda. Siia võib panna Vaata lisaks sektsiooni või blogipostitused`}</Text>
+            </ImageBackground>
           </View>
+        ) : <View style={{ marginTop: 90 }} />}
+        <View style={{ justifyContent: "flex-end" }}>
+          <FooterView />
         </View>
       </View>
-      {showProduct?.length == 0 ? (
-        <View
-          style={{ marginTop: 115, alignItems: "center", marginBottom: 65 }}
-        >
-          <ImageBackground
+      :
+      <View style={styles.container}>
+        <ScrollView style={styles.container}>
+          <Text style={styles.title}>Meie seadmed</Text>
+          <FlatList
+            data={filterData}
+            // data={filterData[0]?.productList}
+            numColumns={2}
+            keyExtractor={(_i, index) => index.toString()}
+            renderItem={({ item, index }) => {
+              return (
+                <Productcart
+                  icon={item.icon}
+                  title={item.name}
+                  onSelectPress={() => navigationRef.navigate(screenName.subProducts)}
+                  mainView={true}
+                />
+              );
+            }}
+          />
+          <Image
             source={icons.imageBg}
-            resizeMode="contain"
+            resizeMode="cover"
             style={{
-              width: screen_width * 0.65,
-              height: screen_height * 0.35,
-              justifyContent: "center",
-              alignItems: "center",
+              width: SCREEN_WIDTH - heightPercentageToDP(4),
+              height: SCREEN_WIDTH - heightPercentageToDP(4),
+              alignSelf: 'center',
+              marginVertical: heightPercentageToDP(4),
+              marginBottom: heightPercentageToDP(6),
+              borderTopRightRadius: 48,
+              borderBottomLeftRadius: 48,
             }}
           >
-            <Text
-              style={{
-                ...commonFontStyle(
-                  fontFamily.articulat_regular,
-                  14,
-                  colors.white
-                ),
-              }}
-            >{`See sektsioon siin on lihtsalt sellejaoks, et lehte kuidagi ära lõpetada\nja ülemisele osale jalgu anda. Siia võib panna Vaata lisaks sektsiooni või blogipostitused`}</Text>
-          </ImageBackground>
-        </View>
-      ) : <View style={{ marginTop: 90 }} />}
-      <View style={{ justifyContent: "flex-end" }}>
-        <FooterView />
+          </Image>
+          <FooterView />
+        </ScrollView>
+        <TouchableOpacity style={styles.filterView}>
+          <Image style={styles.filterIcon} source={require('../../assets/icon/filterMobileIcon.png')} />
+        </TouchableOpacity>
+
       </View>
-    </View>
   );
 };
 
 // define your styles
 const styles = StyleSheet.create({
-  container: {
+  // mobile
+  title: {
+    ...defaultFont('600_o', 32, colors.black),
+    marginTop: heightPercentageToDP(6),
+    marginBottom: heightPercentageToDP(4),
+    textAlign: 'center'
+  },
+  filterView: {
+    position: 'absolute',
+    bottom: heightPercentageToDP(2),
+    paddingLeft: heightPercentageToDP(2)
+  },
+  filterIcon: {
+    height: 75, width: 75, resizeMode: 'contain'
+  }
+
+
+  // web
+  , container: {
     flex: 1,
     backgroundColor: colors.white,
   },

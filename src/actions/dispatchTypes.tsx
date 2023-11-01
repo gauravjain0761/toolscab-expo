@@ -8,3 +8,7 @@ export const USER_LOGOUT = "USER_LOGOUT";
 export const GET_DASHBOARD_DATA = "GET_DASHBOARD_DATA";
 
 export const ITEM_DEATILS = "ITEM_DEATILS";
+
+
+// drawer
+export const TOGGLE_DRAWER = "TOGGLE_DRAWER"

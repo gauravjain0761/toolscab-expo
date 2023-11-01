@@ -15,6 +15,9 @@ import ProfileScreen from "../screen/profile/ProfileScreen";
 import { Image, Platform, StyleSheet, View, TouchableOpacity } from "react-native";
 import { colors } from "../theme/Colors";
 import { icons } from "../theme/Icons";
+import { useDispatch } from "react-redux";
+import { TOGGLE_DRAWER } from "../actions/dispatchTypes";
+import SubProducts from "../screen/product/SubProducts";
 
 export type RootStackParamList = {
   HomeScreen: undefined;
@@ -22,9 +25,9 @@ export type RootStackParamList = {
 
 const options: NativeStackNavigationOptions = {
   headerShown: Platform.OS == 'web' ? false : true,
-  animation: "slide_from_bottom",
+  // animation: "slide_from_bottom",
   animationDuration: 500,
-  gestureEnabled: false,
+  gestureEnabled: Platform.OS == 'web' ? false : true,
 };
 
 const headerStyleMain: NativeStackNavigationOptions = {
@@ -37,7 +40,10 @@ const headerStyleMain: NativeStackNavigationOptions = {
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const StackNavigator: FC = () => {
-
+  const dispatch = useDispatch()
+  const onOpenDrawer = () => {
+    dispatch({ type: TOGGLE_DRAWER, payload: true })
+  }
   const HeaderLeft = ({ navigation, tintColor }: any) => {
     return (
       <View>
@@ -51,7 +57,7 @@ const StackNavigator: FC = () => {
 
   const HeaderRight = ({ navigation, tintColor }: any) => {
     return (
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => onOpenDrawer()}>
         <Image
           source={icons.menuIcon}
           style={styles.menuIcon}
@@ -76,7 +82,7 @@ const StackNavigator: FC = () => {
   return (
     <Stack.Navigator
       // @ts-ignore
-      initialRouteName={screenName.profileScreen}
+      initialRouteName={screenName.homeScreen}
       screenOptions={options}
     >
       <Stack.Screen
@@ -100,8 +106,41 @@ const StackNavigator: FC = () => {
       />
       <Stack.Screen
         // @ts-ignore
+        options={({ navigation }) => ({
+          headerLeft: () => (
+            <HeaderLeft
+              navigation={navigation}
+            />
+          ),
+          headerRight: () => (
+            <HeaderRight
+              navigation={navigation}
+            />
+          ),
+          headerTitle: '',
+          ...headerStyleMain,
+        })}
         name={screenName.productFilter}
         component={ProductFilter}
+      />
+      <Stack.Screen
+        // @ts-ignore
+        options={({ navigation }) => ({
+          headerLeft: () => (
+            <HeaderLeft
+              navigation={navigation}
+            />
+          ),
+          headerRight: () => (
+            <HeaderRight
+              navigation={navigation}
+            />
+          ),
+          headerTitle: '',
+          ...headerStyleMain,
+        })}
+        name={screenName.subProducts}
+        component={SubProducts}
       />
       <Stack.Screen
         // @ts-ignore
