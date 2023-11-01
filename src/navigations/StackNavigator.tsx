@@ -12,29 +12,90 @@ import FAQScreen from "../screen/home/FAQScreen";
 import RentalConditionsScreen from "../screen/home/RentalConditionsScreen";
 import CartScreen from "../screen/cart/CartScreen";
 import ProfileScreen from "../screen/profile/ProfileScreen";
+import { Image, Platform, StyleSheet, View, TouchableOpacity } from "react-native";
+import { colors } from "../theme/Colors";
+import { icons } from "../theme/Icons";
 
 export type RootStackParamList = {
   HomeScreen: undefined;
 };
 
 const options: NativeStackNavigationOptions = {
-  headerShown: false,
+  headerShown: Platform.OS == 'web' ? false : true,
   animation: "slide_from_bottom",
   animationDuration: 500,
   gestureEnabled: false,
 };
+
+const headerStyleMain: NativeStackNavigationOptions = {
+  headerStyle: {
+    backgroundColor: colors.headerBG,
+    shadowOpacity: 0,
+    elevation: 0,
+  },
+};
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const StackNavigator: FC = () => {
+
+  const HeaderLeft = ({ navigation, tintColor }: any) => {
+    return (
+      <View>
+        <Image
+          source={icons.appLogo}
+          style={styles.appLogo}
+        />
+      </View>
+    );
+  };
+
+  const HeaderRight = ({ navigation, tintColor }: any) => {
+    return (
+      <TouchableOpacity>
+        <Image
+          source={icons.menuIcon}
+          style={styles.menuIcon}
+        />
+      </TouchableOpacity>
+    );
+  };
+
+  const styles = StyleSheet.create({
+    appLogo: {
+      width: 122,
+      height: 22,
+      resizeMode: 'contain'
+    },
+    menuIcon: {
+      width: 18,
+      height: 18,
+      resizeMode: 'contain'
+    }
+  });
+
   return (
     <Stack.Navigator
       // @ts-ignore
-      initialRouteName={screenName.profileScreen}
+      initialRouteName={screenName.homeScreen}
       screenOptions={options}
     >
       <Stack.Screen
         // @ts-ignore
         name={screenName.homeScreen}
+        options={({ navigation }) => ({
+          headerLeft: () => (
+            <HeaderLeft
+              navigation={navigation}
+            />
+          ),
+          headerRight: () => (
+            <HeaderRight
+              navigation={navigation}
+            />
+          ),
+          headerTitle: '',
+          ...headerStyleMain,
+        })}
         component={HomeScreen}
       />
       <Stack.Screen

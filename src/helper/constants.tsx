@@ -20,6 +20,7 @@ export const fontFamily = {
   articulat_regular: "articulatCF-regular",
   articulat_medium: "articulatCF-medium",
   articulat_normal: "articulatCF-normal",
+  articulatCF_semibold: "articulatCF-semibold",
 
   arial_regular: 'arial-regular'
 };

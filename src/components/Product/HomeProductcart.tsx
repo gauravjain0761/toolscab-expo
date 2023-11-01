@@ -1,36 +1,67 @@
 //import liraries
 import React, { Component } from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, Platform } from "react-native";
 import { colors } from "../../theme/Colors";
+import { defaultFont } from "../../theme/Fonts";
+import { heightPercentageToDP } from "react-native-responsive-screen";
 
 // create a component
-const HomeProductcart = ({data}:any) => {
+const HomeProductcart = ({ data }: any) => {
   return (
-    <View style={styles.container}>
+    Platform.OS == 'web' ?
+      <View style={styles.container}>
         <Image source={data?.iconName} style={styles.iconStyle} resizeMode='contain' />
-      <Text>{data?.name}</Text>
-    </View>
+        <Text>{data?.name}</Text>
+      </View>
+      :
+      <View style={styles.containerMob}>
+        <Image source={data?.iconName} style={styles.iconStyleMob} resizeMode='contain' />
+        <Text style={defaultFont(400, 14, colors.black)}>{data?.name}</Text>
+      </View>
+
   );
 };
 
 // define your styles
 const styles = StyleSheet.create({
+  //web
   container: {
     width: 260,
     height: 412,
     backgroundColor: colors.homecartBG,
-    borderTopLeftRadius:30,
-    borderBottomRightRadius:30,
-    paddingHorizontal:16,
-    paddingVertical:20,
-    marginRight:21,
-    justifyContent:'space-between'
+    borderTopLeftRadius: 30,
+    borderBottomRightRadius: 30,
+    paddingHorizontal: 16,
+    paddingVertical: 20,
+    marginRight: 21,
+    justifyContent: 'space-between'
   },
-  iconStyle:{
-    width:190,
-    height:190,
-    alignSelf:'center',
-    marginTop:30
+  iconStyle: {
+    width: 190,
+    height: 190,
+    alignSelf: 'center',
+    marginTop: 30
+  },
+
+
+  //mobile
+  containerMob: {
+    width: 208,
+    height: 330,
+    backgroundColor: colors.homecartBG,
+    borderTopLeftRadius: 30,
+    borderBottomRightRadius: 30,
+    paddingHorizontal: 16,
+    paddingVertical: 20,
+    marginRight: 21,
+    justifyContent: 'space-between'
+  },
+  iconStyleMob: {
+    width: 208 - heightPercentageToDP(4),
+    height: 190,
+    alignSelf: 'center',
+    marginTop: 30,
+    // backgroundColor: 'red'
   }
 });
 

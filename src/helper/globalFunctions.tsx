@@ -4,7 +4,6 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from "react-native-responsive-screen";
-import DeviceInfo from "react-native-device-info";
 import { icons } from "../theme/Icons";
 
 export const screen_width: number = Dimensions.get("window").width;
@@ -21,7 +20,6 @@ export const hp = (val: number) => {
 export const isIos = Platform.OS === "ios";
 export const isWeb = Platform.OS === "web";
 
-export const isNotchDevice = DeviceInfo.hasNotch();
 
 export const fontSize = (val: number) => RFValue(val, 812);
 

@@ -19,7 +19,7 @@ export const icons = {
   instagram: require("../assets/icon/instagram.png"),
   map: require("../assets/icon/map.png"),
   notification: require("../assets/icon/notification.png"),
-  phoneImg: require("../assets/icon/phoneImg.png"),
+  phoneImg: require("../assets/icon/phoneImg1.png"),
   userIcone: require("../assets/icon/userIcone.png"),
   userImg: require("../assets/icon/userImg.png"),
   mapImg: require("../assets/icon/mapImg.png"),
@@ -33,10 +33,12 @@ export const icons = {
   pay1: require("../assets/icon/pay1.png"),
   pay2: require("../assets/icon/pay2.png"),
 
- 
+  menuIcon: require("../assets/icon/menuIcon.png"),
+
+
 };
 
-export const image={
+export const image = {
   esimenetark: require("../assets/Image/esimenetark.png"),
   toolscab2: require("../assets/Image/toolscab2.png"),
 

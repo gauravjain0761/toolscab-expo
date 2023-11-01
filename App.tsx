@@ -27,9 +27,10 @@ const App = () => {
   }
   return (
     <Provider store={store}>
-        <View style={{ flex: 1 }}>
-          <MainNavigator />
-        </View>
+      <View style={{ flex: 1 }}>
+        <StatusBar barStyle={'light-content'} />
+        <MainNavigator />
+      </View>
     </Provider>
   );
 };
