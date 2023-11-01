@@ -5,6 +5,7 @@ import CommonMapView from "./common/CommonMapView.web";
 import HomeProductcart from "./Product/HomeProductcart";
 import Productcart from "./Product/Productcart";
 import CheckboxView from "./common/CheckboxView";
+import CartList from "./common/CartList";
 
 import FooterView from "./web/FooterView";
 
@@ -16,5 +17,7 @@ export {
     FooterView,
     DropDownMenu,
     CheckboxView,
-    Productcart
+    Productcart,
+    CartList
+
 }

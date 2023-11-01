@@ -5,6 +5,7 @@ export const screenName = {
   ourOfUsScreen: "OurOfUsScreen",
   faqScreen: "FAQScreen",
   rentalConditionsScreen: "RentalConditionsScreen",
+  cartScreen: "CartScreen",
 };
 
 export const fontFamily = {

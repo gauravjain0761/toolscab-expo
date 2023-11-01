@@ -10,6 +10,7 @@ import ProductDetail from "../screen/product/ProductDetail";
 import OurOfUsScreen from "../screen/home/OurOfUsScreen";
 import FAQScreen from "../screen/home/FAQScreen";
 import RentalConditionsScreen from "../screen/home/RentalConditionsScreen";
+import CartScreen from "../screen/cart/CartScreen";
 
 export type RootStackParamList = {
   HomeScreen: undefined;
@@ -27,7 +28,7 @@ const StackNavigator: FC = () => {
   return (
     <Stack.Navigator
       // @ts-ignore
-      initialRouteName={screenName.productDetail}
+      initialRouteName={screenName.cartScreen}
       screenOptions={options}
     >
       <Stack.Screen
@@ -59,6 +60,11 @@ const StackNavigator: FC = () => {
         // @ts-ignore
         name={screenName.rentalConditionsScreen}
         component={RentalConditionsScreen}
+      />
+      <Stack.Screen
+        // @ts-ignore
+        name={screenName.cartScreen}
+        component={CartScreen}
       />
     </Stack.Navigator>
   );

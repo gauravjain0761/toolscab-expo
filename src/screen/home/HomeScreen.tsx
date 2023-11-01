@@ -280,7 +280,6 @@ const HomeScreen = () => {
           }}
         >
           <View>
-            <Image source={icons.TarkRentImg} />
             <Text
               style={{
                 fontSize: 128,
