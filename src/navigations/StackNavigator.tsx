@@ -18,6 +18,8 @@ import { icons } from "../theme/Icons";
 import { useDispatch } from "react-redux";
 import { TOGGLE_DRAWER } from "../actions/dispatchTypes";
 import SubProducts from "../screen/product/SubProducts";
+import ProducrItem from "../screen/product/ProducrItem";
+import RegisterScreen from "../screen/auth/RegisterScreen";
 
 export type RootStackParamList = {
   HomeScreen: undefined;
@@ -82,7 +84,7 @@ const StackNavigator: FC = () => {
   return (
     <Stack.Navigator
       // @ts-ignore
-      initialRouteName={screenName.homeScreen}
+      initialRouteName={screenName.registerScreen}
       screenOptions={options}
     >
       <Stack.Screen
@@ -171,6 +173,16 @@ const StackNavigator: FC = () => {
         // @ts-ignore
         name={screenName.profileScreen}
         component={ProfileScreen}
+      />
+      <Stack.Screen
+        // @ts-ignore
+        name={screenName.producrItem}
+        component={ProducrItem}
+      />
+      <Stack.Screen
+        // @ts-ignore
+        name={screenName.registerScreen}
+        component={RegisterScreen}
       />
     </Stack.Navigator>
   );

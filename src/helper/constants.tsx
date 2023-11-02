@@ -8,6 +8,8 @@ export const screenName = {
   rentalConditionsScreen: "RentalConditionsScreen",
   cartScreen: "CartScreen",
   profileScreen: "ProfileScreen",
+  producrItem: "ProducrItem",
+  registerScreen: "RegisterScreen",
 };
 
 export const fontFamily = {

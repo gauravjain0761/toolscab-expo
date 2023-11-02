@@ -74,7 +74,7 @@ const tabData = [
 
 // create a component
 const ProfileScreen = () => {
-  const [selectedTab, setselectedTab] = useState(2);
+  const [selectedTab, setselectedTab] = useState(1);
   const [downData, setDownData] = useState(listData);
 
   const HeaderCommonView = ({title,style}:any) => {
@@ -143,13 +143,14 @@ const ProfileScreen = () => {
           <PreviousView />
           <PreviousView />
           </>}
-          {selectedTab ==2 &&<>
+          {(selectedTab == 2 || selectedTab ==3) &&<>
             <HeaderCommonView title={"Minu profiil"}/>
             <MyProfileView />
             <HeaderCommonView title={"Maksevahendid"}/>
             <PaymentViewCart />
-            <HeaderCommonView title={"E-maili seaded"}/>
-            <EmailSettingView />
+          {selectedTab ==2 && <>
+           <HeaderCommonView title={"E-maili seaded"}/>
+            <EmailSettingView /> </>}
           </>}
         </View>
         <View style={{ height: 150 }} />
@@ -197,6 +198,7 @@ const styles = StyleSheet.create({
     ...commonFontStyle(fontFamily.articulat_normal, 18, colors.black),
   },
   headerText: {
+    marginLeft:35,
     ...commonFontStyle(fontFamily.bold, 32, colors.black),
   },
   headerSubText: {

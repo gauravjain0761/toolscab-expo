@@ -21,9 +21,8 @@ type Props = {
 };
 
 const data = [
-  { id: 1, name: "Apple Pay", icon: icons.pay1 },
-  { id: 2, name: "**** 1234", icon: icons.pay2 },
-  { id: 3, name: "**** 1234", icon: icons.pay3 },
+  { id: 1, name: "Luban saata endale arveid" },
+  { id: 2, name: "Luban saata uudiskirju ja pakkumisi" },
 ];
 
 const renderItem = ({ item }: any) => {
@@ -31,18 +30,8 @@ const renderItem = ({ item }: any) => {
     <View
       style={{ flexDirection: "row", alignItems: "center", marginBottom: 10 }}
     >
-      <View style={{ flexDirection: "row", alignItems: "center", flex: 1 }}>
-        <Image
-          source={item?.icon}
-          style={styles.iconStyle}
-          resizeMode="contain"
-        />
-        <Text style={styles.itemText}>{item?.name}</Text>
-      </View>
-      <View style={styles.container}>
-        {item?.id === 1 && <Text style={styles.rightText}>peamine</Text>}
-        <Image source={icons.dotsthreefill} style={styles.iconStyle1} />
-      </View>
+      <View style={styles.boxStyle} />
+      <Text style={styles.itemText}>{item?.name}</Text>
     </View>
   );
 };
@@ -51,7 +40,7 @@ const EmailSettingView = ({ title, list }: Props) => {
   const [isSelect, setIsSelect] = useState(false);
 
   return (
-    <View style={[{ marginTop: 25 }]}>
+    <View style={[{ marginTop: 15 }]}>
       <FlatList data={data} renderItem={renderItem} />
     </View>
   );
@@ -80,17 +69,11 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     ...commonFontStyle(fontFamily.articulat_normal, 18, colors.black),
   },
-  rightText: {
-    marginRight: 20,
-    ...commonFontStyle(fontFamily.articulat_normal, 12, colors.black),
-  },
-
-  iconStyle: {
+  boxStyle: {
     width: 20,
-    height: 16,
-  },
-  iconStyle1: {
-    width: 26,
-    height: 26,
+    height: 20,
+    borderWidth: 1,
+    borderColor: colors.filterText,
+    borderRadius: 5,
   },
 });

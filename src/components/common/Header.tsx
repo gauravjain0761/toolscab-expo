@@ -15,6 +15,7 @@ import { commonFontStyle } from "../../theme/Fonts";
 import { colors } from "../../theme/Colors";
 import { fontFamily, screenName } from "../../helper/constants";
 import { navigationRef } from "../../navigations/MainNavigator";
+import LoginModal from "../modal/LoginModal";
 
 // create a component
 const width = Dimensions.get("window").width;
@@ -107,6 +108,7 @@ const Header = ({ containerStyle, isMainScreen }: Props) => {
           </Text>
         </View>
       </View>
+      {/* <LoginModal /> */}
     </View>
   );
 };

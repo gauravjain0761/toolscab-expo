@@ -2,11 +2,12 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useState } from "react";
 import { hp, screen_width } from "../../helper/globalFunctions";
 import { commonFontStyle } from "../../theme/Fonts";
-import { fontFamily } from "../../helper/constants";
+import { fontFamily, screenName } from "../../helper/constants";
 import { colors } from "../../theme/Colors";
 import { icons } from "../../theme/Icons";
 import CommonGreenBtn from "./CommonGreenBtn";
 import { widthPercentageToDP } from "react-native-responsive-screen";
+import { navigationRef } from "../../navigations/MainNavigator";
 
 type Props = {
   title: string;
@@ -44,7 +45,7 @@ const CartList = ({ title, list }: Props) => {
         <Text style={styles.headerText7}>{"Tasuta broneering"}</Text>
         <CommonGreenBtn
           title="Ava kapp"
-          onPress={() => {}}
+          onPress={() => {navigationRef.navigate(screenName.profileScreen)}}
           style={{
             borderColor: colors.headerBG,
             marginLeft: 10,
