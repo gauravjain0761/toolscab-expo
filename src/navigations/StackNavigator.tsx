@@ -84,7 +84,7 @@ const StackNavigator: FC = () => {
   return (
     <Stack.Navigator
       // @ts-ignore
-      initialRouteName={screenName.registerScreen}
+      initialRouteName={screenName.productDetail}
       screenOptions={options}
     >
       <Stack.Screen
@@ -196,6 +196,20 @@ const StackNavigator: FC = () => {
       <Stack.Screen
         // @ts-ignore
         name={screenName.registerScreen}
+        options={({ navigation }) => ({
+          headerLeft: () => (
+            <HeaderLeft
+              navigation={navigation}
+            />
+          ),
+          // headerRight: () => (
+          //   <HeaderRight
+          //     navigation={navigation}
+          //   />
+          // ),
+          headerTitle: '',
+          ...headerStyleMain,
+        })}
         component={RegisterScreen}
       />
     </Stack.Navigator>

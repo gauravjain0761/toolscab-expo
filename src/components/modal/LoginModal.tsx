@@ -9,38 +9,63 @@ import InpuText from "../common/InpuText";
 import CommonGreenBtn from "../common/CommonGreenBtn";
 import { widthPercentageToDP } from "react-native-responsive-screen";
 import { commonFontStyle } from "../../theme/Fonts";
-import { fontFamily } from "../../helper/constants";
+import { fontFamily, screenName } from "../../helper/constants";
+import { navigationRef } from "../../navigations/MainNavigator";
+
+
+type Props = {
+  isVisible: boolean
+  onClose:()=>void
+}
 
 // create a component
-const LoginModal = () => {
+const LoginModal = ({isVisible,onClose}:Props) => {
   return (
     <Modal
       animationInTiming={500}
       animationOutTiming={500}
-      style={{ margin: 0 }}
+      style={{ margin: 0,flex:1 }}
       backdropColor={colors.headerBG}
       backdropOpacity={0.2}
-      isVisible={true}
+      isVisible={isVisible}
+      onBackButtonPress={()=>{
+        onClose()
+      }}
+      onBackdropPress={()=>{
+        onClose()
+      }}
     >
       <View style={styles.container}>
         <View style={styles.bodyContent}>
           <View style={styles.logoStyle}>
             <Image source={icons.mapImg} style={styles.iconStyle} />
           </View>
-          <View style={{ alignItems: "center",marginTop:30 }}>
+          <View style={{ alignItems: "center", marginTop: 130 }}>
             <Text style={styles.loginText}>Logi sisse</Text>
             <Text style={styles.regText}>
               Ei ole veel kontot?{" "}
-              <TouchableOpacity>
-                <Text style={{color:colors.Roheline2}}>Registreeri</Text>
+              <TouchableOpacity
+                onPress={() => {
+                  onClose()
+                  navigationRef.navigate(screenName.registerScreen);
+                }}
+              >
+                <Text
+                  style={{
+                    color: colors.Roheline2,
+                    textDecorationLine: "underline",
+                  }}
+                >
+                  Registreeri
+                </Text>
               </TouchableOpacity>
             </Text>
             <InpuText label={"E-post"} />
             <InpuText label={"Parool"} />
             <Text>Unustasid parooli?</Text>
             <CommonGreenBtn
-              title="Salvesta"
-              onPress={() => {}}
+              title="Jätka"
+              onPress={() => { onClose()}}
               style={{
                 borderColor: colors.headerBG,
                 marginLeft: 10,
@@ -48,7 +73,7 @@ const LoginModal = () => {
                 marginTop: 65,
               }}
             />
-            <View style={{height:50}} />
+            <View style={{ height: 50 }} />
           </View>
         </View>
       </View>
@@ -65,7 +90,7 @@ const styles = StyleSheet.create({
   },
   bodyContent: {
     // width: screen_width * 0.32,
-    paddingHorizontal:45,
+    paddingHorizontal: 45,
     backgroundColor: colors.white,
   },
   logoStyle: {
@@ -77,17 +102,21 @@ const styles = StyleSheet.create({
     borderRadius: 123 / 2,
     backgroundColor: colors.roheline,
     alignSelf: "center",
+    position: "absolute",
+    top: -60,
   },
   iconStyle: {
     width: 74,
     height: 67,
     tintColor: colors.black,
   },
-  loginText:{
+  loginText: {
     ...commonFontStyle(fontFamily.semiBold, 32, colors.Roheline2),
   },
-  regText:{
-    lineHeight:21,
+  regText: {
+    lineHeight: 21,
+    marginTop: 17,
+    marginBottom: 20,
     ...commonFontStyle(fontFamily.articulat_normal, 14, colors.headerBG),
   },
 });

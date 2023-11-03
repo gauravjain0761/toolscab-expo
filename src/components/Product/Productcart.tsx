@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   ImageBackground,
   Platform,
+  TextStyle,
 } from "react-native";
 import { colors } from "../../theme/Colors";
 import { screen_height, screen_width, wp } from "../../helper/globalFunctions";
@@ -28,6 +29,9 @@ type Props = {
   icon: any;
   onSelectPress: () => void;
   mainView: boolean;
+  labelStyle?:TextStyle
+  titleStyle?:TextStyle
+  listStyle?:TextStyle
 };
 const Productcart = ({
   heading,
@@ -40,6 +44,9 @@ const Productcart = ({
   volumeflow,
   hoselength,
   index,
+  labelStyle,
+  titleStyle,
+  listStyle
 }: Props) => {
   return (
 
@@ -195,26 +202,26 @@ const Productcart = ({
                   <Text style={styles.titleText}>{title}</Text>
                 ) : (
                   <>
-                    <Text style={defaultFont(400, 8, colors.black)} >{label}</Text>
-                    <Text style={{ marginBottom: 5, ...defaultFont(700, 10, colors.black), }} >{title}</Text>
+                    <Text style={[{...defaultFont(400, 8, colors.black)},labelStyle]} >{label}</Text>
+                    <Text style={[{ marginBottom: 5, ...defaultFont(700, 10, colors.black), },titleStyle]} >{title}</Text>
                     <Text
-                      style={{
+                      style={[{
                         ...defaultFont(400, 8, colors.filterText)
-                      }}
+                      },listStyle]}
                     >
                       {`Õhukulu [l/min]: ${aircon}`}
                     </Text>
                     <Text
-                      style={{
-                        ...defaultFont(400, 8, colors.filterText)
-                      }}
+                        style={[{
+                          ...defaultFont(400, 8, colors.filterText)
+                        },listStyle]}
                     >
                       {`Mahuvool [l/min]: ${volumeflow}`}
                     </Text>
                     <Text
-                      style={{
+                       style={[{
                         ...defaultFont(400, 8, colors.filterText)
-                      }}
+                      },listStyle]}
                     >
                       {`Vooliku pikkus [m]: ${hoselength}`}
                     </Text>

@@ -1,5 +1,5 @@
 //import liraries
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import {
   View,
   Text,
@@ -54,6 +54,7 @@ const data = [
 ];
 
 const Header = ({ containerStyle, isMainScreen }: Props) => {
+  const [loginModal,setLoignModal]=useState(false)
   const bgColor = isMainScreen ? "#191917" : colors.headerColorBg;
   const textColor = isMainScreen ? colors.white : colors.black;
 
@@ -78,7 +79,10 @@ const Header = ({ containerStyle, isMainScreen }: Props) => {
           ))}
         </View>
         <View style={[styles.headerContent, { marginRight: 20 }]}>
+          <TouchableOpacity onPress={()=>setLoignModal(true)}>
+
           <Text style={[styles.userText, { color: textColor }]}>SISENE</Text>
+          </TouchableOpacity>
           <TouchableOpacity
             onPress={() => navigationRef.navigate(screenName.profileScreen)}
           >
@@ -108,7 +112,7 @@ const Header = ({ containerStyle, isMainScreen }: Props) => {
           </Text>
         </View>
       </View>
-      {/* <LoginModal /> */}
+      <LoginModal isVisible={loginModal} onClose={()=>setLoignModal(false)}/>
     </View>
   );
 };
