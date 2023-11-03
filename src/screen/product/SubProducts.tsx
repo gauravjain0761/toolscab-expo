@@ -1,34 +1,9 @@
 //import liraries
-import React, { Component, useState } from "react";
-import {
-    View,
-    Text,
-    StyleSheet,
-    TouchableOpacity,
-    FlatList,
-    useWindowDimensions,
-    Image,
-    ImageBackground,
-    Platform,
-    ScrollView,
-} from "react-native";
+import React, { useState } from "react";
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, useWindowDimensions, Image, ScrollView, } from "react-native";
 import { colors } from "../../theme/Colors";
-import {
-    CheckboxView,
-    DropDownMenu,
-    FooterView,
-    Header,
-    Productcart,
-} from "../../components";
-import {
-    hp,
-    screen_height,
-    screen_width,
-    wp,
-} from "../../helper/globalFunctions";
-import { commonFontStyle } from "../../theme/Fonts";
-import { fontFamily, screenName } from "../../helper/constants";
-import HeaderBottomPathView from "../../components/common/HeaderBottomPathView";
+import { FooterView, Productcart, } from "../../components";
+import { screenName } from "../../helper/constants";
 import { icons } from "../../theme/Icons";
 import { navigationRef } from "../../navigations/MainNavigator";
 import { defaultFont } from "../../theme/Fonts";
@@ -41,60 +16,12 @@ const filterData = [
         icon: icons.image1,
         productList: [
             { id: 1, icon: icons.image6, title: "Pesurid", label: "Loe lisaks" },
-            {
-                id: 2,
-                icon: icons.image1,
-                title: "KARCHER Puzzi 10/1",
-                label: "Tekstiilipesur",
-                aircon: 3240,
-                volumeflow: 1,
-                hoselength: 1,
-            },
-            {
-                id: 3,
-                icon: icons.image8,
-                title: "KARCHER SC 1",
-                label: "Aurupesur",
-                aircon: 3240,
-                volumeflow: 1,
-                hoselength: 1,
-            },
-            {
-                id: 4,
-                icon: icons.image9,
-                title: "KARCHER SC 2",
-                label: "Aurupesur",
-                aircon: 3240,
-                volumeflow: 1,
-                hoselength: 1,
-            },
-            {
-                id: 5,
-                icon: icons.image8,
-                title: "KARCHER Puzzi 10/1",
-                label: "Tekstiilipesur",
-                aircon: 3240,
-                volumeflow: 1,
-                hoselength: 1,
-            },
-            {
-                id: 6,
-                icon: icons.image1,
-                title: "KARCHER Puzzi 10/1",
-                label: "Aurupesur",
-                aircon: 3240,
-                volumeflow: 1,
-                hoselength: 1,
-            },
-            {
-                id: 7,
-                icon: icons.image9,
-                title: "KARCHER SC 2",
-                label: "Aurupesur",
-                aircon: 3240,
-                volumeflow: 1,
-                hoselength: 1,
-            },
+            { id: 2, icon: icons.image1, title: "KARCHER Puzzi 10/1", label: "Tekstiilipesur", aircon: 3240, volumeflow: 1, hoselength: 1, },
+            { id: 3, icon: icons.image8, title: "KARCHER SC 1", label: "Aurupesur", aircon: 3240, volumeflow: 1, hoselength: 1, },
+            { id: 4, icon: icons.image9, title: "KARCHER SC 2", label: "Aurupesur", aircon: 3240, volumeflow: 1, hoselength: 1, },
+            { id: 5, icon: icons.image8, title: "KARCHER Puzzi 10/1", label: "Tekstiilipesur", aircon: 3240, volumeflow: 1, hoselength: 1, },
+            { id: 6, icon: icons.image1, title: "KARCHER Puzzi 10/1", label: "Aurupesur", aircon: 3240, volumeflow: 1, hoselength: 1, },
+            { id: 7, icon: icons.image9, title: "KARCHER SC 2", label: "Aurupesur", aircon: 3240, volumeflow: 1, hoselength: 1, },
         ],
     },
     { id: 2, name: "Tolmuimejad", icon: icons.image2 },

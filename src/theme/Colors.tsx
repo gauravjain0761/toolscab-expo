@@ -18,6 +18,7 @@ export const colors = {
   grey_1: "#D9D9D9",
   Roheline2: '#B2E00E',
   blackType: '#2B2B2B',
-  red:"rgba(255, 0, 0, 1)",
-  inputBg:"#EBEAEB"
+  red: "rgba(255, 0, 0, 1)",
+  inputBg: "#EBEAEB",
+  bottomLine: '#F5F1EF'
 };

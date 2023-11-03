@@ -147,6 +147,20 @@ const StackNavigator: FC = () => {
       <Stack.Screen
         // @ts-ignore
         name={screenName.productDetail}
+        options={({ navigation }) => ({
+          headerLeft: () => (
+            <HeaderLeft
+              navigation={navigation}
+            />
+          ),
+          headerRight: () => (
+            <HeaderRight
+              navigation={navigation}
+            />
+          ),
+          headerTitle: '',
+          ...headerStyleMain,
+        })}
         component={ProductDetail}
       />
       <Stack.Screen
