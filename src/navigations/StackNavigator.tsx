@@ -20,6 +20,7 @@ import { TOGGLE_DRAWER } from "../actions/dispatchTypes";
 import SubProducts from "../screen/product/SubProducts";
 import ProducrItem from "../screen/product/ProducrItem";
 import RegisterScreen from "../screen/auth/RegisterScreen";
+import LoginScreen from "../screen/auth/LoginScreen";
 
 export type RootStackParamList = {
   HomeScreen: undefined;
@@ -84,7 +85,7 @@ const StackNavigator: FC = () => {
   return (
     <Stack.Navigator
       // @ts-ignore
-      initialRouteName={screenName.productDetail}
+      initialRouteName={screenName.homeScreen}
       screenOptions={options}
     >
       <Stack.Screen
@@ -171,11 +172,39 @@ const StackNavigator: FC = () => {
       <Stack.Screen
         // @ts-ignore
         name={screenName.faqScreen}
+        options={({ navigation }) => ({
+          headerLeft: () => (
+            <HeaderLeft
+              navigation={navigation}
+            />
+          ),
+          headerRight: () => (
+            <HeaderRight
+              navigation={navigation}
+            />
+          ),
+          headerTitle: '',
+          ...headerStyleMain,
+        })}
         component={FAQScreen}
       />
       <Stack.Screen
         // @ts-ignore
         name={screenName.rentalConditionsScreen}
+        options={({ navigation }) => ({
+          headerLeft: () => (
+            <HeaderLeft
+              navigation={navigation}
+            />
+          ),
+          headerRight: () => (
+            <HeaderRight
+              navigation={navigation}
+            />
+          ),
+          headerTitle: '',
+          ...headerStyleMain,
+        })}
         component={RentalConditionsScreen}
       />
       <Stack.Screen
@@ -197,20 +226,17 @@ const StackNavigator: FC = () => {
         // @ts-ignore
         name={screenName.registerScreen}
         options={({ navigation }) => ({
-          headerLeft: () => (
-            <HeaderLeft
-              navigation={navigation}
-            />
-          ),
-          // headerRight: () => (
-          //   <HeaderRight
-          //     navigation={navigation}
-          //   />
-          // ),
-          headerTitle: '',
-          ...headerStyleMain,
+          headerShown:false
         })}
         component={RegisterScreen}
+      />
+      <Stack.Screen
+        // @ts-ignore
+        name={screenName.loginScreen}
+        options={({ navigation }) => ({
+          headerShown:false
+        })}
+        component={LoginScreen}
       />
     </Stack.Navigator>
   );

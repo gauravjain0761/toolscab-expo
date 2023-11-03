@@ -17,6 +17,7 @@ import MyProfileView from "./profile/MyProfileView";
 import PaymentViewCart from "./profile/PaymentViewCart";
 import EmailSettingView from "./profile/EmailSettingView";
 import LoginModal from './modal/LoginModal'
+import ProductFilterModal from './modal/ProductFilterModal'
 
 import FooterView from "./web/FooterView";
 
@@ -40,5 +41,6 @@ export {
     RenderMapRow,
     SearchBar,
     InpuText,
-    LoginModal
+    LoginModal,
+    ProductFilterModal
 }

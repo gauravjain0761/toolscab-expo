@@ -19,6 +19,7 @@ import {
   DropDownMenu,
   FooterView,
   Header,
+  ProductFilterModal,
   Productcart,
 } from "../../components";
 import {
@@ -197,6 +198,7 @@ const ProductcartList = ({ setShowProduct, mainView, showProduct }: any) => {
 const ProductFilter = () => {
   const { height } = useWindowDimensions();
   const [showProduct, setShowProduct] = useState([]);
+  const [filterModal,setFilterModal]=useState(false)
 
   return (
     Platform.OS == 'web' ?
@@ -324,10 +326,10 @@ const ProductFilter = () => {
           </Image>
           <FooterView />
         </ScrollView>
-        <TouchableOpacity style={styles.filterView}>
+        <TouchableOpacity style={styles.filterView} onPress={()=>setFilterModal(true)}>
           <Image style={styles.filterIcon} source={require('../../assets/icon/filterMobileIcon.png')} />
         </TouchableOpacity>
-
+        <ProductFilterModal isVisible={filterModal} onClose={()=>setFilterModal(false)}/>
       </View>
   );
 };

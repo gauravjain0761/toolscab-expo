@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   ImageBackground,
   FlatList,
+  Platform,
 } from "react-native";
 import { colors } from "../../theme/Colors";
 import {
@@ -27,7 +28,8 @@ import { fontFamily } from "../../helper/constants";
 import MapView from "react-native-maps";
 import { productDetails } from "../../helper/constantData";
 import { icons, image } from "../../theme/Icons";
-import { commonFontStyle } from "../../theme/Fonts";
+import { commonFontStyle,defaultFont } from "../../theme/Fonts";
+import { heightPercentageToDP, widthPercentageToDP } from "react-native-responsive-screen";
 
 const listData = [
   {
@@ -75,78 +77,147 @@ const FAQScreen = () => {
     setDownData(updateData);
   };
 
-  return (
-    <View style={styles.container}>
-      <Header isMainScreen={false} />
-      <ScrollView contentContainerStyle={{ flexGrow: 1, marginTop: 150 }}>
-        {downData?.map((item) => {
-          return (
-            <View
-              style={{
-                width: screen_width * 0.7,
-                alignSelf: "center",
-                paddingHorizontal: 24,
-                backgroundColor: colors.headerColorBg,
-                marginBottom: 32,
-                paddingVertical: 10,
-                borderTopLeftRadius: 20,
-                borderBottomRightRadius: 20,
-              }}
-            >
+  if(Platform.OS == 'web'){
+    return (
+      <View style={styles.container}>
+        <Header isMainScreen={false} />
+        <ScrollView contentContainerStyle={{ flexGrow: 1, marginTop: 150 }}>
+          {downData?.map((item) => {
+            return (
               <View
                 style={{
-                  flexDirection: "row",
-                  alignItems: "center",
+                  width: screen_width * 0.7,
+                  alignSelf: "center",
+                  paddingHorizontal: 24,
+                  backgroundColor: colors.headerColorBg,
+                  marginBottom: 32,
+                  paddingVertical: 10,
+                  borderTopLeftRadius: 20,
+                  borderBottomRightRadius: 20,
                 }}
               >
-                <Text
+                <View
                   style={{
-                    flex: 1,
-                    ...commonFontStyle(
-                      fontFamily.articulat_normal,
-                      24,
-                      colors.black
-                    ),
+                    flexDirection: "row",
+                    alignItems: "center",
                   }}
                 >
-                  {item?.title}
-                </Text>
-                <TouchableOpacity onPress={() => onSelectPress(item)}>
-                  <Image
-                    source={icons.downarrow}
+                  <Text
                     style={{
-                      width: 24,
-                      height: 24,
-                      transform: [
-                        { rotate: item?.isSelect ? "180deg" : "0deg" },
-                      ],
+                      flex: 1,
+                      ...commonFontStyle(
+                        fontFamily.articulat_normal,
+                        24,
+                        colors.black
+                      ),
                     }}
-                  />
-                </TouchableOpacity>
+                  >
+                    {item?.title}
+                  </Text>
+                  <TouchableOpacity onPress={() => onSelectPress(item)}>
+                    <Image
+                      source={icons.downarrow}
+                      style={{
+                        width: 24,
+                        height: 24,
+                        transform: [
+                          { rotate: item?.isSelect ? "180deg" : "0deg" },
+                        ],
+                      }}
+                    />
+                  </TouchableOpacity>
+                </View>
+                {item?.isSelect && (
+                  <Text
+                    style={{
+                      lineHeight: 20,
+                      marginBottom:20,
+                      ...commonFontStyle(
+                        fontFamily.articulat_normal,
+                        18,
+                        colors.black
+                      ),
+                    }}
+                  >
+                    {item?.subTitle}
+                  </Text>
+                )}
               </View>
-              {item?.isSelect && (
-                <Text
+            );
+          })}
+          <View style={{height:150}}/>
+          <FooterView />
+        </ScrollView>
+      </View>
+    );
+  }else{
+    return (
+      <View style={styles.containerMob}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1, marginTop: heightPercentageToDP(8) }}>
+          {downData?.map((item) => {
+            return (
+              <View
+                style={{
+                  width: screen_width*0.9,
+                  flex:1,
+                  alignSelf: "center",
+                  paddingHorizontal: 24,
+                  backgroundColor: colors.headerColorBg,
+                  marginBottom: heightPercentageToDP(4),
+                  paddingVertical: 10,
+                  borderTopLeftRadius: 20,
+                  borderBottomRightRadius: 20,
+                  // marginHorizontal:widthPercentageToDP(5)
+                }}
+              >
+                <View
                   style={{
-                    lineHeight: 20,
-                    marginBottom:20,
-                    ...commonFontStyle(
-                      fontFamily.articulat_normal,
-                      18,
-                      colors.black
-                    ),
+                    flexDirection: "row",
+                    alignItems: "center",
                   }}
                 >
-                  {item?.subTitle}
-                </Text>
-              )}
-            </View>
-          );
-        })}
-        <View style={{height:150}}/>
-        <FooterView />
-      </ScrollView>
-    </View>
-  );
+                  <Text
+                    style={{
+                      flex: 1,
+                      ...defaultFont(400, 18, colors.blackType),
+                    }}
+                  >
+                    {item?.title}
+                  </Text>
+                  <TouchableOpacity onPress={() => onSelectPress(item)}>
+                    <Image
+                      source={icons.downarrow}
+                      style={{
+                        width: 20,
+                        height: 20,
+                        transform: [
+                          { rotate: item?.isSelect ? "180deg" : "0deg" },
+                        ],
+                      }}
+                    />
+                  </TouchableOpacity>
+                </View>
+                {item?.isSelect && (
+                  <Text
+                    style={{
+                      lineHeight: 20,
+                      marginBottom:widthPercentageToDP(4),
+                      marginTop:widthPercentageToDP(2),
+                      ...defaultFont(400, 18, colors.blackType),
+                    }}
+                  >
+                    {item?.subTitle}
+                  </Text>
+                )}
+              </View>
+            );
+          })}
+          <View style={{height:heightPercentageToDP(10)}}/>
+          <FooterView />
+        </ScrollView>
+      </View>
+    );
+  }
 };
 // define your styles
 const styles = StyleSheet.create({
@@ -160,6 +231,23 @@ const styles = StyleSheet.create({
     ...commonFontStyle(fontFamily.articulat_normal, 24, colors.black),
   },
   ofusSubText: {
+    textAlign: "left",
+    alignSelf: "flex-start",
+    ...commonFontStyle(fontFamily.articulat_normal, 18, colors.black),
+  },
+
+  //mobile
+
+  containerMob: {
+    flex: 1,
+    backgroundColor: "#FCFCFC",
+  },
+  ofusTextMob: {
+    textAlign: "left",
+    alignSelf: "flex-start",
+    ...commonFontStyle(fontFamily.articulat_normal, 24, colors.black),
+  },
+  ofusSubTextMob: {
     textAlign: "left",
     alignSelf: "flex-start",
     ...commonFontStyle(fontFamily.articulat_normal, 18, colors.black),

@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, FlatList, useWindowDimensions, Image, ScrollView, } from "react-native";
 import { colors } from "../../theme/Colors";
-import { FooterView, Productcart, } from "../../components";
+import { FooterView, ProductFilterModal, Productcart, } from "../../components";
 import { screenName } from "../../helper/constants";
 import { icons } from "../../theme/Icons";
 import { navigationRef } from "../../navigations/MainNavigator";
@@ -63,6 +63,7 @@ const checkList = [
 const SubProducts = () => {
     const { height } = useWindowDimensions();
     const [showProduct, setShowProduct] = useState([]);
+    const [filterModal,setFilterModal]=useState(false)
 
     return (
 
@@ -91,9 +92,11 @@ const SubProducts = () => {
                 />
                 <FooterView />
             </ScrollView>
-            <TouchableOpacity style={styles.filterView}>
+            <TouchableOpacity style={styles.filterView} onPress={()=>setFilterModal(true)}>
                 <Image style={styles.filterIcon} source={require('../../assets/icon/filterMobileIcon.png')} />
             </TouchableOpacity>
+        <ProductFilterModal isVisible={filterModal} onClose={()=>setFilterModal(false)}/>
+
         </View>
     );
 };

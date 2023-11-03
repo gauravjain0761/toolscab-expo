@@ -32,15 +32,14 @@ import { defaultFont } from "../../theme/Fonts";
 
 type Props = {};
 
-
-const dataList=[
-    {id:1,name:'Miinimumhind ',subTitle:"3.29€"},
-    {id:1,name:'Broneering esimesed 15 min',subTitle:"Tasuta"},
-    {id:1,name:'Broneering pärast 15 min',subTitle:"0.16€/min"},
-    {id:1,name:'Minut',subTitle:"0.22€"},
-    {id:1,name:'Tund',subTitle:"5€"},
-    {id:1,name:'Päev',subTitle:"25€"},
-]
+const dataList = [
+  { id: 1, name: "Miinimumhind ", subTitle: "3.29€" },
+  { id: 1, name: "Broneering esimesed 15 min", subTitle: "Tasuta" },
+  { id: 1, name: "Broneering pärast 15 min", subTitle: "0.16€/min" },
+  { id: 1, name: "Minut", subTitle: "0.22€" },
+  { id: 1, name: "Tund", subTitle: "5€" },
+  { id: 1, name: "Päev", subTitle: "25€" },
+];
 
 const ProductDetail = (props: Props) => {
   const [selectedTab, setselectedTab] = useState(1);
@@ -172,8 +171,6 @@ const ProductDetail = (props: Props) => {
       </View>
     );
   };
-
-
 
   return Platform.OS == "web" ? (
     <View style={styles.container}>
@@ -631,22 +628,54 @@ const ProductDetail = (props: Props) => {
               </Text>
             </View>
           </View>
-   
 
-     {pricefoShow &&  <>
-          <View style={[styles.botomLineMob,{marginTop:8,marginBottom:19}]} />
-        <View style={{marginHorizontal:widthPercentageToDP(1.5)}}>
-          {dataList.map((item:any)=>{
-            return <View style={{flexDirection:'row',alignItems:'flex-start',justifyContent:'space-between',marginBottom:5}}>
-              <Text style={{...defaultFont(400, 12, colors.black),}}>{item?.name}</Text>
-              <Text style={{...defaultFont(400, 12, colors.black)}}>{item?.subTitle}</Text>
-            </View>
-
-          })}
-        <Text style={{...defaultFont(400, 12, colors.filterText),marginTop:15}}>Rendi lõpphind arvutatakse rendi kestuse põhjal. Lühikeste rentide eest mis maksavad alla 3,29€, võetakse miinimumtasu. Soodustusi rakendatakse peale seda.</Text>
-        </View>
-        </>}
-          <View style={[styles.botomLineMob,{marginTop:pricefoShow ? heightPercentageToDP(3):8}]} />
+          {pricefoShow && (
+            <>
+              <View
+                style={[
+                  styles.botomLineMob,
+                  { marginTop: 8, marginBottom: 19 },
+                ]}
+              />
+              <View style={{ marginHorizontal: widthPercentageToDP(1.5) }}>
+                {dataList.map((item: any) => {
+                  return (
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "flex-start",
+                        justifyContent: "space-between",
+                        marginBottom: 5,
+                      }}
+                    >
+                      <Text style={{ ...defaultFont(400, 12, colors.black) }}>
+                        {item?.name}
+                      </Text>
+                      <Text style={{ ...defaultFont(400, 12, colors.black) }}>
+                        {item?.subTitle}
+                      </Text>
+                    </View>
+                  );
+                })}
+                <Text
+                  style={{
+                    ...defaultFont(400, 12, colors.filterText),
+                    marginTop: 15,
+                  }}
+                >
+                  Rendi lõpphind arvutatakse rendi kestuse põhjal. Lühikeste
+                  rentide eest mis maksavad alla 3,29€, võetakse miinimumtasu.
+                  Soodustusi rakendatakse peale seda.
+                </Text>
+              </View>
+            </>
+          )}
+          <View
+            style={[
+              styles.botomLineMob,
+              { marginTop: pricefoShow ? heightPercentageToDP(3) : 8 },
+            ]}
+          />
 
           <Text
             style={[styles.prodDes2, { marginTop: heightPercentageToDP(2) }]}
@@ -697,7 +726,13 @@ const ProductDetail = (props: Props) => {
                   setTabIndex1(!tabIndex1);
                 }}
               >
-                <Image source={icons.downarrow} style={styles.downarrowMob} />
+                <Image
+                  source={icons.downarrow}
+                  style={[
+                    styles.downarrowMob,
+                    { transform: [{ rotate: tabIndex1 ? "180deg" : "0deg" }] },
+                  ]}
+                />
               </TouchableOpacity>
             </View>
           </View>

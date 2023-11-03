@@ -10,6 +10,7 @@ export const screenName = {
   profileScreen: "ProfileScreen",
   producrItem: "ProducrItem",
   registerScreen: "RegisterScreen",
+  loginScreen: "LoginScreen",
 };
 
 export const fontFamily = {

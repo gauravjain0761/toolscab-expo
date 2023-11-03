@@ -37,6 +37,7 @@ export const icons = {
 
   menuIcon: require("../assets/icon/menuIcon.png"),
   closeIcon: require("../assets/icon/close.png"),
+  filterClose: require("../assets/icon/filterClose.png"),
 
 
 };
