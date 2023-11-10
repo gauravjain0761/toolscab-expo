@@ -21,6 +21,11 @@ export default function useCachedResources() {
           "articulatCF-medium": require("../../assets/fonts/ArticulatCF-Medium.otf"),
           "articulatCF-normal": require("../../assets/fonts/ArticulatCF-Normal.otf"),
           "articulatCF-semibold": require("../../assets/fonts/ArticulatCF-DemiBold.otf"),
+          "oddval-semibold1": require("../../assets/fonts/Oddval-SemiBold.otf"),
+          "articulatCF-regular1": require("../../assets/fonts/ArticulatCF-Regular.woff"),
+          "articulatCF-normal1": require("../../assets/fonts/ArticulatCF-Normal.woff"),
+          "articulatCF-bold1": require("../../assets/fonts/ArticulatCF-Bold.woff"),
+          "articulatCF-medium1": require("../../assets/fonts/ArticulatCF-Medium.woff"),
 
           "oddval-bold": require("../../assets/fonts/Fontspring-DEMO-oddval-bold-BF640a8b02262ad.otf"),
           "oddval-semibold": require("../../assets/fonts/Fontspring-DEMO-oddval-semibold-BF640a8b0281ea4.otf"),
