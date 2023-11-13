@@ -4,7 +4,7 @@ import { commonFontStyle } from "../../theme/Fonts";
 import { fontFamily, screenName } from "../../helper/constants";
 import { colors } from "../../theme/Colors";
 import { icons } from "../../theme/Icons";
-import CommonGreenBtn from "./CommonGreenBtn";
+import CommonGreenBtn from "../common/CommonGreenBtn";
 import { widthPercentageToDP } from "react-native-responsive-screen";
 import { navigationRef } from "../../navigations/MainNavigator";
 

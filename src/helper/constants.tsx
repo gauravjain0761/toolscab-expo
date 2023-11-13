@@ -1,14 +1,14 @@
 export const screenName = {
   homeScreen: "HomeScreen",
-  productFilter: "ProductFilter",
-  subProducts: "SubProducts",
+  catalogueFilter: "CatalogueFilter",
+  categoryProducts: "CategoryProducts",
   productDetail: "ProductDetail",
   ourOfUsScreen: "OurOfUsScreen",
   faqScreen: "FAQScreen",
   rentalConditionsScreen: "RentalConditionsScreen",
   cartScreen: "CartScreen",
   profileScreen: "ProfileScreen",
-  producrItem: "ProducrItem",
+  productLocations : "ProductLocations ",
   registerScreen: "RegisterScreen",
   loginScreen: "LoginScreen",
 };

@@ -285,7 +285,7 @@ const ProductDetail = (props: Props) => {
               <View style={styles.botomLine} />
               <View style={styles.btnRow}>
                 <CommonGreenBtn title="Rendi" onPress={() => {
-                  navigationRef.navigate(screenName.producrItem)
+                  navigationRef.navigate(screenName.productLocations)
                 }} />
                 <CommonGreenBtn
                   title="Leia kapp"

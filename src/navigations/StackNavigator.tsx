@@ -5,7 +5,6 @@ import {
 } from "@react-navigation/native-stack";
 import { screenName } from "../helper/constants";
 import HomeScreen from "../screen/home/HomeScreen";
-import ProductFilter from "../screen/product/ProductFilter";
 import ProductDetail from "../screen/product/ProductDetail";
 import OurOfUsScreen from "../screen/home/OurOfUsScreen";
 import FAQScreen from "../screen/home/FAQScreen";
@@ -17,10 +16,11 @@ import { colors } from "../theme/Colors";
 import { icons } from "../theme/Icons";
 import { useDispatch } from "react-redux";
 import { TOGGLE_DRAWER } from "../actions/dispatchTypes";
-import SubProducts from "../screen/product/SubProducts";
-import ProducrItem from "../screen/product/ProducrItem";
+import ProductLocations from "../screen/product/ProductLocations";
 import RegisterScreen from "../screen/auth/RegisterScreen";
 import LoginScreen from "../screen/auth/LoginScreen";
+import CatalogueFilter from "../screen/catalogue/CatalogueFilter";
+import CategoryProducts from "../screen/catalogue/CategoryProducts";
 
 export type RootStackParamList = {
   HomeScreen: undefined;
@@ -85,7 +85,7 @@ const StackNavigator: FC = () => {
   return (
     <Stack.Navigator
       // @ts-ignore
-      initialRouteName={screenName.producrItem}
+      initialRouteName={screenName.productLocations}
       screenOptions={options}
     >
       <Stack.Screen
@@ -123,8 +123,8 @@ const StackNavigator: FC = () => {
           headerTitle: '',
           ...headerStyleMain,
         })}
-        name={screenName.productFilter}
-        component={ProductFilter}
+        name={screenName.catalogueFilter}
+        component={CatalogueFilter}
       />
       <Stack.Screen
         // @ts-ignore
@@ -142,8 +142,8 @@ const StackNavigator: FC = () => {
           headerTitle: '',
           ...headerStyleMain,
         })}
-        name={screenName.subProducts}
-        component={SubProducts}
+        name={screenName.categoryProducts}
+        component={CategoryProducts}
       />
       <Stack.Screen
         // @ts-ignore
@@ -219,8 +219,8 @@ const StackNavigator: FC = () => {
       />
       <Stack.Screen
         // @ts-ignore
-        name={screenName.producrItem}
-        component={ProducrItem}
+        name={screenName.productLocations}
+        component={ProductLocations}
       />
       <Stack.Screen
         // @ts-ignore

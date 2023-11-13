@@ -72,7 +72,7 @@ const AppDrawerModal = ({ isVisible }: Props) => {
           </View>
           <TouchableOpacity
             onPress={() => {
-              navigationRef.navigate(screenName.productFilter), onClose();
+              navigationRef.navigate(screenName.catalogueFilter), onClose();
             }}
             style={styles.row}
           >

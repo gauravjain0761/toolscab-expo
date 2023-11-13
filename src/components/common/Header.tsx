@@ -24,12 +24,12 @@ const data = [
   {
     id: 1,
     name: "Seadmed",
-    onPress: () => navigationRef.navigate(screenName.productFilter),
+    onPress: () => navigationRef.navigate(screenName.catalogueFilter),
   },
   {
     id: 2,
     name: "Asukohad",
-    onPress: () => navigationRef.navigate(screenName.productFilter),
+    onPress: () => navigationRef.navigate(screenName.catalogueFilter),
   },
   {
     id: 3,

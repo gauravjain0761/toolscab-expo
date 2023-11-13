@@ -172,6 +172,7 @@ const ProductcartList = ({ setShowProduct, mainView, showProduct }: any) => {
                 title={item?.title}
                 label={item?.label}
                 onSelectPress={() =>
+                  //@ts-ignore
                   navigationRef.navigate(screenName.productDetail)
                 }
                 mainView={false}
@@ -191,7 +192,7 @@ const ProductcartList = ({ setShowProduct, mainView, showProduct }: any) => {
   );
 };
 
-const ProductFilter = () => {
+const CatalogueFilter = () => {
   const { height } = useWindowDimensions();
   const [showProduct, setShowProduct] = useState([]);
   const [filterModal, setFilterModal] = useState(false);
@@ -208,6 +209,7 @@ const ProductFilter = () => {
       >
         <HeaderBottomPathView
           heading={" Seadmed "}
+          //@ts-ignore
           heading1={`/ ${showProduct?.name}`}
           onHeadingPress={() => setShowProduct([])}
         />
@@ -222,6 +224,7 @@ const ProductFilter = () => {
                       styles.leftHeaderItemText,
                       {
                         fontFamily:
+                           //@ts-ignore
                           showProduct?.name === item?.name
                             ? fontFamily.articulat_bold
                             : fontFamily.articulat_normal,
@@ -302,7 +305,8 @@ const ProductFilter = () => {
                 icon={item.icon}
                 title={item.name}
                 onSelectPress={() =>
-                  navigationRef.navigate(screenName.subProducts)
+                  //@ts-ignorez
+                  navigationRef.navigate(screenName.categoryProducts)
                 }
                 mainView={true}
               />
@@ -391,4 +395,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default ProductFilter;
+export default CatalogueFilter;

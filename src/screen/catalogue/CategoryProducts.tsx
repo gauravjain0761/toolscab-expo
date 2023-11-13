@@ -60,7 +60,7 @@ const checkList = [
 // create a component
 
 
-const SubProducts = () => {
+const CategoryProducts = () => {
     const { height } = useWindowDimensions();
     const [showProduct, setShowProduct] = useState([]);
     const [filterModal,setFilterModal]=useState(false)
@@ -127,4 +127,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default SubProducts;
+export default CategoryProducts;

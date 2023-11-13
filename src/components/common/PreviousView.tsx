@@ -5,7 +5,7 @@ import { commonFontStyle } from "../../theme/Fonts";
 import { fontFamily } from "../../helper/constants";
 import { colors } from "../../theme/Colors";
 import { icons } from "../../theme/Icons";
-import CartPreviousList from "./CartPreviousList";
+import CartPreviousList from "../cart/CartPreviousList";
 
 type Props = {
   title: string;

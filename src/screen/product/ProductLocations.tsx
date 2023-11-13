@@ -20,9 +20,10 @@ import { fontFamily } from "../../helper/constants";
 import { commonFontStyle } from "../../theme/Fonts";
 import { widthPercentageToDP } from "react-native-responsive-screen";
 import { icons } from "../../theme/Icons";
+import { navigationRef } from "../../navigations/MainNavigator";
 
 // create a component
-const ProducrItem = () => {
+const ProductLocations = () => {
   return (
     <View style={styles.container}>
       <Header isMainScreen={false} />
@@ -53,7 +54,7 @@ const ProducrItem = () => {
                 return <RenderMapRow index={index} />;
               })}
             </View>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={()=>navigationRef.goBack()}>
               <Image source={icons.closeIcon} style={styles.closeStyle} />
             </TouchableOpacity>
           </View>
@@ -219,4 +220,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default ProducrItem;
+export default ProductLocations;
