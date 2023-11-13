@@ -1,5 +1,5 @@
 //import liraries
-import React, { Component } from "react";
+import React from "react";
 import {
   View,
   Text,
@@ -11,17 +11,13 @@ import {
 } from "react-native";
 // import Modal from "react-native-modal";
 import { colors } from "../../theme/Colors";
-import { screen_width } from "../../helper/globalFunctions";
 import { icons } from "../../theme/Icons";
-import InpuText from "../common/InpuText";
-import CommonGreenBtn from "../common/CommonGreenBtn";
 import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from "react-native-responsive-screen";
 import { commonFontStyle } from "../../theme/Fonts";
-import { fontFamily, screenName } from "../../helper/constants";
-import { navigationRef } from "../../navigations/MainNavigator";
+import { fontFamily } from "../../helper/constants";
 import { defaultFont } from "../../theme/Fonts";
 import DropDownMenu from "../common/DropDownMenu";
 import CheckboxView from "../common/CheckboxView";

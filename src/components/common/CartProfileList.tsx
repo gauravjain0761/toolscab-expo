@@ -1,6 +1,5 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
-import { hp, screen_width } from "../../helper/globalFunctions";
+import { Image, StyleSheet, Text, View } from "react-native";
+import React from "react";
 import { commonFontStyle } from "../../theme/Fonts";
 import { fontFamily } from "../../helper/constants";
 import { colors } from "../../theme/Colors";
@@ -14,7 +13,6 @@ type Props = {
 };
 
 const CartProfileList = ({ title, list }: Props) => {
-  const [isSelect, setIsSelect] = useState(false);
   return (
     <View style={styles.container}>
       <View style={styles.leftContainer}>

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ViewStyle, TouchableOpacity, Platform, Image } from 'react-native'
+import { StyleSheet, Text, ViewStyle, TouchableOpacity, Platform, Image } from 'react-native'
 import React from 'react'
 import { colors } from '../../theme/Colors';
 import { commonFontStyle } from '../../theme/Fonts';

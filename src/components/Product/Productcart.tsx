@@ -1,5 +1,5 @@
 //import liraries
-import React, { Component } from "react";
+import React from "react";
 import {
   View,
   Text,
@@ -11,7 +11,7 @@ import {
   TextStyle,
 } from "react-native";
 import { colors } from "../../theme/Colors";
-import { screen_height, screen_width, wp } from "../../helper/globalFunctions";
+import {  screen_width, wp } from "../../helper/globalFunctions";
 import { SCREEN_WIDTH, commonFontStyle } from "../../theme/Fonts";
 import { fontFamily } from "../../helper/constants";
 import { icons } from "../../theme/Icons";

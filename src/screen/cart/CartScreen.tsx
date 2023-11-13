@@ -1,70 +1,15 @@
 //import liraries
-import React, { Component, useRef, useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  Image,
-  TouchableOpacity,
-  ImageBackground,
-  FlatList,
-} from "react-native";
+import React from "react";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { colors } from "../../theme/Colors";
-import {
-  CartList,
-  CommonMapView,
-  FooterView,
-  Header,
-  HomeProductcart,
-  PaymentView,
-} from "../../components";
-import {
-  hp,
-  screen_height,
-  screen_width,
-  wp,
-} from "../../helper/globalFunctions";
+import { CartList, FooterView, Header, PaymentView } from "../../components";
+import { screen_width } from "../../helper/globalFunctions";
 import { fontFamily } from "../../helper/constants";
-import MapView from "react-native-maps";
-import { productDetails } from "../../helper/constantData";
-import { icons, image } from "../../theme/Icons";
-import { commonFontStyle } from "../../theme/Fonts";
-import HeaderBottomPathView from "../../components/common/HeaderBottomPathView";
 
-const listData = [
-  {
-    id: 1,
-    title: "Kuidas seadet rentida?",
-    isSelect: false,
-    subTitle: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tristique turpis eget pellentesque malesuada. Suspendisse at consectetur dolor. In\npellentesque velit eget ligula iaculis dignissim.\nCurabitur vel tempor augue.Curabitur ultricies ut nibh non ullamcorper.\nMauris iaculis viverra velit, a rutrum eros cursus non. `,
-  },
-  {
-    id: 2,
-    title: "Kuidas rentimise eest tasuda?",
-    subTitle: "",
-    isSelect: false,
-  },
-  { id: 3, title: "Kus teid leiab?", subTitle: "", isSelect: false },
-  { id: 4, title: "Kuidas ma arve saan?", subTitle: "", isSelect: false },
-  {
-    id: 5,
-    title: "Kas ma saan renditavaid seadmeid ka osta?",
-    subTitle: "",
-    isSelect: false,
-  },
-  {
-    id: 6,
-    title: "Seade läks katki, mida teha?",
-    subTitle: "",
-    isSelect: false,
-  },
-];
+import { commonFontStyle } from "../../theme/Fonts";
 
 // create a component
 const CartScreen = () => {
-  const [downData, setDownData] = useState(listData);
-
   return (
     <View style={styles.container}>
       <Header isMainScreen={false} />
@@ -86,9 +31,9 @@ const CartScreen = () => {
               marginTop: 30,
             }}
           >
-            <View style={{ flex: 1,marginRight:18 }}>
+            <View style={{ flex: 1, marginRight: 18 }}>
               {[0, 1].map(() => {
-                return <CartList />
+                return <CartList />;
               })}
             </View>
             <View
@@ -97,7 +42,7 @@ const CartScreen = () => {
                 backgroundColor: colors.homecartBG,
                 padding: 18,
                 borderRadius: 16,
-                alignSelf:'flex-start'
+                alignSelf: "flex-start",
               }}
             >
               <PaymentView />

@@ -1,34 +1,12 @@
 //import liraries
-import React, { Component, useRef, useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  Image,
-  TouchableOpacity,
-  ImageBackground,
-  FlatList,
-  Platform,
-} from "react-native";
+import React, { useState } from "react";
+import { View, Text, StyleSheet, ScrollView, Platform } from "react-native";
 import { colors } from "../../theme/Colors";
-import {
-  CommonMapView,
-  FooterView,
-  Header,
-  HomeProductcart,
-} from "../../components";
-import {
-  hp,
-  screen_height,
-  screen_width,
-  wp,
-} from "../../helper/globalFunctions";
+import { FooterView, Header } from "../../components";
+import { screen_width } from "../../helper/globalFunctions";
 import { fontFamily } from "../../helper/constants";
-import MapView from "react-native-maps";
-import { productDetails } from "../../helper/constantData";
-import { icons, image } from "../../theme/Icons";
-import { commonFontStyle,defaultFont } from "../../theme/Fonts";
+
+import { commonFontStyle, defaultFont } from "../../theme/Fonts";
 import { heightPercentageToDP } from "react-native-responsive-screen";
 
 const listData = [
@@ -56,97 +34,102 @@ const listData = [
 const RentalConditionsScreen = () => {
   const [downData, setDownData] = useState(listData);
 
- if(Platform.OS =='web'){
-  return (
-    <View style={styles.container}>
-      <Header isMainScreen={false} />
-      <ScrollView contentContainerStyle={{ flexGrow: 1, marginTop: 150 }}>
-        {downData?.map((item) => {
-          return (
-            <View
-              style={{
-                width: screen_width * 0.7,
-                alignSelf: "center",
-                paddingHorizontal: 24,
-                marginBottom: 32,
-                paddingVertical: 10,
-              }}
-            >
-              <Text
+  if (Platform.OS == "web") {
+    return (
+      <View style={styles.container}>
+        <Header isMainScreen={false} />
+        <ScrollView contentContainerStyle={{ flexGrow: 1, marginTop: 150 }}>
+          {downData?.map((item) => {
+            return (
+              <View
                 style={{
-                  flex: 1,
-                  ...commonFontStyle(
-                    fontFamily.articulat_normal,
-                    24,
-                    colors.black
-                  ),
+                  width: screen_width * 0.7,
+                  alignSelf: "center",
+                  paddingHorizontal: 24,
+                  marginBottom: 32,
+                  paddingVertical: 10,
                 }}
               >
-                {item?.title}
-              </Text>
+                <Text
+                  style={{
+                    flex: 1,
+                    ...commonFontStyle(
+                      fontFamily.articulat_normal,
+                      24,
+                      colors.black
+                    ),
+                  }}
+                >
+                  {item?.title}
+                </Text>
 
-              <Text
+                <Text
+                  style={{
+                    lineHeight: 20,
+                    marginBottom: 30,
+                    ...commonFontStyle(
+                      fontFamily.articulat_normal,
+                      18,
+                      colors.black
+                    ),
+                  }}
+                >
+                  {item?.subTitle}
+                </Text>
+              </View>
+            );
+          })}
+          <View style={{ height: 150 }} />
+          <FooterView />
+        </ScrollView>
+      </View>
+    );
+  } else {
+    return (
+      <View style={styles.container}>
+        <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+            marginTop: heightPercentageToDP(5),
+          }}
+        >
+          {downData?.map((item) => {
+            return (
+              <View
                 style={{
-                  lineHeight: 20,
-                  marginBottom: 30,
-                  ...commonFontStyle(
-                    fontFamily.articulat_normal,
-                    18,
-                    colors.black
-                  ),
+                  width: screen_width * 1,
+                  alignSelf: "center",
+                  paddingHorizontal: 24,
                 }}
               >
-                {item?.subTitle}
-              </Text>
-            </View>
-          );
-        })}
-        <View style={{ height: 150 }} />
-        <FooterView />
-      </ScrollView>
-    </View>
-  );
- }else{
-  return (
-    <View style={styles.container}>
-      <ScrollView contentContainerStyle={{ flexGrow: 1, marginTop: heightPercentageToDP(5) }}>
-        {downData?.map((item) => {
-          return (
-            <View
-              style={{
-                width: screen_width * 1,
-                alignSelf: "center",
-                paddingHorizontal: 24,
-              }}
-            >
-              <Text
-                style={{
-                  flex: 1,
-                  ...defaultFont(400, 24, colors.black),
-                }}
-              >
-                {item?.title}
-              </Text>
+                <Text
+                  style={{
+                    flex: 1,
+                    ...defaultFont(400, 24, colors.black),
+                  }}
+                >
+                  {item?.title}
+                </Text>
 
-              <Text
-                style={{
-                  lineHeight: 20,
-                  marginBottom: heightPercentageToDP(6),
-                  marginTop:heightPercentageToDP(2),
-                  ...defaultFont(400, 18, colors.black),
-                }}
-              >
-                {item?.subTitle}
-              </Text>
-            </View>
-          );
-        })}
-        <View style={{ height: 150 }} />
-        <FooterView />
-      </ScrollView>
-    </View>
-  );
- }
+                <Text
+                  style={{
+                    lineHeight: 20,
+                    marginBottom: heightPercentageToDP(6),
+                    marginTop: heightPercentageToDP(2),
+                    ...defaultFont(400, 18, colors.black),
+                  }}
+                >
+                  {item?.subTitle}
+                </Text>
+              </View>
+            );
+          })}
+          <View style={{ height: 150 }} />
+          <FooterView />
+        </ScrollView>
+      </View>
+    );
+  }
 };
 // define your styles
 const styles = StyleSheet.create({

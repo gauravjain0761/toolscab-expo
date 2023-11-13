@@ -1,6 +1,5 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
-import { hp, screen_width } from "../../helper/globalFunctions";
+import { Image, StyleSheet, Text, View } from "react-native";
+import React from "react";
 import { commonFontStyle } from "../../theme/Fonts";
 import { fontFamily, screenName } from "../../helper/constants";
 import { colors } from "../../theme/Colors";
@@ -15,8 +14,7 @@ type Props = {
 };
 
 const CartList = ({ title, list }: Props) => {
-  const [isSelect, setIsSelect] = useState(false);
-  return (
+    return (
     <View style={styles.container}>
       <View style={styles.leftContainer}>
         <Image
@@ -45,7 +43,10 @@ const CartList = ({ title, list }: Props) => {
         <Text style={styles.headerText7}>{"Tasuta broneering"}</Text>
         <CommonGreenBtn
           title="Ava kapp"
-          onPress={() => {navigationRef.navigate(screenName.profileScreen)}}
+          onPress={() => {
+            //@ts-ignore
+            navigationRef.navigate(screenName.profileScreen)
+          }}
           style={{
             borderColor: colors.headerBG,
             marginLeft: 10,

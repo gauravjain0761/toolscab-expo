@@ -1,19 +1,8 @@
-import {
-  FlatList,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
-import { hp, screen_width } from "../../helper/globalFunctions";
 import { commonFontStyle } from "../../theme/Fonts";
 import { fontFamily } from "../../helper/constants";
 import { colors } from "../../theme/Colors";
-import { icons } from "../../theme/Icons";
-import CommonGreenBtn from "../common/CommonGreenBtn";
-import { widthPercentageToDP } from "react-native-responsive-screen";
 
 type Props = {
   title: string;

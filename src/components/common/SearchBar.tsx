@@ -1,9 +1,9 @@
-import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
-import { commonFontStyle } from "../../theme/Fonts";
-import { fontFamily, screenName } from "../../helper/constants";
+import { Image, StyleSheet, TextInput, View } from "react-native";
+import React from "react";
+
+
 import { colors } from "../../theme/Colors";
-import CommonGreenBtn from "./CommonGreenBtn";
+
 
 type Props = {
   title?: string;
@@ -12,7 +12,7 @@ type Props = {
 };
 
 const SearchBar = ({ title, list, index }: Props) => {
-  const [isSelect, setIsSelect] = useState(false);
+
   return (
     <View
     style={styles.container}

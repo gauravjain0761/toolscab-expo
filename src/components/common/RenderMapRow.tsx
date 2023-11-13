@@ -1,7 +1,7 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import React from "react";
 import { commonFontStyle } from "../../theme/Fonts";
-import { fontFamily, screenName } from "../../helper/constants";
+import { fontFamily } from "../../helper/constants";
 import { colors } from "../../theme/Colors";
 import CommonGreenBtn from "./CommonGreenBtn";
 
@@ -12,7 +12,7 @@ type Props = {
 };
 
 const RenderMapRow = ({ title, list, index }: Props) => {
-  const [isSelect, setIsSelect] = useState(false);
+
   return (
     <View>
       <Text style={styles.headerText}>Vahemaa 1.20km</Text>

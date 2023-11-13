@@ -1,13 +1,5 @@
-import {
-  FlatList,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import React, { useState } from "react";
-import { hp, screen_width } from "../../helper/globalFunctions";
+import { FlatList, Image, StyleSheet, Text, View } from "react-native";
+import React from "react";
 import { commonFontStyle } from "../../theme/Fonts";
 import { fontFamily } from "../../helper/constants";
 import { colors } from "../../theme/Colors";
@@ -48,22 +40,20 @@ const renderItem = ({ item }: any) => {
 };
 
 const PaymentViewCart = ({ title, list }: Props) => {
-  const [isSelect, setIsSelect] = useState(false);
-
   return (
     <View style={[{ marginTop: 25 }]}>
       <FlatList data={data} renderItem={renderItem} />
       <CommonGreenBtn
-          title="Lisa +"
-          onPress={() => {}}
-          style={{
-            borderColor: colors.headerBG,
-            marginLeft: 10,
-            width:widthPercentageToDP(7),
-            marginTop:50,
-            alignSelf:'center'
-          }}
-        />
+        title="Lisa +"
+        onPress={() => {}}
+        style={{
+          borderColor: colors.headerBG,
+          marginLeft: 10,
+          width: widthPercentageToDP(7),
+          marginTop: 50,
+          alignSelf: "center",
+        }}
+      />
     </View>
   );
 };

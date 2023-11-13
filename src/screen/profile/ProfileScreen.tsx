@@ -1,70 +1,26 @@
 //import liraries
-import React, { Component, useRef, useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
   StyleSheet,
   ScrollView,
-  Image,
   TouchableOpacity,
-  ImageBackground,
-  FlatList,
 } from "react-native";
 import { colors } from "../../theme/Colors";
 import {
-  CartList,
   CartProfileList,
-  CommonMapView,
   EmailSettingView,
   FooterView,
   Header,
-  HomeProductcart,
   MyProfileView,
-  PaymentView,
   PaymentViewCart,
   PreviousView,
 } from "../../components";
-import {
-  hp,
-  screen_height,
-  screen_width,
-  wp,
-} from "../../helper/globalFunctions";
+import { screen_width, wp } from "../../helper/globalFunctions";
 import { fontFamily } from "../../helper/constants";
-import MapView from "react-native-maps";
-import { productDetails } from "../../helper/constantData";
-import { icons, image } from "../../theme/Icons";
-import { commonFontStyle } from "../../theme/Fonts";
-import HeaderBottomPathView from "../../components/common/HeaderBottomPathView";
 
-const listData = [
-  {
-    id: 1,
-    title: "Kuidas seadet rentida?",
-    isSelect: false,
-    subTitle: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tristique turpis eget pellentesque malesuada. Suspendisse at consectetur dolor. In\npellentesque velit eget ligula iaculis dignissim.\nCurabitur vel tempor augue.Curabitur ultricies ut nibh non ullamcorper.\nMauris iaculis viverra velit, a rutrum eros cursus non. `,
-  },
-  {
-    id: 2,
-    title: "Kuidas rentimise eest tasuda?",
-    subTitle: "",
-    isSelect: false,
-  },
-  { id: 3, title: "Kus teid leiab?", subTitle: "", isSelect: false },
-  { id: 4, title: "Kuidas ma arve saan?", subTitle: "", isSelect: false },
-  {
-    id: 5,
-    title: "Kas ma saan renditavaid seadmeid ka osta?",
-    subTitle: "",
-    isSelect: false,
-  },
-  {
-    id: 6,
-    title: "Seade läks katki, mida teha?",
-    subTitle: "",
-    isSelect: false,
-  },
-];
+import { commonFontStyle } from "../../theme/Fonts";
 
 const tabData = [
   { id: 1, name: "Rendid" },
@@ -75,14 +31,13 @@ const tabData = [
 // create a component
 const ProfileScreen = () => {
   const [selectedTab, setselectedTab] = useState(1);
-  const [downData, setDownData] = useState(listData);
 
-  const HeaderCommonView = ({title,style}:any) => {
+  const HeaderCommonView = ({ title, style }: any) => {
     return (
       <View style={style}>
-        <View style={{ height: 50, }} />
+        <View style={{ height: 50 }} />
         <Text style={styles.headerSubText}>{title}</Text>
-        <View style={[styles.unLineStyle,style]} />
+        <View style={[styles.unLineStyle, style]} />
       </View>
     );
   };
@@ -123,35 +78,45 @@ const ProfileScreen = () => {
               );
             })}
           </View>
-        {selectedTab ==1 &&  <>
-          <HeaderCommonView title={"Aktiivsed rendid"}/>
-          <View
-            style={{
-              flex: 1,
-              flexDirection: "row",
-              alignItems: "center",
-              marginTop: 30,
-            }}
-          >
-            <View style={{ flex: 1 }}>
-              {[0, 1].map(() => {
-                return <CartProfileList />;
-              })}
-            </View>
-          </View>
-          <HeaderCommonView title={"Varasemad rendid"} style={{marginBottom:45}}/>
-          <PreviousView />
-          <PreviousView />
-          </>}
-          {(selectedTab == 2 || selectedTab ==3) &&<>
-            <HeaderCommonView title={"Minu profiil"}/>
-            <MyProfileView />
-            <HeaderCommonView title={"Maksevahendid"}/>
-            <PaymentViewCart />
-          {selectedTab ==2 && <>
-           <HeaderCommonView title={"E-maili seaded"}/>
-            <EmailSettingView /> </>}
-          </>}
+          {selectedTab == 1 && (
+            <>
+              <HeaderCommonView title={"Aktiivsed rendid"} />
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                  alignItems: "center",
+                  marginTop: 30,
+                }}
+              >
+                <View style={{ flex: 1 }}>
+                  {[0, 1].map(() => {
+                    return <CartProfileList />;
+                  })}
+                </View>
+              </View>
+              <HeaderCommonView
+                title={"Varasemad rendid"}
+                style={{ marginBottom: 45 }}
+              />
+              <PreviousView />
+              <PreviousView />
+            </>
+          )}
+          {(selectedTab == 2 || selectedTab == 3) && (
+            <>
+              <HeaderCommonView title={"Minu profiil"} />
+              <MyProfileView />
+              <HeaderCommonView title={"Maksevahendid"} />
+              <PaymentViewCart />
+              {selectedTab == 2 && (
+                <>
+                  <HeaderCommonView title={"E-maili seaded"} />
+                  <EmailSettingView />{" "}
+                </>
+              )}
+            </>
+          )}
         </View>
         <View style={{ height: 150 }} />
         <FooterView />
@@ -198,11 +163,11 @@ const styles = StyleSheet.create({
     ...commonFontStyle(fontFamily.articulat_normal, 18, colors.black),
   },
   headerText: {
-    marginLeft:35,
+    marginLeft: 35,
     ...commonFontStyle(fontFamily.bold, 32, colors.black),
   },
   headerSubText: {
-    marginBottom:5,
+    marginBottom: 5,
     ...commonFontStyle(fontFamily.articulat_normal, 18, colors.black),
   },
 });

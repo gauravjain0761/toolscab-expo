@@ -1,5 +1,5 @@
 //import liraries
-import React, { Component, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   View,
   Text,
@@ -7,29 +7,19 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
-  ImageBackground,
-  FlatList,
   Platform,
 } from "react-native";
 import { colors } from "../../theme/Colors";
-import {
-  CommonMapView,
-  FooterView,
-  Header,
-  HomeProductcart,
-} from "../../components";
-import {
-  hp,
-  screen_height,
-  screen_width,
-  wp,
-} from "../../helper/globalFunctions";
+import { CommonMapView, FooterView, Header } from "../../components";
+import { screen_width } from "../../helper/globalFunctions";
 import { fontFamily } from "../../helper/constants";
-import MapView from "react-native-maps";
-import { productDetails } from "../../helper/constantData";
-import { icons, image } from "../../theme/Icons";
-import { commonFontStyle,defaultFont } from "../../theme/Fonts";
-import { heightPercentageToDP, widthPercentageToDP } from "react-native-responsive-screen";
+
+import { icons } from "../../theme/Icons";
+import { commonFontStyle, defaultFont } from "../../theme/Fonts";
+import {
+  heightPercentageToDP,
+  widthPercentageToDP,
+} from "react-native-responsive-screen";
 
 const listData = [
   {
@@ -62,9 +52,7 @@ const listData = [
 
 // create a component
 const FAQScreen = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [downData, setDownData] = useState(listData);
-  const flatlistRef = useRef(null);
 
   const onSelectPress = (list: any) => {
     const updateData = downData?.map((item) => {
@@ -77,7 +65,7 @@ const FAQScreen = () => {
     setDownData(updateData);
   };
 
-  if(Platform.OS == 'web'){
+  if (Platform.OS == "web") {
     return (
       <View style={styles.container}>
         <Header isMainScreen={false} />
@@ -131,7 +119,7 @@ const FAQScreen = () => {
                   <Text
                     style={{
                       lineHeight: 20,
-                      marginBottom:20,
+                      marginBottom: 20,
                       ...commonFontStyle(
                         fontFamily.articulat_normal,
                         18,
@@ -145,21 +133,26 @@ const FAQScreen = () => {
               </View>
             );
           })}
-          <View style={{height:150}}/>
+          <View style={{ height: 150 }} />
           <FooterView />
         </ScrollView>
       </View>
     );
-  }else{
+  } else {
     return (
       <View style={styles.containerMob}>
-        <ScrollView contentContainerStyle={{ flexGrow: 1, marginTop: heightPercentageToDP(8) }}>
+        <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+            marginTop: heightPercentageToDP(8),
+          }}
+        >
           {downData?.map((item) => {
             return (
               <View
                 style={{
-                  width: screen_width*0.9,
-                  flex:1,
+                  width: screen_width * 0.9,
+                  flex: 1,
                   alignSelf: "center",
                   paddingHorizontal: 24,
                   backgroundColor: colors.headerColorBg,
@@ -201,8 +194,8 @@ const FAQScreen = () => {
                   <Text
                     style={{
                       lineHeight: 20,
-                      marginBottom:widthPercentageToDP(4),
-                      marginTop:widthPercentageToDP(2),
+                      marginBottom: widthPercentageToDP(4),
+                      marginTop: widthPercentageToDP(2),
                       ...defaultFont(400, 18, colors.blackType),
                     }}
                   >
@@ -212,7 +205,7 @@ const FAQScreen = () => {
               </View>
             );
           })}
-          <View style={{height:heightPercentageToDP(10)}}/>
+          <View style={{ height: heightPercentageToDP(10) }} />
           <FooterView />
         </ScrollView>
       </View>

@@ -1,23 +1,16 @@
 //import liraries
-import React, { Component, useRef, useState } from "react";
+import React from "react";
 import {
   View,
   Text,
   StyleSheet,
-  ScrollView,
   Image,
   TouchableOpacity,
 } from "react-native";
 import { colors } from "../../theme/Colors";
 import {
-  CommonMapView,
-  FooterView,
-  Header,
   InpuText,
-  RenderMapRow,
-  SearchBar,
 } from "../../components";
-import { screen_width } from "../../helper/globalFunctions";
 import { fontFamily, screenName } from "../../helper/constants";
 import { commonFontStyle, defaultFont } from "../../theme/Fonts";
 import {
@@ -28,18 +21,10 @@ import { icons } from "../../theme/Icons";
 import CommonGreenBtn from "../../components/common/CommonGreenBtn";
 import { navigationRef } from "../../navigations/MainNavigator";
 
-const CheckBoxView = ({ title, style }: any) => {
-  return (
-    <View style={[styles.checkBoxContent, style]}>
-      <View style={styles.checkBox}></View>
-      <Text style={styles.checkText}>{title}</Text>
-    </View>
-  );
-};
 
 // create a component
 const LoginScreen = () => {
-  const [selectTab, setSelectTab] = useState(1);
+
   return (
     <View style={styles.container}>
       {/* <ScrollView contentContainerStyle={{ flexGrow: 1, marginTop: 20, }}> */}

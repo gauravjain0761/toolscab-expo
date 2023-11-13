@@ -1,9 +1,7 @@
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
 import MapView, { Marker } from "react-native-maps";
-import { ClusterProps, MarkerClusterer } from "@teovilla/react-native-web-maps";
 import type { Region } from "react-native-maps";
-import { hp, wp } from "../../helper/globalFunctions";
 import { icons } from "../../theme/Icons";
 // create a component
 

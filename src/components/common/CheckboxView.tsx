@@ -1,6 +1,5 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useState } from "react";
-import { hp, screen_width } from "../../helper/globalFunctions";
 import { commonFontStyle } from "../../theme/Fonts";
 import { fontFamily } from "../../helper/constants";
 import { colors } from "../../theme/Colors";

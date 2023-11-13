@@ -1,5 +1,5 @@
 //import liraries
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -11,7 +11,6 @@ import {
   ImageBackground,
   Platform,
   ScrollView,
-  SafeAreaView,
 } from "react-native";
 import { colors } from "../../theme/Colors";
 import {
@@ -22,12 +21,7 @@ import {
   ProductFilterModal,
   Productcart,
 } from "../../components";
-import {
-  hp,
-  screen_height,
-  screen_width,
-  wp,
-} from "../../helper/globalFunctions";
+import { hp, screen_height, screen_width } from "../../helper/globalFunctions";
 import { SCREEN_WIDTH, commonFontStyle } from "../../theme/Fonts";
 import { fontFamily, screenName } from "../../helper/constants";
 import HeaderBottomPathView from "../../components/common/HeaderBottomPathView";
@@ -177,7 +171,9 @@ const ProductcartList = ({ setShowProduct, mainView, showProduct }: any) => {
                 icon={item?.icon}
                 title={item?.title}
                 label={item?.label}
-                onSelectPress={() => navigationRef.navigate(screenName.productDetail)}
+                onSelectPress={() =>
+                  navigationRef.navigate(screenName.productDetail)
+                }
                 mainView={false}
                 aircon={item?.aircon}
                 volumeflow={item?.volumeflow}
@@ -198,139 +194,150 @@ const ProductcartList = ({ setShowProduct, mainView, showProduct }: any) => {
 const ProductFilter = () => {
   const { height } = useWindowDimensions();
   const [showProduct, setShowProduct] = useState([]);
-  const [filterModal,setFilterModal]=useState(false)
+  const [filterModal, setFilterModal] = useState(false);
 
-  return (
-    Platform.OS == 'web' ?
-      <View style={styles.container}>
-        <Header isMainScreen={false} />
-        <View
-          style={{
-            width: screen_width * 0.75,
-            alignSelf: "center",
-            marginTop: hp(60),
-          }}
-        >
-          <HeaderBottomPathView
-            heading={" Seadmed "}
-            heading1={`/ ${showProduct?.name}`}
-            onHeadingPress={() => setShowProduct([])}
-          />
-          <View style={styles.containerBody}>
-            <View style={styles.leftView}>
-              <Text style={styles.leftHeaderText}>Tootekategooriad</Text>
-              {filterData.map((item) => {
-                return (
-                  <TouchableOpacity>
-                    <Text
-                      style={[
-                        styles.leftHeaderItemText,
-                        {
-                          fontFamily:
-                            showProduct?.name === item?.name
-                              ? fontFamily.articulat_bold
-                              : fontFamily.articulat_normal,
-                        },
-                      ]}
-                    >
-                      {item?.name}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              })}
-              <Text style={[styles.leftHeaderText, { marginTop: hp(32) }]}>
-                Filtreeri
-              </Text>
-              <DropDownMenu />
-              <View style={{ marginTop: 16 }}>
-                {checkList.map((item) => {
-                  return <CheckboxView title={item.title} list={item.list} />;
-                })}
-              </View>
-            </View>
-            <View style={styles.rightView}>
-              {showProduct?.length == 0 ? (
-                <ProductcartList
-                  mainView={true}
-                  setShowProduct={setShowProduct}
-                />
-              ) : (
-                <ProductcartList mainView={false} showProduct={showProduct} />
-              )}
-            </View>
-          </View>
-        </View>
-        {showProduct?.length == 0 ? (
-          <View
-            style={{ marginTop: 115, alignItems: "center", marginBottom: 65 }}
-          >
-            <ImageBackground
-              source={icons.imageBg}
-              resizeMode="contain"
-              style={{
-                width: screen_width * 0.65,
-                height: screen_height * 0.35,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Text
-                style={{
-                  ...commonFontStyle(
-                    fontFamily.articulat_regular,
-                    14,
-                    colors.white
-                  ),
-                }}
-              >{`See sektsioon siin on lihtsalt sellejaoks, et lehte kuidagi ära lõpetada\nja ülemisele osale jalgu anda. Siia võib panna Vaata lisaks sektsiooni või blogipostitused`}</Text>
-            </ImageBackground>
-          </View>
-        ) : <View style={{ marginTop: 90 }} />}
-        <View style={{ justifyContent: "flex-end" }}>
-          <FooterView />
-        </View>
-      </View>
-      :
-      <View style={styles.container}>
-        <ScrollView style={styles.container}>
-          <Text style={styles.title}>Meie seadmed</Text>
-          <FlatList
-            data={filterData}
-            // data={filterData[0]?.productList}
-            numColumns={2}
-            keyExtractor={(_i, index) => index.toString()}
-            renderItem={({ item, index }) => {
+  return Platform.OS == "web" ? (
+    <View style={styles.container}>
+      <Header isMainScreen={false} />
+      <View
+        style={{
+          width: screen_width * 0.75,
+          alignSelf: "center",
+          marginTop: hp(60),
+        }}
+      >
+        <HeaderBottomPathView
+          heading={" Seadmed "}
+          heading1={`/ ${showProduct?.name}`}
+          onHeadingPress={() => setShowProduct([])}
+        />
+        <View style={styles.containerBody}>
+          <View style={styles.leftView}>
+            <Text style={styles.leftHeaderText}>Tootekategooriad</Text>
+            {filterData.map((item) => {
               return (
-                <Productcart
-                  icon={item.icon}
-                  title={item.name}
-                  onSelectPress={() => navigationRef.navigate(screenName.subProducts)}
-                  mainView={true}
-                />
+                <TouchableOpacity>
+                  <Text
+                    style={[
+                      styles.leftHeaderItemText,
+                      {
+                        fontFamily:
+                          showProduct?.name === item?.name
+                            ? fontFamily.articulat_bold
+                            : fontFamily.articulat_normal,
+                      },
+                    ]}
+                  >
+                    {item?.name}
+                  </Text>
+                </TouchableOpacity>
               );
-            }}
-          />
-          <Image
+            })}
+            <Text style={[styles.leftHeaderText, { marginTop: hp(32) }]}>
+              Filtreeri
+            </Text>
+            <DropDownMenu />
+            <View style={{ marginTop: 16 }}>
+              {checkList.map((item) => {
+                return <CheckboxView title={item.title} list={item.list} />;
+              })}
+            </View>
+          </View>
+          <View style={styles.rightView}>
+            {showProduct?.length == 0 ? (
+              <ProductcartList
+                mainView={true}
+                setShowProduct={setShowProduct}
+              />
+            ) : (
+              <ProductcartList mainView={false} showProduct={showProduct} />
+            )}
+          </View>
+        </View>
+      </View>
+      {showProduct?.length == 0 ? (
+        <View
+          style={{ marginTop: 115, alignItems: "center", marginBottom: 65 }}
+        >
+          <ImageBackground
             source={icons.imageBg}
-            resizeMode="cover"
+            resizeMode="contain"
             style={{
-              width: SCREEN_WIDTH - heightPercentageToDP(4),
-              height: SCREEN_WIDTH - heightPercentageToDP(4),
-              alignSelf: 'center',
-              marginVertical: heightPercentageToDP(4),
-              marginBottom: heightPercentageToDP(6),
-              borderTopRightRadius: 48,
-              borderBottomLeftRadius: 48,
+              width: screen_width * 0.65,
+              height: screen_height * 0.35,
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
-          </Image>
-          <FooterView />
-        </ScrollView>
-        <TouchableOpacity style={styles.filterView} onPress={()=>setFilterModal(true)}>
-          <Image style={styles.filterIcon} source={require('../../assets/icon/filterMobileIcon.png')} />
-        </TouchableOpacity>
-        <ProductFilterModal isVisible={filterModal} onClose={()=>setFilterModal(false)}/>
+            <Text
+              style={{
+                ...commonFontStyle(
+                  fontFamily.articulat_regular,
+                  14,
+                  colors.white
+                ),
+              }}
+            >{`See sektsioon siin on lihtsalt sellejaoks, et lehte kuidagi ära lõpetada\nja ülemisele osale jalgu anda. Siia võib panna Vaata lisaks sektsiooni või blogipostitused`}</Text>
+          </ImageBackground>
+        </View>
+      ) : (
+        <View style={{ marginTop: 90 }} />
+      )}
+      <View style={{ justifyContent: "flex-end" }}>
+        <FooterView />
       </View>
+    </View>
+  ) : (
+    <View style={styles.container}>
+      <ScrollView style={styles.container}>
+        <Text style={styles.title}>Meie seadmed</Text>
+        <FlatList
+          data={filterData}
+          // data={filterData[0]?.productList}
+          numColumns={2}
+          keyExtractor={(_i, index) => index.toString()}
+          renderItem={({ item, index }) => {
+            return (
+              <Productcart
+                icon={item.icon}
+                title={item.name}
+                onSelectPress={() =>
+                  navigationRef.navigate(screenName.subProducts)
+                }
+                mainView={true}
+              />
+            );
+          }}
+        />
+        <Image
+          source={icons.imageBg}
+          resizeMode="cover"
+          style={{
+            width: SCREEN_WIDTH - heightPercentageToDP(4),
+            height: SCREEN_WIDTH - heightPercentageToDP(4),
+            alignSelf: "center",
+            marginVertical: heightPercentageToDP(4),
+            marginBottom: heightPercentageToDP(6),
+            borderTopRightRadius: 48,
+            borderBottomLeftRadius: 48,
+          }}
+        ></Image>
+        <FooterView />
+      </ScrollView>
+      <TouchableOpacity
+        style={styles.filterView}
+        onPress={() => setFilterModal(true)}
+      >
+        <Image
+          style={styles.filterIcon}
+          source={require("../../assets/icon/filterMobileIcon.png")}
+        />
+      </TouchableOpacity>
+      <ProductFilterModal
+        isVisible={filterModal}
+        onClose={() => setFilterModal(false)}
+      />
+    </View>
   );
 };
 
@@ -338,23 +345,24 @@ const ProductFilter = () => {
 const styles = StyleSheet.create({
   // mobile
   title: {
-    ...defaultFont('600_o', 32, colors.black),
+    ...defaultFont("600_o", 32, colors.black),
     marginTop: heightPercentageToDP(6),
     marginBottom: heightPercentageToDP(4),
-    textAlign: 'center'
+    textAlign: "center",
   },
   filterView: {
-    position: 'absolute',
+    position: "absolute",
     bottom: heightPercentageToDP(2),
-    paddingLeft: heightPercentageToDP(2)
+    paddingLeft: heightPercentageToDP(2),
   },
   filterIcon: {
-    height: 75, width: 75, resizeMode: 'contain'
-  }
-
+    height: 75,
+    width: 75,
+    resizeMode: "contain",
+  },
 
   // web
-  , container: {
+  container: {
     flex: 1,
     backgroundColor: colors.white,
   },

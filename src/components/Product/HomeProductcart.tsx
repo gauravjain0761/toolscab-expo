@@ -1,5 +1,5 @@
 //import liraries
-import React, { Component } from "react";
+import React from "react";
 import { View, Text, StyleSheet, Image, Platform } from "react-native";
 import { colors } from "../../theme/Colors";
 import { defaultFont } from "../../theme/Fonts";

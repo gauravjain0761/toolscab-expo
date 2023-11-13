@@ -85,7 +85,7 @@ const StackNavigator: FC = () => {
   return (
     <Stack.Navigator
       // @ts-ignore
-      initialRouteName={screenName.homeScreen}
+      initialRouteName={screenName.producrItem}
       screenOptions={options}
     >
       <Stack.Screen

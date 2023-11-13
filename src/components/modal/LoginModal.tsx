@@ -1,9 +1,8 @@
 //import liraries
-import React, { Component } from "react";
+import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import Modal from "react-native-modal";
 import { colors } from "../../theme/Colors";
-import { screen_width } from "../../helper/globalFunctions";
 import { icons } from "../../theme/Icons";
 import InpuText from "../common/InpuText";
 import CommonGreenBtn from "../common/CommonGreenBtn";

@@ -29,6 +29,8 @@ export const makeAPIRequest = ({
       headers,
       params,
     };
+    console.log('option ',option );
+    
     axios(option)
       .then((response) => {
         console.log("response-->", response);
@@ -39,7 +41,7 @@ export const makeAPIRequest = ({
         }
       })
       .catch((error) => {
-        console.log("error?.response?", error?.response); 
+        console.log("error?.response?", error); 
         reject(error);
       });
   });

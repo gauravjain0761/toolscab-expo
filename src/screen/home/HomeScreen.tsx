@@ -1,5 +1,5 @@
 //import liraries
-import React, { Component, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -15,15 +15,18 @@ import { colors } from "../../theme/Colors";
 import { CommonMapView, FooterView, Header, HomeProductcart } from "../../components";
 import { hp, wp } from "../../helper/globalFunctions";
 import { fontFamily } from "../../helper/constants";
-import MapView from "react-native-maps";
 import { productDetails } from "../../helper/constantData";
 import { icons } from "../../theme/Icons";
 import { heightPercentageToDP } from "react-native-responsive-screen";
 import { defaultFont } from "../../theme/Fonts";
+import { useDispatch } from "react-redux";
+import { getCatalogue } from "../../actions/catalogueAction";
 // create a component
 const HomeScreen = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatlistRef = useRef(null);
+  const dispatch = useDispatch();
+
 
   let data = [
     `Leia sobiv  seade ning${'\n'}lähim seadmekapp`,
@@ -32,7 +35,16 @@ const HomeScreen = () => {
     `Tagasta seade`
   ]
 
+useEffect(()=>{
+  const obj = {
+    onSuccess: (res: any) => {
+      
+    },
+    onFailure: () => {},
+  };
+  dispatch(getCatalogue(obj))
 
+},[])
 
   return (
     <View style={styles.container}>
@@ -322,7 +334,6 @@ const HomeScreen = () => {
           </ScrollView>
         </View>
         :
-
         <View>
           <ScrollView>
             <View style={styles.content_1}>
