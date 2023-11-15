@@ -18,17 +18,17 @@ import {
   DropDownMenu,
   FooterView,
   Header,
-  ProductFilterModal,
-  Productcart,
+  ProductFilterModalMobile,
+  ProductView,
 } from "../../components";
 import { hp, screen_height, screen_width } from "../../helper/globalFunctions";
 import { SCREEN_WIDTH, commonFontStyle } from "../../theme/Fonts";
 import { fontFamily, screenName } from "../../helper/constants";
-import HeaderBottomPathView from "../../components/common/HeaderBottomPathView";
+import HeaderBottomPathView from "../../components/reusableComponent/HeaderBottomPathView";
 import { icons } from "../../theme/Icons";
-import { navigationRef } from "../../navigations/MainNavigator";
 import { defaultFont } from "../../theme/Fonts";
 import { heightPercentageToDP } from "react-native-responsive-screen";
+import { useNavigation } from "@react-navigation/native";
 
 const filterData = [
   {
@@ -129,6 +129,8 @@ const checkList = [
 // create a component
 
 const ProductcartList = ({ setShowProduct, mainView, showProduct }: any) => {
+  const navigationRef = useNavigation()
+
   const onSelectPress = (item: any) => {
     setShowProduct(item);
   };
@@ -150,7 +152,7 @@ const ProductcartList = ({ setShowProduct, mainView, showProduct }: any) => {
           keyExtractor={(_i, index) => index.toString()}
           renderItem={({ item }) => {
             return (
-              <Productcart
+              <ProductView
                 icon={item.icon}
                 title={item.name}
                 onSelectPress={() => onSelectPress(item)}
@@ -166,7 +168,7 @@ const ProductcartList = ({ setShowProduct, mainView, showProduct }: any) => {
           keyExtractor={(_i, index) => index.toString()}
           renderItem={({ item, index }) => {
             return (
-              <Productcart
+              <ProductView
                 index={index}
                 icon={item?.icon}
                 title={item?.title}
@@ -193,6 +195,7 @@ const ProductcartList = ({ setShowProduct, mainView, showProduct }: any) => {
 };
 
 const CatalogueFilter = () => {
+  const navigationRef = useNavigation()
   const { height } = useWindowDimensions();
   const [showProduct, setShowProduct] = useState([]);
   const [filterModal, setFilterModal] = useState(false);
@@ -301,12 +304,12 @@ const CatalogueFilter = () => {
           keyExtractor={(_i, index) => index.toString()}
           renderItem={({ item, index }) => {
             return (
-              <Productcart
+              <ProductView
                 icon={item.icon}
                 title={item.name}
                 onSelectPress={() =>
                   //@ts-ignorez
-                  navigationRef.navigate(screenName.categoryProducts)
+                  navigationRef.navigate(screenName.catalogueProductsMobile)
                 }
                 mainView={true}
               />
@@ -334,10 +337,10 @@ const CatalogueFilter = () => {
       >
         <Image
           style={styles.filterIcon}
-          source={require("../../assets/icon/filterMobileIcon.png")}
+          source={icons.filterMobileIcon}
         />
       </TouchableOpacity>
-      <ProductFilterModal
+      <ProductFilterModalMobile
         isVisible={filterModal}
         onClose={() => setFilterModal(false)}
       />

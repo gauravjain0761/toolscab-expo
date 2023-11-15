@@ -59,7 +59,7 @@ const FooterView = () => {
   else
     return (
       <View style={styles.containerMobile}>
-        <ImageBackground resizeMode="cover" source={require('../../assets/icon/mobileFooterbg.png')} style={styles.imagebg} >
+        <ImageBackground resizeMode="cover" source={icons.mobileFooterbg} style={styles.imagebg} >
           <View style={styles.footerTop}>
             <Image source={icons.appLogo} style={{ width: 123, height: 22, }} />
             <View style={{ flexDirection: 'row', }}>

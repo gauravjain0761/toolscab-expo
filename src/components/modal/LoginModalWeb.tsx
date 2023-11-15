@@ -4,12 +4,12 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import Modal from "react-native-modal";
 import { colors } from "../../theme/Colors";
 import { icons } from "../../theme/Icons";
-import InpuText from "../common/InpuText";
-import CommonGreenBtn from "../common/CommonGreenBtn";
+import InpuText from "../reusableComponent/InpuText";
+import CommonGreenBtn from "../reusableComponent/CommonGreenBtn";
 import { widthPercentageToDP } from "react-native-responsive-screen";
 import { commonFontStyle } from "../../theme/Fonts";
 import { fontFamily, screenName } from "../../helper/constants";
-import { navigationRef } from "../../navigations/MainNavigator";
+import { useNavigation } from "@react-navigation/native";
 
 
 type Props = {
@@ -18,7 +18,8 @@ type Props = {
 }
 
 // create a component
-const LoginModal = ({isVisible,onClose}:Props) => {
+const LoginModalWeb = ({isVisible,onClose}:Props) => {
+  const navigationRef = useNavigation()
   return (
     <Modal
       animationInTiming={500}
@@ -121,4 +122,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default LoginModal;
+export default LoginModalWeb;

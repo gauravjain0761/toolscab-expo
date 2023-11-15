@@ -16,7 +16,8 @@ import store from "./src/redux";
 import { colors } from "./src/theme/Colors";
 import MainNavigator from "./src/navigations/MainNavigator";
 import useCachedResources from "./src/hook/useCachedResources";
-import AppDrawerModal from "./src/components/AppDrawerModal";
+import AppDrawerModalMobile from "./src/components/modal/AppDrawerModalMobile";
+import { Platform } from "react-native";
 
 
 
@@ -27,7 +28,7 @@ const Main = () => {
     <View style={{ flex: 1 }}>
       <StatusBar barStyle={'light-content'} />
       <MainNavigator />
-      <AppDrawerModal isVisible={toggleDrawer} />
+  {Platform.OS !== 'web'  &&  <AppDrawerModalMobile isVisible={toggleDrawer} />}
     </View>
   )
 }

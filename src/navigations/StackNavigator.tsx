@@ -20,7 +20,7 @@ import ProductLocations from "../screen/product/ProductLocations";
 import RegisterScreen from "../screen/auth/RegisterScreen";
 import LoginScreen from "../screen/auth/LoginScreen";
 import CatalogueFilter from "../screen/catalogue/CatalogueFilter";
-import CategoryProducts from "../screen/catalogue/CategoryProducts";
+import CatalogueProductsMobile from "../screen/catalogue/CatalogueProductsMobile";
 
 export type RootStackParamList = {
   HomeScreen: undefined;
@@ -85,7 +85,7 @@ const StackNavigator: FC = () => {
   return (
     <Stack.Navigator
       // @ts-ignore
-      initialRouteName={screenName.productLocations}
+      initialRouteName={screenName.homeScreen}
       screenOptions={options}
     >
       <Stack.Screen
@@ -142,8 +142,8 @@ const StackNavigator: FC = () => {
           headerTitle: '',
           ...headerStyleMain,
         })}
-        name={screenName.categoryProducts}
-        component={CategoryProducts}
+        name={screenName.catalogueProductsMobile}
+        component={CatalogueProductsMobile}
       />
       <Stack.Screen
         // @ts-ignore

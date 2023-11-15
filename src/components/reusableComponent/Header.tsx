@@ -13,46 +13,51 @@ import { icons } from "../../theme/Icons";
 import { commonFontStyle } from "../../theme/Fonts";
 import { colors } from "../../theme/Colors";
 import { fontFamily, screenName } from "../../helper/constants";
-import { navigationRef } from "../../navigations/MainNavigator";
-import LoginModal from "../modal/LoginModal";
+import LoginModalWeb from "../modal/LoginModalWeb";
+import { useNavigation } from "@react-navigation/native";
 
 interface Props {
   containerStyle?: ViewStyle;
   isMainScreen: boolean;
 }
-const data = [
-  {
-    id: 1,
-    name: "Seadmed",
-    onPress: () => navigationRef.navigate(screenName.catalogueFilter),
-  },
-  {
-    id: 2,
-    name: "Asukohad",
-    onPress: () => navigationRef.navigate(screenName.catalogueFilter),
-  },
-  {
-    id: 3,
-    name: "Meist",
-    onPress: () => navigationRef.navigate(screenName.ourOfUsScreen),
-  },
-  {
-    id: 4,
-    name: "KKK",
-    onPress: () => navigationRef.navigate(screenName.faqScreen),
-  },
-  {
-    id: 5,
-    name: "Renditingimused",
-    onPress: () => navigationRef.navigate(screenName.rentalConditionsScreen),
-  },
-  { id: 6, name: "Kontakt" },
-];
+
 
 const Header = ({ containerStyle, isMainScreen }: Props) => {
+  const navigationRef = useNavigation()
+  
   const [loginModal,setLoignModal]=useState(false)
   const bgColor = isMainScreen ? "#191917" : colors.headerColorBg;
   const textColor = isMainScreen ? colors.white : colors.black;
+
+
+  const data = [
+    {
+      id: 1,
+      name: "Seadmed",
+      onPress: () => navigationRef.navigate(screenName.catalogueFilter),
+    },
+    {
+      id: 2,
+      name: "Asukohad",
+      onPress: () => navigationRef.navigate(screenName.catalogueFilter),
+    },
+    {
+      id: 3,
+      name: "Meist",
+      onPress: () => navigationRef.navigate(screenName.ourOfUsScreen),
+    },
+    {
+      id: 4,
+      name: "KKK",
+      onPress: () => navigationRef.navigate(screenName.faqScreen),
+    },
+    {
+      id: 5,
+      name: "Renditingimused",
+      onPress: () => navigationRef.navigate(screenName.rentalConditionsScreen),
+    },
+    { id: 6, name: "Kontakt" },
+  ];
 
   return (
     <View style={[styles.container, { backgroundColor: bgColor }]}>
@@ -108,7 +113,7 @@ const Header = ({ containerStyle, isMainScreen }: Props) => {
           </Text>
         </View>
       </View>
-      <LoginModal isVisible={loginModal} onClose={()=>setLoignModal(false)}/>
+      <LoginModalWeb isVisible={loginModal} onClose={()=>setLoignModal(false)}/>
     </View>
   );
 };

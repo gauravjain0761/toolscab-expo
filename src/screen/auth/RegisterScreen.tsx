@@ -17,8 +17,8 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from "react-native-responsive-screen";
-import CommonGreenBtn from "../../components/common/CommonGreenBtn";
-import { navigationRef } from "../../navigations/MainNavigator";
+import CommonGreenBtn from "../../components/reusableComponent/CommonGreenBtn";
+import { useNavigation } from "@react-navigation/native";
 
 const CheckBoxView = ({ title, style }: any) => {
   if (Platform.OS == "web") {
@@ -40,6 +40,8 @@ const CheckBoxView = ({ title, style }: any) => {
 
 // create a component
 const RegisterScreen = () => {
+  const navigationRef = useNavigation()
+
   const [selectTab, setSelectTab] = useState(1);
 
   if (Platform.OS === "web") {

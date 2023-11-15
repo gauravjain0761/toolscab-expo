@@ -1,11 +1,9 @@
 import {
   NavigationContainer,
-  createNavigationContainerRef,
 } from "@react-navigation/native";
-import React, { FC } from "react";
+import React, { FC} from "react";
 import StackNavigator from "./StackNavigator";
-
-export const navigationRef = createNavigationContainerRef();
+import { navigationRef } from "./RootNavigation";
 
 const RootContainer: FC = () => {
   return (

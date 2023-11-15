@@ -4,9 +4,10 @@ import { commonFontStyle } from "../../theme/Fonts";
 import { fontFamily, screenName } from "../../helper/constants";
 import { colors } from "../../theme/Colors";
 import { icons } from "../../theme/Icons";
-import CommonGreenBtn from "../common/CommonGreenBtn";
+import CommonGreenBtn from "../reusableComponent/CommonGreenBtn";
 import { widthPercentageToDP } from "react-native-responsive-screen";
-import { navigationRef } from "../../navigations/MainNavigator";
+// import { navigationRef } from "../../navigations/MainNavigator";
+import { useNavigation } from "@react-navigation/native";
 
 type Props = {
   title: string;
@@ -14,6 +15,8 @@ type Props = {
 };
 
 const CartList = ({ title, list }: Props) => {
+  const navigationRef = useNavigation()
+  
     return (
     <View style={styles.container}>
       <View style={styles.leftContainer}>

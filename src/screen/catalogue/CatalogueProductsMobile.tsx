@@ -2,12 +2,12 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, FlatList, useWindowDimensions, Image, ScrollView, } from "react-native";
 import { colors } from "../../theme/Colors";
-import { FooterView, ProductFilterModal, Productcart, } from "../../components";
+import { FooterView, ProductFilterModalMobile, ProductView, } from "../../components";
 import { screenName } from "../../helper/constants";
 import { icons } from "../../theme/Icons";
-import { navigationRef } from "../../navigations/MainNavigator";
 import { defaultFont } from "../../theme/Fonts";
 import { heightPercentageToDP } from "react-native-responsive-screen";
+import { useNavigation } from "@react-navigation/native";
 
 const filterData = [
     {
@@ -31,38 +31,11 @@ const filterData = [
     { id: 6, name: "Lõikurid", icon: icons.image7 },
 ];
 
-const checkList = [
-    {
-        id: 1,
-        title: "Saadavus:",
-        list: [
-            { id: 1, name: "Kõik" },
-            { id: 2, name: "Praegu saadaval" },
-        ],
-    },
-    {
-        id: 2,
-        title: "Tootja",
-        list: [
-            { id: 1, name: "Karcher" },
-            { id: 2, name: "Makita" },
-        ],
-    },
-    {
-        id: 3,
-        title: "Tüüp",
-        list: [
-            { id: 1, name: "Akutoitel" },
-            { id: 2, name: "Juhtmega" },
-        ],
-    },
-];
+
 // create a component
+const CatalogueProductsMobile = () => {
+  const navigationRef = useNavigation()
 
-
-const CategoryProducts = () => {
-    const { height } = useWindowDimensions();
-    const [showProduct, setShowProduct] = useState([]);
     const [filterModal,setFilterModal]=useState(false)
 
     return (
@@ -76,7 +49,7 @@ const CategoryProducts = () => {
                     keyExtractor={(_i, index) => index.toString()}
                     renderItem={({ item, index }) => {
                         return (
-                            <Productcart
+                            <ProductView
                                 index={index}
                                 icon={item?.icon}
                                 title={item?.title}
@@ -93,9 +66,9 @@ const CategoryProducts = () => {
                 <FooterView />
             </ScrollView>
             <TouchableOpacity style={styles.filterView} onPress={()=>setFilterModal(true)}>
-                <Image style={styles.filterIcon} source={require('../../assets/icon/filterMobileIcon.png')} />
+                <Image style={styles.filterIcon} source={icons.filterMobileIcon} />
             </TouchableOpacity>
-        <ProductFilterModal isVisible={filterModal} onClose={()=>setFilterModal(false)}/>
+        <ProductFilterModalMobile isVisible={filterModal} onClose={()=>setFilterModal(false)}/>
 
         </View>
     );
@@ -127,4 +100,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default CategoryProducts;
+export default CatalogueProductsMobile;

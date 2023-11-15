@@ -18,12 +18,13 @@ import {
   widthPercentageToDP,
 } from "react-native-responsive-screen";
 import { icons } from "../../theme/Icons";
-import CommonGreenBtn from "../../components/common/CommonGreenBtn";
-import { navigationRef } from "../../navigations/MainNavigator";
+import CommonGreenBtn from "../../components/reusableComponent/CommonGreenBtn";
+import { useNavigation } from "@react-navigation/native";
 
 
 // create a component
 const LoginScreen = () => {
+  const navigationRef = useNavigation()
 
   return (
     <View style={styles.container}>

@@ -8,21 +8,24 @@ import {
 } from "react-native";
 import React from "react";
 import Modal from "react-native-modal";
-import { colors } from "../theme/Colors";
-import { icons } from "../theme/Icons";
+import { colors } from "../../theme/Colors";
+import { icons } from "../../theme/Icons";
 import { useDispatch } from "react-redux";
-import { TOGGLE_DRAWER } from "../actions/dispatchTypes";
+import { TOGGLE_DRAWER } from "../../actions/dispatchTypes";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { TextInput } from "react-native";
-import { defaultFont } from "../theme/Fonts";
-import { navigationRef } from "../navigations/MainNavigator";
-import { screenName } from "../helper/constants";
+import { defaultFont } from "../../theme/Fonts";
+
+import { screenName } from "../../helper/constants";
+import { useNavigation } from "@react-navigation/native";
+import { navigate } from "../../navigations/RootNavigation";
 
 type Props = {
   isVisible: boolean;
 };
 
-const AppDrawerModal = ({ isVisible }: Props) => {
+const AppDrawerModalMobile = ({ isVisible }: Props) => {
+
   const dispatch = useDispatch();
 
   const onClose = () => {
@@ -44,7 +47,7 @@ const AppDrawerModal = ({ isVisible }: Props) => {
           <View style={styles.headerDrawer}>
             <TouchableOpacity
               onPress={() => {
-                navigationRef.navigate(screenName.homeScreen), onClose();
+                navigate(screenName.homeScreen), onClose();
               }}
             >
               <Image source={icons.appLogo} style={styles.appLogo} />
@@ -56,7 +59,7 @@ const AppDrawerModal = ({ isVisible }: Props) => {
           </View>
           <View style={styles.searchView}>
             <Image
-              source={require("../assets/icon/search.png")}
+              source={icons.search}
               style={{
                 height: 18,
                 width: 18,
@@ -72,7 +75,7 @@ const AppDrawerModal = ({ isVisible }: Props) => {
           </View>
           <TouchableOpacity
             onPress={() => {
-              navigationRef.navigate(screenName.catalogueFilter), onClose();
+              navigate(screenName.catalogueFilter), onClose();
             }}
             style={styles.row}
           >
@@ -86,13 +89,13 @@ const AppDrawerModal = ({ isVisible }: Props) => {
           </TouchableOpacity>
           <TouchableOpacity style={styles.row} 
           onPress={()=>{
-            navigationRef.navigate(screenName.faqScreen)
+            navigate(screenName.faqScreen)
             onClose()
           }}>
             <Text style={styles.rowText}>KKK</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.row} onPress={()=>{
-            navigationRef.navigate(screenName.rentalConditionsScreen)
+            navigate(screenName.rentalConditionsScreen)
             onClose()
           }}>
             <Text style={styles.rowText}>Renditingimused</Text>
@@ -109,7 +112,7 @@ const AppDrawerModal = ({ isVisible }: Props) => {
           <TouchableOpacity
             style={styles.row}
             onPress={() => {
-              navigationRef.navigate(screenName.loginScreen)
+              navigate(screenName.loginScreen)
               onClose();
             }}
           >
@@ -132,7 +135,7 @@ const AppDrawerModal = ({ isVisible }: Props) => {
   );
 };
 
-export default AppDrawerModal;
+export default AppDrawerModalMobile;
 
 const styles = StyleSheet.create({
   appLogo: {

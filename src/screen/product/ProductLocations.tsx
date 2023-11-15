@@ -20,10 +20,11 @@ import { fontFamily } from "../../helper/constants";
 import { commonFontStyle } from "../../theme/Fonts";
 import { widthPercentageToDP } from "react-native-responsive-screen";
 import { icons } from "../../theme/Icons";
-import { navigationRef } from "../../navigations/MainNavigator";
+import { useNavigation } from "@react-navigation/native";
 
 // create a component
 const ProductLocations = () => {
+  const navigation = useNavigation()
   return (
     <View style={styles.container}>
       <Header isMainScreen={false} />
@@ -43,7 +44,7 @@ const ProductLocations = () => {
               <SearchBar />
               <View style={styles.checkBox}>
                 <Image
-                  source={require("../../assets/icon/checkbox.png")}
+                  source={icons.checkbox}
                   style={styles.checkBoxIcon}
                 />
                 <Text style={styles.checkBoxText}>
@@ -54,7 +55,7 @@ const ProductLocations = () => {
                 return <RenderMapRow index={index} />;
               })}
             </View>
-            <TouchableOpacity onPress={()=>navigationRef.goBack()}>
+            <TouchableOpacity onPress={()=>navigation.goBack()}>
               <Image source={icons.closeIcon} style={styles.closeStyle} />
             </TouchableOpacity>
           </View>

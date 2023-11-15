@@ -13,22 +13,22 @@ import {
   CommonMapView,
   FooterView,
   Header,
-  Productcart,
+  ProductView,
 } from "../../components";
 import { colors } from "../../theme/Colors";
 import { hp, screen_width, wp } from "../../helper/globalFunctions";
-import HeaderBottomPathView from "../../components/common/HeaderBottomPathView";
+import HeaderBottomPathView from "../../components/reusableComponent/HeaderBottomPathView";
 import { icons } from "../../theme/Icons";
 import { FlatList } from "react-native";
 import { SCREEN_WIDTH, commonFontStyle } from "../../theme/Fonts";
 import { fontFamily, screenName } from "../../helper/constants";
-import CommonGreenBtn from "../../components/common/CommonGreenBtn";
+import CommonGreenBtn from "../../components/reusableComponent/CommonGreenBtn";
 import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from "react-native-responsive-screen";
-import { navigationRef } from "../../navigations/MainNavigator";
 import { defaultFont } from "../../theme/Fonts";
+import { useNavigation } from "@react-navigation/native";
 
 type Props = {};
 
@@ -42,6 +42,8 @@ const dataList = [
 ];
 
 const ProductDetail = (props: Props) => {
+  const navigationRef = useNavigation()
+
   const [selectedTab, setselectedTab] = useState(1);
   const [tabIndex1, setTabIndex1] = useState(false);
   const [tabIndex2, setTabIndex2] = useState(false);
@@ -269,7 +271,7 @@ const ProductDetail = (props: Props) => {
                 >
                   <Image
                     style={styles.arrowImage}
-                    source={require("../../assets/icon/bottomArrow.png")}
+                    source={icons.bottomArrow}
                   />
                   <Text
                     style={commonFontStyle(
@@ -443,7 +445,7 @@ const ProductDetail = (props: Props) => {
                   >
                     <TextInput placeholder="" style={{ flex: 1, height: 45 }} />
                     <Image
-                      source={require("../../assets/icon/search.png")}
+                      source={icons.search}
                       style={{
                         height: 18,
                         width: 18,
@@ -460,7 +462,7 @@ const ProductDetail = (props: Props) => {
                     }}
                   >
                     <Image
-                      source={require("../../assets/icon/checkbox.png")}
+                      source={icons.checkbox}
                       style={{
                         height: 18,
                         width: 18,
@@ -523,7 +525,7 @@ const ProductDetail = (props: Props) => {
             keyExtractor={(_i, index) => index.toString()}
             renderItem={({ item, index }) => {
               return (
-                <Productcart
+                <ProductView
                   index={item?.id}
                   icon={item?.icon}
                   title={item?.title}
@@ -616,7 +618,7 @@ const ProductDetail = (props: Props) => {
               <TouchableOpacity onPress={() => setPricefoShow(!pricefoShow)}>
                 <Image
                   style={styles.arrowImageMob}
-                  source={require("../../assets/icon/bottomArrow.png")}
+                  source={icons.bottomArrow}
                 />
               </TouchableOpacity>
               <Text
@@ -828,7 +830,7 @@ const ProductDetail = (props: Props) => {
             keyExtractor={(_i, index) => index.toString()}
             renderItem={({ item, index }) => {
               return (
-                <Productcart
+                <ProductView
                   index={item?.id}
                   icon={item?.icon}
                   title={item?.title}

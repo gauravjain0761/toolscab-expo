@@ -3,6 +3,7 @@ import React from "react";
 
 
 import { colors } from "../../theme/Colors";
+import { icons } from "../../theme/Icons";
 
 
 type Props = {
@@ -19,7 +20,7 @@ const SearchBar = ({ title, list, index }: Props) => {
   >
     <TextInput placeholder="" style={styles.textInput} />
     <Image
-      source={require("../../assets/icon/search.png")}
+      source={icons.search}
       style={styles.iconStyle}
     />
   </View>

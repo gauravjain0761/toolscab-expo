@@ -33,7 +33,7 @@ type Props = {
   titleStyle?:TextStyle
   listStyle?:TextStyle
 };
-const Productcart = ({
+const ProductView = ({
   heading,
   title,
   icon,
@@ -358,4 +358,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default Productcart;
+export default ProductView;

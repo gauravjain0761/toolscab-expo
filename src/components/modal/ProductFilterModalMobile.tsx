@@ -19,8 +19,8 @@ import {
 import { commonFontStyle } from "../../theme/Fonts";
 import { fontFamily } from "../../helper/constants";
 import { defaultFont } from "../../theme/Fonts";
-import DropDownMenu from "../common/DropDownMenu";
-import CheckboxView from "../common/CheckboxView";
+import DropDownMenu from "../reusableComponent/DropDownMenu";
+import CheckboxView from "../reusableComponent/CheckboxView";
 
 type Props = {
   isVisible: boolean;
@@ -124,7 +124,7 @@ const checkList = [
 ];
 
 // create a component
-const ProductFilterModal = ({ isVisible, onClose }: Props) => {
+const ProductFilterModalMobile = ({ isVisible, onClose }: Props) => {
   return (
     <Modal
       transparent
@@ -218,4 +218,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default ProductFilterModal;
+export default ProductFilterModalMobile;

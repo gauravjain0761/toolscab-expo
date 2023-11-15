@@ -12,7 +12,7 @@ import {
   Platform,
 } from "react-native";
 import { colors } from "../../theme/Colors";
-import { CommonMapView, FooterView, Header, HomeProductcart } from "../../components";
+import { CommonMapView, FooterView, Header,HomeProductView  } from "../../components";
 import { hp, wp } from "../../helper/globalFunctions";
 import { fontFamily } from "../../helper/constants";
 import { productDetails } from "../../helper/constantData";
@@ -42,7 +42,7 @@ useEffect(()=>{
     },
     onFailure: () => {},
   };
-  dispatch(getCatalogue(obj))
+  // dispatch(getCatalogue(obj))
 
 },[])
 
@@ -101,7 +101,7 @@ useEffect(()=>{
                       <Image
                         resizeMode="contain"
                         style={{ height: 10, width: 10 }}
-                        source={require("../../assets/icon/right-arrow.png")}
+                        source={icons.right_arrow}
                       />
                     </TouchableOpacity>
                   </View>
@@ -115,7 +115,7 @@ useEffect(()=>{
                   <Image
                     resizeMode="contain"
                     style={styles.userimageStyle}
-                    source={require("../../assets/icon/userImg.png")}
+                    source={icons.userImg}
                   />
                 </View>
               </View>
@@ -131,11 +131,11 @@ useEffect(()=>{
                 <Image
                   resizeMode="contain"
                   style={{ width: wp(700), height: hp(200) }}
-                  source={require("../../assets/icon/esimene.png")}
+                  source={icons.esimene}
                 />
                 <ImageBackground
                   resizeMode="contain"
-                  source={require("../../assets/icon/stpes.png")}
+                  source={icons.stpes}
                   style={{
                     width: wp(800),
                     height: hp(500),
@@ -156,7 +156,7 @@ useEffect(()=>{
                         width: wp(400),
                         marginRight: wp(40),
                       }}
-                      source={require("../../assets/icon/button.png")}
+                      source={icons.buttonIcon}
                     />
                   </TouchableOpacity>
                 </ImageBackground>
@@ -176,7 +176,7 @@ useEffect(()=>{
                     flex: 1,
                     marginRight: -wp(130),
                   }}
-                  source={require("../../assets/icon/toolscab.png")}
+                  source={icons.toolscab}
                 />
               </View>
             </View>
@@ -249,7 +249,7 @@ useEffect(()=>{
                 initialScrollIndex={currentIndex}
                 contentContainerStyle={{ flex: 1 }}
                 data={productDetails}
-                renderItem={({ item }) => <HomeProductcart data={item} />}
+                renderItem={({ item }) => <HomeProductView data={item} />}
               />
               <TouchableOpacity
                 onPress={() => {
@@ -344,12 +344,12 @@ useEffect(()=>{
                   <Text style={{ ...defaultFont(600, 13, colors.roheline) }} >
                     {"Vaata seadmeid"}
                   </Text>
-                  <Image resizeMode="contain" style={{ height: 10, width: 10, marginLeft: 5 }} source={require("../../assets/icon/right-arrow.png")} />
+                  <Image resizeMode="contain" style={{ height: 10, width: 10, marginLeft: 5 }} source={icons.right_arrow} />
                 </TouchableOpacity>
               </View>
-              <Image resizeMode="contain" style={styles.userimageStyleMobile} source={require("../../assets/icon/userImg.png")} />
+              <Image resizeMode="contain" style={styles.userimageStyleMobile} source={icons.userImg} />
             </View>
-            <Image resizeMode="contain" style={{ width: wp(700), height: hp(200), resizeMode: 'contain', alignSelf: 'center', marginVertical: heightPercentageToDP(6) }} source={require("../../assets/icon/esimene.png")} />
+            <Image resizeMode="contain" style={{ width: wp(700), height: hp(200), resizeMode: 'contain', alignSelf: 'center', marginVertical: heightPercentageToDP(6) }} source={icons.esimene} />
             {data.map((item, index) => {
               return (
                 <View style={[styles.stpesView, {
@@ -367,7 +367,7 @@ useEffect(()=>{
               <Text style={{ ...defaultFont(600, 13, colors.roheline) }} >
                 {"Vaata seadmeid"}
               </Text>
-              <Image resizeMode="contain" style={{ height: 10, width: 10, marginLeft: 5 }} source={require("../../assets/icon/right-arrow.png")} />
+              <Image resizeMode="contain" style={{ height: 10, width: 10, marginLeft: 5 }} source={icons.right_arrow} />
             </TouchableOpacity>
             <Text style={styles.title}>Tutvu meie seadmetega</Text>
             <FlatList
@@ -377,7 +377,7 @@ useEffect(()=>{
               initialScrollIndex={currentIndex}
               contentContainerStyle={{ paddingLeft: heightPercentageToDP(5) }}
               data={productDetails}
-              renderItem={({ item }) => <HomeProductcart data={item} />}
+              renderItem={({ item }) => <HomeProductView data={item} />}
               showsHorizontalScrollIndicator={false}
             />
 

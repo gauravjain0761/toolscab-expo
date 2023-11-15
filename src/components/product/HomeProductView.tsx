@@ -6,7 +6,7 @@ import { defaultFont } from "../../theme/Fonts";
 import { heightPercentageToDP } from "react-native-responsive-screen";
 
 // create a component
-const HomeProductcart = ({ data }: any) => {
+const HomeProductView = ({ data }: any) => {
   return (
     Platform.OS == 'web' ?
       <View style={styles.container}>
@@ -66,4 +66,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default HomeProductcart;
+export default HomeProductView;

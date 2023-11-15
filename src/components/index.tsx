@@ -1,35 +1,35 @@
 //common
-import Header from "./common/Header";
-import DropDownMenu from './common/DropDownMenu'
-import CommonMapView from "./common/CommonMapView.web";
-import HomeProductcart from "./product/HomeProductcart";
-import Productcart from "./product/Productcart";
-import CheckboxView from "./common/CheckboxView";
+import Header from "./reusableComponent/Header";
+import DropDownMenu from './reusableComponent/DropDownMenu'
+import CommonMapView from "./reusableComponent/CommonMapView.web";
+import HomeProductView from "./product/HomeProductView";
+import ProductView from "./reusableComponent/ProductView";
+import CheckboxView from "./reusableComponent/CheckboxView";
 import CartList from "./cart/CartList";
-import PaymentView from "./common/PaymentView";
+import PaymentView from "./reusableComponent/PaymentView";
 import CartProfileList from "./cart/CartProfileList";
-import PreviousView from "./common/PreviousView";
-import RenderMapRow from "./common/RenderMapRow";
-import SearchBar from "./common/SearchBar";
-import InpuText from "./common/InpuText";
+import PreviousView from "./reusableComponent/PreviousView";
+import RenderMapRow from "./reusableComponent/RenderMapRow";
+import SearchBar from "./reusableComponent/SearchBar";
+import InpuText from "./reusableComponent/InpuText";
 import CartPreviousList from "./cart/CartPreviousList";
 import MyProfileView from "./profile/MyProfileView";
 import PaymentViewCart from "./profile/PaymentViewCart";
 import EmailSettingView from "./profile/EmailSettingView";
-import LoginModal from './modal/LoginModal'
-import ProductFilterModal from './modal/ProductFilterModal'
+import LoginModalWeb from './modal/LoginModalWeb'
+import ProductFilterModalMobile from './modal/ProductFilterModalMobile'
 
-import FooterView from "./web/FooterView";
+import FooterView from "./reusableComponent/FooterView";
 
 
 export {
     Header,
     CommonMapView,
-    HomeProductcart,
+    HomeProductView,
     FooterView,
     DropDownMenu,
     CheckboxView,
-    Productcart,
+    ProductView,
     CartList,
     PaymentView,
     CartProfileList,
@@ -41,6 +41,6 @@ export {
     RenderMapRow,
     SearchBar,
     InpuText,
-    LoginModal,
-    ProductFilterModal
+    LoginModalWeb,
+    ProductFilterModalMobile
 }

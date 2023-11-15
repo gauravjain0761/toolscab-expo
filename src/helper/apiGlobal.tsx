@@ -2,7 +2,6 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { api } from "./apiConstants";
 import { screenName } from "./constants";
-import { navigationRef } from "../navigations/MainNavigator";
 import { clearAsync } from "./asyncStorage";
 
 interface makeAPIRequestProps {
