@@ -8,8 +8,8 @@ import { icons } from "../../theme/Icons";
 import CartPreviousList from "../cart/CartPreviousList";
 
 type Props = {
-  title: string;
-  list: any;
+  title?: string;
+  list?: any;
 };
 
 const PreviousView = ({ title, list }: Props) => {

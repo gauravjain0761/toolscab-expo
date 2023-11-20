@@ -5,8 +5,8 @@ import { fontFamily } from "../../helper/constants";
 import { colors } from "../../theme/Colors";
 
 type Props = {
-  title: string;
-  list: any;
+  title?: string;
+  list?: any;
 };
 
 const data = [

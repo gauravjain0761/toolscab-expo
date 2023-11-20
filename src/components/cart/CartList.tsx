@@ -6,18 +6,16 @@ import { colors } from "../../theme/Colors";
 import { icons } from "../../theme/Icons";
 import CommonGreenBtn from "../reusableComponent/CommonGreenBtn";
 import { widthPercentageToDP } from "react-native-responsive-screen";
-// import { navigationRef } from "../../navigations/MainNavigator";
 import { useNavigation } from "@react-navigation/native";
 
 type Props = {
-  title: string;
-  list: any;
+  title?: string;
+  list?: any;
 };
 
 const CartList = ({ title, list }: Props) => {
   const navigationRef = useNavigation()
-  
-    return (
+  return (
     <View style={styles.container}>
       <View style={styles.leftContainer}>
         <Image
@@ -50,11 +48,7 @@ const CartList = ({ title, list }: Props) => {
             //@ts-ignore
             navigationRef.navigate(screenName.profileScreen)
           }}
-          style={{
-            borderColor: colors.headerBG,
-            marginLeft: 10,
-            width:widthPercentageToDP(7),marginTop:8
-          }}
+          style={styles.btnStyle}
         />
       </View>
     </View>
@@ -68,7 +62,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 24,
-    marginBottom:20
+    marginBottom: 20
   },
   leftContainer: {
     flexDirection: "row",
@@ -135,10 +129,15 @@ const styles = StyleSheet.create({
   },
   headerText7: {
     lineHeight: 18,
-    textAlign:'center',
+    textAlign: 'center',
     ...commonFontStyle(fontFamily.articulat_normal, 12, colors.filterText),
   },
   itemText: {
     ...commonFontStyle(fontFamily.articulat_normal, 12, colors.checkBoxText),
   },
+  btnStyle: {
+    borderColor: colors.headerBG,
+    marginLeft: 10,
+    width: widthPercentageToDP(7), marginTop: 8
+  }
 });

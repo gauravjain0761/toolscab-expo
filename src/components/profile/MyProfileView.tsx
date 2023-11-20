@@ -6,8 +6,8 @@ import { colors } from "../../theme/Colors";
 import { icons } from "../../theme/Icons";
 
 type Props = {
-  title: string;
-  list: any;
+  title?: string;
+  list?: any;
 };
 
 const TowValue = ({title,value,textStyle}:any) => {

@@ -12,8 +12,8 @@ import { colors } from "../../theme/Colors";
 import { icons } from "../../theme/Icons";
 
 type Props = {
-  title: string;
-  list: any;
+  title?: string;
+  list?: any;
 };
 
 const data = [
@@ -23,8 +23,6 @@ const data = [
 ];
 
 const PaymentView = ({ title, list }: Props) => {
-
-
   const renderItem = ({ item }: any) => {
     return (
       <View

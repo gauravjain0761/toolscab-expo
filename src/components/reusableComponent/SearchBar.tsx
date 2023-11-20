@@ -9,7 +9,7 @@ import { icons } from "../../theme/Icons";
 type Props = {
   title?: string;
   list?: any;
-  index: number;
+  index?: number;
 };
 
 const SearchBar = ({ title, list, index }: Props) => {

@@ -25,10 +25,10 @@ type Props = {
   aircon?: string;
   hoselength?: string;
   volumeflow?: string;
-  title: string;
-  icon: any;
-  onSelectPress: () => void;
-  mainView: boolean;
+  title?: string;
+  icon?: any;
+  onSelectPress?: () => void;
+  mainView?: boolean;
   labelStyle?:TextStyle
   titleStyle?:TextStyle
   listStyle?:TextStyle

@@ -18,7 +18,7 @@ import { useDispatch } from "react-redux";
 import { TOGGLE_DRAWER } from "../actions/dispatchTypes";
 import ProductLocations from "../screen/product/ProductLocations";
 import RegisterScreen from "../screen/auth/RegisterScreen";
-import LoginScreen from "../screen/auth/LoginScreen";
+import LoginScreenMobile from "../screen/auth/LoginScreenMobile";
 import CatalogueFilter from "../screen/catalogue/CatalogueFilter";
 import CatalogueProductsMobile from "../screen/catalogue/CatalogueProductsMobile";
 
@@ -232,11 +232,11 @@ const StackNavigator: FC = () => {
       />
       <Stack.Screen
         // @ts-ignore
-        name={screenName.loginScreen}
+        name={screenName.loginScreenMobile}
         options={({ navigation }) => ({
           headerShown:false
         })}
-        component={LoginScreen}
+        component={LoginScreenMobile}
       />
     </Stack.Navigator>
   );

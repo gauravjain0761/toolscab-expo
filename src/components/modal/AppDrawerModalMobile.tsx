@@ -112,7 +112,7 @@ const AppDrawerModalMobile = ({ isVisible }: Props) => {
           <TouchableOpacity
             style={styles.row}
             onPress={() => {
-              navigate(screenName.loginScreen)
+              navigate(screenName.loginScreenMobile)
               onClose();
             }}
           >

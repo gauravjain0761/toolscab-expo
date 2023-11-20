@@ -29,20 +29,13 @@ import {
 } from "react-native-responsive-screen";
 import { defaultFont } from "../../theme/Fonts";
 import { useNavigation } from "@react-navigation/native";
+import { styles } from "./ProductDetailStyle";
+import { dataList } from "../../helper/constantData";
 
 type Props = {};
 
-const dataList = [
-  { id: 1, name: "Miinimumhind ", subTitle: "3.29€" },
-  { id: 1, name: "Broneering esimesed 15 min", subTitle: "Tasuta" },
-  { id: 1, name: "Broneering pärast 15 min", subTitle: "0.16€/min" },
-  { id: 1, name: "Minut", subTitle: "0.22€" },
-  { id: 1, name: "Tund", subTitle: "5€" },
-  { id: 1, name: "Päev", subTitle: "25€" },
-];
-
 const ProductDetail = (props: Props) => {
-  const navigationRef = useNavigation()
+  const navigationRef = useNavigation();
 
   const [selectedTab, setselectedTab] = useState(1);
   const [tabIndex1, setTabIndex1] = useState(false);
@@ -53,23 +46,9 @@ const ProductDetail = (props: Props) => {
   const RenderRow = ({ title, value }: any) => {
     if (Platform.OS == "web") {
       return (
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
+        <View style={styles.renderRowWeb}>
           <View style={{ width: "80%", paddingLeft: 40 }}>
-            <Text
-              style={commonFontStyle(
-                fontFamily.arial_regular,
-                13,
-                colors.blackType
-              )}
-            >
-              {title}
-            </Text>
+            <Text style={styles.renderRowTextWeb}>{title}</Text>
           </View>
           <View style={{ flex: 1 }}>
             <Text>{value}</Text>
@@ -78,21 +57,8 @@ const ProductDetail = (props: Props) => {
       );
     } else {
       return (
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            // justifyContent:'space-between',
-            flex: 1,
-          }}
-        >
-          <View
-            style={{
-              paddingLeft: 20,
-              flex: 1,
-              marginRight: widthPercentageToDP(10),
-            }}
-          >
+        <View style={styles.renderRowMob}>
+          <View style={styles.renderRowViewMob}>
             <Text style={{ ...defaultFont("600_o", 13, colors.blackType) }}>
               {title}
             </Text>
@@ -109,65 +75,19 @@ const ProductDetail = (props: Props) => {
   const RenderMapRow = ({}: any) => {
     return (
       <View>
-        <Text
-          style={commonFontStyle(
-            fontFamily.articulat_regular,
-            12,
-            colors.headerBG
-          )}
-        >
-          Vahemaa 1.20km
-        </Text>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-            borderBottomWidth: 1,
-            borderBottomColor: colors.Roheline2,
-            paddingBottom: 10,
-            marginBottom: 10,
-          }}
-        >
+        <Text style={styles.rendermapText}>Vahemaa 1.20km</Text>
+        <View style={styles.rendermapView}>
           <View style={{ flex: 1, marginTop: 5 }}>
-            <Text
-              style={commonFontStyle(
-                fontFamily.articulat_bold,
-                14,
-                colors.headerBG
-              )}
-            >
+            <Text style={styles.renderText}>
               {"Automaat Tallinna Nautica keskus"}
             </Text>
-            <Text
-              style={[
-                commonFontStyle(
-                  fontFamily.articulat_regular,
-                  9,
-                  colors.filterText
-                ),
-                { marginTop: -3 },
-              ]}
-            >
-              Ahtri 9
-            </Text>
-            <Text
-              style={commonFontStyle(
-                fontFamily.articulat_regular,
-                9,
-                colors.filterText
-              )}
-            >
-              10151 TALLINN
-            </Text>
+            <Text style={styles.rendersubText}>Ahtri 9</Text>
+            <Text style={styles.rendersubValueText}>10151 TALLINN</Text>
           </View>
           <CommonGreenBtn
             title="Broneeri"
             onPress={() => {}}
-            style={{
-              borderColor: colors.headerBG,
-              marginLeft: 10,
-            }}
+            style={styles.btnRender}
           />
         </View>
       </View>
@@ -209,26 +129,9 @@ const ProductDetail = (props: Props) => {
               <View style={styles.botomLine} />
               <View style={styles.priceView}>
                 <View>
-                  <Text
-                    style={{
-                      ...commonFontStyle(
-                        fontFamily.semiBold,
-                        100,
-                        colors.Roheline2
-                      ),
-                      letterSpacing: -5,
-                    }}
-                  >
+                  <Text style={styles.zeroText}>
                     0<Text style={{ fontSize: 60 }}>.22</Text>
-                    <Text
-                      style={commonFontStyle(
-                        fontFamily.semiBold,
-                        26,
-                        colors.Roheline2
-                      )}
-                    >
-                      €
-                    </Text>
+                    <Text style={styles.zeroTextDoller}>€</Text>
                   </Text>
                   <View
                     style={[
@@ -241,62 +144,27 @@ const ProductDetail = (props: Props) => {
                       },
                     ]}
                   >
-                    <Text
-                      style={commonFontStyle(
-                        fontFamily.articulat_regular,
-                        12,
-                        colors.filterText
-                      )}
-                    >
-                      26€ / 24h
-                    </Text>
-                    <Text
-                      style={commonFontStyle(
-                        fontFamily.articulat_regular,
-                        14,
-                        colors.headerBG
-                      )}
-                    >
-                      Minut
-                    </Text>
+                    <Text style={styles.valueText}>26€ / 24h</Text>
+                    <Text style={styles.minText}>Minut</Text>
                   </View>
                 </View>
-                <View
-                  style={{
-                    flex: 1,
-                    marginLeft: 30,
-                    flexDirection: "row",
-                    alignItems: "center",
-                  }}
-                >
-                  <Image
-                    style={styles.arrowImage}
-                    source={icons.bottomArrow}
-                  />
-                  <Text
-                    style={commonFontStyle(
-                      fontFamily.articulat_regular,
-                      14,
-                      colors.black
-                    )}
-                  >
-                    Kuidas hind kujuneb ?
-                  </Text>
+                <View style={styles.arrowViewStyle}>
+                  <Image style={styles.arrowImage} source={icons.bottomArrow} />
+                  <Text style={styles.arrowText}>Kuidas hind kujuneb ?</Text>
                 </View>
               </View>
               <View style={styles.botomLine} />
               <View style={styles.btnRow}>
-                <CommonGreenBtn title="Rendi" onPress={() => {
-                  navigationRef.navigate(screenName.productLocations)
-                }} />
+                <CommonGreenBtn
+                  title="Rendi"
+                  onPress={() => {
+                    navigationRef.navigate(screenName.productLocations);
+                  }}
+                />
                 <CommonGreenBtn
                   title="Leia kapp"
                   onPress={() => {}}
-                  style={{
-                    backgroundColor: colors.white,
-                    borderColor: colors.black,
-                    marginLeft: 10,
-                  }}
+                  style={styles.btnView}
                 />
               </View>
               <Text style={styles.btnBottomText}>Renditingimused</Text>
@@ -359,15 +227,7 @@ const ProductDetail = (props: Props) => {
           <View style={[styles.mainContainer, { marginTop: 0 }]}>
             {(selectedTab == 1 || selectedTab == 3) && (
               <View style={styles.tab1View}>
-                <Text
-                  style={commonFontStyle(
-                    fontFamily.arial_regular,
-                    16,
-                    colors.blackType
-                  )}
-                >
-                  Tehnilised andmed
-                </Text>
+                <Text style={styles.tab1TextStyle}>Tehnilised andmed</Text>
                 <View style={styles.whiteLine} />
                 <RenderRow
                   title={"Maksimaalne puhastatav pind (m²/h)"}
@@ -388,7 +248,6 @@ const ProductDetail = (props: Props) => {
                   title={"Puhta/musta vee paak (l)"}
                   value={"10 / 9"}
                 />
-
                 <View style={styles.whiteLine} />
                 <RenderRow title={"Turbiini võimsus (W)"} value={"1250"} />
                 <View style={styles.whiteLineHalf} />
@@ -417,66 +276,20 @@ const ProductDetail = (props: Props) => {
             {selectedTab == 2 && (
               <View style={styles.tab2View}>
                 <CommonMapView width={widthPercentageToDP(45)} />
-                <View
-                  style={{
-                    flex: 1,
-                    paddingVertical: 60,
-                    paddingLeft: 50,
-                  }}
-                >
-                  <Text
-                    style={commonFontStyle(
-                      fontFamily.articulat_normal,
-                      14,
-                      colors.headerBG
-                    )}
-                  >
+                <View style={styles.tab2ViewStyle}>
+                  <Text style={styles.tab2ViewText}>
                     Sisesta oma asukoht ning leia endale lähim kapp:
                   </Text>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      borderWidth: 1,
-                      borderColor: colors.black,
-                      borderRadius: 100,
-                      marginVertical: 10,
-                    }}
-                  >
+                  <View style={styles.tab2MainStyle}>
                     <TextInput placeholder="" style={{ flex: 1, height: 45 }} />
-                    <Image
-                      source={icons.search}
-                      style={{
-                        height: 18,
-                        width: 18,
-                        resizeMode: "contain",
-                        marginRight: 20,
-                      }}
-                    />
+                    <Image source={icons.search} style={styles.searchIcon} />
                   </View>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      marginBottom: 50,
-                    }}
-                  >
+                  <View style={styles.checkboxView}>
                     <Image
                       source={icons.checkbox}
-                      style={{
-                        height: 18,
-                        width: 18,
-                        resizeMode: "contain",
-                        marginRight: 10,
-                      }}
+                      style={styles.checkboxIcon}
                     />
-                    <Text
-                      style={commonFontStyle(
-                        fontFamily.articulat_regular,
-                        12,
-                        colors.checkBoxText
-                      )}
-                    >
+                    <Text style={styles.checkboxText}>
                       Tuvasta asukoht automaatselt
                     </Text>
                   </View>
@@ -864,212 +677,3 @@ const ProductDetail = (props: Props) => {
 };
 
 export default ProductDetail;
-
-const styles = StyleSheet.create({
-  // mobile
-  contentView: {
-    marginHorizontal: heightPercentageToDP(3),
-  },
-  title: {
-    ...defaultFont("600_o", 28, colors.black),
-    marginBottom: heightPercentageToDP(4),
-  },
-  titleDes: {
-    ...defaultFont(400, 14, colors.black),
-    marginTop: heightPercentageToDP(6),
-  },
-  mainImage: {
-    width: SCREEN_WIDTH - heightPercentageToDP(6),
-    height: SCREEN_WIDTH - heightPercentageToDP(20),
-    resizeMode: "contain",
-  },
-  bottomView: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  priceViewMob: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  arrowImageMob: {
-    height: 26,
-    width: 26,
-    resizeMode: "contain",
-    marginRight: 10,
-  },
-  botomLineMob: {
-    height: 1,
-    backgroundColor: colors.bottomLine,
-  },
-  prodDes2: {
-    ...defaultFont(400, 12, colors.headerBG),
-    marginBottom: 5,
-  },
-  btnRowMob: {
-    flexDirection: "row",
-    marginTop: heightPercentageToDP(3),
-    marginBottom: heightPercentageToDP(1),
-  },
-  btnBottomTextMob: {
-    ...defaultFont(400, 10, colors.black),
-  },
-  desProduct: {
-    ...defaultFont(400, 14, colors.black),
-    marginTop: heightPercentageToDP(5),
-    marginBottom: heightPercentageToDP(4),
-    lineHeight: 20,
-  },
-  downarrowMob: {
-    width: widthPercentageToDP(4),
-    height: widthPercentageToDP(4),
-    marginLeft: widthPercentageToDP(3),
-  },
-  boxStyleMob: {
-    backgroundColor: colors.roheline,
-    flex: 1,
-    paddingVertical: heightPercentageToDP(2.5),
-    borderTopLeftRadius: 16,
-    borderBottomRightRadius: 16,
-  },
-  boxBodyMob: {
-    alignSelf: "center",
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  boxBodyText: {
-    ...defaultFont(400, 18, colors.headerBG),
-  },
-  devicesText: {
-    marginTop: heightPercentageToDP(8),
-    textAlign: "center",
-    marginBottom: heightPercentageToDP(2),
-    ...defaultFont(400, 24, colors.black),
-  },
-  tab1ViewMob: {
-    // width: screen_width * 0.55,
-    // width: screen_width,
-    // paddingVertical: 60,
-    backgroundColor: colors.bottomLine,
-    paddingTop: heightPercentageToDP(3),
-    paddingHorizontal: widthPercentageToDP(2),
-    top: heightPercentageToDP(-1.3),
-  },
-
-  // web
-  container: {
-    flex: 1,
-    backgroundColor: colors.white,
-  },
-  mainContainer: {
-    width: screen_width * 0.75,
-    alignSelf: "center",
-    marginTop: hp(60),
-  },
-  bodyHeader: {
-    alignItems: "flex-start",
-  },
-  unLineStyle: {
-    width: screen_width * 0.75,
-    borderWidth: 1,
-    height: 2,
-    borderColor: "#F5F1EF",
-    marginVertical: hp(50),
-  },
-  mainContentView: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  imageProduct: {
-    height: 350,
-    width: (screen_width * 0.75) / 1.7,
-    resizeMode: "contain",
-  },
-  bottomImages: {
-    width: 100,
-    height: 55,
-    backgroundColor: colors.grey_1,
-    marginRight: 15,
-  },
-  des: {
-    ...commonFontStyle(fontFamily.articulat_normal, 14, colors.black),
-    lineHeight: 21,
-    marginTop: 20,
-    width: (screen_width * 0.75) / 1.7,
-  },
-  title1: {
-    ...commonFontStyle(fontFamily.articulat_normal, 14, colors.black),
-  },
-  rightView: {
-    flex: 1,
-    marginLeft: 50,
-  },
-  mainTitle: {
-    ...commonFontStyle(fontFamily.semiBold, 28, colors.black),
-  },
-  botomLine: {
-    height: 1,
-    backgroundColor: colors.homecartBG,
-  },
-  priceView: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  arrowImage: {
-    height: 32,
-    width: 32,
-    resizeMode: "contain",
-    marginRight: 10,
-  },
-  btnRow: {
-    flexDirection: "row",
-    marginTop: 20,
-  },
-  btnBottomText: {
-    ...commonFontStyle(fontFamily.articulat_regular, 12, colors.black),
-    paddingVertical: 10,
-  },
-  title2: {
-    ...commonFontStyle(fontFamily.articulat_bold, 14, colors.black),
-    marginTop: 10,
-    marginBottom: 3,
-  },
-  des2: {
-    ...commonFontStyle(fontFamily.articulat_regular, 12, colors.headerBG),
-  },
-  middleMainView: {
-    backgroundColor: colors.homecartBG,
-  },
-  tabView: {
-    width: "30%",
-    borderBottomWidth: 3,
-    borderBottomColor: "transparent",
-    alignItems: "center",
-    paddingVertical: 5,
-  },
-  tabText: {
-    ...commonFontStyle(fontFamily.articulat_regular, 18, colors.headerBG),
-  },
-  whiteLine: {
-    height: 1,
-    backgroundColor: colors.white,
-    marginVertical: 12,
-  },
-  tab1View: {
-    width: screen_width * 0.55,
-    alignSelf: "center",
-    paddingVertical: 60,
-  },
-  whiteLineHalf: {
-    height: 0.5,
-    backgroundColor: colors.white,
-    marginVertical: 12,
-  },
-  tab2View: {
-    flexDirection: "row",
-    width: screen_width * 0.75,
-    paddingVertical: 30,
-  },
-});
