@@ -1,5 +1,5 @@
 export const api = {
-  BASE_URL: "https://secret.hetk.ee/",
+  BASE_URL: "https://api.toolscab.ee/",
 
 
   // Auth
@@ -8,7 +8,7 @@ export const api = {
 
 
   //Catalogue
-  catalogue: "Catalogue",
+  catalogue: "Catalogue/CategorySearch",
   categoryProducts:"Catalogue/CategoryProducts",
 
   // /Product

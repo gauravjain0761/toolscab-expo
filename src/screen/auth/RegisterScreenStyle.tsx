@@ -149,5 +149,16 @@ export const styles = StyleSheet.create({
     width: widthPercentageToDP(35),
     marginTop: 20,
     alignSelf: "center",
+  },
+  headermainTextMob: {
+    ...defaultFont('600_o', 28, colors.black),
+    marginLeft:24
+  },
+  headerLine:{
+   width:'87%',
+   borderWidth:0.6,
+   alignSelf:'center',
+   marginTop:5,
+   marginBottom:30
   }
 });

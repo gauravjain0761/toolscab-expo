@@ -1,9 +1,11 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Platform, StyleSheet, Text, View } from "react-native";
 import React from "react";
-import { commonFontStyle } from "../../theme/Fonts";
+import { commonFontStyle,defaultFont } from "../../theme/Fonts";
 import { fontFamily } from "../../helper/constants";
 import { colors } from "../../theme/Colors";
 import CommonGreenBtn from "./CommonGreenBtn";
+import { widthPercentageToDP } from "react-native-responsive-screen";
+import { screen_width } from "../../helper/globalFunctions";
 
 type Props = {
   title?: string;
@@ -12,7 +14,7 @@ type Props = {
 };
 
 const RenderMapRow = ({ title, list, index }: Props) => {
-
+ if(Platform.OS =='web'){
   return (
     <View>
       <Text style={styles.headerText}>Vahemaa 1.20km</Text>
@@ -35,6 +37,31 @@ const RenderMapRow = ({ title, list, index }: Props) => {
       </View>
     </View>
   );
+ }else{
+  return (
+    <View>
+      <Text style={styles.rendermapTextMob}>Vahemaa 1.20km</Text>
+      <View style={styles.rendermapViewMob}>
+        <View style={{ flex: 1, marginTop: 5 }}>
+          <Text style={styles.renderTextMob}>
+            {"Automaat Tallinna Nautica keskus"}
+          </Text>
+          <Text style={styles.rendersubTextMob}>Ahtri 9</Text>
+          <Text style={styles.rendersubValueTextMob}>10151 TALLINN</Text>
+        </View>
+      </View>
+      <View style={styles.btnViewStyle}>
+        <View style={styles.lineView} />
+        <CommonGreenBtn
+          title="Broneeri"
+          onPress={() => {}}
+          style={styles.btnRenderMob}
+        />
+      </View>
+    </View>
+  );
+ }
+  
 };
 
 export default RenderMapRow;
@@ -67,6 +94,43 @@ const styles = StyleSheet.create({
   },
   cardViewValue: {
     ...commonFontStyle(fontFamily.articulat_regular, 9, colors.filterText),
+  },
+
+  //mobile
+
+  rendermapTextMob: {
+    ...defaultFont(400, 12, colors.headerBG),
+  },
+  rendermapViewMob: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    // paddingBottom: 10,
+  },
+  renderTextMob: {
+    ...defaultFont(700, 14, colors.headerBG),
+  },
+  rendersubTextMob: {
+    ...defaultFont(400, 9, colors.filterText),
+    marginTop: -3,
+  },
+  rendersubValueTextMob: {
+    ...defaultFont(400, 9, colors.filterText),
+  },
+  btnRenderMob: {
+    borderColor: colors.headerBG,
+    marginLeft: 10,
+    width: widthPercentageToDP(32),
+  },
+  lineView: {
+    borderBottomWidth: 1,
+    borderBottomColor: colors.Roheline2,
+    width: screen_width * 0.5,
+  },
+  btnViewStyle:{
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 15,
   },
   
 

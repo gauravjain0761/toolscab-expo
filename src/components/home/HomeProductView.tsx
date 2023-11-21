@@ -4,14 +4,17 @@ import { View, Text, StyleSheet, Image, Platform } from "react-native";
 import { colors } from "../../theme/Colors";
 import { defaultFont } from "../../theme/Fonts";
 import { heightPercentageToDP } from "react-native-responsive-screen";
+import { icons } from "../../theme/Icons";
 
 // create a component
 const HomeProductView = ({ data }: any) => {
+  console.log(' data', data);
+  
   return (
     Platform.OS == 'web' ?
       <View style={styles.container}>
-        <Image source={data?.iconName} style={styles.iconStyle} resizeMode='contain' />
-        <Text>{data?.name}</Text>
+        <Image source={icons.image1} style={styles.iconStyle} resizeMode='contain' />
+        <Text>{data?.category_title}</Text>
       </View>
       :
       <View style={styles.containerMob}>

@@ -25,7 +25,6 @@ type Props = {
 };
 
 const AppDrawerModalMobile = ({ isVisible }: Props) => {
-
   const dispatch = useDispatch();
 
   const onClose = () => {
@@ -87,17 +86,22 @@ const AppDrawerModalMobile = ({ isVisible }: Props) => {
           <TouchableOpacity style={styles.row}>
             <Text style={styles.rowText}>Meist</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.row} 
-          onPress={()=>{
-            navigate(screenName.faqScreen)
-            onClose()
-          }}>
+          <TouchableOpacity
+            style={styles.row}
+            onPress={() => {
+              navigate(screenName.faqScreen);
+              onClose();
+            }}
+          >
             <Text style={styles.rowText}>KKK</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.row} onPress={()=>{
-            navigate(screenName.rentalConditionsScreen)
-            onClose()
-          }}>
+          <TouchableOpacity
+            style={styles.row}
+            onPress={() => {
+              navigate(screenName.rentalConditionsScreen);
+              onClose();
+            }}
+          >
             <Text style={styles.rowText}>Renditingimused</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.row}>
@@ -112,7 +116,7 @@ const AppDrawerModalMobile = ({ isVisible }: Props) => {
           <TouchableOpacity
             style={styles.row}
             onPress={() => {
-              navigate(screenName.loginScreenMobile)
+              navigate(screenName.loginScreenMobile);
               onClose();
             }}
           >
@@ -122,7 +126,13 @@ const AppDrawerModalMobile = ({ isVisible }: Props) => {
             />
             <Text style={styles.rowText}>SISENE</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.row}>
+          <TouchableOpacity
+            style={styles.row}
+            onPress={() => {
+              navigate(screenName.cartScreen);
+              onClose();
+            }}
+          >
             <Image
               source={icons.cartIcon}
               style={[styles.userIconeStyle, { tintColor: colors.white }]}

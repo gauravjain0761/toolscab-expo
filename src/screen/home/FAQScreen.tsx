@@ -87,6 +87,8 @@ const FAQScreen = () => {
     return (
       <View style={styles.containerMob}>
         <ScrollView contentContainerStyle={styles.mainStyleMob}>
+        <Text style={styles.headermainTextMob}>KKK</Text>
+          <View style={styles.headerLine}/>
           {downData?.map((item) => {
             return (
               <View style={styles.listStyleMob}>

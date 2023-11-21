@@ -135,10 +135,12 @@ const RegisterScreen = () => {
     return (
       <View style={styles.containerMob}>
         <ScrollView contentContainerStyle={{ flexGrow: 1, marginTop: 20 }}>
+        <Text style={styles.headermainTextMob}>Registreeri konto</Text>
+          <View style={styles.headerLine}/>
           <View style={styles.mainStyleMob}>
-            <View style={{ height: 50 }} />
-            <Text style={styles.headerSubTextMob}>{"Registreeri konto"}</Text>
-            <View style={[styles.unLineStyleMob]} />
+            {/* <View style={{ height: 50 }} /> */}
+            {/* <Text style={styles.headerSubTextMob}>{"Registreeri konto"}</Text> */}
+            {/* <View style={[styles.unLineStyleMob]} /> */}
             <View style={styles.tabViewMob}>
               <TouchableOpacity
                 onPress={() => setSelectTab(1)}
@@ -231,6 +233,7 @@ const RegisterScreen = () => {
             </View>
           </View>
           <View style={{ height: 150 }} />
+          <FooterView />
         </ScrollView>
       </View>
     );

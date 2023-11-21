@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     marginRight: 20,
   },
   labelTextMob: {
-    lineHeight: 20,
+    // lineHeight: 18,
     ...defaultFont(400, 18, colors.black),
   },
 });

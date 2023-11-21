@@ -9,7 +9,7 @@ import { widthPercentageToDP } from "react-native-responsive-screen";
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginHorizontal: widthPercentageToDP(5),
+    // marginHorizontal: widthPercentageToDP(5),
   },
   logoStyle: {
     width: 123,

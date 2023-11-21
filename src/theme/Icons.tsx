@@ -46,7 +46,8 @@ export const icons = {
   esimene:require("../../assets/icon/esimene.png"),
   right_arrow:require("../../assets/icon/right-arrow.png"),
   filterMobileIcon:require('../../assets/icon/filterMobileIcon.png'),
-  mobileFooterbg:require('../../assets/icon/mobileFooterbg.png')
+  mobileFooterbg:require('../../assets/icon/mobileFooterbg.png'),
+  commonicon:require('../../assets/icon/commonicon.png'),
 
 
 

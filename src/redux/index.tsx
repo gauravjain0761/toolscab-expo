@@ -5,6 +5,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./authReducer";
 import { USER_LOGOUT } from "../actions/dispatchTypes";
 import homeReducer from "./homeReducer";
+import catalogueReducer from "./catalogueReducer";
 
 
 const middleware = [thunk];
@@ -12,6 +13,7 @@ const middleware = [thunk];
 const reducers = combineReducers({
   auth: authReducer,
   home: homeReducer,
+  catalogue:catalogueReducer
 });
 
 const rootReducer = (state: any, action: any) => {

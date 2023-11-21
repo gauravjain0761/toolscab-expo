@@ -63,7 +63,7 @@ export const styles = StyleSheet.create({
   },
   mainStyleMob:{
     flexGrow: 1,
-    marginTop: heightPercentageToDP(8),
+    marginTop: heightPercentageToDP(4),
   },
   listStyleMob:{
     width: screen_width * 0.9,
@@ -94,5 +94,16 @@ export const styles = StyleSheet.create({
     marginBottom: widthPercentageToDP(4),
     marginTop: widthPercentageToDP(2),
     ...defaultFont(400, 18, colors.blackType),
+  },
+  headermainTextMob: {
+    ...defaultFont('600_o', 28, colors.black),
+    marginLeft:24
+  },
+  headerLine:{
+   width:'87%',
+   borderWidth:0.6,
+   alignSelf:'center',
+   marginTop:5,
+   marginBottom:30
   }
 });

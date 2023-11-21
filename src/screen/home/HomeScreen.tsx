@@ -19,13 +19,16 @@ import { productDetails } from "../../helper/constantData";
 import { icons } from "../../theme/Icons";
 import { heightPercentageToDP } from "react-native-responsive-screen";
 import { defaultFont } from "../../theme/Fonts";
-import { useDispatch } from "react-redux";
-import { getCatalogue } from "../../actions/catalogueAction";
+import { useDispatch, useSelector } from "react-redux";
+import { getCatalogueAction } from "../../actions/catalogueAction";
 // create a component
 const HomeScreen = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatlistRef = useRef(null);
   const dispatch = useDispatch();
+  const { catalogueList } = useSelector((state) => state.catalogue);
+
+console.log('catalogueList',catalogueList[0]);
 
 
   let data = [
@@ -42,7 +45,7 @@ useEffect(()=>{
     },
     onFailure: () => {},
   };
-  // dispatch(getCatalogue(obj))
+  dispatch(getCatalogueAction(obj))
 
 },[])
 
@@ -248,7 +251,7 @@ useEffect(()=>{
                 showsVerticalScrollIndicator={false}
                 initialScrollIndex={currentIndex}
                 contentContainerStyle={{ flex: 1 }}
-                data={productDetails}
+                data={catalogueList}
                 renderItem={({ item }) => <HomeProductView data={item} />}
               />
               <TouchableOpacity
@@ -277,7 +280,7 @@ useEffect(()=>{
               </TouchableOpacity>
 
               <View style={{ flexDirection: "row", alignSelf: "center" }}>
-                {productDetails.map((item, index) => {
+                {catalogueList?.map((item, index) => {
                   return (
                     <View>
                       <View
@@ -376,13 +379,13 @@ useEffect(()=>{
               showsVerticalScrollIndicator={false}
               initialScrollIndex={currentIndex}
               contentContainerStyle={{ paddingLeft: heightPercentageToDP(5) }}
-              data={productDetails}
+              data={catalogueList}
               renderItem={({ item }) => <HomeProductView data={item} />}
               showsHorizontalScrollIndicator={false}
             />
 
             <View style={{ flexDirection: "row", alignSelf: "center", marginVertical: heightPercentageToDP(4) }}>
-              {productDetails.map((item, index) => {
+              {catalogueList.map((item, index) => {
                 return (
                   <View>
                     <View

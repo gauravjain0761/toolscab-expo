@@ -12,3 +12,6 @@ export const ITEM_DEATILS = "ITEM_DEATILS";
 
 // drawer
 export const TOGGLE_DRAWER = "TOGGLE_DRAWER"
+
+//catalogue
+export const GET_CATALOGUE_LIST_DATA="GET_CATALOGUE_LIST_DATA"

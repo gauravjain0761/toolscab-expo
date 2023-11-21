@@ -73,25 +73,50 @@ const ProductDetail = (props: Props) => {
   };
 
   const RenderMapRow = ({}: any) => {
-    return (
-      <View>
-        <Text style={styles.rendermapText}>Vahemaa 1.20km</Text>
-        <View style={styles.rendermapView}>
-          <View style={{ flex: 1, marginTop: 5 }}>
-            <Text style={styles.renderText}>
-              {"Automaat Tallinna Nautica keskus"}
-            </Text>
-            <Text style={styles.rendersubText}>Ahtri 9</Text>
-            <Text style={styles.rendersubValueText}>10151 TALLINN</Text>
+    if (Platform.OS === "web") {
+      return (
+        <View>
+          <Text style={styles.rendermapText}>Vahemaa 1.20km</Text>
+          <View style={styles.rendermapView}>
+            <View style={{ flex: 1, marginTop: 5 }}>
+              <Text style={styles.renderText}>
+                {"Automaat Tallinna Nautica keskus"}
+              </Text>
+              <Text style={styles.rendersubText}>Ahtri 9</Text>
+              <Text style={styles.rendersubValueText}>10151 TALLINN</Text>
+            </View>
+            <CommonGreenBtn
+              title="Broneeri"
+              onPress={() => {}}
+              style={styles.btnRender}
+            />
           </View>
-          <CommonGreenBtn
-            title="Broneeri"
-            onPress={() => {}}
-            style={styles.btnRender}
-          />
         </View>
-      </View>
-    );
+      );
+    } else {
+      return (
+        <View>
+          <Text style={styles.rendermapTextMob}>Vahemaa 1.20km</Text>
+          <View style={styles.rendermapViewMob}>
+            <View style={{ flex: 1, marginTop: 5 }}>
+              <Text style={styles.renderTextMob}>
+                {"Automaat Tallinna Nautica keskus"}
+              </Text>
+              <Text style={styles.rendersubTextMob}>Ahtri 9</Text>
+              <Text style={styles.rendersubValueTextMob}>10151 TALLINN</Text>
+            </View>
+          </View>
+          <View style={styles.btnViewStyle}>
+            <View style={styles.lineView} />
+            <CommonGreenBtn
+              title="Broneeri"
+              onPress={() => {}}
+              style={styles.btnRenderMob}
+            />
+          </View>
+        </View>
+      );
+    }
   };
 
   return Platform.OS == "web" ? (
@@ -509,7 +534,7 @@ const ProductDetail = (props: Props) => {
           <View style={styles.btnRowMob}>
             <CommonGreenBtn
               title="Rendi"
-              onPress={() => {}}
+              onPress={() => { navigationRef.navigate(screenName.productLocations)}}
               style={{ width: "40%" }}
             />
             <CommonGreenBtn
@@ -612,12 +637,41 @@ const ProductDetail = (props: Props) => {
               </View>
             </>
           )}
+
           <View style={[styles.boxStyleMob, { marginTop: 13 }]}>
             <View style={styles.boxBodyMob}>
               <Text style={styles.boxBodyText}>Saadavus</Text>
-              <Image source={icons.downarrow} style={styles.downarrowMob} />
+              <TouchableOpacity onPress={() => setTabIndex2(!tabIndex2)}>
+                <Image source={icons.downarrow} style={styles.downarrowMob} />
+              </TouchableOpacity>
             </View>
           </View>
+          {tabIndex2 && (
+            <View style={styles.tab2ViewMob}>
+              <View style={styles.tab2ViewStyleMob}>
+                <Text style={styles.tab2ViewTextMob}>
+                  Sisesta oma asukoht ning leia endale lähim kapp:
+                </Text>
+                <View style={styles.tab2MainStyleMob}>
+                  <TextInput placeholder="" style={{ flex: 1, height: 45 }} />
+                  <Image source={icons.search} style={styles.searchIconMob} />
+                </View>
+                <View style={styles.checkboxViewMob}>
+                  <Image
+                    source={icons.checkbox}
+                    style={styles.checkboxIconMob}
+                  />
+                  <Text style={styles.checkboxTextMob}>
+                    Tuvasta asukoht automaatselt
+                  </Text>
+                </View>
+                <RenderMapRow />
+                <RenderMapRow />
+                <RenderMapRow />
+                <RenderMapRow />
+              </View>
+            </View>
+          )}
           <View style={[styles.boxStyleMob, { marginTop: 13 }]}>
             <View style={styles.boxBodyMob}>
               <Text style={styles.boxBodyText}>Kasutamine</Text>

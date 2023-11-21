@@ -120,6 +120,81 @@ export const styles = StyleSheet.create({
     paddingHorizontal: widthPercentageToDP(2),
     top: heightPercentageToDP(-1.3),
   },
+  tab2ViewMob: {
+    flexDirection: "row",
+    width: screen_width * 0.8,
+    alignSelf: "center",
+  },
+  tab2ViewStyleMob: {
+    flex: 1,
+    paddingVertical: 60,
+  },
+  tab2ViewTextMob: {
+    ...defaultFont(400, 14, colors.headerBG),
+  },
+  tab2MainStyleMob: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: colors.black,
+    borderRadius: 100,
+    marginVertical: 10,
+  },
+  searchIconMob: {
+    height: 18,
+    width: 18,
+    resizeMode: "contain",
+    marginRight: 20,
+  },
+  checkboxViewMob: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 50,
+  },
+  checkboxIconMob: {
+    height: 18,
+    width: 18,
+    resizeMode: "contain",
+    marginRight: 10,
+  },
+  checkboxTextMob: {
+    ...defaultFont(400, 12, colors.checkBoxText),
+  },
+
+  rendermapTextMob: {
+    ...defaultFont(400, 12, colors.headerBG),
+  },
+  rendermapViewMob: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    // paddingBottom: 10,
+  },
+  renderTextMob: {
+    ...defaultFont(700, 14, colors.headerBG),
+  },
+  rendersubTextMob: {
+    ...defaultFont(400, 9, colors.filterText),
+    marginTop: -3,
+  },
+  rendersubValueTextMob: {
+    ...defaultFont(400, 9, colors.filterText),
+  },
+  btnRenderMob: {
+    borderColor: colors.headerBG,
+    marginLeft: 10,
+    width: widthPercentageToDP(32),
+  },
+  lineView: {
+    borderBottomWidth: 1,
+    borderBottomColor: colors.Roheline2,
+    width: screen_width * 0.5,
+  },
+  btnViewStyle:{
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 15,
+  },
 
   // web
   container: {

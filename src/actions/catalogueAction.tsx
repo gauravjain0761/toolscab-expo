@@ -4,17 +4,15 @@ import { makeAPIRequest } from "../helper/apiGlobal";
 import { GET, POST, api } from "../helper/apiConstants";
 import { RootState } from "../helper/types";
 import axios from "axios";
+import { GET_CATALOGUE_LIST_DATA } from "./dispatchTypes";
 
-export const getCatalogue =
+export const getCatalogueAction =
   (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
   async (dispatch) => {
     let headers = {
       Accept: 'application/json'
     };
-    fetch('http://secret.hetk.ee/Catalogue')
-    .then(res => res.json())
-    .then(res=>console.log(res)
-    );
+
     return makeAPIRequest({
       method: GET,
       url: api.catalogue,
@@ -23,13 +21,13 @@ export const getCatalogue =
     })
       .then(async (response: any) => {
         if (response.status === 200) {
-         console.log('response',response);
-         
+         console.log('response',response?.data);
+         dispatch({ type: GET_CATALOGUE_LIST_DATA, payload: response?.data });
         }
       })
-      .catch((error) => {
-    console.log('errr',error);
-    
+      .catch((error) => {  
         if (request.onFailure) request.onFailure(error.response);
       });
   };
+
+  
