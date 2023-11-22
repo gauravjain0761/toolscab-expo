@@ -65,7 +65,7 @@ const StackNavigator: FC = () => {
   const HeaderRight = ({ navigation, tintColor }: any) => {
     return (
       <View style={{ flexDirection: "row" }}>
-        <TouchableOpacity onPress={() => {navigate(screenName.loginScreenMobile)}} style={styles.menuStyle}>
+        <TouchableOpacity onPress={() => {navigate(screenName.profileScreen)}} style={styles.menuStyle}>
           <Image source={icons.userIcone} style={styles.menuIcon} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => {navigate(screenName.cartScreen)}} style={styles.menuStyle}>
@@ -188,6 +188,12 @@ const StackNavigator: FC = () => {
       <Stack.Screen
         // @ts-ignore
         name={screenName.profileScreen}
+        options={({ navigation }) => ({
+          headerLeft: () => <HeaderLeft navigation={navigation} />,
+          headerRight: () => <HeaderRight navigation={navigation} />,
+          headerTitle: "",
+          ...headerStyleMain,
+        })}
         component={ProfileScreen}
       />
       <Stack.Screen

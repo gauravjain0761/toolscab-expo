@@ -189,6 +189,6 @@ export const dataList = [
 
 export const tabData = [
   { id: 1, name: "Rendid" },
-  { id: 2, name: "Minu profiil" },
-  { id: 3, name: "Maksevahendid" },
+  { id: 2, name: "Minu profiil ja maksevahendid" },
+  // { id: 3, name: "Maksevahendid" },
 ];
