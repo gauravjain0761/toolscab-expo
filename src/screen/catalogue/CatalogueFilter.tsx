@@ -1,5 +1,5 @@
 //import liraries
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -29,14 +29,42 @@ import { heightPercentageToDP } from "react-native-responsive-screen";
 import { useNavigation } from "@react-navigation/native";
 import { styles } from "./CatalogueFilterStyle";
 import { checkList, filterData } from "../../helper/constantData";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getCatalogueCategoryProductsAction,
+  getCatalogueCategorySearchAction,
+} from "../../actions/catalogueAction";
 
 // create a component
-const ProductcartList = ({ setShowProduct, mainView, showProduct }: any) => {
+const ProductcartList = ({
+  setShowProduct,
+  mainView,
+  showProduct,
+  listData,
+}: any) => {
   const navigationRef = useNavigation();
+  const dispatch = useDispatch();
 
   const onSelectPress = (item: any) => {
-    setShowProduct(item);
+    const obj = {
+      params: {
+        category_id: item?.product_category_id,
+      },
+      onSuccess: (res: any) => {
+        const finalADD = [
+          {
+            brand: item?.category_title,
+          },
+          ...res,
+        ];
+
+        setShowProduct(finalADD);
+      },
+      onFailure: () => {},
+    };
+    dispatch(getCatalogueCategoryProductsAction(obj));
   };
+
   return (
     <View>
       <Text
@@ -45,18 +73,18 @@ const ProductcartList = ({ setShowProduct, mainView, showProduct }: any) => {
           ...commonFontStyle(fontFamily.bold, 30, colors.black),
         }}
       >
-        {mainView ? "Meie seadmed" : showProduct?.name}
+        {mainView ? "Meie seadmed" : showProduct[0]?.brand}
       </Text>
       {mainView ? (
         <FlatList
-          data={filterData}
+          data={listData}
           numColumns={3}
           keyExtractor={(_i, index) => index.toString()}
           renderItem={({ item }) => {
             return (
               <ProductView
                 icon={item.icon}
-                title={item.name}
+                title={item?.category_title}
                 onSelectPress={() => onSelectPress(item)}
                 mainView={true}
               />
@@ -65,7 +93,7 @@ const ProductcartList = ({ setShowProduct, mainView, showProduct }: any) => {
         />
       ) : (
         <FlatList
-          data={showProduct?.productList}
+          data={showProduct}
           numColumns={3}
           keyExtractor={(_i, index) => index.toString()}
           renderItem={({ item, index }) => {
@@ -73,16 +101,16 @@ const ProductcartList = ({ setShowProduct, mainView, showProduct }: any) => {
               <ProductView
                 index={index}
                 icon={item?.icon}
-                title={item?.title}
-                label={item?.label}
+                title={item?.product_name}
+                label={item?.brand}
                 onSelectPress={() =>
                   //@ts-ignore
                   navigationRef.navigate(screenName.productDetail)
                 }
                 mainView={false}
-                aircon={item?.aircon}
-                volumeflow={item?.volumeflow}
-                hoselength={item?.hoselength}
+                aircon={item?.aircon || 0}
+                volumeflow={item?.volumeflow || 0}
+                hoselength={item?.hoselength || 0}
               />
             );
           }}
@@ -96,6 +124,39 @@ const CatalogueFilter = () => {
   const navigationRef = useNavigation();
   const [showProduct, setShowProduct] = useState([]);
   const [filterModal, setFilterModal] = useState(false);
+  const dispatch = useDispatch();
+  const {
+    catalogueCategorySearchList: catalogueList,
+    catalogueCategoryProductList: CategoryProductList,
+  } = useSelector((state) => state.catalogue);
+
+  useEffect(() => {
+    const obj = {
+      onSuccess: (res: any) => {},
+      onFailure: () => {},
+    };
+    dispatch(getCatalogueCategorySearchAction(obj));
+  }, []);
+
+  const onSelectPress = (item: any) => {
+    const obj = {
+      params: {
+        category_id: item?.product_category_id,
+      },
+      onSuccess: (res: any) => {
+        const finalADD = [
+          {
+            brand: item?.category_title,
+          },
+          ...res,
+        ];
+
+        setShowProduct(finalADD);
+      },
+      onFailure: () => {},
+    };
+    dispatch(getCatalogueCategoryProductsAction(obj));
+  };
 
   return Platform.OS == "web" ? (
     <View style={styles.container}>
@@ -104,28 +165,28 @@ const CatalogueFilter = () => {
         <HeaderBottomPathView
           heading={" Seadmed "}
           //@ts-ignore
-          heading1={`/ ${showProduct?.name}`}
+          heading1={`/ ${showProduct[0]?.brand}`}
           onHeadingPress={() => setShowProduct([])}
         />
         <View style={styles.containerBody}>
           <View style={styles.leftView}>
             <Text style={styles.leftHeaderText}>Tootekategooriad</Text>
-            {filterData.map((item) => {
+            {catalogueList?.map((item:any) => {
               return (
-                <TouchableOpacity>
+                <TouchableOpacity onPress={()=>{onSelectPress(item)}}>
                   <Text
                     style={[
                       styles.leftHeaderItemText,
                       {
                         fontFamily:
                           //@ts-ignore
-                          showProduct?.name === item?.name
+                          showProduct[0]?.brand === item?.category_title
                             ? fontFamily.articulat_bold
                             : fontFamily.articulat_normal,
                       },
                     ]}
                   >
-                    {item?.name}
+                    {item?.category_title}
                   </Text>
                 </TouchableOpacity>
               );
@@ -143,6 +204,7 @@ const CatalogueFilter = () => {
           <View style={styles.rightView}>
             {showProduct?.length == 0 ? (
               <ProductcartList
+                listData={catalogueList}
                 mainView={true}
                 setShowProduct={setShowProduct}
               />

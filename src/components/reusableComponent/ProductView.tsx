@@ -54,7 +54,7 @@ const ProductView = ({
       <>
         {index == 0 ? (
           <ImageBackground
-            source={icon}
+            source={icons.image6}
             resizeMode="cover"
             imageStyle={{ borderTopLeftRadius: 30, borderBottomRightRadius: 30 }}
             style={styles.containerImg}
@@ -76,7 +76,7 @@ const ProductView = ({
                 <Text style={styles.headerRightText}>Uus</Text>
               </View>
             )}
-            <Image source={icon} style={styles.iconStyle} resizeMode="contain" />
+            <Image source={icons.image1} style={styles.iconStyle} resizeMode="contain" />
             <View style={{ flexDirection: "row" }}>
               <View style={{ flex: 1, alignSelf: "flex-end" }}>
                 {mainView ? (

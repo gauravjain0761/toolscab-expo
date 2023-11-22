@@ -20,13 +20,13 @@ import { icons } from "../../theme/Icons";
 import { heightPercentageToDP } from "react-native-responsive-screen";
 import { defaultFont } from "../../theme/Fonts";
 import { useDispatch, useSelector } from "react-redux";
-import { getCatalogueAction } from "../../actions/catalogueAction";
+import { getCatalogueCategorySearchAction } from "../../actions/catalogueAction";
 // create a component
 const HomeScreen = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatlistRef = useRef(null);
   const dispatch = useDispatch();
-  const { catalogueList } = useSelector((state) => state.catalogue);
+  const { catalogueCategorySearchList:catalogueList } = useSelector((state) => state.catalogue);
 
 console.log('catalogueList',catalogueList[0]);
 
@@ -45,7 +45,7 @@ useEffect(()=>{
     },
     onFailure: () => {},
   };
-  dispatch(getCatalogueAction(obj))
+  dispatch(getCatalogueCategorySearchAction(obj))
 
 },[])
 
