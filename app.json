@@ -22,7 +22,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.chiragk.toolscab"
+      "package": "com.chiragk.toolscab",
+      "versionCode": 10
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -32,6 +33,14 @@
         "projectId": "79b1c08d-ff3a-4295-81f1-f7e847138c74"
       }
     },
-    "owner": "chiragk"
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/79b1c08d-ff3a-4295-81f1-f7e847138c74"
+    },
+    "plugins": [
+      "expo-build-properties"
+    ]
   }
 }

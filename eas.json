@@ -1,12 +1,58 @@
 {
-    "build": {
-      "development": {
-        "developmentClient": true,
-        "distribution": "internal"
+  "cli": {
+    "version": ">=1.0.0",
+    "promptToConfigurePushNotifications": false
+  },
+  "build": {
+    "base": {
+      "env": {}
+    },
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "preview": {
+      "channel": "preview",
+      "ios": {
+        "simulator": true
       },
-      "preview": {
-        "distribution": "internal"
+      "android": {
+        "buildType": "apk",
+        "image" : "ubuntu-18.04-jdk-11-ndk-r19c"
       },
-      "production": {}
+      "distribution": "internal"
+    },
+    "preview2": {
+      "android": {
+        "gradleCommand": ":app:assembleRelease"
+      }
+    },
+    "preview3": {
+      "developmentClient": true
+    },
+    "production": {
+      "autoIncrement": true,
+      "channel": "production",
+      "ios": {
+        "credentialsSource": "remote"
+      },
+      "android": {
+        "buildType": "apk"
+      }
+    },
+    "devclient": {
+      "extends": "base",
+      "releaseChannel": "default",
+      "developmentClient": true,
+      "android": {
+        "buildType": "apk"
+      },
+      "ios": {
+        "credentialsSource": "remote"
+      }
     }
+  },
+  "submit": {
+    "production": {}
   }
+}
