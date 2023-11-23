@@ -34,7 +34,9 @@ export const icons = {
   pay2: require("../../assets/icon/pay2.png"),
   pen: require("../../assets/icon/pen.png"),
   dotsthreefill: require("../../assets/icon/dotsthreefill.png"),
+  dotsthreefill1: require("../../assets/icon/dotsthreefill1.png"),
   search:require("../../assets/icon/search.png"),
+  epquestion:require("../../assets/icon/epquestion.png"),
 
   menuIcon: require("../../assets/icon/menuIcon.png"),
   closeIcon: require("../../assets/icon/close.png"),
@@ -48,6 +50,8 @@ export const icons = {
   filterMobileIcon:require('../../assets/icon/filterMobileIcon.png'),
   mobileFooterbg:require('../../assets/icon/mobileFooterbg.png'),
   commonicon:require('../../assets/icon/commonicon.png'),
+  ellipse1:require('../../assets/icon/ellipse1.png'),
+  ellipse:require('../../assets/icon/ellipse.png'),
 
 
 

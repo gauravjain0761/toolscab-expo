@@ -28,6 +28,8 @@ import LoginScreenMobile from "../screen/auth/LoginScreenMobile";
 import CatalogueFilter from "../screen/catalogue/CatalogueFilter";
 import CatalogueProductsMobile from "../screen/catalogue/CatalogueProductsMobile";
 import { navigate } from "./RootNavigation";
+import CardScreen from "../screen/profile/CardScreen";
+import WarningScreen from "../screen/profile/WarningScreen";
 
 export type RootStackParamList = {
   HomeScreen: undefined;
@@ -228,6 +230,28 @@ const StackNavigator: FC = () => {
           ...headerStyleMain,
         })}
         component={LoginScreenMobile}
+      />
+      <Stack.Screen
+        // @ts-ignore
+        name={screenName.cardScreen}
+        options={({ navigation }) => ({
+          headerLeft: () => <HeaderLeft navigation={navigation} />,
+          headerRight: () => <HeaderRight navigation={navigation} />,
+          headerTitle: "",
+          ...headerStyleMain,
+        })}
+        component={CardScreen}
+      />
+      <Stack.Screen
+        // @ts-ignore
+        name={screenName.warningScreen}
+        options={({ navigation }) => ({
+          headerLeft: () => <HeaderLeft navigation={navigation} />,
+          headerRight: () => <HeaderRight navigation={navigation} />,
+          headerTitle: "",
+          ...headerStyleMain,
+        })}
+        component={WarningScreen}
       />
     </Stack.Navigator>
   );

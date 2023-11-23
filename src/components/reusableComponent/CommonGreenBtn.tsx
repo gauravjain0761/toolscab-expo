@@ -28,7 +28,7 @@ const CommonGreenBtn = ({ title, onPress, style = {} }: Props) => {
   ) : (
     <TouchableOpacity style={[styles.btnMob, style]} onPress={() => onPress()}>
       <Text style={styles.btnTextMob}>{title}</Text>
-      <Image source={icons.rightBack} style={styles.backArrow} />
+      {/* <Image source={icons.rightBack} style={styles.backArrow} /> */}
     </TouchableOpacity>
   );
 };

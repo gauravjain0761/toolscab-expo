@@ -103,6 +103,10 @@ export const styles = StyleSheet.create({
   headerSubTextMob: {
     marginBottom: 5,
     ...defaultFont(400, 18, colors.black),
+    flex:1
+  },
+  headerRightTextMob: {
+    ...defaultFont(400, 18, colors.black),
   },
 });
 

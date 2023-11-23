@@ -14,18 +14,21 @@ import {
 import { colors } from "../../theme/Colors";
 import { CommonMapView, FooterView, Header,HomeProductView  } from "../../components";
 import { hp, wp } from "../../helper/globalFunctions";
-import { fontFamily } from "../../helper/constants";
+import { fontFamily, screenName } from "../../helper/constants";
 import { productDetails } from "../../helper/constantData";
 import { icons } from "../../theme/Icons";
 import { heightPercentageToDP } from "react-native-responsive-screen";
 import { defaultFont } from "../../theme/Fonts";
 import { useDispatch, useSelector } from "react-redux";
 import { getCatalogueCategorySearchAction } from "../../actions/catalogueAction";
+import { useNavigation } from "@react-navigation/native";
 // create a component
 const HomeScreen = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatlistRef = useRef(null);
   const dispatch = useDispatch();
+  const navigationRef = useNavigation();
+
   const { catalogueCategorySearchList:catalogueList } = useSelector((state) => state.catalogue);
 
 console.log('catalogueList',catalogueList[0]);
@@ -343,7 +346,7 @@ useEffect(()=>{
               <View style={{ position: 'absolute', paddingLeft: heightPercentageToDP(2), paddingTop: 60 }}>
                 <Text style={{ lineHeight: 40, letterSpacing: -2, ...defaultFont('600_o', 35, colors.black) }}>{"Isetegemise\nrõõmuks!"}</Text>
                 <Text style={{ ...defaultFont(400, 11.25, colors.black) }}>Eesti esimene minutipõhine tööriistarent</Text>
-                <TouchableOpacity style={styles.buttonStyle2}>
+                <TouchableOpacity style={styles.buttonStyle2} onPress={()=>navigationRef.navigate(screenName.catalogueFilter)}>
                   <Text style={{ ...defaultFont(600, 13, colors.roheline) }} >
                     {"Vaata seadmeid"}
                   </Text>

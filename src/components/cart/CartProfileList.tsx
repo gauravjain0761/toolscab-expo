@@ -1,11 +1,12 @@
 import { Image, Platform, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { commonFontStyle, defaultFont } from "../../theme/Fonts";
-import { fontFamily } from "../../helper/constants";
+import { fontFamily, screenName } from "../../helper/constants";
 import { colors } from "../../theme/Colors";
 import { icons } from "../../theme/Icons";
 import CommonGreenBtn from "../reusableComponent/CommonGreenBtn";
 import { widthPercentageToDP } from "react-native-responsive-screen";
+import { navigate } from "../../navigations/RootNavigation";
 
 type Props = {
   title?: string;
@@ -113,7 +114,7 @@ const CartProfileList = ({ title, list }: Props) => {
               title="Ava kapp"
               onPress={() => {
                 //@ts-ignore
-                navigationRef.navigate(screenName.profileScreen);
+                navigate(screenName.warningScreen);
               }}
               style={styles.btnStyleMob}
             />

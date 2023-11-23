@@ -126,7 +126,6 @@ const styles = StyleSheet.create({
   itemTextMob: {
     width: 120,
     ...defaultFont(400, 14, colors.black),
-
   },
   textStyleMob: {
     ...defaultFont("700_o", 26, colors.black),

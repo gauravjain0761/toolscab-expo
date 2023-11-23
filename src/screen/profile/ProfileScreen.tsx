@@ -40,18 +40,24 @@ const ProfileScreen = () => {
       return (
         <View style={style}>
           <View style={{ height: 28 }} />
-          <View>
+          <View style={{ flexDirection: "row" }}>
             <Text style={styles.headerSubTextMob}>{title}</Text>
             {isShow && (
-              <View
+              <TouchableOpacity
                 style={[
-                  styles.container,
-                  { alignSelf: "flex-start", marginRight: 10 },
+                  {
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginRight: 12,
+                  },
                 ]}
               >
-                <Image source={icons.pen} style={{ width: 18, height: 18 }} />
-                <Text style={styles.headerText}>{"Muuda"}</Text>
-              </View>
+                <Image
+                  source={icons.pen}
+                  style={{ width: 18, height: 18, marginRight: 8 }}
+                />
+                <Text style={styles.headerRightTextMob}>{"Muuda"}</Text>
+              </TouchableOpacity>
             )}
           </View>
           <View style={[styles.unLineStyleMob, style]} />
@@ -202,7 +208,7 @@ const ProfileScreen = () => {
               <>
                 <HeaderCommonView title={"Minu profiil"} isShow={true} />
                 <MyProfileView />
-                <HeaderCommonView title={"Maksevahendid"} />
+                <HeaderCommonView title={"Minu profiil"} />
                 <PaymentViewCart />
                 {selectedTab == 2 && (
                   <>
