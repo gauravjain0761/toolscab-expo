@@ -10,6 +10,8 @@ export const api = {
   //Catalogue
   catalogue: "Catalogue/CategorySearch",
   categoryProducts:"Catalogue/CategoryProducts",
+  catalogueFilterForm:"Catalogue/FilterForm",
+  catalogueFilterProducts:"Catalogue/FilterProducts",
 
   // /Product
   get_product: "Product",

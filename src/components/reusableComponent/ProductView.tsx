@@ -11,7 +11,7 @@ import {
   TextStyle,
 } from "react-native";
 import { colors } from "../../theme/Colors";
-import {  screen_width, wp } from "../../helper/globalFunctions";
+import {  catalogueImg, screen_width, wp } from "../../helper/globalFunctions";
 import { SCREEN_WIDTH, commonFontStyle } from "../../theme/Fonts";
 import { fontFamily } from "../../helper/constants";
 import { icons } from "../../theme/Icons";
@@ -54,7 +54,7 @@ const ProductView = ({
       <>
         {index == 0 ? (
           <ImageBackground
-            source={icons.image6}
+            source={catalogueImg(label)}
             resizeMode="cover"
             imageStyle={{ borderTopLeftRadius: 30, borderBottomRightRadius: 30 }}
             style={styles.containerImg}
@@ -62,7 +62,7 @@ const ProductView = ({
             <View style={{ flexDirection: "row", flex: 1 }}>
               <View style={{ flex: 1, alignSelf: "flex-end" }}>
                 <Text style={styles.imgLabelText}>{label}</Text>
-                <Text style={styles.imgText}>{title}</Text>
+                {/* <Text style={styles.imgText}>{title}</Text> */}
               </View>
             </View>
           </ImageBackground>
@@ -339,7 +339,7 @@ const styles = StyleSheet.create({
   },
   imgLabelText: {
     lineHeight: 18,
-    ...commonFontStyle(fontFamily.articulat_regular, 12, colors.white),
+    ...commonFontStyle(fontFamily.articulat_regular, 14, colors.white),
   },
   headerRight: {
     position: "absolute",

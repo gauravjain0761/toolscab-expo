@@ -4,7 +4,8 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from "react-native-responsive-screen";
-import { icons } from "../theme/Icons";
+import { icons, image } from "../theme/Icons";
+import catalogueReducer from "../redux/catalogueReducer";
 
 export const screen_width: number = Dimensions.get("window").width;
 export const screen_height: number = Dimensions.get("window").height;
@@ -42,3 +43,25 @@ export const hitSlop = {
   left: wp(10),
   right: wp(10),
 };
+
+export const catalogueImg=(key:any)=>{
+  console.log(key);
+  
+  switch (key) {
+    case "lõikurid":
+      return image.lõikurid
+    case "pesurid":
+      return image.pesurid
+    case "puhurid":
+      return image.puhurid
+    case "saed":
+      return image.saed
+    case "tolmuimejad":
+      return image.tolmuimejad
+    case "trellid":
+      return image.trellid
+    default:
+      return image.lõikurid
+  }
+
+}

@@ -60,5 +60,10 @@ export const icons = {
 export const image = {
   esimenetark: require("../../assets/Image/esimenetark.png"),
   toolscab2: require("../../assets/Image/toolscab2.png"),
-
+  lõikurid: require("../../assets/Image/lõikurid.png"),
+  pesurid: require("../../assets/Image/pesurid.png"),
+  puhurid: require("../../assets/Image/puhurid.png"),
+  saed: require("../../assets/Image/saed.png"),
+  tolmuimejad: require("../../assets/Image/tolmuimejad.png"),
+  trellid: require("../../assets/Image/trellid.png"),
 }
