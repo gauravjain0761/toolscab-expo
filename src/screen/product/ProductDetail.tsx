@@ -31,6 +31,7 @@ import { defaultFont } from "../../theme/Fonts";
 import { useNavigation } from "@react-navigation/native";
 import { styles } from "./ProductDetailStyle";
 import { dataList } from "../../helper/constantData";
+import { useSelector } from "react-redux";
 
 type Props = {};
 
@@ -42,6 +43,12 @@ const ProductDetail = (props: Props) => {
   const [tabIndex2, setTabIndex2] = useState(false);
   const [tabIndex3, setTabIndex3] = useState(false);
   const [pricefoShow, setPricefoShow] = useState(false);
+  const {
+    productDetails
+  } = useSelector((state) => state.catalogue);
+
+  console.log('productDetails',productDetails);
+  
 
   const RenderRow = ({ title, value }: any) => {
     if (Platform.OS == "web") {
@@ -129,28 +136,19 @@ const ProductDetail = (props: Props) => {
             <View>
               <Image source={icons.image1} style={styles.imageProduct} />
               <FlatList
-                data={[0, 1, 2, 3]}
+                data={productDetails?.photo_ids}
                 horizontal
                 renderItem={({ item, index }) => {
                   return <View style={styles.bottomImages} />;
                 }}
               />
               <Text style={styles.des}>
-                Polstri- ja põrandaotsikuga Puzzi 10/1 sobib eriti hästi
-                suuremate ja keskmiste pindade hügieeniliseks puhastamiseks. 1
-                baari suuruse piserdusrõhuga kannab süvapesuseade hoolt
-                tekstiilpindade säästva sügavpuhastuse eest ja annab eriti
-                polstrite ja vaipkatete puhastamisel veenvaid tulemusi. Tänu
-                kitsale põrandaotsikule sobib seade suurepäraselt ka kitsamates
-                ruumitingimustes töötamiseks. Ning tänu painduvale kummiraaklile
-                saab muretult puhastada ka möbleeritud pindasid. Süvapesuseade
-                on varustatud integreeritud juhtmekonksu ja käsitööriistade ning
-                imemisvooliku kinnitusega.
+               {productDetails?.description}
               </Text>
             </View>
             <View style={styles.rightView}>
-              <Text style={styles.title1}>Tekstiilipesur</Text>
-              <Text style={styles.mainTitle}>KARCHER Puzzi 101</Text>
+              <Text style={styles.title1}>{productDetails?.brand}</Text>
+              <Text style={styles.mainTitle}>{productDetails?.product_name}</Text>
               <View style={styles.botomLine} />
               <View style={styles.priceView}>
                 <View>

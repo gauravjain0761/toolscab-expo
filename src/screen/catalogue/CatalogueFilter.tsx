@@ -37,6 +37,7 @@ import {
   getCatalogueCategoryProductsAction,
   getCatalogueCategorySearchAction,
   getCatalogueFilterFormAction,
+  getProductAction,
   postcatalogueFilterProductAction,
 } from "../../actions/catalogueAction";
 import CommonGreenBtn from "../../components/reusableComponent/CommonGreenBtn";
@@ -70,6 +71,21 @@ const ProductcartList = ({
     };
     dispatch(getCatalogueCategoryProductsAction(obj));
   };
+
+  const onProductPress = (item: any) => {  
+    const obj = {
+      params: {
+        product_id: item?.product_id,
+        include_photo_ids:true
+      },
+      onSuccess: (res: any) => {
+        navigationRef.navigate(screenName.productDetail)
+      },
+      onFailure: () => {},
+    };
+    dispatch(getProductAction(obj));
+  };
+
 
   return (
     <View>
@@ -111,7 +127,7 @@ const ProductcartList = ({
                 label={item?.brand}
                 onSelectPress={() =>
                   //@ts-ignore
-                  navigationRef.navigate(screenName.productDetail)
+                  onProductPress(item)
                 }
                 mainView={false}
                 aircon={item?.aircon || 0}

@@ -3,7 +3,7 @@ import { AnyAction } from "redux";
 import { makeAPIRequest } from "../helper/apiGlobal";
 import { GET, POST, api } from "../helper/apiConstants";
 import { RootState } from "../helper/types";
-import { GET_CATALOGUE_CATEGORY_LIST_DATA, GET_CATALOGUE_CATEGORY_PRODUCT_LIST_DATA, GET_CATALOGUE_FILTER_FROM_LIST_DATA } from "./dispatchTypes";
+import { GET_CATALOGUE_CATEGORY_LIST_DATA, GET_CATALOGUE_CATEGORY_PRODUCT_LIST_DATA, GET_CATALOGUE_FILTER_FROM_LIST_DATA, GET_PRODUCT_DETAILS_DATA } from "./dispatchTypes";
 
 export const getCatalogueCategorySearchAction =
   (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
@@ -16,7 +16,7 @@ export const getCatalogueCategorySearchAction =
       method: GET,
       url: api.catalogue,
       headers: headers,
-      data:null
+      // data:null
     })
       .then(async (response: any) => {
         if (response.status === 200) {
@@ -102,4 +102,26 @@ export const getCatalogueCategorySearchAction =
       });
   };
 
-  
+  export const getProductAction=
+  (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
+  async (dispatch) => {
+    let headers = {
+      Accept: 'application/json'
+    };
+
+    return makeAPIRequest({
+      method: GET,
+      url: api.get_product,
+      headers: headers,
+      params:request.params
+    })
+      .then(async (response: any) => {
+        if (response.status === 200) {
+         if (request.onSuccess) request.onSuccess(response?.data);
+         dispatch({ type:GET_PRODUCT_DETAILS_DATA, payload: response?.data });
+        }
+      })
+      .catch((error) => {  
+        if (request.onFailure) request.onFailure(error.response);
+      });
+  };

@@ -30,10 +30,6 @@ const HomeScreen = () => {
   const navigationRef = useNavigation();
 
   const { catalogueCategorySearchList:catalogueList } = useSelector((state) => state.catalogue);
-
-console.log('catalogueList',catalogueList[0]);
-
-
   let data = [
     `Leia sobiv  seade ning${'\n'}lähim seadmekapp`,
     `Broneeri seade veebis`,
@@ -93,7 +89,7 @@ useEffect(()=>{
                     >
                       {"Eesti esimene minutipõhine tööriistarent"}
                     </Text>
-                    <TouchableOpacity style={styles.buttonStyle}>
+                    <TouchableOpacity style={styles.buttonStyle} onPress={()=>navigationRef.navigate(screenName.catalogueFilter)}>
                       <Text
                         style={{
                           fontSize: wp(24),
