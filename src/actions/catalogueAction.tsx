@@ -3,14 +3,13 @@ import { AnyAction } from "redux";
 import { makeAPIRequest } from "../helper/apiGlobal";
 import { GET, POST, api } from "../helper/apiConstants";
 import { RootState } from "../helper/types";
-import axios from "axios";
 import { GET_CATALOGUE_CATEGORY_LIST_DATA, GET_CATALOGUE_CATEGORY_PRODUCT_LIST_DATA, GET_CATALOGUE_FILTER_FROM_LIST_DATA } from "./dispatchTypes";
 
 export const getCatalogueCategorySearchAction =
   (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
   async (dispatch) => {
     let headers = {
-      Accept: 'application/json'
+      Accept: 'text/plain'
     };
 
     return makeAPIRequest({

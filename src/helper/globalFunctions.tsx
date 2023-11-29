@@ -44,12 +44,12 @@ export const hitSlop = {
   right: wp(10),
 };
 
-export const catalogueImg=(key:any)=>{
+export const catalogueImg = (key: any) => {
   console.log(key);
-  
+
   switch (key) {
     case "lõikurid":
-      return image.lõikurid
+      return image.loikurid
     case "pesurid":
       return image.pesurid
     case "puhurid":
@@ -61,7 +61,7 @@ export const catalogueImg=(key:any)=>{
     case "trellid":
       return image.trellid
     default:
-      return image.lõikurid
+      return image.loikurid
   }
 
 }

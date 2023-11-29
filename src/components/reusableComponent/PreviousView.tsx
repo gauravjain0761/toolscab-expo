@@ -57,7 +57,10 @@ const PreviousView = ({ title, list }: Props) => {
           <View style={{flexDirection:'row',marginTop:10}}>
             <Text style={styles.headerText2Mob}>{"23.05.2023"}</Text>
             <View style={{flexDirection:'row'}}>
+            <View style={styles.headerText3MobView}>
+
               <Text style={styles.headerText3Mob}>{"1.58 €"}</Text>
+              </View>
               <TouchableOpacity onPress={() => setIsSelect(!isSelect)}>
                 <Image
                   source={isSelect ? icons.downarrow : icons.rightBack}
@@ -175,12 +178,17 @@ const styles = StyleSheet.create({
     ...defaultFont(400, 12, colors.filterText),
   },
   headerText3Mob: {
-    marginRight: 15,
+    // marginTop:10,
+    ...defaultFont(400, 12, colors.headerBG),
+    marginHorizontal:10
+  },
+  headerText3MobView:{
+marginRight: 15,
     borderWidth: 1,
-    paddingHorizontal: 21,
     backgroundColor: colors.roheline,
     borderRadius: 10,
-    ...defaultFont(400, 12, colors.headerBG),
+    alignItems:'center',
+    justifyContent:'center'
   },
   iconStyleMob: {
     width: 14,

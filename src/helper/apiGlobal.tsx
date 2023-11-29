@@ -25,10 +25,12 @@ export const makeAPIRequest = ({
       baseURL: api.BASE_URL,
       url,
       data,
-      headers,
+      headers: {
+        Accept: "text/plain",
+      },
       params,
     };
-    console.log('option ',option );
+    console.log('option---- ',option );
     
     axios(option)
       .then((response) => {

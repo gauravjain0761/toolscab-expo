@@ -1,14 +1,14 @@
 import { useMemo, useRef, useState } from "react";
 import { StyleSheet, View, Text, Image, Platform } from "react-native";
-import MapView, { Marker } from "react-native-maps";
-import type { Region } from "react-native-maps";
+// import MapView, { Marker } from "react-native-maps";
+// import type { Region } from "react-native-maps";
 import { icons } from "../../theme/Icons";
 // create a component
 
 const CommonMapView = ({ width }: any) => {
-  const [region, setRegion] = useState<Region | null>(null);
+  // const [region, setRegion] = useState<Region | null>(null);
 
-  const mapRef = useRef<MapView>(null);
+  // const mapRef = useRef<MapView>(null);
 
   const loadingFallback = useMemo(() => {
     return (
@@ -18,10 +18,10 @@ const CommonMapView = ({ width }: any) => {
     );
   }, []);
 
-  if(Platform.OS =='web'){
+  if (Platform.OS == 'web') {
     return (
       <View style={[styles.container, { width: width ? width : 1102, height: width ? width : 390 }]}>
-        <MapView
+        {/* <MapView
           ref={mapRef}
           provider="google"
           mapType="none"
@@ -59,13 +59,13 @@ const CommonMapView = ({ width }: any) => {
               <Image source={icons.mapImg} style={styles.imageStyle} />
             </View>
           </Marker>
-        </MapView>
+        </MapView> */}
       </View>
     );
-  }else{
+  } else {
     return (
       <View style={[styles.container, { width: "100%", height: 100 }]}>
-        <MapView
+        {/* <MapView
           ref={mapRef}
           provider="google"
           mapType="none"
@@ -103,7 +103,7 @@ const CommonMapView = ({ width }: any) => {
               <Image source={icons.mapImg} style={styles.imageStyle} />
             </View>
           </Marker>
-        </MapView>
+        </MapView> */}
       </View>
     );
   }
@@ -119,11 +119,11 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 40,
     // borderWidth: 1,
   },
-  mapView:{
-    height: 390, width: 1102, borderWidth: 30 
+  mapView: {
+    height: 390, width: 1102, borderWidth: 30
   },
-  mapViewMob:{
-    height: 380, width: "100%",borderWidth:1
+  mapViewMob: {
+    height: 380, width: "100%", borderWidth: 1
   },
   imageStyle: {
     width: 50,
