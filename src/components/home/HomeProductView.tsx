@@ -1,27 +1,53 @@
 //import liraries
 import React from "react";
-import { View, Text, StyleSheet, Image, Platform } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Platform,
+  TouchableOpacity,
+} from "react-native";
 import { colors } from "../../theme/Colors";
 import { defaultFont } from "../../theme/Fonts";
 import { heightPercentageToDP } from "react-native-responsive-screen";
 import { icons } from "../../theme/Icons";
+import { navigationRef } from "../../navigations/RootNavigation";
+import { screenName } from "../../helper/constants";
+import { useNavigation } from "@react-navigation/native";
 
 // create a component
 const HomeProductView = ({ data }: any) => {
-  console.log(' data', data);
-  
-  return (
-    Platform.OS == 'web' ?
-      <View style={styles.container}>
-        <Image source={icons.image1} style={styles.iconStyle} resizeMode='contain' />
-        <Text>{data?.category_title}</Text>
-      </View>
-      :
-      <View style={styles.containerMob}>
-        <Image source={data?.iconName} style={styles.iconStyleMob} resizeMode='contain' />
-        <Text style={defaultFont(400, 14, colors.black)}>{data?.name}</Text>
-      </View>
-
+  const { navigate } = useNavigation();
+  const onCardPress = () => {
+    navigate(screenName.catalogueFilter);
+  };
+  return Platform.OS == "web" ? (
+    <TouchableOpacity onPress={onCardPress} style={styles.container}>
+      <Image
+        defaultSource={icons.defultIcon}
+        source={{
+          uri: `https://api.toolscab.ee/PhotoBinary/CategoryPhoto?category_id=${data?.product_category_id}&maxWidth=300&maxHeight=300`,
+        }}
+        style={styles.iconStyle}
+        resizeMode="contain"
+      />
+      <Text>{data?.category_title}</Text>
+    </TouchableOpacity>
+  ) : (
+    <TouchableOpacity onPress={onCardPress} style={styles.containerMob}>
+      <Image
+        source={{
+          uri: `https://api.toolscab.ee/PhotoBinary/CategoryPhoto?category_id=${data?.product_category_id}&maxWidth=300&maxHeight=300`,
+        }}
+        style={styles.iconStyleMob}
+        resizeMode="contain"
+        defaultSource={icons.defultIcon}
+      />
+      <Text style={defaultFont(400, 14, colors.black)}>
+        {data?.category_title}
+      </Text>
+    </TouchableOpacity>
   );
 };
 
@@ -37,15 +63,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 20,
     marginRight: 21,
-    justifyContent: 'space-between'
+    justifyContent: "space-between",
   },
   iconStyle: {
     width: 190,
     height: 190,
-    alignSelf: 'center',
-    marginTop: 30
+    alignSelf: "center",
+    marginTop: 30,
   },
-
 
   //mobile
   containerMob: {
@@ -57,15 +82,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 20,
     marginRight: 21,
-    justifyContent: 'space-between'
+    justifyContent: "space-between",
   },
   iconStyleMob: {
     width: 208 - heightPercentageToDP(4),
     height: 190,
-    alignSelf: 'center',
+    alignSelf: "center",
     marginTop: 30,
     // backgroundColor: 'red'
-  }
+  },
 });
 
 //make this component available to the app

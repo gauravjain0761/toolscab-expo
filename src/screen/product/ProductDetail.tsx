@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   TextInput,
   Platform,
+  ImageBackground,
 } from "react-native";
 import React, { useState } from "react";
 import {
@@ -43,12 +44,16 @@ const ProductDetail = (props: Props) => {
   const [tabIndex2, setTabIndex2] = useState(false);
   const [tabIndex3, setTabIndex3] = useState(false);
   const [pricefoShow, setPricefoShow] = useState(false);
+  const { productDetails } = useSelector((state) => state.catalogue);
+  const [imageId, setImageId] = useState(productDetails?.photo_ids?.[0]);
+
+  console.log("productDetails", productDetails,imageId);
   const {
-    productDetails
+    catalogueCategorySearchList: catalogueList,
+    catalogueCategoryProductList: CategoryProductList,
   } = useSelector((state) => state.catalogue);
 
-  console.log('productDetails',productDetails);
-  
+  console.log("CategoryProductList", CategoryProductList);
 
   const RenderRow = ({ title, value }: any) => {
     if (Platform.OS == "web") {
@@ -131,24 +136,55 @@ const ProductDetail = (props: Props) => {
       <Header isMainScreen={false} />
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <View style={styles.mainContainer}>
-          <HeaderBottomPathView heading="Kodu / seadmed / pesurid / KARCHER Puzzi 10/1" />
+          <HeaderBottomPathView
+            heading={" Seadmed "}
+            //@ts-ignore
+            heading1={`/ ${CategoryProductList?.[0]?.brand} `}
+            heading2={`/ ${productDetails?.product_name}`}
+            onHeadingPress={() =>
+              navigationRef.navigate(screenName.catalogueFilter)
+            }
+            onHeadingPress1={() =>
+              navigationRef.navigate(screenName.catalogueFilter)
+            }
+            onHeadingMainPress={() => {
+              navigationRef.navigate(screenName.homeScreen);
+            }}
+          />
           <View style={styles.mainContentView}>
             <View>
-              <Image source={icons.image1} style={styles.imageProduct} />
+              <Image
+                defaultSource={icons.defultIcon}
+                source={{
+                  uri: `https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${imageId}&maxWidth=100&maxHeight=100`,
+                }}
+                style={styles.imageProduct}
+                resizeMode="contain"
+              />
               <FlatList
                 data={productDetails?.photo_ids}
                 horizontal
                 renderItem={({ item, index }) => {
-                  return <View style={styles.bottomImages} />;
+                  return (
+                    <TouchableOpacity onPress={() => setImageId(item)}>
+                      <ImageBackground
+                       defaultSource={icons.defultIcon}
+                        source={{
+                          uri: `https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${item}&maxWidth=100&maxHeight=100`,
+                        }}
+                        style={styles.bottomImages}
+                      ></ImageBackground>
+                    </TouchableOpacity>
+                  );
                 }}
               />
-              <Text style={styles.des}>
-               {productDetails?.description}
-              </Text>
+              <Text style={styles.des}>{productDetails?.description}</Text>
             </View>
             <View style={styles.rightView}>
               <Text style={styles.title1}>{productDetails?.brand}</Text>
-              <Text style={styles.mainTitle}>{productDetails?.product_name}</Text>
+              <Text style={styles.mainTitle}>
+                {productDetails?.product_name}
+              </Text>
               <View style={styles.botomLine} />
               <View style={styles.priceView}>
                 <View>
@@ -172,10 +208,78 @@ const ProductDetail = (props: Props) => {
                   </View>
                 </View>
                 <View style={styles.arrowViewStyle}>
-                  <Image style={styles.arrowImage} source={icons.bottomArrow} />
+                  <TouchableOpacity
+                    onPress={() => setPricefoShow(!pricefoShow)}
+                  >
+                    <Image
+                      style={styles.arrowImage}
+                      source={icons.bottomArrow}
+                    />
+                  </TouchableOpacity>
                   <Text style={styles.arrowText}>Kuidas hind kujuneb ?</Text>
                 </View>
               </View>
+              {pricefoShow && (
+                <>
+                  <View
+                    style={[
+                      styles.botomLineMob,
+                      { marginTop: 8, marginBottom: 19 },
+                    ]}
+                  />
+                  <View style={{ marginHorizontal: widthPercentageToDP(1.5) }}>
+                    {dataList.map((item: any) => {
+                      return (
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            alignItems: "flex-start",
+                            justifyContent: "space-between",
+                            marginBottom: 5,
+                          }}
+                        >
+                          <Text
+                            style={{
+                              ...commonFontStyle(
+                                fontFamily.articulat_regular,
+                                12,
+                                colors.black
+                              ),
+                            }}
+                          >
+                            {item?.name}
+                          </Text>
+                          <Text
+                            style={{
+                              ...commonFontStyle(
+                                fontFamily.articulat_regular,
+                                12,
+                                colors.black
+                              ),
+                            }}
+                          >
+                            {item?.subTitle}
+                          </Text>
+                        </View>
+                      );
+                    })}
+                    <Text
+                      style={{
+                        ...commonFontStyle(
+                          fontFamily.articulat_regular,
+                          12,
+                          colors.filterText
+                        ),
+                        marginTop: 15,
+                      }}
+                    >
+                      Rendi lõpphind arvutatakse rendi kestuse põhjal. Lühikeste
+                      rentide eest mis maksavad alla 3,29€, võetakse
+                      miinimumtasu. Soodustusi rakendatakse peale seda.
+                    </Text>
+                  </View>
+                </>
+              )}
               <View style={styles.botomLine} />
               <View style={styles.btnRow}>
                 <CommonGreenBtn
@@ -385,9 +489,9 @@ const ProductDetail = (props: Props) => {
     <View style={styles.container}>
       <ScrollView style={styles.container}>
         <View style={styles.contentView}>
-          <Text style={styles.titleDes}>Tekstiilipesur</Text>
-          <Text style={styles.title}>KARCHER Puzzi 10/1</Text>
-          <Image source={icons.image1} style={styles.mainImage} />
+          <Text style={styles.titleDes}>{productDetails?.brand}</Text>
+          <Text style={styles.title}>{productDetails?.product_name}</Text>
+          <Image source={{ uri: `https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${productDetails?.photo_ids?.[0]}&maxWidth=100&maxHeight=100`,}} style={styles.mainImage} />
           <View style={styles.bottomView}>
             <View>
               <View style={{ flex: 1 }}>
@@ -532,7 +636,9 @@ const ProductDetail = (props: Props) => {
           <View style={styles.btnRowMob}>
             <CommonGreenBtn
               title="Rendi"
-              onPress={() => { navigationRef.navigate(screenName.productLocations)}}
+              onPress={() => {
+                navigationRef.navigate(screenName.productLocations);
+              }}
               style={{ width: "40%" }}
             />
             <CommonGreenBtn
@@ -548,15 +654,7 @@ const ProductDetail = (props: Props) => {
           </View>
           <Text style={styles.btnBottomTextMob}>Renditingimused</Text>
           <Text style={styles.desProduct}>
-            Polstri- ja põrandaotsikuga Puzzi 10/1 sobib eriti hästi suuremate
-            ja keskmiste pindade hügieeniliseks puhastamiseks. 1 baari suuruse
-            piserdusrõhuga kannab süvapesuseade hoolt tekstiilpindade säästva
-            sügavpuhastuse eest ja annab eriti polstrite ja vaipkatete
-            puhastamisel veenvaid tulemusi. Tänu kitsale põrandaotsikule sobib
-            seade suurepäraselt ka kitsamates ruumitingimustes töötamiseks. Ning
-            tänu painduvale kummiraaklile saab muretult puhastada ka möbleeritud
-            pindasid. Süvapesuseade on varustatud integreeritud juhtmekonksu ja
-            käsitööriistade ning imemisvooliku kinnitusega.
+           {productDetails?.description}
           </Text>
           <View style={styles.boxStyleMob}>
             <View style={styles.boxBodyMob}>

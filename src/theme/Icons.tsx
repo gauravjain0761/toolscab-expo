@@ -52,6 +52,7 @@ export const icons = {
   commonicon:require('../../assets/icon/commonicon.png'),
   ellipse1:require('../../assets/icon/ellipse1.png'),
   ellipse:require('../../assets/icon/ellipse.png'),
+  defultIcon:require('../../assets/icon/defultIcon.jpeg'),
 
 
 

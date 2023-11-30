@@ -67,6 +67,7 @@ export const styles = StyleSheet.create({
     height: 1,
     backgroundColor: colors.bottomLine,
   },
+ 
   prodDes2: {
     ...defaultFont(400, 12, colors.headerBG),
     marginBottom: 5,
@@ -221,7 +222,7 @@ export const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   imageProduct: {
-    height: 350,
+    height: 300,
     width: (screen_width * 0.75) / 1.7,
     resizeMode: "contain",
   },

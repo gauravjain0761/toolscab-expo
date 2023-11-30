@@ -1,5 +1,5 @@
 //import liraries
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -21,160 +21,175 @@ import { fontFamily } from "../../helper/constants";
 import { defaultFont } from "../../theme/Fonts";
 import DropDownMenu from "../reusableComponent/DropDownMenu";
 import CheckboxView from "../reusableComponent/CheckboxView";
+import { useSelector } from "react-redux";
+import CommonGreenBtn from "../reusableComponent/CommonGreenBtn";
 
 type Props = {
   isVisible: boolean;
   onClose: () => void;
+  onFilterPressMobile: (res: any) => void;
+  
 };
 
-const filterData = [
-  {
-    id: 1,
-    name: "Pesurid",
-    icon: icons.image1,
-    productList: [
-      { id: 1, icon: icons.image6, title: "Pesurid", label: "Loe lisaks" },
-      {
-        id: 2,
-        icon: icons.image1,
-        title: "KARCHER Puzzi 10/1",
-        label: "Tekstiilipesur",
-        aircon: 3240,
-        volumeflow: 1,
-        hoselength: 1,
-      },
-      {
-        id: 3,
-        icon: icons.image8,
-        title: "KARCHER SC 1",
-        label: "Aurupesur",
-        aircon: 3240,
-        volumeflow: 1,
-        hoselength: 1,
-      },
-      {
-        id: 4,
-        icon: icons.image9,
-        title: "KARCHER SC 2",
-        label: "Aurupesur",
-        aircon: 3240,
-        volumeflow: 1,
-        hoselength: 1,
-      },
-      {
-        id: 5,
-        icon: icons.image8,
-        title: "KARCHER Puzzi 10/1",
-        label: "Tekstiilipesur",
-        aircon: 3240,
-        volumeflow: 1,
-        hoselength: 1,
-      },
-      {
-        id: 6,
-        icon: icons.image1,
-        title: "KARCHER Puzzi 10/1",
-        label: "Aurupesur",
-        aircon: 3240,
-        volumeflow: 1,
-        hoselength: 1,
-      },
-      {
-        id: 7,
-        icon: icons.image9,
-        title: "KARCHER SC 2",
-        label: "Aurupesur",
-        aircon: 3240,
-        volumeflow: 1,
-        hoselength: 1,
-      },
-    ],
-  },
-  { id: 2, name: "Tolmuimejad", icon: icons.image2 },
-  { id: 3, name: "Saed", icon: icons.image4 },
-  { id: 4, name: "Puhurid", icon: icons.image3 },
-  { id: 5, name: "Trellid", icon: icons.image5 },
-  { id: 6, name: "Lõikurid", icon: icons.image7 },
-];
-const checkList = [
-  {
-    id: 1,
-    title: "Saadavus:",
-    list: [
-      { id: 1, name: "Kõik" },
-      { id: 2, name: "Praegu saadaval" },
-    ],
-  },
-  {
-    id: 2,
-    title: "Tootja",
-    list: [
-      { id: 1, name: "Karcher" },
-      { id: 2, name: "Makita" },
-    ],
-  },
-  {
-    id: 3,
-    title: "Tüüp",
-    list: [
-      { id: 1, name: "Akutoitel" },
-      { id: 2, name: "Juhtmega" },
-    ],
-  },
-];
-
 // create a component
-const ProductFilterModalMobile = ({ isVisible, onClose }: Props) => {
+const ProductFilterModalMobile = ({
+  isVisible,
+  onClose,
+  onFilterPressMobile,
+}: Props) => {
+  const [catalogueId, setCatalogueId] = useState([]);
+  const [cityList, setCityList] = useState([]);
+  const [typeList, setTypeList] = useState([]);
+  const [brandList, setBrandsList] = useState([]);
+
+  const {
+    catalogueCategorySearchList: catalogueList,
+    catalogueCategoryProductList: CategoryProductList,
+    catalogueCategoryFilterList: catalogueFilterList,
+  } = useSelector((state) => state.catalogue);
+
+  const onSelectPress = (item: any) => {
+    setCatalogueId(item);
+  };
+
+  const onResetFilterPress = () => {
+    setBrandsList([]), setCityList([]), setTypeList([]);
+    setCatalogueId([]);
+  };
+  const onBrandPress = (res) => {
+    const update = brandList.filter((item) => item === res);
+    if (update?.length) {
+      const update = brandList.filter((item) => item !== res);
+      setBrandsList(update);
+    } else {
+      setBrandsList([...brandList, res]);
+    }
+  };
+  const onCitysPress = (res) => {
+    const update = cityList.filter((item) => item === res);
+    if (update?.length) {
+      const update = cityList.filter((item) => item !== res);
+      setCityList(update);
+    } else {
+      setCityList([...cityList, res]);
+    }
+  };
+  const onTypePress = (res) => {
+    const update = typeList.filter((item) => item === res);
+    if (update?.length) {
+      const update = typeList.filter((item) => item !== res);
+      setTypeList(update);
+    } else {
+      setTypeList([...typeList, res]);
+    }
+  };
+  
+  const onFilterPress = () => {
+    if(catalogueId?.product_category_id == undefined){
+      onClose()
+    }else{
+      const obj = {
+        product_category_id: catalogueId?.product_category_id,
+        statuses: ["Online"],
+        cities: cityList,
+        brands: brandList,
+        types: typeList,
+      };
+      onFilterPressMobile(obj);
+    }
+   
+  };
+
   return (
-    <Modal
-      transparent
-      visible={isVisible}
-    >
+    <Modal transparent visible={isVisible}>
       <View style={styles.container}>
         <View style={styles.bodyContent}>
-          <ScrollView style={{flex:1}}>
-
-          <Text
-            style={{ ...defaultFont(700, 17, colors.black), marginBottom: 15 }}
-          >
-            Tootekategooriad
-          </Text>
-          {filterData.map((item) => {
-            return (
-              <TouchableOpacity>
-                <Text
-                  style={[
-                    {
-                      ...defaultFont(400, 17, colors.black),
-                      marginBottom: 8,
-                    },
-                  ]}
+          <ScrollView style={{ flex: 1 }}>
+            <Text
+              style={{
+                ...defaultFont(700, 17, colors.black),
+                marginBottom: 15,
+              }}
+            >
+              Tootekategooriad
+            </Text>
+            {catalogueList?.map((item) => {
+              return (
+                <TouchableOpacity
+                  onPress={() => {
+                    onSelectPress(item);
+                  }}
                 >
-                  {item?.name}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
-          <Text
-            style={{
-              ...defaultFont(700, 17, colors.black),
-              marginTop: 30,
-            }}
-          >
-            Filtreeri
-          </Text>
-          <View style={{ height: 13 }} />
-          <DropDownMenu />
-          <View style={{ marginTop: 16 }}>
-            {checkList.map((item) => {
-              return <CheckboxView title={item.title} list={item.list} />;
+                  <Text
+                    style={[
+                      {
+                        ...defaultFont(400, 17, colors.black),
+                        marginBottom: 8,
+                        fontFamily:
+                          //@ts-ignore
+                          // showProduct[0]?.brand === item?.category_title ||
+                          catalogueId?.category_title !== item?.category_title
+                            ? fontFamily.articulat_bold
+                            : fontFamily.articulat_normal,
+                      },
+                    ]}
+                  >
+                    {item?.category_title}
+                  </Text>
+                </TouchableOpacity>
+              );
             })}
-          </View>
-        
-          <View style={{height:190}}/>
+            <Text
+              style={{
+                ...defaultFont(700, 17, colors.black),
+                marginTop: 30,
+              }}
+            >
+              Filtreeri
+            </Text>
+            <View style={{ height: 13 }} />
+            <DropDownMenu />
+            <View style={{ marginTop: 12 }}>
+              <CheckboxView
+                title={"kaubamärgid"}
+                list={catalogueFilterList?.brands}
+                selectData={brandList}
+                onPressItem={(item) => onBrandPress(item)}
+              />
+              <CheckboxView
+                title={"linnad"}
+                list={catalogueFilterList?.cities}
+                selectData={cityList}
+                onPressItem={(item) => onCitysPress(item)}
+              />
+              <CheckboxView
+                title={"tüübid"}
+                list={catalogueFilterList?.types}
+                selectData={typeList}
+                onPressItem={(item) => onTypePress(item)}
+              />
+            </View>
+            <CommonGreenBtn
+              title="kohaldadas"
+              onPress={() => {
+                onFilterPress();
+              }}
+              style={{
+                borderColor: colors.headerBG,
+                marginLeft: 10,
+                width: widthPercentageToDP(30),
+                marginTop: 50,
+              }}
+            />
+            <View style={{ height: 190 }} />
           </ScrollView>
 
-          <TouchableOpacity style={styles.filterView} onPress={() => onClose()}>
+          <TouchableOpacity
+            style={styles.filterView}
+            onPress={() => {
+              onResetFilterPress(), onClose();
+            }}
+          >
             <Image style={styles.filterIcon} source={icons.filterClose} />
           </TouchableOpacity>
         </View>
@@ -195,15 +210,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     flex: 1,
     paddingLeft: widthPercentageToDP(6),
-  },
-  loginText: {
-    ...commonFontStyle(fontFamily.semiBold, 32, colors.Roheline2),
-  },
-  regText: {
-    lineHeight: 21,
-    marginTop: 17,
-    marginBottom: 20,
-    ...commonFontStyle(fontFamily.articulat_normal, 14, colors.headerBG),
   },
   filterView: {
     position: "absolute",

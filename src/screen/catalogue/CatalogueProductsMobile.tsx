@@ -18,18 +18,57 @@ import { icons } from "../../theme/Icons";
 import { useNavigation } from "@react-navigation/native";
 import { filterDataMobile } from "../../helper/constantData";
 import { styles } from "./CatalogueProductsMobileStyle";
+import { useDispatch, useSelector } from "react-redux";
+import { getProductAction, postcatalogueFilterProductAction } from "../../actions/catalogueAction";
 
 
 // create a component
 const CatalogueProductsMobile = () => {
   const navigationRef = useNavigation();
   const [filterModal, setFilterModal] = useState(false);
+  const {
+    catalogueCategorySearchList: catalogueList,
+    catalogueCategoryProductList: CategoryProductList,
+  } = useSelector((state) => state.catalogue);
+  const dispatch = useDispatch();
+
+
+  const onFilterPressMobile = (res:any) => {
+    const upfdate=catalogueList?.filter((item) => item?.product_category_id == res?.product_category_id);
+
+    const obj = {
+      data: res,
+      data1:{
+        brand: upfdate[0]?.category_title,
+      },
+      onSuccess: (res: any) => {
+        setFilterModal(false)
+        // navigationRef.navigate(screenName.catalogueProductsMobile)
+      },
+      onFailure: () => {},
+    };    
+    dispatch(postcatalogueFilterProductAction(obj));
+  };
+  const onProductPressMobile = (item: any) => {
+    const obj = {
+      params: {
+        product_id: item?.product_id,
+        include_photo_ids: true,
+      },
+      onSuccess: (res: any) => {
+        navigationRef.navigate(screenName.productDetail);
+      },
+      onFailure: () => {},
+    };
+    dispatch(getProductAction(obj));
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView style={styles.container}>
-        <Text style={styles.title}>Pesurid</Text>
+        <Text style={styles.title}>{CategoryProductList?.[0]?.brand}</Text>
         <FlatList
-          data={filterDataMobile[0].productList}
+          data={CategoryProductList}
           numColumns={2}
           keyExtractor={(_i, index) => index.toString()}
           renderItem={({ item, index }) => {
@@ -37,15 +76,16 @@ const CatalogueProductsMobile = () => {
               <ProductView
                 index={index}
                 icon={item?.icon}
-                title={item?.title}
-                label={item?.label}
+                title={item?.product_name}
+                label={item?.brand}
+                product_category_id={`https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${item?.first_photo_id}&maxWidth=300&maxHeight=300`}
                 onSelectPress={() =>
-                  navigationRef.navigate(screenName.productDetail)
+                  onProductPressMobile(item)
                 }
                 mainView={false}
-                aircon={item?.aircon}
-                volumeflow={item?.volumeflow}
-                hoselength={item?.hoselength}
+                aircon={item?.aircon || 0}
+                volumeflow={item?.volumeflow || 0}
+                hoselength={item?.hoselength || 0}
               />
             );
           }}
@@ -61,6 +101,9 @@ const CatalogueProductsMobile = () => {
       <ProductFilterModalMobile
         isVisible={filterModal}
         onClose={() => setFilterModal(false)}
+        onFilterPressMobile={(res)=>{
+          onFilterPressMobile(res)
+        }}
       />
     </View>
   );

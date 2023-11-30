@@ -20,10 +20,13 @@ import { widthPercentageToDP } from "react-native-responsive-screen";
 import { icons } from "../../theme/Icons";
 import { useNavigation } from "@react-navigation/native";
 import { styles } from "./ProductLocationsStyle";
+import { useSelector } from "react-redux";
 
 // create a component
 const ProductLocations = () => {
   const navigation = useNavigation()
+  const { productDetails } = useSelector((state) => state.catalogue);
+
   if(Platform.OS == 'web'){
     return (
       <View style={styles.container}>
@@ -62,14 +65,14 @@ const ProductLocations = () => {
             <View style={styles.boxStyle}>
               <View>
                 <Image
-                  source={icons.image1}
+                  source={{ uri: `https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${productDetails?.photo_ids?.[0]}&maxWidth=100&maxHeight=100`,}}
                   style={styles.leftIcon}
                   resizeMode="contain"
                 />
               </View>
               <View>
-                <Text style={styles.bodyHeader}>Tekstiilipesur</Text>
-                <Text style={styles.bodyHeaderText}>KARCHER Puzzi 10/1</Text>
+                <Text style={styles.bodyHeader}>{productDetails?.brand}</Text>
+                <Text style={styles.bodyHeaderText}>{productDetails?.product_name}</Text>
                 <View style={styles.bodyBoxStyle}>
   
                 <Text style={styles.boxItem}>Tekstiilipesur</Text>
@@ -134,11 +137,11 @@ const ProductLocations = () => {
             </View>
             
             <View style={styles.boxStyleMob}>
-            <Text style={styles.bodyHeaderMob}>Tekstiilipesur</Text>
-                <Text style={styles.bodyHeaderTextMob}>KARCHER Puzzi 10/1</Text>
+            <Text style={styles.bodyHeaderMob}>{productDetails?.brand}</Text>
+                <Text style={styles.bodyHeaderTextMob}>{productDetails?.product_name}</Text>
               <View>
                 <Image
-                  source={icons.image1}
+                   source={{ uri: `https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${productDetails?.photo_ids?.[0]}&maxWidth=100&maxHeight=100`,}}
                   style={styles.leftIconMob}
                   resizeMode="contain"
                 />

@@ -3,7 +3,6 @@ import React, { useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
-  StyleSheet,
   ScrollView,
   Image,
   TouchableOpacity,
@@ -15,13 +14,13 @@ import { colors } from "../../theme/Colors";
 import { CommonMapView, FooterView, Header,HomeProductView  } from "../../components";
 import { hp, wp } from "../../helper/globalFunctions";
 import { fontFamily, screenName } from "../../helper/constants";
-import { productDetails } from "../../helper/constantData";
 import { icons } from "../../theme/Icons";
 import { heightPercentageToDP } from "react-native-responsive-screen";
 import { defaultFont } from "../../theme/Fonts";
 import { useDispatch, useSelector } from "react-redux";
 import { getCatalogueCategorySearchAction } from "../../actions/catalogueAction";
 import { useNavigation } from "@react-navigation/native";
+import { styles } from "./HomeScreenStyle";
 // create a component
 const HomeScreen = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -150,7 +149,7 @@ useEffect(()=>{
                     height: hp(500),
                   }}
                 >
-                  <TouchableOpacity style={{ alignSelf: "flex-end" }}>
+                  <TouchableOpacity style={{ alignSelf: "flex-end" }} onPress={()=>navigationRef.navigate(screenName.catalogueFilter)}>
                     <Image
                       resizeMode="contain"
                       style={{
@@ -227,7 +226,7 @@ useEffect(()=>{
                 >
                   {"Tutvu meie seadmetega"}
                 </Text>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={()=>navigationRef.navigate(screenName.catalogueFilter)}>
                   <Text
                     style={{
                       fontSize: 15,
@@ -365,13 +364,13 @@ useEffect(()=>{
                 </View>
               )
             })}
-            <TouchableOpacity style={styles.buttonStyle3}>
+            <TouchableOpacity style={styles.buttonStyle3}  onPress={()=>navigationRef.navigate(screenName.catalogueFilter)}>
               <Text style={{ ...defaultFont(600, 13, colors.roheline) }} >
                 {"Vaata seadmeid"}
               </Text>
               <Image resizeMode="contain" style={{ height: 10, width: 10, marginLeft: 5 }} source={icons.right_arrow} />
             </TouchableOpacity>
-            <Text style={styles.title}>Tutvu meie seadmetega</Text>
+            <Text style={styles.title}>{"Tutvu meie\nseadmetega"}</Text>
             <FlatList
               ref={flatlistRef}
               horizontal
@@ -423,103 +422,7 @@ useEffect(()=>{
     </View>
   );
 };
-// define your styles
-const styles = StyleSheet.create({
-  //mobile
-  content_1: {
-    backgroundColor: colors.roheline,
-    paddingTop: 40
-  },
-  userimageStyleMobile: {
-    height: hp(600),
-    paddingRight: -200,
-    // position: 'absolute',
-    left: wp(150),
-  },
-  buttonStyle2: {
-    backgroundColor: colors.black,
-    flexDirection: "row",
-    alignItems: "center",
-    borderTopLeftRadius: wp(30),
-    borderBottomRightRadius: wp(30),
-    marginTop: heightPercentageToDP(4),
-    alignSelf: 'flex-start',
-    paddingHorizontal: heightPercentageToDP(2),
-    paddingVertical: heightPercentageToDP(1.5)
-  },
-  stpesView: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.headerBG,
-    marginHorizontal: heightPercentageToDP(5),
-    marginBottom: 7,
-    paddingHorizontal: heightPercentageToDP(3),
-  },
-  buttonStyle3: {
-    backgroundColor: colors.black,
-    flexDirection: "row",
-    alignItems: "center",
-    borderTopLeftRadius: wp(30),
-    borderBottomRightRadius: wp(30),
-    alignSelf: 'flex-end',
-    paddingHorizontal: heightPercentageToDP(2),
-    paddingVertical: heightPercentageToDP(1.5),
-    marginHorizontal: heightPercentageToDP(5),
-  },
-  title: {
-    ...defaultFont('600_o', 32, colors.black),
-    textAlign: 'center',
-    marginVertical: heightPercentageToDP(5)
-  },
-  lastContent: {
-    backgroundColor: colors.headerColorBg,
-    paddingVertical: heightPercentageToDP(5),
-    paddingHorizontal: heightPercentageToDP(4),
-    marginTop: heightPercentageToDP(6)
-  },
-  mobileImage: {
-    width: 160,
-    height: 242,
-    position: 'absolute',
-    right: 15,
-    top: -30,
-  },
 
-
-
-
-
-
-
-
-
-
-  //web
-  container: {
-    flex: 1,
-    backgroundColor: Platform.OS == 'web' ? "#FCFCFC" : '#ffffff',
-  },
-  bannerContainer: {
-    backgroundColor: colors.roheline,
-    flex: 0.7,
-  },
-  userimageStyle: {
-    width: wp(550),
-    height: hp(600),
-    marginLeft: wp(120),
-    marginBottom: -hp(40),
-  },
-  buttonStyle: {
-    backgroundColor: colors.black,
-    alignSelf: "flex-end",
-    padding: wp(15),
-    flexDirection: "row",
-    alignItems: "center",
-    borderTopLeftRadius: wp(30),
-    borderBottomRightRadius: wp(30),
-    marginTop: hp(25),
-  },
-});
 
 //make this component available to the app
 export default HomeScreen;

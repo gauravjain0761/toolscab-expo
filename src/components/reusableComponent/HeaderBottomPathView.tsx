@@ -12,15 +12,19 @@ type Props = {
   onHeadingPress?:()=>void
   onHeadingPress1?:()=>void
   onHeadingPress2?:()=>void
+  onHeadingMainPress?:()=>void
 };
 
-const HeaderBottomPathView = ({ heading ,heading1,heading2,onHeadingPress,onHeadingPress1,onHeadingPress2}: Props) => {
+const HeaderBottomPathView = ({ heading ,heading1,heading2,onHeadingPress,onHeadingPress1,onHeadingPress2,onHeadingMainPress}: Props) => {
 
     
   return (
     <View>
       <View style={styles.bodyHeader}>
+        <TouchableOpacity onPress={onHeadingMainPress}>
+
         <Text style={styles.heading}>{'kodu /'}</Text>
+        </TouchableOpacity>
         <TouchableOpacity onPress={onHeadingPress}>
           <Text style={styles.heading}>{heading}</Text>
         </TouchableOpacity>

@@ -57,6 +57,9 @@ const ProductcartList = ({
       params: {
         category_id: item?.product_category_id,
       },
+      data1: {
+        brand: item?.category_title,
+      },
       onSuccess: (res: any) => {
         const finalADD = [
           {
@@ -72,20 +75,19 @@ const ProductcartList = ({
     dispatch(getCatalogueCategoryProductsAction(obj));
   };
 
-  const onProductPress = (item: any) => {  
+  const onProductPress = (item: any) => {
     const obj = {
       params: {
         product_id: item?.product_id,
-        include_photo_ids:true
+        include_photo_ids: true,
       },
       onSuccess: (res: any) => {
-        navigationRef.navigate(screenName.productDetail)
+        navigationRef.navigate(screenName.productDetail);
       },
       onFailure: () => {},
     };
     dispatch(getProductAction(obj));
   };
-
 
   return (
     <View>
@@ -106,6 +108,7 @@ const ProductcartList = ({
             return (
               <ProductView
                 icon={item.icon}
+                product_category_id={`https://api.toolscab.ee/PhotoBinary/CategoryPhoto?category_id=${item?.product_category_id}&maxWidth=300&maxHeight=300`}
                 title={item?.category_title}
                 onSelectPress={() => onSelectPress(item)}
                 mainView={true}
@@ -124,6 +127,7 @@ const ProductcartList = ({
                 index={index}
                 icon={item?.icon}
                 title={item?.product_name}
+                product_category_id={`https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${item?.first_photo_id}&maxWidth=300&maxHeight=300`}
                 label={item?.brand}
                 onSelectPress={() =>
                   //@ts-ignore
@@ -175,23 +179,6 @@ const CatalogueFilter = () => {
 
   const onSelectPress = (item: any) => {
     setCatalogueId(item);
-    // const obj = {
-    //   params: {
-    //     category_id: item?.product_category_id,
-    //   },
-    //   onSuccess: (res: any) => {
-    //     const finalADD = [
-    //       {
-    //         brand: item?.category_title,
-    //       },
-    //       ...res,
-    //     ];
-
-    //     setShowProduct(finalADD);
-    //   },
-    //   onFailure: () => {},
-    // };
-    // dispatch(getCatalogueCategoryProductsAction(obj));
   };
   const onFilterPress = () => {
     const obj = {
@@ -201,6 +188,9 @@ const CatalogueFilter = () => {
         cities: cityList,
         brands: brandList,
         types: typeList,
+      },
+      data1: {
+        brand: catalogueId?.category_title,
       },
       onSuccess: (res: any) => {
         const finalADD = [
@@ -212,16 +202,14 @@ const CatalogueFilter = () => {
         setShowProduct(finalADD);
       },
       onFailure: () => {},
-    };    
+    };
     dispatch(postcatalogueFilterProductAction(obj));
   };
-const onResetFilterPress=()=>{
-  setBrandsList([]),
-  setCityList([]),
-  setTypeList([])
-  setCatalogueId([])
-  setShowProduct([])
-}
+  const onResetFilterPress = () => {
+    setBrandsList([]), setCityList([]), setTypeList([]);
+    setCatalogueId([]);
+    setShowProduct([]);
+  };
   const onBrandPress = (res) => {
     const update = brandList.filter((item) => item === res);
     if (update?.length) {
@@ -250,6 +238,41 @@ const onResetFilterPress=()=>{
     }
   };
 
+  const onCataloguePressMobile = (res) => {
+    const obj = {
+      params: {
+        category_id: res?.product_category_id,
+      },
+      data1: {
+        brand: res?.category_title,
+      },
+      onSuccess: (res: any) => {
+        navigationRef.navigate(screenName.catalogueProductsMobile);
+      },
+      onFailure: () => {},
+    };
+    dispatch(getCatalogueCategoryProductsAction(obj));
+  };
+
+  const onFilterPressMobile = (res) => {
+    const upfdate = catalogueList?.filter(
+      (item) => item?.product_category_id == res?.product_category_id
+    );
+
+    const obj = {
+      data: res,
+      data1: {
+        brand: upfdate[0]?.category_title,
+      },
+      onSuccess: (res: any) => {
+        setFilterModal(false);
+        navigationRef.navigate(screenName.catalogueProductsMobile);
+      },
+      onFailure: () => {},
+    };
+    dispatch(postcatalogueFilterProductAction(obj));
+  };
+
   return Platform.OS == "web" ? (
     <View style={styles.container}>
       <Header isMainScreen={false} />
@@ -259,6 +282,9 @@ const onResetFilterPress=()=>{
           //@ts-ignore
           heading1={`/ ${showProduct[0]?.brand}`}
           onHeadingPress={() => setShowProduct([])}
+          onHeadingMainPress={() => {
+            navigationRef.navigate(screenName.homeScreen);
+          }}
         />
         <View style={styles.containerBody}>
           <View style={styles.leftView}>
@@ -277,7 +303,7 @@ const onResetFilterPress=()=>{
                         fontFamily:
                           //@ts-ignore
                           // showProduct[0]?.brand === item?.category_title ||
-                         ( catalogueId?.category_title ===item?.category_title)
+                          catalogueId?.category_title === item?.category_title
                             ? fontFamily.articulat_bold
                             : fontFamily.articulat_normal,
                       },
@@ -374,18 +400,20 @@ const onResetFilterPress=()=>{
       <ScrollView style={styles.container}>
         <Text style={styles.title}>Meie seadmed</Text>
         <FlatList
-          data={filterData}
+          data={catalogueList}
           numColumns={2}
           keyExtractor={(_i, index) => index.toString()}
           renderItem={({ item, index }) => {
             return (
               <ProductView
-                icon={item.icon}
-                title={item.name}
+                icon={icons.image1}
+                title={item?.category_title}
+                product_category_id={`https://api.toolscab.ee/PhotoBinary/CategoryPhoto?category_id=${item?.product_category_id}&maxWidth=300&maxHeight=300`}
                 onSelectPress={() =>
                   //@ts-ignorez
-                  navigationRef.navigate(screenName.catalogueProductsMobile)
+                  onCataloguePressMobile(item)
                 }
+                
                 mainView={true}
               />
             );
@@ -407,6 +435,9 @@ const onResetFilterPress=()=>{
       <ProductFilterModalMobile
         isVisible={filterModal}
         onClose={() => setFilterModal(false)}
+        onFilterPressMobile={(res) => {
+          onFilterPressMobile(res);
+        }}
       />
     </View>
   );

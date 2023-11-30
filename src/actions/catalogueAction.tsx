@@ -46,7 +46,14 @@ export const getCatalogueCategorySearchAction =
         if (response.status === 200) {
          console.log('responsesssssss',response?.data);
          if (request.onSuccess) request.onSuccess(response?.data);
-         dispatch({ type: GET_CATALOGUE_CATEGORY_PRODUCT_LIST_DATA, payload: response?.data });
+         const finalADD = [
+          {
+            brand: request?.data1?.brand,
+          },
+          ...response?.data,
+        ];
+
+         dispatch({ type: GET_CATALOGUE_CATEGORY_PRODUCT_LIST_DATA, payload: finalADD });
         }
       })
       .catch((error) => {  
@@ -94,7 +101,14 @@ export const getCatalogueCategorySearchAction =
         if (response.status === 200) {
          console.log('getcatalogueFilterProductActio res',response?.data);
          if (request.onSuccess) request.onSuccess(response?.data);
-        //  dispatch({ type:GET_CATALOGUE_FILTER_FROM_LIST_DATA, payload: response?.data });
+         const finalADD = [
+          {
+            brand: request?.data1?.brand,
+          },
+          ...response?.data,
+        ];
+
+         dispatch({ type: GET_CATALOGUE_CATEGORY_PRODUCT_LIST_DATA, payload: finalADD });
         }
       })
       .catch((error) => {  
