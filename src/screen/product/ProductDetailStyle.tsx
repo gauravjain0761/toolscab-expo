@@ -184,18 +184,35 @@ export const styles = StyleSheet.create({
   btnRenderMob: {
     borderColor: colors.headerBG,
     marginLeft: 10,
-    width: widthPercentageToDP(32),
+    width: widthPercentageToDP(28),
   },
   lineView: {
     borderBottomWidth: 1,
     borderBottomColor: colors.Roheline2,
-    width: screen_width * 0.5,
+    flex:1,
+    marginRight:15
   },
   btnViewStyle:{
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: 15,
   },
+  bannerViewMob:{
+     backgroundColor:colors.roheline,
+     width:'70%',
+     paddingVertical:3,
+     position:'absolute',
+     right:-15,
+     top:15,
+     borderTopLeftRadius:10,
+     borderBottomRightRadius:10
+     
+  },
+  bannerTextMob:{
+    ...defaultFont(400, 9, colors.black),
+    textAlign:'center'
+  },
+
 
   // web
   container: {

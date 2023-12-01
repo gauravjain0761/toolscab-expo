@@ -11,9 +11,10 @@ import { useNavigation } from "@react-navigation/native";
 type Props = {
   title?: string;
   list?: any;
+  onPress: () => void;
 };
 
-const CartList = ({ title, list }: Props) => {
+const CartList = ({ title, list,onPress }: Props) => {
   const navigationRef = useNavigation();
   if (Platform.OS == "web") {
     return (
@@ -45,10 +46,7 @@ const CartList = ({ title, list }: Props) => {
           <Text style={styles.headerText7}>{"Tasuta broneering"}</Text>
           <CommonGreenBtn
             title="Ava kapp"
-            onPress={() => {
-              //@ts-ignore
-              navigationRef.navigate(screenName.profileScreen);
-            }}
+            onPress={()=>onPress}
             style={styles.btnStyle}
           />
         </View>
@@ -90,10 +88,7 @@ const CartList = ({ title, list }: Props) => {
             </View>
             <CommonGreenBtn
                   title="Ava kapp"
-                  onPress={() => {
-                    //@ts-ignore
-                    navigationRef.navigate(screenName.profileScreen);
-                  }}
+                  onPress={() => onPress()}
                   style={styles.btnStyleMob}
                 />
           </View>

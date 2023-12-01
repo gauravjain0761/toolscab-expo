@@ -3,7 +3,7 @@ import { AnyAction } from "redux";
 import { makeAPIRequest } from "../helper/apiGlobal";
 import { GET, POST, api } from "../helper/apiConstants";
 import { RootState } from "../helper/types";
-import { GET_CATALOGUE_CATEGORY_LIST_DATA, GET_CATALOGUE_CATEGORY_PRODUCT_LIST_DATA, GET_CATALOGUE_FILTER_FROM_LIST_DATA, GET_PRODUCT_DETAILS_DATA } from "./dispatchTypes";
+import { GET_CATALOGUE_CATEGORY_LIST_DATA, GET_CATALOGUE_CATEGORY_PRODUCT_LIST_DATA, GET_CATALOGUE_FILTER_FROM_LIST_DATA, GET_PRODUCT_DETAILS_DATA, GET_PRODUCT_LOCATION_DETAILS_DATA, GET_PRODUCT_SPECS_DETAILS_DATA } from "./dispatchTypes";
 
 export const getCatalogueCategorySearchAction =
   (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
@@ -133,6 +133,54 @@ export const getCatalogueCategorySearchAction =
         if (response.status === 200) {
          if (request.onSuccess) request.onSuccess(response?.data);
          dispatch({ type:GET_PRODUCT_DETAILS_DATA, payload: response?.data });
+        }
+      })
+      .catch((error) => {  
+        if (request.onFailure) request.onFailure(error.response);
+      });
+  };
+
+  export const getProductSpecsAction=
+  (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
+  async (dispatch) => {
+    let headers = {
+      Accept: 'application/json'
+    };
+
+    return makeAPIRequest({
+      method: GET,
+      url: api.product_specs,
+      headers: headers,
+      params:request.params
+    })
+      .then(async (response: any) => {
+        if (response.status === 200) {
+         if (request.onSuccess) request.onSuccess(response?.data);
+         dispatch({ type:GET_PRODUCT_SPECS_DETAILS_DATA, payload: response?.data });
+        }
+      })
+      .catch((error) => {  
+        if (request.onFailure) request.onFailure(error.response);
+      });
+  };
+
+  export const getProductLocationAction=
+  (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
+  async (dispatch) => {
+    let headers = {
+      Accept: 'application/json'
+    };
+
+    return makeAPIRequest({
+      method: GET,
+      url: api.product_location,
+      headers: headers,
+      params:request.params
+    })
+      .then(async (response: any) => {
+        if (response.status === 200) {
+         if (request.onSuccess) request.onSuccess(response?.data);
+         dispatch({ type:GET_PRODUCT_LOCATION_DETAILS_DATA, payload: response?.data });
         }
       })
       .catch((error) => {  

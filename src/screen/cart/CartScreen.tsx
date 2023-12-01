@@ -1,13 +1,14 @@
 //import liraries
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, ScrollView, Platform, Image } from "react-native";
-import { CartList, FooterView, Header, PaymentView } from "../../components";
+import { CartList, FooterView, Header, PaymentView, QRCodeModal } from "../../components";
 import { styles } from "./CartScreenStyle";
 import { icons } from "../../theme/Icons";
 import { colors } from "../../theme/Colors";
 
 // create a component
 const CartScreen = () => {
+  const [qrcodeModalShow,setqrcodeModalShow]=useState(false)
   if(Platform.OS == 'web'){
     return (
       <View style={styles.container}>
@@ -44,7 +45,7 @@ const CartScreen = () => {
             <View style={styles.cartStyleMob}>
               <View style={{ flex: 1, }}>
                 {[0, 1].map(() => {
-                  return <CartList />;
+                  return <CartList onPress={()=>setqrcodeModalShow(true)}/>
                 })}
               </View>
       
@@ -61,6 +62,7 @@ const CartScreen = () => {
               </View>
           {/* <View style={{ height: 150 }} /> */}
           <FooterView />
+          <QRCodeModal isVisible={qrcodeModalShow} onClose={()=>setqrcodeModalShow(false)}/>
         </ScrollView>
       </View>
     );

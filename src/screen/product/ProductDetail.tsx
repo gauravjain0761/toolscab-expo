@@ -9,7 +9,7 @@ import {
   Platform,
   ImageBackground,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   CommonMapView,
   FooterView,
@@ -32,28 +32,37 @@ import { defaultFont } from "../../theme/Fonts";
 import { useNavigation } from "@react-navigation/native";
 import { styles } from "./ProductDetailStyle";
 import { dataList } from "../../helper/constantData";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getProductLocationAction,
+  getProductSpecsAction,
+} from "../../actions/catalogueAction";
 
 type Props = {};
 
 const ProductDetail = (props: Props) => {
   const navigationRef = useNavigation();
+  const dispatch = useDispatch();
 
   const [selectedTab, setselectedTab] = useState(1);
   const [tabIndex1, setTabIndex1] = useState(false);
   const [tabIndex2, setTabIndex2] = useState(false);
   const [tabIndex3, setTabIndex3] = useState(false);
   const [pricefoShow, setPricefoShow] = useState(false);
-  const { productDetails } = useSelector((state) => state.catalogue);
+  const { productDetails, getProductSpecs, getProductLocations } = useSelector(
+    (state) => state.catalogue
+  );
   const [imageId, setImageId] = useState(productDetails?.photo_ids?.[0]);
 
-  console.log("productDetails", productDetails,imageId);
+  console.log("productDetails", productDetails);
   const {
     catalogueCategorySearchList: catalogueList,
     catalogueCategoryProductList: CategoryProductList,
   } = useSelector((state) => state.catalogue);
 
   console.log("CategoryProductList", CategoryProductList);
+  console.log("getProductSpecs", getProductSpecs);
+  console.log("getProductLocations", getProductLocations);
 
   const RenderRow = ({ title, value }: any) => {
     if (Platform.OS == "web") {
@@ -84,22 +93,22 @@ const ProductDetail = (props: Props) => {
     }
   };
 
-  const RenderMapRow = ({}: any) => {
+  const RenderMapRow = ({name,city}: any) => {
     if (Platform.OS === "web") {
       return (
         <View>
-          <Text style={styles.rendermapText}>Vahemaa 1.20km</Text>
+          <Text style={styles.rendermapText}>{city}</Text>
           <View style={styles.rendermapView}>
             <View style={{ flex: 1, marginTop: 5 }}>
               <Text style={styles.renderText}>
-                {"Automaat Tallinna Nautica keskus"}
+                {name}
               </Text>
               <Text style={styles.rendersubText}>Ahtri 9</Text>
               <Text style={styles.rendersubValueText}>10151 TALLINN</Text>
             </View>
             <CommonGreenBtn
               title="Broneeri"
-              onPress={() => {}}
+              onPress={() => {navigationRef.navigate(screenName.cartScreen)}}
               style={styles.btnRender}
             />
           </View>
@@ -108,11 +117,11 @@ const ProductDetail = (props: Props) => {
     } else {
       return (
         <View>
-          <Text style={styles.rendermapTextMob}>Vahemaa 1.20km</Text>
+          <Text style={styles.rendermapTextMob}>{city}</Text>
           <View style={styles.rendermapViewMob}>
             <View style={{ flex: 1, marginTop: 5 }}>
               <Text style={styles.renderTextMob}>
-                {"Automaat Tallinna Nautica keskus"}
+                {name}
               </Text>
               <Text style={styles.rendersubTextMob}>Ahtri 9</Text>
               <Text style={styles.rendersubValueTextMob}>10151 TALLINN</Text>
@@ -122,13 +131,41 @@ const ProductDetail = (props: Props) => {
             <View style={styles.lineView} />
             <CommonGreenBtn
               title="Broneeri"
-              onPress={() => {}}
+              onPress={() => {navigationRef.navigate(screenName.cartScreen)}}
               style={styles.btnRenderMob}
             />
           </View>
         </View>
       );
     }
+  };
+
+  useEffect(() => {
+    if (productDetails) {
+      onProductSpecsPress();
+      onProductLocationPress();
+    }
+  }, [productDetails]);
+
+  const onProductSpecsPress = () => {
+    const obj = {
+      params: {
+        product_id: productDetails?.product_id,
+      },
+      onSuccess: (res: any) => {},
+      onFailure: () => {},
+    };
+    dispatch(getProductSpecsAction(obj));
+  };
+  const onProductLocationPress = () => {
+    const obj = {
+      params: {
+        product_id: productDetails?.product_id,
+      },
+      onSuccess: (res: any) => {},
+      onFailure: () => {},
+    };
+    dispatch(getProductLocationAction(obj));
   };
 
   return Platform.OS == "web" ? (
@@ -168,7 +205,7 @@ const ProductDetail = (props: Props) => {
                   return (
                     <TouchableOpacity onPress={() => setImageId(item)}>
                       <ImageBackground
-                       defaultSource={icons.defultIcon}
+                        defaultSource={icons.defultIcon}
                         source={{
                           uri: `https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${item}&maxWidth=100&maxHeight=100`,
                         }}
@@ -420,10 +457,12 @@ const ProductDetail = (props: Props) => {
                       Tuvasta asukoht automaatselt
                     </Text>
                   </View>
-                  <RenderMapRow />
-                  <RenderMapRow />
-                  <RenderMapRow />
-                  <RenderMapRow />
+                  <FlatList
+                  data={getProductLocations}
+                  renderItem={({item}) => {
+                    return <RenderMapRow name={item?.spot} city={item?.city}/>;
+                  }}
+                />
                 </View>
               </View>
             )}
@@ -491,10 +530,19 @@ const ProductDetail = (props: Props) => {
         <View style={styles.contentView}>
           <Text style={styles.titleDes}>{productDetails?.brand}</Text>
           <Text style={styles.title}>{productDetails?.product_name}</Text>
-          <Image source={{ uri: `https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${productDetails?.photo_ids?.[0]}&maxWidth=100&maxHeight=100`,}} style={styles.mainImage} />
+          <Image
+            source={{
+              uri: `https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${productDetails?.photo_ids?.[0]}&maxWidth=100&maxHeight=100`,
+            }}
+            style={styles.mainImage}
+          />
           <View style={styles.bottomView}>
             <View>
               <View style={{ flex: 1 }}>
+                <View style={styles.bannerViewMob}>
+                  <Text style={styles.bannerTextMob}>Ainult täna!</Text>
+                </View>
+
                 <Text
                   style={{
                     ...commonFontStyle(
@@ -637,7 +685,7 @@ const ProductDetail = (props: Props) => {
             <CommonGreenBtn
               title="Rendi"
               onPress={() => {
-                navigationRef.navigate(screenName.productLocations);
+                setTabIndex2(!tabIndex2);
               }}
               style={{ width: "40%" }}
             />
@@ -653,9 +701,7 @@ const ProductDetail = (props: Props) => {
             />
           </View>
           <Text style={styles.btnBottomTextMob}>Renditingimused</Text>
-          <Text style={styles.desProduct}>
-           {productDetails?.description}
-          </Text>
+          <Text style={styles.desProduct}>{productDetails?.description}</Text>
           <View style={styles.boxStyleMob}>
             <View style={styles.boxBodyMob}>
               <Text style={styles.boxBodyText}>Tehnilised andmed</Text>
@@ -677,59 +723,32 @@ const ProductDetail = (props: Props) => {
           {tabIndex1 && (
             <>
               <View style={styles.tab1ViewMob}>
-                <Text
+                <FlatList
+                  data={getProductSpecs}
+                  renderItem={({ item, index }) => {
+                    const last = getProductSpecs[getProductSpecs.length - 1];
+                    console.log("last", last?.name);
+
+                    return (
+                      <>
+                        <RenderRow title={item?.name} value={item?.value} />
+                        {last?.name !== item?.name && (
+                          <View style={styles.whiteLineHalf} />
+                        )}
+                      </>
+                    );
+                  }}
+                />
+                {/* <Text
                   style={{
                     ...defaultFont(400, 16, colors.blackType),
                     fontFamily: "arial-regular",
                   }}
                 >
                   Tehnilised andmed
-                </Text>
-                <View style={styles.whiteLine} />
-                <RenderRow
-                  title={"Maksimaalne puhastatav pind (m²/h)"}
-                  value={"20 - 25"}
-                />
-                <View style={styles.whiteLineHalf} />
-                <RenderRow title={"Õhuvoolu hulk (l/s)"} value={"74"} />
-
-                <View style={styles.whiteLine} />
-                <RenderRow title={"Vaakum (mbar/kPa)"} value={"254 / 25,4"} />
-                <View style={styles.whiteLineHalf} />
-                <RenderRow title={"Pihustusmäär (l/min)"} value={"1"} />
-
-                <View style={styles.whiteLine} />
-                <RenderRow title={"Pihustusrõhk (bar)"} value={"1"} />
-                <View style={styles.whiteLineHalf} />
-                <RenderRow
-                  title={"Puhta/musta vee paak (l)"}
-                  value={"10 / 9"}
-                />
-
-                <View style={styles.whiteLine} />
-                <RenderRow title={"Turbiini võimsus (W)"} value={"1250"} />
-                <View style={styles.whiteLineHalf} />
-                <RenderRow title={"Pumba võimsus (W)"} value={"40"} />
-
-                <View style={styles.whiteLine} />
-                <RenderRow
-                  title={"Toitepinge (V/Hz)"}
-                  value={"220 - 240 / 50 - 60"}
-                />
-                <View style={styles.whiteLineHalf} />
-                <RenderRow
-                  title={"Kaal ilma lisatarvikuteta (kg)"}
-                  value={"10,5"}
-                />
-
-                <View style={styles.whiteLine} />
-                <RenderRow title={"Kaal, sh pakend (kg)"} value={"16,1"} />
-                <View style={styles.whiteLineHalf} />
-                <RenderRow
-                  title={"Mõõdud (pikkus x laius x kõrgus) (mm)"}
-                  value={"690 x 325 x 440"}
-                />
-                <View style={{ height: 50 }} />
+                </Text> */}
+                {/* <View style={styles.whiteLine} /> */}
+                <View style={{ height: 30 }} />
               </View>
             </>
           )}
@@ -761,10 +780,12 @@ const ProductDetail = (props: Props) => {
                     Tuvasta asukoht automaatselt
                   </Text>
                 </View>
-                <RenderMapRow />
-                <RenderMapRow />
-                <RenderMapRow />
-                <RenderMapRow />
+                <FlatList
+                  data={getProductLocations}
+                  renderItem={({item}) => {
+                    return <RenderMapRow name={item?.spot} city={item?.city}/>;
+                  }}
+                />
               </View>
             </View>
           )}

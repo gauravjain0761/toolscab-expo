@@ -20,6 +20,7 @@ import LoginModalWeb from './modal/LoginModalWeb'
 import ProductFilterModalMobile from './modal/ProductFilterModalMobile'
 
 import FooterView from "./reusableComponent/FooterView";
+import QRCodeModal from './modal/QRCodeModal'
 
 
 export {
@@ -42,5 +43,6 @@ export {
     SearchBar,
     InpuText,
     LoginModalWeb,
-    ProductFilterModalMobile
+    ProductFilterModalMobile,
+    QRCodeModal
 }

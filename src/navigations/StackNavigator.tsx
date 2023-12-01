@@ -30,6 +30,7 @@ import CatalogueProductsMobile from "../screen/catalogue/CatalogueProductsMobile
 import { navigate } from "./RootNavigation";
 import CardScreen from "../screen/profile/CardScreen";
 import WarningScreen from "../screen/profile/WarningScreen";
+import QRCodeScannerScreen from "../screen/cart/QRCodeScannerScreen";
 
 export type RootStackParamList = {
   HomeScreen: undefined;
@@ -252,6 +253,17 @@ const StackNavigator: FC = () => {
           ...headerStyleMain,
         })}
         component={WarningScreen}
+      />
+      <Stack.Screen
+        // @ts-ignore
+        name={screenName.qrCodeScannerScreen}
+        options={({ navigation }) => ({
+          headerLeft: () => <HeaderLeft navigation={navigation} />,
+          headerRight: () => <HeaderRight navigation={navigation} />,
+          headerTitle: "",
+          ...headerStyleMain,
+        })}
+        component={QRCodeScannerScreen}
       />
     </Stack.Navigator>
   );

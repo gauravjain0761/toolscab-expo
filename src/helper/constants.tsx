@@ -12,7 +12,8 @@ export const screenName = {
   registerScreen: "RegisterScreen",
   loginScreenMobile: "LoginScreenMobile",
   cardScreen: "CardScreen",
-  warningScreen:"WarningScreen"
+  warningScreen:"WarningScreen",
+  qrCodeScannerScreen:"QRCodeScannerScreen",
 };
 
 export const fontFamily = {

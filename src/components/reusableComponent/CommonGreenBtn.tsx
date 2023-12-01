@@ -18,15 +18,16 @@ type Props = {
   title: string;
   onPress: () => void;
   style?: ViewStyle;
+  disabled?:any
 };
 
-const CommonGreenBtn = ({ title, onPress, style = {} }: Props) => {
+const CommonGreenBtn = ({ title, onPress, style = {} ,disabled}: Props) => {
   return Platform.OS == "web" ? (
     <TouchableOpacity style={[styles.btn, style]} onPress={() => onPress()}>
       <Text style={styles.btnText}>{title}</Text>
     </TouchableOpacity>
   ) : (
-    <TouchableOpacity style={[styles.btnMob, style]} onPress={() => onPress()}>
+    <TouchableOpacity style={[styles.btnMob, style]} disabled={disabled} onPress={() => onPress()}>
       <Text style={styles.btnTextMob}>{title}</Text>
       {/* <Image source={icons.rightBack} style={styles.backArrow} /> */}
     </TouchableOpacity>
