@@ -9,21 +9,21 @@ type Props = {
   heading?: string;
   heading1?: string;
   heading2?: string;
-  onHeadingPress?:()=>void
-  onHeadingPress1?:()=>void
-  onHeadingPress2?:()=>void
-  onHeadingMainPress?:()=>void
+  onHeadingPress?: () => void
+  onHeadingPress1?: () => void
+  onHeadingPress2?: () => void
+  onHeadingMainPress?: () => void
 };
 
-const HeaderBottomPathView = ({ heading ,heading1,heading2,onHeadingPress,onHeadingPress1,onHeadingPress2,onHeadingMainPress}: Props) => {
+const HeaderBottomPathView = ({ heading, heading1, heading2, onHeadingPress, onHeadingPress1, onHeadingPress2, onHeadingMainPress }: Props) => {
 
-    
+
   return (
     <View>
       <View style={styles.bodyHeader}>
         <TouchableOpacity onPress={onHeadingMainPress}>
 
-        <Text style={styles.heading}>{'kodu /'}</Text>
+          <Text style={styles.heading}>{'kodu /'}</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={onHeadingPress}>
           <Text style={styles.heading}>{heading}</Text>
@@ -45,7 +45,7 @@ export default HeaderBottomPathView;
 const styles = StyleSheet.create({
   bodyHeader: {
     alignItems: "flex-start",
-    flexDirection:'row'
+    flexDirection: 'row'
   },
   unLineStyle: {
     width: screen_width * 0.75,

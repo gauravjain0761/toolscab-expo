@@ -52,238 +52,239 @@ const ProductView = ({
 }: Props) => {
   return Platform.OS == "web" ? (
     <>
-      {index == 0 ? (
-        <ImageBackground
-          source={catalogueImg(label)}
-          resizeMode="cover"
-          imageStyle={{ borderTopLeftRadius: 30, borderBottomRightRadius: 30 }}
-          style={[styles.containerImg,{height: 350}]}
-        >
-          <View style={{ flexDirection: "row", flex: 1 }}>
-            <View style={{ flex: 1, alignSelf: "flex-end" }}>
-              <Text style={styles.imgLabelText}>{label}</Text>
-              {/* <Text style={styles.imgText}>{title}</Text> */}
+      {/* {index == 0 ? (
+          <ImageBackground
+            source={catalogueImg(label)}
+            resizeMode="cover"
+            imageStyle={{ borderTopLeftRadius: 30, borderBottomRightRadius: 30 }}
+            style={[styles.containerImg, { height: 350 }]}
+          >
+            <View style={{ flexDirection: "row", flex: 1 }}>
+              <View style={{ flex: 1, alignSelf: "flex-end" }}>
+                <Text style={styles.imgLabelText}>{label}</Text>
+              </View>
             </View>
+          </ImageBackground>
+        ) : ( */}
+      <TouchableOpacity
+        onPress={() => onSelectPress()}
+        style={[styles.container]}
+      >
+        {!mainView && index === 0 && (
+          <View style={styles.headerRight}>
+            <Text style={styles.headerRightText}>Uus</Text>
           </View>
-        </ImageBackground>
-      ) : (
-        <TouchableOpacity
-          onPress={() => onSelectPress()}
-          style={[styles.container]}
-        >
-          {!mainView && index === 1 && (
-            <View style={styles.headerRight}>
-              <Text style={styles.headerRightText}>Uus</Text>
-            </View>
-          )}
-          <Image
-            defaultSource={icons.defultIcon}
-            source={{
-              uri: product_category_id,
+        )}
+        <Image
+          defaultSource={icons.defultIcon}
+          source={{
+            uri: product_category_id,
+          }}
+          style={styles.iconStyle}
+          resizeMode="contain"
+        />
+        <View style={{ flexDirection: "row" }}>
+          <View style={{ flex: 1, alignSelf: "flex-end" }}>
+            {mainView ? (
+              <Text style={styles.titleText}>{title}</Text>
+            ) : (
+              <>
+                <Text
+                  style={{
+                    lineHeight: 18,
+                    ...commonFontStyle(
+                      fontFamily.articulat_regular,
+                      12,
+                      colors.black
+                    ),
+                  }}
+                >
+                  {label}
+                </Text>
+                <Text
+                  style={{
+                    marginTop: 4,
+                    marginBottom: 10,
+                    lineHeight: 21,
+                    ...commonFontStyle(
+                      fontFamily.articulat_medium,
+                      14,
+                      colors.black
+                    ),
+                  }}
+                >
+                  {title}
+                </Text>
+                <Text
+                  style={{
+                    lineHeight: 18,
+                    ...commonFontStyle(
+                      fontFamily.articulat_regular,
+                      12,
+                      colors.filterText
+                    ),
+                  }}
+                >
+                  {`Õhukulu [l/min]: ${aircon}`}
+                </Text>
+                <Text
+                  style={{
+                    lineHeight: 18,
+                    ...commonFontStyle(
+                      fontFamily.articulat_regular,
+                      12,
+                      colors.filterText
+                    ),
+                  }}
+                >
+                  {`Mahuvool [l/min]: ${volumeflow}`}
+                </Text>
+                <Text
+                  style={{
+                    lineHeight: 18,
+                    ...commonFontStyle(
+                      fontFamily.articulat_regular,
+                      12,
+                      colors.filterText
+                    ),
+                  }}
+                >
+                  {`Vooliku pikkus [m]: ${hoselength}`}
+                </Text>
+              </>
+            )}
+          </View>
+          <TouchableOpacity
+            style={{
+              width: 49,
+              height: 46,
+              justifyContent: "center",
+              alignItems: "center",
+              borderTopLeftRadius: 10,
+              borderBottomRightRadius: 10,
+              shadowColor: "#000",
+              backgroundColor: colors.headerColorBg,
+              alignSelf: "flex-end",
             }}
-            style={styles.iconStyle}
-            resizeMode="contain"
-          />
-          <View style={{ flexDirection: "row" }}>
-            <View style={{ flex: 1, alignSelf: "flex-end" }}>
-              {mainView ? (
-                <Text style={styles.titleText}>{title}</Text>
-              ) : (
-                <>
-                  <Text
-                    style={{
-                      lineHeight: 18,
-                      ...commonFontStyle(
-                        fontFamily.articulat_regular,
-                        12,
-                        colors.black
-                      ),
-                    }}
-                  >
-                    {label}
-                  </Text>
-                  <Text
-                    style={{
-                      marginTop: 4,
-                      marginBottom: 10,
-                      lineHeight: 21,
-                      ...commonFontStyle(
-                        fontFamily.articulat_medium,
-                        14,
-                        colors.black
-                      ),
-                    }}
-                  >
-                    {title}
-                  </Text>
-                  <Text
-                    style={{
-                      lineHeight: 18,
-                      ...commonFontStyle(
-                        fontFamily.articulat_regular,
-                        12,
-                        colors.filterText
-                      ),
-                    }}
-                  >
-                    {`Õhukulu [l/min]: ${aircon}`}
-                  </Text>
-                  <Text
-                    style={{
-                      lineHeight: 18,
-                      ...commonFontStyle(
-                        fontFamily.articulat_regular,
-                        12,
-                        colors.filterText
-                      ),
-                    }}
-                  >
-                    {`Mahuvool [l/min]: ${volumeflow}`}
-                  </Text>
-                  <Text
-                    style={{
-                      lineHeight: 18,
-                      ...commonFontStyle(
-                        fontFamily.articulat_regular,
-                        12,
-                        colors.filterText
-                      ),
-                    }}
-                  >
-                    {`Vooliku pikkus [m]: ${hoselength}`}
-                  </Text>
-                </>
-              )}
-            </View>
-            <TouchableOpacity
-              style={{
-                width: 49,
-                height: 46,
-                justifyContent: "center",
-                alignItems: "center",
-                borderTopLeftRadius: 10,
-                borderBottomRightRadius: 10,
-                shadowColor: "#000",
-                backgroundColor: colors.headerColorBg,
-                alignSelf: "flex-end",
-              }}
-              onPress={() => onSelectPress()}
-            >
-              <Image
-                source={icons.rightBack}
-                style={{ width: 20, height: 20 }}
-              />
-            </TouchableOpacity>
-          </View>
-        </TouchableOpacity>
-      )}
+            onPress={() => onSelectPress()}
+          >
+            <Image
+              source={icons.rightBack}
+              style={{ width: 20, height: 20 }}
+            />
+          </TouchableOpacity>
+        </View>
+      </TouchableOpacity>
+      {/* )} */}
     </>
   ) : (
     <>
-      {index == 0 ? (
-        <ImageBackground
-          source={catalogueImg(label)}
-          resizeMode="cover"
-          imageStyle={{ borderTopLeftRadius: 30, borderBottomRightRadius: 30 }}
-          style={[styles.containerMob,{height: screen_height *0.29}]}
-        >
-          <View style={{ flexDirection: "row", flex: 1 }}>
-            <View style={{ flex: 1, alignSelf: "flex-end" }}>
-              <Text style={styles.imgLabelText}>{label}</Text>
-              <Text style={styles.imgText}>{title}</Text>
+      {/* {index == 0 ? (
+          <ImageBackground
+            source={catalogueImg(label)}
+            resizeMode="cover"
+            imageStyle={{ borderTopLeftRadius: 30, borderBottomRightRadius: 30 }}
+            style={[styles.containerMob, { height: screen_height * 0.29 }]}
+          >
+            <View style={{ flexDirection: "row", flex: 1 }}>
+              <View style={{ flex: 1, alignSelf: "flex-end" }}>
+                <Text style={styles.imgLabelText}>{label}</Text>
+                <Text style={styles.imgText}>{title}</Text>
+              </View>
             </View>
+          </ImageBackground>
+        ) : ( */}
+      <TouchableOpacity
+        onPress={() => onSelectPress()}
+        style={styles.containerMob}
+      >
+        {!mainView && index === 0 && (
+          <View style={styles.headerRightMob}>
+            <Text style={styles.headerRightTextMob}>Uus</Text>
           </View>
-        </ImageBackground>
-      ) : (
-        <TouchableOpacity
-          onPress={() => onSelectPress()}
-          style={styles.containerMob}
-        >
-          {!mainView && index === 1 && (
-            <View style={styles.headerRightMob}>
-              <Text style={styles.headerRightTextMob}>Uus</Text>
-            </View>
-          )}
-          <Image
-            defaultSource={icons.defultIcon}
-            source={{
-              uri: product_category_id,
-            }}
-            style={styles.imageTools}
-            resizeMode="contain"
-          />
-          <View style={styles.bottomRow}>
-            <View style={{ flex: 1 }}>
-              {mainView ? (
-                <Text style={styles.titleText}>{title}</Text>
-              ) : (
-                <>
-                  <Text
-                    style={[
-                      { ...defaultFont(400, 8, colors.black) },
-                      labelStyle,
-                    ]}
-                  >
-                    {label}
-                  </Text>
-                  <Text
-                    style={[
-                      {
-                        marginBottom: 5,
-                        ...defaultFont(700, 10, colors.black),
-                      },
-                      titleStyle,
-                    ]}
-                  >
-                    {title}
-                  </Text>
-                  <Text
-                    style={[
-                      {
-                        ...defaultFont(400, 8, colors.filterText),
-                      },
-                      listStyle,
-                    ]}
-                  >
-                    {`Õhukulu [l/min]: ${aircon}`}
-                  </Text>
-                  <Text
-                    style={[
-                      {
-                        ...defaultFont(400, 8, colors.filterText),
-                      },
-                      listStyle,
-                    ]}
-                  >
-                    {`Mahuvool [l/min]: ${volumeflow}`}
-                  </Text>
-                  <Text
-                    style={[
-                      {
-                        ...defaultFont(400, 8, colors.filterText),
-                      },
-                      listStyle,
-                    ]}
-                  >
-                    {`Vooliku pikkus [m]: ${hoselength}`}
-                  </Text>
-                </>
-              )}
-            </View>
-            <TouchableOpacity
-              style={styles.backImageView}
-              onPress={() => onSelectPress()}
-            >
-              <Image
-                source={icons.rightBack}
-                style={{ width: 13, height: 13 }}
-              />
-            </TouchableOpacity>
+        )}
+        <Image
+          defaultSource={icons.defultIcon}
+          source={{
+            uri: product_category_id,
+          }}
+          style={styles.imageTools}
+          resizeMode="contain"
+        />
+        <View style={styles.bottomRow}>
+          <View style={{ flex: 1 }}>
+            {mainView ? (
+              <Text style={styles.titleText}>{title}</Text>
+            ) : (
+              <>
+                <Text
+                  style={[
+                    { ...defaultFont(400, 8, colors.black) },
+                    labelStyle,
+                  ]}
+                >
+                  {label}
+                </Text>
+                <Text
+                  style={[
+                    {
+                      marginBottom: 5,
+                      ...defaultFont(700, 10, colors.black),
+                    },
+                    titleStyle,
+                  ]}
+                >
+                  {title}
+                </Text>
+                <Text
+                  style={[
+                    {
+                      ...defaultFont(400, 8, colors.filterText),
+                    },
+                    listStyle,
+                  ]}
+                >
+                  {`Õhukulu [l/min]: ${aircon}`}
+                </Text>
+                <Text
+                  style={[
+                    {
+                      ...defaultFont(400, 8, colors.filterText),
+                    },
+                    listStyle,
+                  ]}
+                >
+                  {`Mahuvool [l/min]: ${volumeflow}`}
+                </Text>
+                <Text
+                  style={[
+                    {
+                      ...defaultFont(400, 8, colors.filterText),
+                    },
+                    listStyle,
+                  ]}
+                >
+                  {`Vooliku pikkus [m]: ${hoselength}`}
+                </Text>
+              </>
+            )}
           </View>
-        </TouchableOpacity>
-      )}
+          <TouchableOpacity
+            style={styles.backImageView}
+            onPress={() => onSelectPress()}
+          >
+            <Image
+              source={icons.rightBack}
+              style={{ width: 13, height: 13 }}
+            />
+          </TouchableOpacity>
+        </View>
+      </TouchableOpacity>
+      {/* )} */}
     </>
   );
+
+
 };
 
 // define your styles

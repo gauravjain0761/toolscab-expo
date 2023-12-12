@@ -67,7 +67,7 @@ export const styles = StyleSheet.create({
     height: 1,
     backgroundColor: colors.bottomLine,
   },
- 
+
   prodDes2: {
     ...defaultFont(400, 12, colors.headerBG),
     marginBottom: 5,
@@ -189,28 +189,28 @@ export const styles = StyleSheet.create({
   lineView: {
     borderBottomWidth: 1,
     borderBottomColor: colors.Roheline2,
-    flex:1,
-    marginRight:15
+    flex: 1,
+    marginRight: 15
   },
-  btnViewStyle:{
+  btnViewStyle: {
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: 15,
   },
-  bannerViewMob:{
-     backgroundColor:colors.roheline,
-     width:'70%',
-     paddingVertical:3,
-     position:'absolute',
-     right:-15,
-     top:15,
-     borderTopLeftRadius:10,
-     borderBottomRightRadius:10
-     
+  bannerViewMob: {
+    backgroundColor: colors.roheline,
+    width: '70%',
+    paddingVertical: 3,
+    position: 'absolute',
+    right: -15,
+    top: 15,
+    borderTopLeftRadius: 10,
+    borderBottomRightRadius: 10
+
   },
-  bannerTextMob:{
+  bannerTextMob: {
     ...defaultFont(400, 9, colors.black),
-    textAlign:'center'
+    textAlign: 'center'
   },
 
 
@@ -248,6 +248,7 @@ export const styles = StyleSheet.create({
     height: 55,
     backgroundColor: colors.grey_1,
     marginRight: 15,
+    marginTop: 20,
   },
   des: {
     ...commonFontStyle(fontFamily.articulat_normal, 14, colors.black),

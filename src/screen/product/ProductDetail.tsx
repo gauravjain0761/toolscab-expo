@@ -93,7 +93,7 @@ const ProductDetail = (props: Props) => {
     }
   };
 
-  const RenderMapRow = ({name,city}: any) => {
+  const RenderMapRow = ({ name, city }: any) => {
     if (Platform.OS === "web") {
       return (
         <View>
@@ -108,7 +108,7 @@ const ProductDetail = (props: Props) => {
             </View>
             <CommonGreenBtn
               title="Broneeri"
-              onPress={() => {navigationRef.navigate(screenName.cartScreen)}}
+              onPress={() => { navigationRef.navigate(screenName.cartScreen) }}
               style={styles.btnRender}
             />
           </View>
@@ -131,7 +131,7 @@ const ProductDetail = (props: Props) => {
             <View style={styles.lineView} />
             <CommonGreenBtn
               title="Broneeri"
-              onPress={() => {navigationRef.navigate(screenName.cartScreen)}}
+              onPress={() => { navigationRef.navigate(screenName.cartScreen) }}
               style={styles.btnRenderMob}
             />
           </View>
@@ -152,8 +152,8 @@ const ProductDetail = (props: Props) => {
       params: {
         product_id: productDetails?.product_id,
       },
-      onSuccess: (res: any) => {},
-      onFailure: () => {},
+      onSuccess: (res: any) => { },
+      onFailure: () => { },
     };
     dispatch(getProductSpecsAction(obj));
   };
@@ -162,8 +162,8 @@ const ProductDetail = (props: Props) => {
       params: {
         product_id: productDetails?.product_id,
       },
-      onSuccess: (res: any) => {},
-      onFailure: () => {},
+      onSuccess: (res: any) => { },
+      onFailure: () => { },
     };
     dispatch(getProductLocationAction(obj));
   };
@@ -176,7 +176,7 @@ const ProductDetail = (props: Props) => {
           <HeaderBottomPathView
             heading={" Seadmed "}
             //@ts-ignore
-            heading1={`/ ${CategoryProductList?.[0]?.brand} `}
+            heading1={`/ ${productDetails?.brand} `}
             heading2={`/ ${productDetails?.product_name}`}
             onHeadingPress={() =>
               navigationRef.navigate(screenName.catalogueFilter)
@@ -225,8 +225,7 @@ const ProductDetail = (props: Props) => {
               <View style={styles.botomLine} />
               <View style={styles.priceView}>
                 <View>
-                  <Text style={styles.zeroText}>
-                    0<Text style={{ fontSize: 60 }}>.22</Text>
+                  <Text style={styles.zeroText}>{productDetails?.price ? productDetails?.price : '00'}<Text style={{ fontSize: 60 }}></Text>
                     <Text style={styles.zeroTextDoller}>€</Text>
                   </Text>
                   <View
@@ -240,7 +239,7 @@ const ProductDetail = (props: Props) => {
                       },
                     ]}
                   >
-                    <Text style={styles.valueText}>26€ / 24h</Text>
+                    <Text style={styles.valueText}>{productDetails?.price_layout?.minute_1440}€ / 24h</Text>
                     <Text style={styles.minText}>Minut</Text>
                   </View>
                 </View>
@@ -265,7 +264,57 @@ const ProductDetail = (props: Props) => {
                     ]}
                   />
                   <View style={{ marginHorizontal: widthPercentageToDP(1.5) }}>
-                    {dataList.map((item: any) => {
+
+                    <View style={{ flexDirection: "row", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 5, }} >
+                      <Text style={{ ...commonFontStyle(fontFamily.articulat_regular, 12, colors.black) }}>
+                        {'Miinimumhind'}
+                      </Text>
+                      <Text style={{ ...commonFontStyle(fontFamily.articulat_regular, 12, colors.black) }}>
+                        {productDetails?.price_layout?.minimum}€
+                      </Text>
+                    </View>
+                    <View style={{ flexDirection: "row", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 5, }} >
+                      <Text style={{ ...commonFontStyle(fontFamily.articulat_regular, 12, colors.black) }}>
+                        {'Broneering esimesed 15 min'}
+                      </Text>
+                      <Text style={{ ...commonFontStyle(fontFamily.articulat_regular, 12, colors.black) }}>
+                        {'Tasuta'}
+                      </Text>
+                    </View>
+                    <View style={{ flexDirection: "row", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 5, }} >
+                      <Text style={{ ...commonFontStyle(fontFamily.articulat_regular, 12, colors.black) }}>
+                        {'Broneering pärast 15 min'}
+                      </Text>
+                      <Text style={{ ...commonFontStyle(fontFamily.articulat_regular, 12, colors.black) }}>
+                        {productDetails?.price_layout?.booking}€/min
+                      </Text>
+                    </View>
+                    <View style={{ flexDirection: "row", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 5, }} >
+                      <Text style={{ ...commonFontStyle(fontFamily.articulat_regular, 12, colors.black) }}>
+                        {'Minut'}
+                      </Text>
+                      <Text style={{ ...commonFontStyle(fontFamily.articulat_regular, 12, colors.black) }}>
+                        {productDetails?.price_layout?.minute_1}€
+                      </Text>
+                    </View>
+                    <View style={{ flexDirection: "row", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 5, }} >
+                      <Text style={{ ...commonFontStyle(fontFamily.articulat_regular, 12, colors.black) }}>
+                        {'Tund'}
+                      </Text>
+                      <Text style={{ ...commonFontStyle(fontFamily.articulat_regular, 12, colors.black) }}>
+                        {productDetails?.price_layout?.minute_60}€
+                      </Text>
+                    </View>
+                    <View style={{ flexDirection: "row", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 5, }} >
+                      <Text style={{ ...commonFontStyle(fontFamily.articulat_regular, 12, colors.black) }}>
+                        {'Päev'}
+                      </Text>
+                      <Text style={{ ...commonFontStyle(fontFamily.articulat_regular, 12, colors.black) }}>
+                        {productDetails?.price_layout?.minute_1440}€
+                      </Text>
+                    </View>
+
+                    {/* {dataList.map((item: any) => {
                       return (
                         <View
                           style={{
@@ -299,7 +348,7 @@ const ProductDetail = (props: Props) => {
                           </Text>
                         </View>
                       );
-                    })}
+                    })} */}
                     <Text
                       style={{
                         ...commonFontStyle(
@@ -327,16 +376,22 @@ const ProductDetail = (props: Props) => {
                 />
                 <CommonGreenBtn
                   title="Leia kapp"
-                  onPress={() => {}}
+                  onPress={() => { }}
                   style={styles.btnView}
                 />
               </View>
               <Text style={styles.btnBottomText}>Renditingimused</Text>
               <View style={styles.botomLine} />
-              <Text style={styles.title2}>Komplekt sisaldab</Text>
-              <Text style={styles.des2}>Tekstiilipesur</Text>
-              <Text style={styles.des2}>Voolik</Text>
-              <Text style={styles.des2}>Pesuaine</Text>
+              {productDetails?.kitProducts_ && productDetails?.kitProducts_?.length !== 0 &&
+                <View>
+                  <Text style={styles.title2}>Komplekt sisaldab</Text>
+                  {productDetails?.kitProducts_?.map((element, index) => {
+                    return (
+                      <Text style={styles.des2}>{element}</Text>
+                    )
+                  })}
+                </View>
+              }
             </View>
           </View>
         </View>
@@ -458,11 +513,11 @@ const ProductDetail = (props: Props) => {
                     </Text>
                   </View>
                   <FlatList
-                  data={getProductLocations}
-                  renderItem={({item}) => {
-                    return <RenderMapRow name={item?.spot} city={item?.city}/>;
-                  }}
-                />
+                    data={getProductLocations}
+                    renderItem={({ item }) => {
+                      return <RenderMapRow name={item?.spot} city={item?.city} />;
+                    }}
+                  />
                 </View>
               </View>
             )}
@@ -552,8 +607,7 @@ const ProductDetail = (props: Props) => {
                     ),
                     letterSpacing: -2.5,
                   }}
-                >
-                  0<Text style={{ fontSize: 52 }}>.22</Text>
+                > <Text style={{ fontSize: 52 }}>{productDetails?.price ? productDetails?.price : '00'}</Text>
                   <Text
                     style={commonFontStyle(
                       fontFamily.semiBold,
@@ -583,7 +637,7 @@ const ProductDetail = (props: Props) => {
                     colors.filterText
                   )}
                 >
-                  26€ / 24h
+                  {productDetails?.price_layout?.minute_1440}€ / 24h
                 </Text>
                 <Text
                   style={commonFontStyle(
@@ -629,17 +683,63 @@ const ProductDetail = (props: Props) => {
                   { marginTop: 8, marginBottom: 19 },
                 ]}
               />
+
+
+
               <View style={{ marginHorizontal: widthPercentageToDP(1.5) }}>
-                {dataList.map((item: any) => {
+
+                <View style={{ flexDirection: "row", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 5, }} >
+                  <Text style={{ ...defaultFont(400, 12, colors.black) }}>
+                    {'Miinimumhind'}
+                  </Text>
+                  <Text style={{ ...defaultFont(400, 12, colors.black) }}>
+                    {productDetails?.price_layout?.minimum}€
+                  </Text>
+                </View>
+                <View style={{ flexDirection: "row", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 5, }} >
+                  <Text style={{ ...defaultFont(400, 12, colors.black) }}>
+                    {'Broneering esimesed 15 min'}
+                  </Text>
+                  <Text style={{ ...defaultFont(400, 12, colors.black) }}>
+                    {'Tasuta'}
+                  </Text>
+                </View>
+                <View style={{ flexDirection: "row", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 5, }} >
+                  <Text style={{ ...defaultFont(400, 12, colors.black) }}>
+                    {'Broneering pärast 15 min'}
+                  </Text>
+                  <Text style={{ ...defaultFont(400, 12, colors.black) }}>
+                    {productDetails?.price_layout?.booking}€/min
+                  </Text>
+                </View>
+                <View style={{ flexDirection: "row", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 5, }} >
+                  <Text style={{ ...defaultFont(400, 12, colors.black) }}>
+                    {'Minut'}
+                  </Text>
+                  <Text style={{ ...defaultFont(400, 12, colors.black) }}>
+                    {productDetails?.price_layout?.minute_1}€
+                  </Text>
+                </View>
+                <View style={{ flexDirection: "row", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 5, }} >
+                  <Text style={{ ...defaultFont(400, 12, colors.black) }}>
+                    {'Tund'}
+                  </Text>
+                  <Text style={{ ...defaultFont(400, 12, colors.black) }}>
+                    {productDetails?.price_layout?.minute_60}€
+                  </Text>
+                </View>
+                <View style={{ flexDirection: "row", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 5, }} >
+                  <Text style={{ ...defaultFont(400, 12, colors.black) }}>
+                    {'Päev'}
+                  </Text>
+                  <Text style={{ ...defaultFont(400, 12, colors.black) }}>
+                    {productDetails?.price_layout?.minute_1440}€
+                  </Text>
+                </View>
+
+                {/* {dataList.map((item: any) => {
                   return (
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        alignItems: "flex-start",
-                        justifyContent: "space-between",
-                        marginBottom: 5,
-                      }}
-                    >
+                    <View style={{ flexDirection: "row", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 5, }} >
                       <Text style={{ ...defaultFont(400, 12, colors.black) }}>
                         {item?.name}
                       </Text>
@@ -648,7 +748,7 @@ const ProductDetail = (props: Props) => {
                       </Text>
                     </View>
                   );
-                })}
+                })} */}
                 <Text
                   style={{
                     ...defaultFont(400, 12, colors.filterText),
@@ -668,19 +768,23 @@ const ProductDetail = (props: Props) => {
               { marginTop: pricefoShow ? heightPercentageToDP(3) : 8 },
             ]}
           />
+          {productDetails?.kitProducts_ && productDetails?.kitProducts_?.length !== 0 &&
+            <View>
+              <View style={
+                { marginVertical: heightPercentageToDP(2), }
+              }>
+                {productDetails?.kitProducts_?.map((element, index) => {
+                  return (
+                    <Text style={styles.prodDes2}>{element}</Text>
+                  )
+                })}
+              </View>
 
-          <Text
-            style={[styles.prodDes2, { marginTop: heightPercentageToDP(2) }]}
-          >
-            Tekstiilipesur
-          </Text>
-          <Text style={styles.prodDes2}>Voolik</Text>
-          <Text
-            style={[styles.prodDes2, { marginBottom: heightPercentageToDP(2) }]}
-          >
-            Pesuaine
-          </Text>
-          <View style={styles.botomLineMob} />
+
+              <View style={styles.botomLineMob} />
+            </View>
+          }
+
           <View style={styles.btnRowMob}>
             <CommonGreenBtn
               title="Rendi"
@@ -691,7 +795,7 @@ const ProductDetail = (props: Props) => {
             />
             <CommonGreenBtn
               title="Leia kapp"
-              onPress={() => {}}
+              onPress={() => { }}
               style={{
                 backgroundColor: colors.white,
                 borderColor: colors.black,
@@ -782,8 +886,8 @@ const ProductDetail = (props: Props) => {
                 </View>
                 <FlatList
                   data={getProductLocations}
-                  renderItem={({item}) => {
-                    return <RenderMapRow name={item?.spot} city={item?.city}/>;
+                  renderItem={({ item }) => {
+                    return <RenderMapRow name={item?.spot} city={item?.city} />;
                   }}
                 />
               </View>

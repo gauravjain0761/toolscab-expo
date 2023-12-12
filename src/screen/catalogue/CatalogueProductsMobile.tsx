@@ -33,32 +33,34 @@ const CatalogueProductsMobile = () => {
   const dispatch = useDispatch();
 
 
-  const onFilterPressMobile = (res:any) => {
-    const upfdate=catalogueList?.filter((item) => item?.product_category_id == res?.product_category_id);
+  const onFilterPressMobile = (res: any) => {
+    const upfdate = catalogueList?.filter((item) => item?.product_category_id == res?.product_category_id);
 
     const obj = {
       data: res,
-      data1:{
+      data1: {
         brand: upfdate[0]?.category_title,
       },
       onSuccess: (res: any) => {
         setFilterModal(false)
         // navigationRef.navigate(screenName.catalogueProductsMobile)
       },
-      onFailure: () => {},
-    };    
+      onFailure: () => { },
+    };
     dispatch(postcatalogueFilterProductAction(obj));
   };
   const onProductPressMobile = (item: any) => {
     const obj = {
       params: {
         product_id: item?.product_id,
+        // product_id: 1,
+
         include_photo_ids: true,
       },
       onSuccess: (res: any) => {
         navigationRef.navigate(screenName.productDetail);
       },
-      onFailure: () => {},
+      onFailure: () => { },
     };
     dispatch(getProductAction(obj));
   };
@@ -70,6 +72,7 @@ const CatalogueProductsMobile = () => {
         <FlatList
           data={CategoryProductList}
           numColumns={2}
+          // horizontal
           keyExtractor={(_i, index) => index.toString()}
           renderItem={({ item, index }) => {
             return (
@@ -92,16 +95,16 @@ const CatalogueProductsMobile = () => {
         />
         <FooterView />
       </ScrollView>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={styles.filterView}
         onPress={() => setFilterModal(true)}
       >
         <Image style={styles.filterIcon} source={icons.filterMobileIcon} />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <ProductFilterModalMobile
         isVisible={filterModal}
         onClose={() => setFilterModal(false)}
-        onFilterPressMobile={(res)=>{
+        onFilterPressMobile={(res) => {
           onFilterPressMobile(res)
         }}
       />

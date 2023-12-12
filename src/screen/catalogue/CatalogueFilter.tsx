@@ -62,15 +62,15 @@ const ProductcartList = ({
       },
       onSuccess: (res: any) => {
         const finalADD = [
-          {
-            brand: item?.category_title,
-          },
+          // {
+          //   brand: item?.category_title,
+          // },
           ...res,
         ];
 
         setShowProduct(finalADD);
       },
-      onFailure: () => {},
+      onFailure: () => { },
     };
     dispatch(getCatalogueCategoryProductsAction(obj));
   };
@@ -79,12 +79,14 @@ const ProductcartList = ({
     const obj = {
       params: {
         product_id: item?.product_id,
+        // product_id: 1,
+
         include_photo_ids: true,
       },
       onSuccess: (res: any) => {
         navigationRef.navigate(screenName.productDetail);
       },
-      onFailure: () => {},
+      onFailure: () => { },
     };
     dispatch(getProductAction(obj));
   };
@@ -164,15 +166,15 @@ const CatalogueFilter = () => {
 
   useEffect(() => {
     const obj = {
-      onSuccess: (res: any) => {},
-      onFailure: () => {},
+      onSuccess: (res: any) => { },
+      onFailure: () => { },
     };
     dispatch(getCatalogueCategorySearchAction(obj));
     const obj1 = {
       onSuccess: (res: any) => {
         setCatalogueFilter(res);
       },
-      onFailure: () => {},
+      onFailure: () => { },
     };
     dispatch(getCatalogueFilterFormAction(obj1));
   }, []);
@@ -194,14 +196,14 @@ const CatalogueFilter = () => {
       },
       onSuccess: (res: any) => {
         const finalADD = [
-          {
-            brand: catalogueId?.category_title,
-          },
+          // {
+          //   brand: catalogueId?.category_title,
+          // },
           ...res,
         ];
         setShowProduct(finalADD);
       },
-      onFailure: () => {},
+      onFailure: () => { },
     };
     dispatch(postcatalogueFilterProductAction(obj));
   };
@@ -249,7 +251,7 @@ const CatalogueFilter = () => {
       onSuccess: (res: any) => {
         navigationRef.navigate(screenName.catalogueProductsMobile);
       },
-      onFailure: () => {},
+      onFailure: () => { },
     };
     dispatch(getCatalogueCategoryProductsAction(obj));
   };
@@ -268,7 +270,7 @@ const CatalogueFilter = () => {
         setFilterModal(false);
         navigationRef.navigate(screenName.catalogueProductsMobile);
       },
-      onFailure: () => {},
+      onFailure: () => { },
     };
     dispatch(postcatalogueFilterProductAction(obj));
   };
@@ -287,7 +289,7 @@ const CatalogueFilter = () => {
           }}
         />
         <View style={styles.containerBody}>
-          <View style={styles.leftView}>
+          {/* <View style={styles.leftView}>
             <Text style={styles.leftHeaderText}>Tootekategooriad</Text>
             {catalogueList?.map((item: any) => {
               return (
@@ -362,7 +364,7 @@ const CatalogueFilter = () => {
                 marginTop: 20,
               }}
             />
-          </View>
+          </View> */}
           <View style={styles.rightView}>
             {showProduct?.length == 0 ? (
               <ProductcartList
@@ -413,7 +415,7 @@ const CatalogueFilter = () => {
                   //@ts-ignorez
                   onCataloguePressMobile(item)
                 }
-                
+
                 mainView={true}
               />
             );
@@ -426,12 +428,12 @@ const CatalogueFilter = () => {
         ></Image>
         <FooterView />
       </ScrollView>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={styles.filterView}
         onPress={() => setFilterModal(true)}
       >
         <Image style={styles.filterIcon} source={icons.filterMobileIcon} />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <ProductFilterModalMobile
         isVisible={filterModal}
         onClose={() => setFilterModal(false)}
