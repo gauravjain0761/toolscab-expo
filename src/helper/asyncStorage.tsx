@@ -31,3 +31,17 @@ export const getAsyncToken = async () => {
     return null;
   }
 };
+
+
+export const setAsyncUserInfo = async (user: any) => {
+  await AsyncStorage.setItem(asyncKeys.user_info, JSON.stringify(user));
+};
+
+export const getAsyncUserInfo = async () => {
+  const userInfo = await AsyncStorage.getItem(asyncKeys.user_info);
+  if (userInfo) {
+    return JSON.parse(userInfo);
+  } else {
+    return null;
+  }
+};``

@@ -23,7 +23,7 @@ type Props = {
 
 const CommonGreenBtn = ({ title, onPress, style = {} ,disabled}: Props) => {
   return Platform.OS == "web" ? (
-    <TouchableOpacity style={[styles.btn, style]} onPress={() => onPress()}>
+    <TouchableOpacity style={[styles.btn, style]} disabled={disabled} onPress={() => onPress()}>
       <Text style={styles.btnText}>{title}</Text>
     </TouchableOpacity>
   ) : (

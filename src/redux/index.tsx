@@ -6,6 +6,8 @@ import authReducer from "./authReducer";
 import { USER_LOGOUT } from "../actions/dispatchTypes";
 import homeReducer from "./homeReducer";
 import catalogueReducer from "./catalogueReducer";
+import cartReducer from "./cartReducer";
+import profileReducer from "./profileReducer";
 
 
 const middleware = [thunk];
@@ -13,7 +15,9 @@ const middleware = [thunk];
 const reducers = combineReducers({
   auth: authReducer,
   home: homeReducer,
-  catalogue:catalogueReducer
+  catalogue:catalogueReducer,
+  cart:cartReducer,
+  profile:profileReducer
 });
 
 const rootReducer = (state: any, action: any) => {

@@ -8,21 +8,44 @@ import { screen_width } from "../../helper/globalFunctions";
 type Props = {
   label?: string;
   list?: any;
+  onChangeText?: (text: any) => void;
+  value?: string;
+  secureTextEntry?: boolean;
+  style: any;
 };
 
-const InpuText = ({ label, list }: Props) => {
+const InpuText = ({
+  label,
+  list,
+  value,
+  onChangeText,
+  secureTextEntry,
+  style,
+}: Props) => {
   if (Platform.OS === "web") {
     return (
       <View style={styles.container}>
         <Text style={styles.labelText}>{label}</Text>
-        <TextInput placeholder="" style={styles.textInput} />
+        <TextInput
+          placeholder=""
+          style={[styles.textInput, style]}
+          value={value}
+          onChangeText={onChangeText}
+          secureTextEntry={secureTextEntry}
+        />
       </View>
     );
   } else {
     return (
       <View style={styles.containerMob}>
         <Text style={styles.labelTextMob}>{label}</Text>
-        <TextInput placeholder="" style={styles.textInputMob} />
+        <TextInput
+          placeholder=""
+          style={[styles.textInputMob,style]}
+          value={value}
+          onChangeText={onChangeText}
+          secureTextEntry={secureTextEntry}
+        />
       </View>
     );
   }
@@ -42,6 +65,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: colors.grey_1,
     backgroundColor: colors.inputBg,
+    paddingLeft: 15,
   },
   iconStyle: {
     height: 18,
@@ -66,6 +90,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: colors.grey_1,
     backgroundColor: colors.inputBg,
+    paddingLeft: 15,
   },
   iconStyleMob: {
     height: 18,

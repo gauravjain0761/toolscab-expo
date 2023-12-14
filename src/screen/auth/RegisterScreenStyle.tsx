@@ -55,7 +55,9 @@ export const styles = StyleSheet.create({
     width: 20,
     height: 20,
     borderWidth: 1,
-    borderColor: colors.grey_6,
+    justifyContent:'center',
+    alignItems:'center',
+    borderRadius:5
   },
   checkText: {
     lineHeight: 18,
@@ -77,6 +79,24 @@ export const styles = StyleSheet.create({
   mainStyleWeb:{
     width: screen_width * 0.65,
     alignSelf: "center",
+  },
+
+  textInput: {
+    width: 75,
+    height: 35,
+    borderWidth: 1,
+    marginTop: 5,
+    borderRadius: 5,
+    borderColor: colors.grey_1,
+    backgroundColor: colors.inputBg,
+  },
+  textInputText:{
+  textAlign:'center',
+    ...commonFontStyle(fontFamily.articulat_regular, 18, colors.black),
+  },
+  labelText: {
+    lineHeight: 20,
+    ...commonFontStyle(fontFamily.articulat_regular, 18, colors.black),
   },
 
   //mobile
@@ -127,7 +147,10 @@ export const styles = StyleSheet.create({
     width: 20,
     height: 20,
     borderWidth: 1,
-    borderColor: colors.grey_6,
+    justifyContent:'center',
+    alignItems:'center',
+    borderRadius:5
+
   },
   checkTextMob: {
     lineHeight: 18,

@@ -21,6 +21,15 @@ export const api = {
 
   //profile
   get_profile: "Customer/Profile",
+  save_profile:'Customer/SaveProfile',
+
+  //AddItemToCart
+  addItemToCart:"Rental/AddItemToCart",
+
+  //Customer/PaymentMethods
+  getPaymentMethods:"Customer/PaymentMethods",
+  savePaymentMethod:"Customer/SavePaymentMethod",
+  deletePaymentMethod:"Customer/DeletePaymentMethod",
 
 };
 

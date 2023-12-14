@@ -15,6 +15,9 @@ import { colors } from "../../theme/Colors";
 import { fontFamily, screenName } from "../../helper/constants";
 import LoginModalWeb from "../modal/LoginModalWeb";
 import { useNavigation } from "@react-navigation/native";
+import { clearAsync } from "../../helper/asyncStorage";
+import { useDispatch } from "react-redux";
+import { USER_LOGOUT } from "../../actions/dispatchTypes";
 
 interface Props {
   containerStyle?: ViewStyle;
@@ -24,7 +27,8 @@ interface Props {
 
 const Header = ({ containerStyle, isMainScreen }: Props) => {
   const navigationRef = useNavigation()
-  
+  const dispatch = useDispatch();
+
   const [loginModal,setLoignModal]=useState(false)
   const bgColor = isMainScreen ? "#191917" : colors.headerColorBg;
   const textColor = isMainScreen ? colors.white : colors.black;
@@ -108,9 +112,15 @@ const Header = ({ containerStyle, isMainScreen }: Props) => {
               style={[styles.userIconeStyle, { tintColor: textColor }]}
             />
           </TouchableOpacity>
+          <TouchableOpacity onPress={()=>{
+            clearAsync()
+            dispatch({ type:USER_LOGOUT})
+            }}>
+
           <Text style={[styles.userText, { fontSize: 12, color: textColor }]}>
             EST
           </Text>
+          </TouchableOpacity>
         </View>
       </View>
       <LoginModalWeb isVisible={loginModal} onClose={()=>setLoignModal(false)}/>

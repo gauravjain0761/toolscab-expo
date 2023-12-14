@@ -20,5 +20,6 @@ export const colors = {
   blackType: '#2B2B2B',
   red: "rgba(255, 0, 0, 1)",
   inputBg: "#EBEAEB",
-  bottomLine: '#F5F1EF'
+  bottomLine: '#F5F1EF',
+  green:'#1DC9A0'
 };

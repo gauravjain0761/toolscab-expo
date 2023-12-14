@@ -220,7 +220,7 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   mainContainer: {
-    width: screen_width * 0.75,
+    width: screen_width * 0.78,
     alignSelf: "center",
     marginTop: hp(60),
   },

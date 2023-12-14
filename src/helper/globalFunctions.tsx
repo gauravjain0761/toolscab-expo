@@ -65,3 +65,12 @@ export const catalogueImg = (key: any) => {
   }
 
 }
+
+export const emailCheck = (email: string) => {
+  let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+  if (reg.test(email) === false) {
+    return false;
+  } else {
+    return true;
+  }
+};

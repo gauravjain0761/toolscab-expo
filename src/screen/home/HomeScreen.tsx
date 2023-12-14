@@ -11,7 +11,7 @@ import {
   Platform,
 } from "react-native";
 import { colors } from "../../theme/Colors";
-import { CommonMapView, FooterView, Header,HomeProductView  } from "../../components";
+import { CommonMapView, CommonModalWeb, FooterView, Header,HomeProductView  } from "../../components";
 import { hp, wp } from "../../helper/globalFunctions";
 import { fontFamily, screenName } from "../../helper/constants";
 import { icons } from "../../theme/Icons";

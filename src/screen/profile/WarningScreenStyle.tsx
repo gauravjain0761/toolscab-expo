@@ -24,7 +24,9 @@ export const styles = StyleSheet.create({
   headerSubTextMob:{
     ...defaultFont(400, 14, colors.headerBG),
     alignSelf:'center',
-    textAlign:"center"
+    textAlign:"center",
+    marginTop:10,
+    lineHeight:14
   },
   labelTextMob:{
     ...defaultFont(400, 12, colors.black),
@@ -63,8 +65,19 @@ export const styles = StyleSheet.create({
     width: 123,
     height: 123,
     alignSelf:'center',
-    // tintColor:colors.roheline
+    tintColor:colors.black
   },
+  timeViewMob: {
+    alignItems: "center",
+    marginVertical: 20,
+  },
+  timeValueStyleMob: {
+    ...defaultFont(700, 24, colors.black),
+    lineHeight: 26,
+  },
+  timeTextStyleMob: {
+    ...defaultFont(400, 14, colors.headerBG),
+    },
 
   //web
   container: {

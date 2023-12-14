@@ -1,5 +1,5 @@
 //import liraries
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -22,10 +22,65 @@ import { screen_width } from "../../helper/globalFunctions";
 import { styles } from "./ProfileScreenStyle";
 import { tabData } from "../../helper/constantData";
 import { icons } from "../../theme/Icons";
+import { useDispatch, useSelector } from "react-redux";
+import { getAsyncUserInfo } from "../../helper/asyncStorage";
+import { deletePaymentMethod, getPaymentMethods, getProfileMethods } from "../../actions/authAction";
+import { useIsFocused } from "@react-navigation/native";
 
 // create a component
 const ProfileScreen = () => {
   const [selectedTab, setselectedTab] = useState(1);
+  const dispatch = useDispatch();
+  const { getProfileList } = useSelector((state) => state.profile);
+  const { getPaymentList } = useSelector(
+    (state) => state.cart
+  );
+  const isFocused = useIsFocused();
+
+  useEffect(()=>{
+     const getProfileList = async() =>{
+      const customer = await getAsyncUserInfo()
+      if(customer !==null){
+        const obj = {
+          params:{
+            customer_id:customer
+          },
+          onSuccess: (res: any) => {},
+          onFailure: () => {},
+        };
+        dispatch(getProfileMethods(obj))
+      }
+     }
+     getProfileList()
+     getPayment()
+  },[isFocused])
+
+  const getPayment=async()=>{
+    const customer = await getAsyncUserInfo()
+    if(customer !== null) {
+      const obj = {
+        params: {
+          customer_id:customer,
+        },
+        onSuccess: (res: any) => {},
+        onFailure: () => {},
+      };
+      dispatch(getPaymentMethods(obj));
+    }
+  }
+
+  const onRenderItemPress = (item: any) => {    
+    const obj = {
+      params: {
+        Payment_method_id: item,
+      },
+      onSuccess: (res: any) => {
+        getPayment()
+      },
+      onFailure: () => {},
+    };
+    dispatch(deletePaymentMethod(obj));
+  };
 
   const HeaderCommonView = ({ title, style, isShow }: any) => {
     if (Platform.OS === "web") {
@@ -130,9 +185,9 @@ const ProfileScreen = () => {
             {(selectedTab == 2 || selectedTab == 3) && (
               <>
                 <HeaderCommonView title={"Minu profiil"} />
-                <MyProfileView />
+                <MyProfileView data={getProfileList}/>
                 <HeaderCommonView title={"Maksevahendid"} />
-                <PaymentViewCart />
+                <PaymentViewCart  data={getPaymentList} onPress={onRenderItemPress}/>
                 {selectedTab == 2 && (
                   <>
                     <HeaderCommonView title={"E-maili seaded"} />

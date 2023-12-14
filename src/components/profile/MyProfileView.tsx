@@ -8,6 +8,7 @@ import { icons } from "../../theme/Icons";
 type Props = {
   title?: string;
   list?: any;
+  data?:any
 };
 
 const TowValue = ({title,value,textStyle}:any) => {
@@ -28,16 +29,16 @@ if(Platform.OS=='web'){
 }
 };
 
-const MyProfileView = ({ title, list }: Props) => {
+const MyProfileView = ({ data }: Props) => {
   const [isSelect, setIsSelect] = useState(false);
  if(Platform.OS == 'web'){
   return (
     <View style={[styles.container,{marginTop:25}]}>
       <View style={[{ flex: 1}]}>
-        <TowValue title='Nimi:' value='Rainer Nutt' textStyle={styles.textStyle}/>
+        <TowValue title='Nimi:' value={`${data?.first_name} ${data?.last_name}`} textStyle={styles.textStyle}/>
         <TowValue title='Isikukood' value='39203244214' />
-        <TowValue title='E-post' value='rainernutt@gmail.com' />
-        <TowValue title='Telefoninumber' value='+372 53359954' />
+        <TowValue title='E-post' value={data?.email} />
+        <TowValue title='Telefoninumber' value={`${data?.country} ${data?.mobile}`} />
       </View>
       <View style={[styles.container,{alignSelf:'flex-start',marginRight:10}]}>
         <Image source={icons.pen} style={{ width: 18, height: 18 }} />
