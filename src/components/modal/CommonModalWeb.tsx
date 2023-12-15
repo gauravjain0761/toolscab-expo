@@ -15,7 +15,7 @@ import { icons } from "../../theme/Icons";
 import InpuText from "../reusableComponent/InpuText";
 import CommonGreenBtn from "../reusableComponent/CommonGreenBtn";
 import { widthPercentageToDP } from "react-native-responsive-screen";
-import { commonFontStyle,defaultFont } from "../../theme/Fonts";
+import { commonFontStyle, defaultFont } from "../../theme/Fonts";
 import { fontFamily, screenName } from "../../helper/constants";
 import { useNavigation } from "@react-navigation/native";
 import { navigate } from "../../navigations/RootNavigation";
@@ -39,7 +39,9 @@ const CommonModalWeb = ({ isVisible, onClose, tabValue }: Props) => {
     if (selectTab == 1) {
       navigationRef.navigate(screenName.registerScreen);
     } else {
-      navigationRef.navigate(screenName.cardScreen);
+      Platform.OS == "web"
+        ? navigationRef.navigate(screenName.profileScreen)
+        : navigationRef.navigate(screenName.cardScreen);
     }
   };
 
@@ -48,7 +50,7 @@ const CommonModalWeb = ({ isVisible, onClose, tabValue }: Props) => {
     setSelectedTab(1);
   };
 
-  if(Platform.OS ==="web"){
+  if (Platform.OS === "web") {
     return (
       <Modal
         animationInTiming={500}
@@ -75,15 +77,15 @@ const CommonModalWeb = ({ isVisible, onClose, tabValue }: Props) => {
                     { justifyContent: "center" },
                   ]}
                 >
-                   <Image
-                      source={icons.commonicon}
-                      style={styles.commoniconStyleWeb}
-                    />
+                  <Image
+                    source={icons.commonicon}
+                    style={styles.commoniconStyleWeb}
+                  />
                 </ImageBackground>
               </View>
-  
+
               <Text style={styles.headerText}>tähelepanelik!</Text>
-  
+
               {selectTab == 1 ? (
                 <Text style={styles.headerSubText}>
                   {
@@ -97,7 +99,7 @@ const CommonModalWeb = ({ isVisible, onClose, tabValue }: Props) => {
                   }
                 </Text>
               )}
-  
+
               <View
                 style={{
                   flexDirection: "row",
@@ -127,7 +129,7 @@ const CommonModalWeb = ({ isVisible, onClose, tabValue }: Props) => {
         </View>
       </Modal>
     );
-  }else{
+  } else {
     return (
       <Modal
         animationInTiming={500}
@@ -154,15 +156,15 @@ const CommonModalWeb = ({ isVisible, onClose, tabValue }: Props) => {
                     { justifyContent: "center" },
                   ]}
                 >
-                   <Image
-                      source={icons.commonicon}
-                      style={styles.commoniconStyleMob}
-                    />
+                  <Image
+                    source={icons.commonicon}
+                    style={styles.commoniconStyleMob}
+                  />
                 </ImageBackground>
               </View>
-  
+
               <Text style={styles.headerText}>tähelepanelik!</Text>
-  
+
               {selectTab == 1 ? (
                 <Text style={styles.headerSubTextMob}>
                   {
@@ -176,7 +178,7 @@ const CommonModalWeb = ({ isVisible, onClose, tabValue }: Props) => {
                   }
                 </Text>
               )}
-  
+
               <View
                 style={{
                   flexDirection: "row",
@@ -275,8 +277,6 @@ const styles = StyleSheet.create({
   timeTextStyle: {
     ...commonFontStyle(fontFamily.articulat_regular, 14, colors.headerBG),
   },
-
-
 
   containerMob: {
     flex: 1,
