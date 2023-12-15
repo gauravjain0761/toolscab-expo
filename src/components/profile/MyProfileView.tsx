@@ -50,10 +50,10 @@ const MyProfileView = ({ data }: Props) => {
   return (
     <View style={[styles.containerMob,{marginTop:25}]}>
       <View style={[{ flex: 1}]}>
-        <TowValue title='Nimi:' value='Rainer Nutt' textStyle={styles.textStyleMob}/>
+        <TowValue title='Nimi:'  value={`${data?.first_name} ${data?.last_name}`} textStyle={styles.textStyleMob}/>
         <TowValue title='Isikukood' value='39203244214' />
-        <TowValue title='E-post' value='rainernutt@gmail.com' />
-        <TowValue title='Telefoninumber' value='+372 53359954' />
+        <TowValue title='E-post' value={data?.email} />
+        <TowValue title='Telefoninumber' value={`${data?.country} ${data?.mobile}`} />
       </View>
       {/* <View style={[styles.container,{alignSelf:'flex-start',marginRight:10}]}>
         <Image source={icons.pen} style={{ width: 18, height: 18 }} />

@@ -1,31 +1,38 @@
 //import liraries
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
-  ScrollView,
+  StyleSheet,
   Image,
-  TextInput,
   TouchableOpacity,
+  ImageBackground,
   FlatList,
+  Platform,
+  TextInput,
 } from "react-native";
+import Modal from "react-native-modal";
 import { colors } from "../../theme/Colors";
-import {
-  FooterView,
-} from "../../components";
-import { screen_width } from "../../helper/globalFunctions";
 import { icons } from "../../theme/Icons";
-import { styles } from "./CardScreenStyle";
-import CommonGreenBtn from "../../components/reusableComponent/CommonGreenBtn";
+import InpuText from "../reusableComponent/InpuText";
+import CommonGreenBtn from "../reusableComponent/CommonGreenBtn";
 import { widthPercentageToDP } from "react-native-responsive-screen";
-import { getAsyncUserInfo } from "../../helper/asyncStorage";
-import { getPaymentMethods, savePaymentMethod } from "../../actions/authAction";
+import { commonFontStyle, defaultFont } from "../../theme/Fonts";
+import { fontFamily, screenName } from "../../helper/constants";
 import { useNavigation } from "@react-navigation/native";
+import { navigate } from "../../navigations/RootNavigation";
+import { screen_width } from "../../helper/globalFunctions";
+import { getAsyncUserInfo } from "../../helper/asyncStorage";
 import { useDispatch } from "react-redux";
+import { getPaymentMethods, savePaymentMethod } from "../../actions/authAction";
+
+type Props = {
+  isVisible: boolean;
+  onClose: () => void;
+};
 
 // create a component
-const CardScreen = () => {
-
+const CardPaymentModalWeb = ({ isVisible, onClose }: Props) => {
   const navigationRef = useNavigation();
   const [paymentType, setPaymentType] = useState("CreditCard");
   const [isPrimary, setIsPrimary] = useState(false);
@@ -33,10 +40,10 @@ const CardScreen = () => {
   const dispatch = useDispatch();
 
   const onClosePress = () => {
+    onClose();
     setIsPrimary(false)
     setPaymentType('CreditCard')
     setCardCode("")
-    navigationRef.goBack()
   };
 
   const getPayment=async()=>{
@@ -57,8 +64,8 @@ const CardScreen = () => {
     const customer = await getAsyncUserInfo();
     if (customer !== null) {
        if(cardCode.trim().length === 0){
-         alert('Please enter a card code')
-       }else{
+           alert("Please enter a card code")
+       } else{
         const obj = {
           data: {
             payment_method_id: null,
@@ -70,9 +77,9 @@ const CardScreen = () => {
           },
           onSuccess: (res: any) => {
             getPayment()
+            onClosePress()
             setIsPrimary(false)
             setPaymentType('CreditCard')
-            navigationRef.goBack()
           },
           onFailure: () => {},
         };
@@ -87,16 +94,17 @@ const CardScreen = () => {
   ];
 
   const renderItem = ({ item }: any) => {
+    if (Platform.OS === "web") {
       return (
         <View
           style={{
             flexDirection: "row",
             alignItems: "center",
             marginBottom: 10,
-            marginTop:15
+            marginRight: 20,
           }}
         >
-           <TouchableOpacity
+          <TouchableOpacity
             onPress={() => setPaymentType(item?.name)}
             style={[
               styles.boxStyle,
@@ -112,16 +120,43 @@ const CardScreen = () => {
               <View style={styles.boxContainerStyle} />
             )}
           </TouchableOpacity>
+          <Text style={styles.itemText}>{item?.name}</Text>
+        </View>
+      );
+    } else {
+      return (
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginBottom: 10,
+          }}
+        >
+          <View style={styles.boxStyleMob} />
           <Text style={styles.itemTextMob}>{item?.name}</Text>
         </View>
       );
-    
+    }
   };
 
   return (
-    <View style={styles.containerMob}>
-      <ScrollView contentContainerStyle={{ flexGrow: 1, marginTop: 20 }}>
-        <View style={{ marginHorizontal: 24, marginTop: 30 }}>
+    <Modal
+      animationInTiming={500}
+      animationOutTiming={500}
+      style={{ margin: 0, flex: 1 }}
+      backdropColor={colors.headerBG}
+      backdropOpacity={0.2}
+      isVisible={isVisible}
+      onBackButtonPress={() => {
+        onClosePress();
+      }}
+      onBackdropPress={() => {
+        onClosePress();
+      }}
+    >
+      <View style={styles.container}>
+        <View style={styles.bodyContent}>
+          <View style={{ marginHorizontal: 24, marginTop: 30 }}>
           <Text style={styles.headerTextMob}>Lisa kaart</Text>
           <View style={styles.bodyViewMob}>
             <Text style={styles.labelTextMob}>Kaardi number</Text>
@@ -146,7 +181,7 @@ const CardScreen = () => {
                 <Text style={styles.labelTextMob}>Aegub</Text>
                 <TextInput
                   placeholder="kk/aa"
-                  style={[styles.inputTextMob, { width: screen_width * 0.38 }]}
+                  style={[styles.inputTextMob, { width: screen_width * 0.1 }]}
                   placeholderTextColor={colors.filterText}
                 />
               </View>
@@ -161,18 +196,16 @@ const CardScreen = () => {
                 </View>
                 <TextInput
                   placeholder=""
-                  style={[styles.inputTextMob, { width: screen_width * 0.38 }]}
-                  placeholderTextColor={colors.filterText}
+                  style={[styles.inputTextMob, { width: screen_width * 0.1 }]}
                 />
               </View>
             </View>
-            <FlatList data={data} renderItem={renderItem} horizontal showsHorizontalScrollIndicator={false}/>
+            <FlatList data={data} renderItem={renderItem} horizontal/>
             <View
               style={{
                 flexDirection: "row",
                 alignItems: "center",
                 marginBottom: 10,
-                marginTop:10
               }}
             >
               <TouchableOpacity
@@ -198,8 +231,7 @@ const CardScreen = () => {
               <Text style={styles.itemText}>{"Select to primary"}</Text>
             </View>
           </View>
-         
-          <View style={{ flexDirection: "row", alignSelf: "center" }}>
+          <View style={{ flexDirection: "row", alignSelf: "center",marginBottom:30 }}>
             <CommonGreenBtn
               title="Tühista"
               onPress={onClosePress}
@@ -211,16 +243,111 @@ const CardScreen = () => {
               style={{
                 borderColor: colors.headerBG,
                 marginLeft: 10,
-                width: widthPercentageToDP(32),
+                width: widthPercentageToDP(7),
                 marginTop: 50,
               }}
             />
           </View>
+          </View>
         </View>
-        <View style={{ height: 150 }} />
-        <FooterView />
-      </ScrollView>
-    </View>
+      </View>
+    </Modal>
   );
 };
-export default CardScreen;
+
+// define your styles
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  bodyContent: {
+    // width: screen_width * 0.32,
+    paddingHorizontal: 45,
+    backgroundColor: colors.white,
+    borderRadius: 5,
+  },
+  commoniconStyleWeb: {
+    width: 123,
+    height: 123,
+    alignSelf: "center",
+    tintColor: colors.black,
+  },
+  itemText: {
+    marginLeft: 15,
+    ...commonFontStyle(fontFamily.articulat_normal, 14, colors.black),
+  },
+  boxStyle: {
+    width: 20,
+    height: 20,
+    borderWidth: 1,
+
+    borderRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  boxContainerStyle: {
+    width: 10,
+    height: 10,
+    backgroundColor: colors.black,
+    borderRadius: 10,
+  },
+  itemTextMob: {
+    marginLeft: 16,
+    ...defaultFont(400, 18, colors.black),
+    width: screen_width * 0.77,
+  },
+  boxStyleMob: {
+    width: 20,
+    height: 20,
+    borderWidth: 1,
+    borderColor: colors.filterText,
+    borderRadius: 5,
+  },
+
+  
+
+
+  headerTextMob:{
+    ...commonFontStyle(fontFamily.articulat_bold, 18, colors.black),
+    textAlign:'center'
+  },
+  labelTextMob:{
+    ...commonFontStyle(fontFamily.articulat_regular, 12, colors.black),
+    marginBottom:4,
+    left:8
+  },
+  bodyViewMob:{
+    backgroundColor:colors.roheline,
+    paddingVertical:10,
+    marginTop:20,
+    paddingHorizontal:18,
+    borderRadius:16,
+    
+  },
+  inputTextMob:{
+    flex:1,
+    borderWidth:1,
+    backgroundColor:colors.bottomLine,
+    paddingVertical:12,
+    borderRadius:8,
+    paddingLeft:12
+  },
+  epquestionMob:{
+    width:14,
+    height:14,
+    marginBottom:4,
+    marginLeft:10
+  },
+  btnLeftSideMob:{
+    borderColor: colors.headerBG,
+    width: widthPercentageToDP(7),
+    marginTop: 50,
+    backgroundColor: colors.white,
+    paddingVertical: 10,
+  }
+});
+
+//make this component available to the app
+export default CardPaymentModalWeb;

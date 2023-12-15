@@ -15,6 +15,7 @@ import {
   CommonModalWeb,
   FooterView,
   Header,
+  LoginPaymentModalWeb,
   ProductView,
 } from "../../components";
 import { colors } from "../../theme/Colors";
@@ -42,7 +43,7 @@ import { getAsyncToken, getAsyncUserInfo } from "../../helper/asyncStorage";
 import { navigate } from "../../navigations/RootNavigation";
 import { addItemToCartAction } from "../../actions/cartAction";
 import { getPaymentMethods } from "../../actions/authAction";
-import { useIsFocused } from '@react-navigation/native';
+import { useIsFocused } from "@react-navigation/native";
 
 type Props = {};
 
@@ -56,14 +57,15 @@ const ProductDetail = (props: Props) => {
   const [tabIndex2, setTabIndex2] = useState(false);
   const [tabIndex3, setTabIndex3] = useState(false);
   const [commonModalWebShow, setCommonModalWebShow] = useState(false);
+  const [loginPaymentModalWebShow, setLoginPaymentModalWebShow] =
+    useState(false);
   const [selectShowValue, setSelectShowValue] = useState(1);
+  const [locationId, setLocationId] = useState("");
   const [pricefoShow, setPricefoShow] = useState(false);
   const { productDetails, getProductSpecs, getProductLocations } = useSelector(
     (state) => state.catalogue
   );
-  const { getPaymentList } = useSelector(
-    (state) => state.cart
-  );
+  const { getPaymentList } = useSelector((state) => state.cart);
   const [imageId, setImageId] = useState(productDetails?.photo_ids?.[0]);
 
   console.log("productDetails", productDetails);
@@ -103,47 +105,50 @@ const ProductDetail = (props: Props) => {
     }
   };
 
-  const onBtnPress =async(item:any) => {
-    const customer = await getAsyncUserInfo()
-    if(customer == null) {
-      setSelectShowValue(1)
-      setCommonModalWebShow(true)
-    }else if(getPaymentList.length == 0){
-      setSelectShowValue(2)
-      setCommonModalWebShow(true)
-    }else{
-      onCardItemClick(item)
+  const onBtnPress = async (item: any) => {
+    const customer = await getAsyncUserInfo();
+    setLocationId(item);
+    if (customer == null) {
+      setSelectShowValue(1);
+      setCommonModalWebShow(true);
+    } else if (getPaymentList.length == 0) {
+      setSelectShowValue(2);
+      setCommonModalWebShow(true);
+    } else {
+      setLoginPaymentModalWebShow(true);
     }
   };
-  const onBtnPressMob =async(item:any) => {
-    const customer = await getAsyncUserInfo()
-    if(customer == null) {
-      navigationRef.navigate(screenName.warningScreen,{tabIndex:1});
-    }else if(getPaymentList.length == 0){
-      navigationRef.navigate(screenName.warningScreen,{tabIndex:2});
-    }else{
-      onCardItemClick(item)
-    }
-  };
+  // const onBtnPressMob =async(item:any) => {
+  //   const customer = await getAsyncUserInfo()
+  //   setLocationId(item)
+  //   if(customer == null) {
+  //     navigationRef.navigate(screenName.warningScreen,{tabIndex:1});
+  //   }else if(getPaymentList.length == 0){
+  //     navigationRef.navigate(screenName.warningScreen,{tabIndex:2});
+  //   }else{
+  //     // onCardItemClick(item)
+  //   }
+  // };
 
-  const onCardItemClick =async(item:any) => {
-    const customer = await getAsyncUserInfo()
+  const onCardItemClick = async () => {
+    const customer = await getAsyncUserInfo();
 
     const obj = {
       params: {
         product_id: productDetails?.product_id,
-        customer_id:customer,
-        location_id:item
+        customer_id: customer,
+        location_id: locationId,
       },
       onSuccess: (res: any) => {
-        navigate(screenName.cardScreen)
+        setLoginPaymentModalWebShow(false);
+        navigationRef.navigate(screenName.cardScreen);
       },
       onFailure: () => {},
     };
     dispatch(addItemToCartAction(obj));
-  }
+  };
 
-  const RenderMapRow = ({ name, city,location_id }: any) => {
+  const RenderMapRow = ({ name, city, location_id }: any) => {
     if (Platform.OS === "web") {
       return (
         <View>
@@ -156,7 +161,7 @@ const ProductDetail = (props: Props) => {
             </View>
             <CommonGreenBtn
               title="Broneeri"
-              onPress={()=>onBtnPress(location_id)}
+              onPress={() => onBtnPress(location_id)}
               style={styles.btnRender}
             />
           </View>
@@ -177,7 +182,7 @@ const ProductDetail = (props: Props) => {
             <View style={styles.lineView} />
             <CommonGreenBtn
               title="Broneeri"
-              onPress={()=>onBtnPressMob(location_id)}
+              onPress={() => onBtnPress(location_id)}
               style={styles.btnRenderMob}
             />
           </View>
@@ -190,23 +195,23 @@ const ProductDetail = (props: Props) => {
     if (productDetails) {
       onProductSpecsPress();
       onProductLocationPress();
-      getPayment()
+      getPayment();
     }
-  }, [productDetails,isFocused]);
+  }, [productDetails, isFocused]);
 
-  const getPayment=async()=>{
-    const customer = await getAsyncUserInfo()
-    if(customer !== null) {
+  const getPayment = async () => {
+    const customer = await getAsyncUserInfo();
+    if (customer !== null) {
       const obj = {
         params: {
-          customer_id:customer,
+          customer_id: customer,
         },
         onSuccess: (res: any) => {},
         onFailure: () => {},
       };
       dispatch(getPaymentMethods(obj));
     }
-  }
+  };
 
   const onProductSpecsPress = () => {
     const obj = {
@@ -716,13 +721,16 @@ const ProductDetail = (props: Props) => {
                   <FlatList
                     data={getProductLocations}
                     renderItem={({ item }) => {
-                      if(item){
+                      if (item) {
                         return (
-                          <RenderMapRow name={item?.spot} city={item?.city} location_id={item?.location_id} />
+                          <RenderMapRow
+                            name={item?.spot}
+                            city={item?.city}
+                            location_id={item?.location_id}
+                          />
                         );
                       }
-                      return
-
+                      return;
                     }}
                   />
                 </View>
@@ -788,6 +796,11 @@ const ProductDetail = (props: Props) => {
           isVisible={commonModalWebShow}
           onClose={() => setCommonModalWebShow(false)}
           tabValue={selectShowValue}
+        />
+        <LoginPaymentModalWeb
+          isVisible={loginPaymentModalWebShow}
+          onClose={() => setLoginPaymentModalWebShow(false)}
+          oncomfirmPress={onCardItemClick}
         />
       </ScrollView>
     </View>
@@ -1138,7 +1151,13 @@ const ProductDetail = (props: Props) => {
                 <FlatList
                   data={getProductLocations}
                   renderItem={({ item }) => {
-                    return <RenderMapRow name={item?.spot} city={item?.city} location_id={item?.location_id} />;
+                    return (
+                      <RenderMapRow
+                        name={item?.spot}
+                        city={item?.city}
+                        location_id={item?.location_id}
+                      />
+                    );
                   }}
                 />
               </View>
@@ -1196,6 +1215,16 @@ const ProductDetail = (props: Props) => {
           />
           <View style={{ height: 50 }} />
         </View>
+        <CommonModalWeb
+          isVisible={commonModalWebShow}
+          onClose={() => setCommonModalWebShow(false)}
+          tabValue={selectShowValue}
+        />
+        <LoginPaymentModalWeb
+          isVisible={loginPaymentModalWebShow}
+          onClose={() => setLoginPaymentModalWebShow(false)}
+          oncomfirmPress={onCardItemClick}
+        />
         <FooterView />
       </ScrollView>
     </View>

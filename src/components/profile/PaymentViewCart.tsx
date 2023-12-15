@@ -1,4 +1,5 @@
 import {
+  Alert,
   FlatList,
   Image,
   Platform,
@@ -18,6 +19,8 @@ import { navigate } from "../../navigations/RootNavigation";
 import PaymentModalWeb from "../modal/PaymentModalWeb";
 import { useDispatch } from "react-redux";
 import { deletePaymentMethod } from "../../actions/authAction";
+import { useNavigation } from "@react-navigation/native";
+import CardPaymentModalWeb from "../modal/CardPaymentModalWeb";
 
 type Props = {
   title?: string;
@@ -33,6 +36,23 @@ const data = [
 ];
 
 const renderItem = (item:any,onPress:any) => {
+
+  const onPressDelet=(item:any)=>{
+    if(Platform.OS === 'web'){
+      onPress(item)
+    }else{
+
+      Alert.alert('tähelepanelik', 'kas olete kindel, et soovite oma maksekaardi kustutada?', [
+        {
+          text: 'Tühista',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {text: 'Okei', onPress: () =>onPress(item)},
+      ]);
+    }
+  }
+
   if (Platform.OS == "web") {
     return (
       <View
@@ -44,12 +64,12 @@ const renderItem = (item:any,onPress:any) => {
             style={styles.iconStyle}
             resizeMode="contain"
           />
-          <Text style={styles.itemText}>{item?.type}</Text>
+          <Text style={styles.itemText}>{item?.code}</Text>
         </View>
         <View style={styles.container}>
           {item?.is_primary && <Text style={styles.rightText}>peamine</Text>}
-          <TouchableOpacity onPress={()=>{onPress(item?.payment_method_id)}}>
-            <Image source={icons.dotsthreefill} style={styles.iconStyle1} />
+          <TouchableOpacity onPress={()=>{onPressDelet(item?.payment_method_id)}}>
+            <Image source={icons.bin} style={styles.iconStyle1} />
           </TouchableOpacity>
         </View>
       </View>
@@ -61,15 +81,17 @@ const renderItem = (item:any,onPress:any) => {
       >
         <View style={{ flexDirection: "row", alignItems: "center", flex: 1 }}>
           <Image
-            source={item?.icon}
+           source={icons.pay2}
             style={styles.iconStyleMob}
             resizeMode="contain"
           />
-          <Text style={styles.itemTextMob}>{item?.name}</Text>
+          <Text style={styles.itemTextMob}>{item?.code}</Text>
         </View>
         <View style={styles.containerMob}>
-          {item?.id === 1 && <Text style={styles.rightTextMob}>peamine</Text>}
-          <Image source={icons.dotsthreefill1} style={styles.iconStyle1Mob} />
+          {item?.is_primary && <Text style={styles.rightTextMob}>peamine</Text>}
+          <TouchableOpacity onPress={()=>{onPressDelet(item?.payment_method_id)}}>
+          <Image source={icons.bin} style={styles.iconStyle1Mob} resizeMode='contain' />
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -77,6 +99,8 @@ const renderItem = (item:any,onPress:any) => {
 };
 
 const PaymentViewCart = ({ data,onPress }: Props) => {
+  const navigationRef = useNavigation();
+  
   const [showPaymentShow, setShowPaymentShow] = useState(false);
   if (Platform.OS == "web") {
     return (
@@ -93,7 +117,7 @@ const PaymentViewCart = ({ data,onPress }: Props) => {
             alignSelf: "center",
           }}
         />
-        <PaymentModalWeb
+        <CardPaymentModalWeb
           isVisible={showPaymentShow}
           onClose={() => {
             setShowPaymentShow(false);
@@ -104,9 +128,10 @@ const PaymentViewCart = ({ data,onPress }: Props) => {
   } else {
     return (
       <View style={[{ marginTop: 25 }]}>
-        <FlatList data={data} renderItem={renderItem} />
+          <FlatList data={data} renderItem={({item})=>renderItem(item,onPress)}/>
         <CommonGreenBtn
           title="Lisa +"
+          // onPress={() => setShowPaymentShow(true)}
           onPress={() => {
             navigate(screenName.cardScreen);
           }}
@@ -156,8 +181,8 @@ const styles = StyleSheet.create({
     height: 16,
   },
   iconStyle1: {
-    width: 26,
-    height: 26,
+    width: 20,
+    height: 20,
   },
 
   //Mobile
@@ -191,7 +216,7 @@ const styles = StyleSheet.create({
     height: 16,
   },
   iconStyle1Mob: {
-    width: 26,
-    height: 26,
+    width: 18,
+    height: 18,
   },
 });

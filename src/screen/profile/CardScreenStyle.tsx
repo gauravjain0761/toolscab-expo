@@ -52,6 +52,30 @@ export const styles = StyleSheet.create({
     marginTop: 50,
     backgroundColor: colors.white,
     paddingVertical: 10,
-  }
+  },
+  boxStyle: {
+    width: 18,
+    height: 18,
+    borderWidth: 1,
+    borderRadius: 18,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  boxContainerStyle: {
+    width: 10,
+    height: 10,
+    backgroundColor: colors.black,
+    borderRadius: 10,
+  },
+  itemTextMob: {
+    marginLeft: 8,
+    ...defaultFont(400, 14, colors.black),
+    // width: screen_width * 0.77,
+    marginRight: 20 ,
+  },
+  itemText: {
+    marginLeft: 9,
+    ...defaultFont(400, 14, colors.black),
+  },
 });
 

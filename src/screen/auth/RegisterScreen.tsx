@@ -83,6 +83,9 @@ const RegisterScreen = () => {
   const [countryCode, setCountryCode] = useState("");
   const dispatch = useDispatch();
 
+  console.log('countryCode.replace("+","")',countryCode.replace("+",""));
+  
+
   const onSubmitPress = () => {
     if (testInputData?.firstName.trim().length === 0) {
       alert("Please enter your first Name");
@@ -110,7 +113,7 @@ const RegisterScreen = () => {
           first_name: testInputData?.firstName,
           last_name: testInputData?.lastName,
           current_balance: 0,
-          mobile: 0,
+          mobile: testInputData?.mobileNo,
           email: testInputData?.emailId,
           password: testInputData?.password,
           country: "91",

@@ -15,7 +15,7 @@ import { icons } from "../../theme/Icons";
 import InpuText from "../reusableComponent/InpuText";
 import CommonGreenBtn from "../reusableComponent/CommonGreenBtn";
 import { widthPercentageToDP } from "react-native-responsive-screen";
-import { commonFontStyle,defaultFont } from "../../theme/Fonts";
+import { commonFontStyle,defaultFont} from "../../theme/Fonts";
 import { fontFamily, screenName } from "../../helper/constants";
 import { useNavigation } from "@react-navigation/native";
 import { navigate } from "../../navigations/RootNavigation";
@@ -23,32 +23,48 @@ import { navigate } from "../../navigations/RootNavigation";
 type Props = {
   isVisible: boolean;
   onClose: () => void;
-  tabValue: number;
+  oncomfirmPress: () => void;
 };
 
 // create a component
-const CommonModalWeb = ({ isVisible, onClose, tabValue }: Props) => {
+const LoginPaymentModalWeb = ({ isVisible, onClose,oncomfirmPress }: Props) => {
   const navigationRef = useNavigation();
-  const [selectTab, setSelectedTab] = useState(tabValue);
+  const [selectTab, setSelectedTab] = useState(1);
+  const [delay, setDelay] = useState(900);
+  const minutes = Math.floor(delay / 60);
+  const seconds = Math.floor(delay % 60);
   useEffect(() => {
-    setSelectedTab(tabValue);
+    const timer = setInterval(() => {
+      selectTab == 2 && setDelay(delay - 1);
+    }, 1000);
+
+    if (delay === 0) {
+      clearInterval(timer);
+    }
+
+    return () => {
+      clearInterval(timer);
+    };
   });
 
   const onFirstTimePress = () => {
-    onClose();
     if (selectTab == 1) {
-      navigationRef.navigate(screenName.registerScreen);
+     setSelectedTab(2)
+     setDelay(900)
     } else {
-      navigationRef.navigate(screenName.cardScreen);
+      oncomfirmPress()
     }
   };
 
   const onClosePress = () => {
     onClose();
     setSelectedTab(1);
+    setTimeout(() => {
+      setDelay(900);
+    }, 400);
   };
 
-  if(Platform.OS ==="web"){
+   if(Platform.OS == 'web'){
     return (
       <Modal
         animationInTiming={500}
@@ -75,25 +91,46 @@ const CommonModalWeb = ({ isVisible, onClose, tabValue }: Props) => {
                     { justifyContent: "center" },
                   ]}
                 >
-                   <Image
+                  {selectTab == 1 ? (
+                    <Image
                       source={icons.commonicon}
                       style={styles.commoniconStyleWeb}
                     />
+                  ) : (
+                    <Image source={icons.done} style={styles.doneIcon} />
+                  )}
                 </ImageBackground>
               </View>
-  
-              <Text style={styles.headerText}>tähelepanelik!</Text>
-  
+              {selectTab === 1 ? (
+                <Text style={styles.headerText}>Pea hoogu!</Text>
+              ) : (
+                <Text
+                  style={[
+                    styles.headerText,
+                    { lineHeight: 30, textAlign: "center" },
+                  ]}
+                >
+                  {"Sinu seade on\nbroneeritud!"}
+                </Text>
+              )}
+              {selectTab == 2 && (
+                <View style={styles.timeView}>
+                  <Text style={styles.timeValueStyle}>
+                    {minutes}:{seconds}
+                  </Text>
+                  <Text style={styles.timeTextStyle}>Tasuta broneering</Text>
+                </View>
+              )}
               {selectTab == 1 ? (
                 <Text style={styles.headerSubText}>
                   {
-                    "tundub, et teie makseviisi pole lisatud. jätkamiseks\nlisage see kõigepealt."
+                    "Nõustun, et toote lisamisel ostukorvi\nbroneeritakse toode 15 minutiks. aja\nmöödumisel algab automaatselt tasuline\nrendiaeg, vaata hinnastust ja tellimistingimusi"
                   }
                 </Text>
               ) : (
                 <Text style={styles.headerSubText}>
                   {
-                    "tundub, et te pole meiega registreerunud. jätkamiseks\nregistreeruge meiega."
+                    "Sinu seade ootab sind Toolscabi rendikapis\nVõta see 15 minuti jooksul tasuta välja."
                   }
                 </Text>
               )}
@@ -107,12 +144,12 @@ const CommonModalWeb = ({ isVisible, onClose, tabValue }: Props) => {
                 }}
               >
                 <CommonGreenBtn
-                  title="tühistada"
+                  title="Loobun"
                   onPress={onClosePress}
                   style={styles.btnLeftSide}
                 />
                 <CommonGreenBtn
-                  title={selectTab == 1 ? "registreeru kohe" : "lisa makse"}
+                  title={selectTab == 1 ? "Nõustun" : "Rendikorv"}
                   onPress={onFirstTimePress}
                   style={{
                     borderColor: colors.headerBG,
@@ -127,12 +164,12 @@ const CommonModalWeb = ({ isVisible, onClose, tabValue }: Props) => {
         </View>
       </Modal>
     );
-  }else{
+   }else{
     return (
       <Modal
         animationInTiming={500}
         animationOutTiming={500}
-        style={{ margin: 15, flex: 1 }}
+        style={{ margin: 0, flex: 1 }}
         backdropColor={colors.headerBG}
         backdropOpacity={0.2}
         isVisible={isVisible}
@@ -154,25 +191,46 @@ const CommonModalWeb = ({ isVisible, onClose, tabValue }: Props) => {
                     { justifyContent: "center" },
                   ]}
                 >
-                   <Image
+                  {selectTab == 1 ? (
+                    <Image
                       source={icons.commonicon}
                       style={styles.commoniconStyleMob}
                     />
+                  ) : (
+                    <Image source={icons.done} style={styles.doneIconMob} />
+                  )}
                 </ImageBackground>
               </View>
-  
-              <Text style={styles.headerText}>tähelepanelik!</Text>
-  
+              {selectTab === 1 ? (
+                <Text style={styles.headerTextMob}>Pea hoogu!</Text>
+              ) : (
+                <Text
+                  style={[
+                    styles.headerTextMob,
+                    { lineHeight: 36, textAlign: "center" },
+                  ]}
+                >
+                  {"Sinu seade on\nbroneeritud!"}
+                </Text>
+              )}
+              {selectTab == 2 && (
+                <View style={styles.timeViewMob}>
+                  <Text style={styles.timeValueStyleMob}>
+                    {minutes}:{seconds}
+                  </Text>
+                  <Text style={styles.timeTextStyleMob}>Tasuta broneering</Text>
+                </View>
+              )}
               {selectTab == 1 ? (
                 <Text style={styles.headerSubTextMob}>
                   {
-                    "tundub, et teie makseviisi pole lisatud. jätkamiseks\nlisage see kõigepealt."
+                    "Nõustun, et toote lisamisel ostukorvi\nbroneeritakse toode 15 minutiks. aja\nmöödumisel algab automaatselt tasuline\nrendiaeg, vaata hinnastust ja tellimistingimusi"
                   }
                 </Text>
               ) : (
                 <Text style={styles.headerSubTextMob}>
                   {
-                    "tundub, et te pole meiega registreerunud. jätkamiseks\nregistreeruge meiega."
+                    "Sinu seade ootab sind Toolscabi rendikapis\nVõta see 15 minuti jooksul tasuta välja."
                   }
                 </Text>
               )}
@@ -186,17 +244,17 @@ const CommonModalWeb = ({ isVisible, onClose, tabValue }: Props) => {
                 }}
               >
                 <CommonGreenBtn
-                  title="tühistada"
+                  title="Loobun"
                   onPress={onClosePress}
                   style={styles.btnLeftSideMob}
                 />
                 <CommonGreenBtn
-                  title={selectTab == 1 ? "registreeru kohe" : "lisa makse"}
+                  title={selectTab == 1 ? "Nõustun" : "Rendikorv"}
                   onPress={onFirstTimePress}
                   style={{
                     borderColor: colors.headerBG,
                     marginLeft: 10,
-                    width: widthPercentageToDP(32),
+                    width: widthPercentageToDP(30),
                     marginTop: 50,
                   }}
                 />
@@ -206,7 +264,7 @@ const CommonModalWeb = ({ isVisible, onClose, tabValue }: Props) => {
         </View>
       </Modal>
     );
-  }
+   }
 };
 
 // define your styles
@@ -277,6 +335,7 @@ const styles = StyleSheet.create({
   },
 
 
+  //mobile
 
   containerMob: {
     flex: 1,
@@ -287,7 +346,7 @@ const styles = StyleSheet.create({
     // width: screen_width * 0.32,
     paddingHorizontal: 25,
     backgroundColor: colors.white,
-    borderRadius: 8,
+    borderRadius: 5,
   },
   commoniconStyleMob: {
     width: 123,
@@ -318,15 +377,17 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginTop: 100,
     marginBottom: 20,
+    lineHeight:34
   },
   headerSubTextMob: {
     ...defaultFont(400, 14, colors.headerBG),
     alignSelf: "center",
     textAlign: "center",
+    lineHeight:18
   },
   btnLeftSideMob: {
     borderColor: colors.headerBG,
-    width: widthPercentageToDP(32),
+    width: widthPercentageToDP(30),
     marginTop: 50,
     backgroundColor: colors.white,
     paddingVertical: 10,
@@ -337,12 +398,12 @@ const styles = StyleSheet.create({
   },
   timeValueStyleMob: {
     ...defaultFont(700, 24, colors.black),
-    lineHeight: 20,
+    lineHeight: 26,
   },
   timeTextStyleMob: {
-    ...defaultFont(700, 14, colors.headerBG),
+    ...defaultFont(400, 14, colors.headerBG),
   },
 });
 
 //make this component available to the app
-export default CommonModalWeb;
+export default LoginPaymentModalWeb;

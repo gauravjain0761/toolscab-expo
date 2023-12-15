@@ -36,6 +36,7 @@ const ProfileScreen = () => {
     (state) => state.cart
   );
   const isFocused = useIsFocused();
+console.log('getPaymentList',getPaymentList);
 
   useEffect(()=>{
      const getProfileList = async() =>{
@@ -262,9 +263,9 @@ const ProfileScreen = () => {
             {(selectedTab == 2 || selectedTab == 3) && (
               <>
                 <HeaderCommonView title={"Minu profiil"} isShow={true} />
-                <MyProfileView />
+                <MyProfileView data={getProfileList}/>
                 <HeaderCommonView title={"Minu profiil"} />
-                <PaymentViewCart />
+                <PaymentViewCart  data={getPaymentList} onPress={onRenderItemPress}/>
                 {selectedTab == 2 && (
                   <>
                     <HeaderCommonView title={"E-maili seaded"} />

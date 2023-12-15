@@ -54,6 +54,7 @@ export const icons = {
   ellipse:require('../../assets/icon/ellipse.png'),
   defultIcon:require('../../assets/icon/defultIcon.jpeg'),
   qrcode:require('../../assets/icon/qrcode.png'),
+  bin:require('../../assets/icon/bin.png'),
 
 
 

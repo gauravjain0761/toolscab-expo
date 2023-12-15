@@ -22,6 +22,8 @@ import ProductFilterModalMobile from './modal/ProductFilterModalMobile'
 import FooterView from "./reusableComponent/FooterView";
 import QRCodeModal from './modal/QRCodeModal'
 import CommonModalWeb from './modal/CommonModalWeb'
+import LoginPaymentModalWeb from './modal/LoginPaymentModalWeb'
+import CardPaymentModalWeb from './modal/CardPaymentModalWeb'
 
 
 export {
@@ -46,5 +48,7 @@ export {
     LoginModalWeb,
     ProductFilterModalMobile,
     QRCodeModal,
-    CommonModalWeb
+    CommonModalWeb,
+    LoginPaymentModalWeb,
+    CardPaymentModalWeb
 }

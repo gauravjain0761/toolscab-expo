@@ -4,7 +4,10 @@ import { makeAPIRequest } from "../helper/apiGlobal";
 import { GET, POST, api } from "../helper/apiConstants";
 import { RootState } from "../helper/types";
 import { setAsyncUserInfo } from "../helper/asyncStorage";
-import { GET_PAYMENT_DETAILS_LIST, GET_PROFILE_DETAILS_LIST } from "./dispatchTypes";
+import {
+  GET_PAYMENT_DETAILS_LIST,
+  GET_PROFILE_DETAILS_LIST,
+} from "./dispatchTypes";
 
 export const userLogin =
   (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
@@ -20,17 +23,15 @@ export const userLogin =
     })
       .then(async (response: any) => {
         if (response.status === 200) {
-         console.log('response',response);
-         
+          console.log("response", response);
         }
       })
       .catch((error) => {
-    
         if (request.onFailure) request.onFailure(error.response);
       });
   };
 
-  export const userSaveProfile =
+export const userSaveProfile =
   (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
   async (dispatch) => {
     let headers = {
@@ -44,18 +45,22 @@ export const userLogin =
     })
       .then(async (response: any) => {
         if (response.status === 200) {
-         console.log('response',response);
-         setAsyncUserInfo(response?.data)
-         if (request.onSuccess) request.onSuccess(response?.data);
+          console.log("response", response);
+          setAsyncUserInfo(response?.data);
+          if (request.onSuccess) request.onSuccess(response?.data);
         }
       })
       .catch((error) => {
-    
+        const errorValue = error?.response?.data?.detail.includes(
+          "Cannot insert duplicate key row in object"
+        );
+        errorValue &&
+          alert("Email is already in use Please update your email address");
         if (request.onFailure) request.onFailure(error.response);
       });
   };
 
-  export const getPaymentMethods =
+export const getPaymentMethods =
   (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
   async (dispatch) => {
     let headers = {
@@ -69,18 +74,17 @@ export const userLogin =
     })
       .then(async (response: any) => {
         if (response.status === 200) {
-         console.log('response',response);
-         if (request.onSuccess) request.onSuccess(response?.data);
-         dispatch({ type: GET_PAYMENT_DETAILS_LIST, payload: response?.data });
+          console.log("response", response);
+          if (request.onSuccess) request.onSuccess(response?.data);
+          dispatch({ type: GET_PAYMENT_DETAILS_LIST, payload: response?.data });
         }
       })
       .catch((error) => {
-    
         if (request.onFailure) request.onFailure(error.response);
       });
   };
 
-  export const getProfileMethods =
+export const getProfileMethods =
   (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
   async (dispatch) => {
     let headers = {
@@ -94,18 +98,17 @@ export const userLogin =
     })
       .then(async (response: any) => {
         if (response.status === 200) {
-         console.log('response',response);
-         if (request.onSuccess) request.onSuccess(response?.data);
-         dispatch({ type: GET_PROFILE_DETAILS_LIST, payload: response?.data });
+          console.log("response", response);
+          if (request.onSuccess) request.onSuccess(response?.data);
+          dispatch({ type: GET_PROFILE_DETAILS_LIST, payload: response?.data });
         }
       })
       .catch((error) => {
-    
         if (request.onFailure) request.onFailure(error.response);
       });
   };
 
-  export const savePaymentMethod =
+export const savePaymentMethod =
   (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
   async (dispatch) => {
     let headers = {
@@ -119,8 +122,8 @@ export const userLogin =
     })
       .then(async (response: any) => {
         if (response.status === 200) {
-         console.log('response',response);
-         if (request.onSuccess) request.onSuccess(response?.data);
+          console.log("response", response);
+          if (request.onSuccess) request.onSuccess(response?.data);
         }
       })
       .catch((error) => {
@@ -128,7 +131,7 @@ export const userLogin =
       });
   };
 
-  export const deletePaymentMethod =
+export const deletePaymentMethod =
   (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
   async (dispatch) => {
     let headers = {
@@ -142,8 +145,8 @@ export const userLogin =
     })
       .then(async (response: any) => {
         if (response.status === 200) {
-         console.log('response',response);
-         if (request.onSuccess) request.onSuccess(response?.data);
+          console.log("response", response);
+          if (request.onSuccess) request.onSuccess(response?.data);
         }
       })
       .catch((error) => {
