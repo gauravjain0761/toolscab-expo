@@ -1,14 +1,60 @@
 //import liraries
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, ScrollView, Platform, Image } from "react-native";
 import { CartList, FooterView, Header, PaymentView, QRCodeModal } from "../../components";
 import { styles } from "./CartScreenStyle";
 import { icons } from "../../theme/Icons";
 import { colors } from "../../theme/Colors";
+import { useDispatch, useSelector } from "react-redux";
+import { useIsFocused } from "@react-navigation/native";
+import { getAsyncUserInfo } from "../../helper/asyncStorage";
+import { getPaymentMethods } from "../../actions/authAction";
+import { getShoppingCartAction } from "../../actions/cartAction";
 
 // create a component
 const CartScreen = () => {
   const [qrcodeModalShow,setqrcodeModalShow]=useState(false)
+  const dispatch = useDispatch();
+  const isFocused = useIsFocused();
+
+  const { getPaymentList,getShoppingCart } = useSelector(
+    (state) => state.cart
+  );
+console.log('getShoppingCart',getShoppingCart);
+
+  useEffect(()=>{
+    const getCardList = async() =>{
+     const customer = await getAsyncUserInfo()
+     if(customer !==null){
+       const obj = {
+         params:{
+          //  customer_id:"902f8f9b-1c9e-4e6f-8f2d-9c6e85e9c955"
+          customer_id:customer
+         },
+         onSuccess: (res: any) => {},
+         onFailure: () => {},
+       };
+       dispatch(getShoppingCartAction(obj))
+     }
+    }
+    getCardList()
+    getPayment()
+ },[isFocused])
+
+ const getPayment=async()=>{
+  const customer = await getAsyncUserInfo()
+  if(customer !== null) {
+    const obj = {
+      params: {
+        customer_id:customer,
+      },
+      onSuccess: (res: any) => {},
+      onFailure: () => {},
+    };
+    dispatch(getPaymentMethods(obj));
+  }
+}
+
   if(Platform.OS == 'web'){
     return (
       <View style={styles.container}>
@@ -17,15 +63,15 @@ const CartScreen = () => {
           <View style={styles.mainStyle}>
             <Text style={styles.headerText}>Rendikorvx</Text>
             <View style={styles.unLineStyle} />
-            <Text style={styles.headerSubText}>Korvis kokku 2 toodet</Text>
+            <Text style={styles.headerSubText}>Korvis kokku {getShoppingCart.length} toodet</Text>
             <View style={styles.cartStyle}>
               <View style={{ flex: 1, marginRight: 18 }}>
-                {[0, 1].map(() => {
-                  return <CartList />;
+                {getShoppingCart.length > 0 && getShoppingCart?.map((item:any) => {
+                  return <CartList data={item}/>;
                 })}
               </View>
               <View style={styles.paymentStyle}>
-                <PaymentView />
+                <PaymentView data={getPaymentList}/>
               </View>
             </View>
           </View>

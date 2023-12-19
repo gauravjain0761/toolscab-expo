@@ -32,6 +32,8 @@ const ProfileScreen = () => {
   const [selectedTab, setselectedTab] = useState(1);
   const dispatch = useDispatch();
   const { getProfileList } = useSelector((state) => state.profile);
+  const [isSelect, setIsSelect] = useState(true);
+
   const { getPaymentList } = useSelector(
     (state) => state.cart
   );
@@ -83,7 +85,7 @@ console.log('getPaymentList',getPaymentList);
     dispatch(deletePaymentMethod(obj));
   };
 
-  const HeaderCommonView = ({ title, style, isShow }: any) => {
+  const HeaderCommonView = ({ title, style, isShow,onPress }: any) => {
     if (Platform.OS === "web") {
       return (
         <View style={style}>
@@ -100,6 +102,7 @@ console.log('getPaymentList',getPaymentList);
             <Text style={styles.headerSubTextMob}>{title}</Text>
             {isShow && (
               <TouchableOpacity
+               onPress={onPress}
                 style={[
                   {
                     flexDirection: "row",
@@ -109,10 +112,10 @@ console.log('getPaymentList',getPaymentList);
                 ]}
               >
                 <Image
-                  source={icons.pen}
+                  source={isSelect ? icons.pen : icons.save}
                   style={{ width: 18, height: 18, marginRight: 8 }}
                 />
-                <Text style={styles.headerRightTextMob}>{"Muuda"}</Text>
+                <Text style={styles.headerRightTextMob}>{isSelect ? "Muuda" : "Salvesta"}</Text>
               </TouchableOpacity>
             )}
           </View>
@@ -209,7 +212,7 @@ console.log('getPaymentList',getPaymentList);
         <ScrollView contentContainerStyle={{ flexGrow: 1, marginTop: 20 }}>
           <View style={{ marginHorizontal: 24, marginTop: 30 }}>
             <Text style={styles.headerTextMob}>
-              {selectedTab == 1 ? "Tere, (Name)!" : "Minu profiil"}
+              {selectedTab == 1 ? `Tere, ${getProfileList?.first_name}!` : "Minu profiil"}
             </Text>
             <View style={{ flexDirection: "row" }}>
               {tabData.map((item) => {
@@ -262,9 +265,9 @@ console.log('getPaymentList',getPaymentList);
             )}
             {(selectedTab == 2 || selectedTab == 3) && (
               <>
-                <HeaderCommonView title={"Minu profiil"} isShow={true} />
-                <MyProfileView data={getProfileList}/>
-                <HeaderCommonView title={"Minu profiil"} />
+                <HeaderCommonView title={"Minu profiil"} isShow={true} onPress={()=>setIsSelect(!isSelect)} />
+                <MyProfileView data={getProfileList} isSelectValue={isSelect}/>
+                <HeaderCommonView title={"Maksevahendid"} />
                 <PaymentViewCart  data={getPaymentList} onPress={onRenderItemPress}/>
                 {selectedTab == 2 && (
                   <>

@@ -11,10 +11,11 @@ import { useNavigation } from "@react-navigation/native";
 type Props = {
   title?: string;
   list?: any;
-  onPress: () => void;
+  onPress?: () => void;
+  data?:any
 };
 
-const CartList = ({ title, list,onPress }: Props) => {
+const CartList = ({ title, list,onPress,data }: Props) => {
   const navigationRef = useNavigation();
   if (Platform.OS == "web") {
     return (

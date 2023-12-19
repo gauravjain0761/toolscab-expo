@@ -74,3 +74,12 @@ export const emailCheck = (email: string) => {
     return true;
   }
 };
+
+export const countryCode = (country: string) => {
+  const countryList = require('./countrycode.json');
+  const countryFilter=countryList.filter((item:any)=>item.code === country)
+  console.log('countryFilter',countryFilter);
+  return countryFilter?.[0]?.dial_code
+  
+
+}

@@ -33,6 +33,7 @@ export const icons = {
   pay1: require("../../assets/icon/pay1.png"),
   pay2: require("../../assets/icon/pay2.png"),
   pen: require("../../assets/icon/pen.png"),
+  save: require("../../assets/icon/save.png"),
   dotsthreefill: require("../../assets/icon/dotsthreefill.png"),
   dotsthreefill1: require("../../assets/icon/dotsthreefill1.png"),
   search:require("../../assets/icon/search.png"),
@@ -55,6 +56,7 @@ export const icons = {
   defultIcon:require('../../assets/icon/defultIcon.jpeg'),
   qrcode:require('../../assets/icon/qrcode.png'),
   bin:require('../../assets/icon/bin.png'),
+  logout:require('../../assets/icon/logout.png'),
 
 
 

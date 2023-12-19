@@ -18,7 +18,7 @@ import { styles } from "./RegisterScreenStyle";
 import { icons } from "../../theme/Icons";
 import { emailCheck, screen_width } from "../../helper/globalFunctions";
 import { useDispatch } from "react-redux";
-import { userSaveProfile } from "../../actions/authAction";
+import { getProfileMethods, userSaveProfile } from "../../actions/authAction";
 import { navigate } from "../../navigations/RootNavigation";
 import { CountryPicker } from "react-native-country-codes-picker";
 
@@ -83,30 +83,29 @@ const RegisterScreen = () => {
   const [countryCode, setCountryCode] = useState("");
   const dispatch = useDispatch();
 
-  console.log('countryCode.replace("+","")',countryCode.replace("+",""));
-  
-
   const onSubmitPress = () => {
     if (testInputData?.firstName.trim().length === 0) {
-      alert("Please enter your first Name");
+      alert("Palun sisesta oma eesnimi");
     } else if (testInputData?.lastName.trim().length === 0) {
-      alert("Please enter your last Name");
+      alert("Palun sisestage oma perekonnanimi");
     } else if (testInputData?.emailId.trim().length === 0) {
-      alert("Please enter your email address");
+      alert("Palun sisestage oma e-posti aadress");
     } else if (!emailCheck(testInputData?.emailId)) {
-      alert("Please enter your valid email address");
+      alert("Sisestage oma kehtiv e-posti aadress");
     } else if (testInputData?.password.trim().length === 0) {
-      alert("Please enter your password");
+      alert("Palun sisesta oma salasõna");
     } else if (testInputData?.password.trim().length < 6) {
-      alert("Your password must be at least 6 characters");
+      alert("Teie parool peab olema vähemalt 6 tähemärki pikk");
     } else if (
       testInputData?.confirmPassword.trim() !== testInputData?.password.trim()
     ) {
-      alert("Your password and confirmation password do not match.");
+      alert("Teie parool ja kinnitusparool ei ühti.");
     } else if (countryCode == "") {
-      alert("Please enter your country Code.");
+      alert("Sisestage oma riigikood.");
     } else if (testInputData?.mobileNo.trim().length === 0) {
-      alert("Please enter your mobile Num.");
+      alert("Palun sisestage oma mobiilinumber.");
+    } else if (!checkBox3) {
+      alert("Palun valige tähtajad ja renditingimused");
     } else {
       const obj = {
         data: {
@@ -116,11 +115,22 @@ const RegisterScreen = () => {
           mobile: testInputData?.mobileNo,
           email: testInputData?.emailId,
           password: testInputData?.password,
-          country: "91",
+          country: countryCode?.code,
           news_subscription: 0,
         },
         onSuccess: (res: any) => {
-          navigationRef.goBack();
+          Platform.OS == "web"
+            ? navigationRef.goBack()
+            : navigationRef.navigate(screenName.profileScreen);
+
+          const obj = {
+            params: {
+              customer_id: res,
+            },
+            onSuccess: (res: any) => {},
+            onFailure: () => {},
+          };
+          dispatch(getProfileMethods(obj));
           setTestInputData({
             firstName: "",
             lastName: "",
@@ -128,10 +138,18 @@ const RegisterScreen = () => {
             password: "",
             confirmPassword: "",
             mobileNo: "",
-          })
-          setCountryCode("")
+          });
+          setCountryCode("");
         },
-        onFailure: () => {},
+        onFailure: (error: any) => {
+          const errorValue = error?.detail.includes(
+            "Cannot insert duplicate key row in object"
+          );
+          errorValue &&
+            alert(
+              "E-post on juba kasutusel Palun värskendage oma e-posti aadressi"
+            );
+        },
       };
       dispatch(userSaveProfile(obj));
     }
@@ -225,7 +243,9 @@ const RegisterScreen = () => {
                         style={styles.textInput}
                         onPress={() => setShow(true)}
                       >
-                        <Text style={styles.textInputText}>{countryCode}</Text>
+                        <Text style={styles.textInputText}>
+                          {countryCode?.dial_code}
+                        </Text>
                       </TouchableOpacity>
                     </View>
                     <InpuText
@@ -294,7 +314,9 @@ const RegisterScreen = () => {
                         style={styles.textInput}
                         onPress={() => setShow(true)}
                       >
-                        <Text style={styles.textInputText}>{countryCode}</Text>
+                        <Text style={styles.textInputText}>
+                          {countryCode?.dial_code}
+                        </Text>
                       </TouchableOpacity>
                     </View>
                     <InpuText
@@ -347,7 +369,7 @@ const RegisterScreen = () => {
               />
               <CommonGreenBtn
                 title="Salvesta"
-                disabled={!checkBox1 || !checkBox2 || !checkBox3}
+                // disabled={!checkBox3}
                 onPress={onSubmitPress}
                 style={styles.btnStyleWeb}
               />
@@ -359,7 +381,9 @@ const RegisterScreen = () => {
             show={show}
             // when picker button press you will get the country object with dial code
             pickerButtonOnPress={(item) => {
-              setCountryCode(item.dial_code);
+              console.log("item", item);
+
+              setCountryCode(item);
               setShow(false);
             }}
             style={{ modal: { height: 500, alignSelf: "center" } }}
@@ -453,10 +477,12 @@ const RegisterScreen = () => {
                     <View style={{ marginRight: 10 }}>
                       <Text style={styles.labelText}>{"Riigi kood"}</Text>
                       <TouchableOpacity
-                        style={[styles.textInput,{justifyContent:'center'}]}
+                        style={[styles.textInput, { justifyContent: "center" }]}
                         onPress={() => setShow(true)}
                       >
-                        <Text style={styles.textInputText}>{countryCode}</Text>
+                        <Text style={styles.textInputText}>
+                          {countryCode?.dial_code}
+                        </Text>
                       </TouchableOpacity>
                     </View>
                     <InpuText
@@ -518,16 +544,18 @@ const RegisterScreen = () => {
                     }
                     secureTextEntry={true}
                   />
-                   <View
+                  <View
                     style={{ width: screen_width * 0.8, flexDirection: "row" }}
                   >
                     <View style={{ marginRight: 10 }}>
                       <Text style={styles.labelText}>{"Riigi kood"}</Text>
                       <TouchableOpacity
-                        style={[styles.textInput,{justifyContent:'center'}]}
+                        style={[styles.textInput, { justifyContent: "center" }]}
                         onPress={() => setShow(true)}
                       >
-                        <Text style={styles.textInputText}>{countryCode}</Text>
+                        <Text style={styles.textInputText}>
+                          {countryCode?.dial_code}
+                        </Text>
                       </TouchableOpacity>
                     </View>
                     <InpuText
@@ -586,7 +614,7 @@ const RegisterScreen = () => {
               />
               <CommonGreenBtn
                 title="Salvesta"
-                disabled={!checkBox1 || !checkBox2 || !checkBox3}
+                // disabled={!checkBox3}
                 onPress={onSubmitPress}
                 style={styles.btnStyle}
               />
@@ -597,7 +625,9 @@ const RegisterScreen = () => {
             show={show}
             // when picker button press you will get the country object with dial code
             pickerButtonOnPress={(item) => {
-              setCountryCode(item.dial_code);
+              console.log("itemmmm", item);
+
+              setCountryCode(item);
               setShow(false);
             }}
             style={{ modal: { height: 500, alignSelf: "center" } }}

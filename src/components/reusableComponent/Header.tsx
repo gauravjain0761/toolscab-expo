@@ -1,5 +1,5 @@
 //import liraries
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -14,25 +14,45 @@ import { commonFontStyle } from "../../theme/Fonts";
 import { colors } from "../../theme/Colors";
 import { fontFamily, screenName } from "../../helper/constants";
 import LoginModalWeb from "../modal/LoginModalWeb";
-import { useNavigation } from "@react-navigation/native";
-import { clearAsync } from "../../helper/asyncStorage";
-import { useDispatch } from "react-redux";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
+import { clearAsync, getAsyncUserInfo } from "../../helper/asyncStorage";
+import { useDispatch, useSelector } from "react-redux";
 import { USER_LOGOUT } from "../../actions/dispatchTypes";
+import _ from "lodash";
+import { getProfileMethods } from "../../actions/authAction";
 
 interface Props {
   containerStyle?: ViewStyle;
   isMainScreen: boolean;
 }
 
-
 const Header = ({ containerStyle, isMainScreen }: Props) => {
-  const navigationRef = useNavigation()
+  const navigationRef = useNavigation();
   const dispatch = useDispatch();
 
-  const [loginModal,setLoignModal]=useState(false)
+  const [loginModal, setLoignModal] = useState(false);
+  const { getProfileList } = useSelector((state) => state.profile);
   const bgColor = isMainScreen ? "#191917" : colors.headerColorBg;
   const textColor = isMainScreen ? colors.white : colors.black;
 
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    const getProfileList = async () => {
+      const customer = await getAsyncUserInfo();
+      if (customer !== null) {
+        const obj = {
+          params: {
+            customer_id: customer,
+          },
+          onSuccess: (res: any) => {},
+          onFailure: () => {},
+        };
+        dispatch(getProfileMethods(obj));
+      }
+    };
+    getProfileList();
+  }, [isFocused]);
 
   const data = [
     {
@@ -84,17 +104,29 @@ const Header = ({ containerStyle, isMainScreen }: Props) => {
           ))}
         </View>
         <View style={[styles.headerContent, { marginRight: 20 }]}>
-          <TouchableOpacity onPress={()=>setLoignModal(true)}>
-
-          <Text style={[styles.userText, { color: textColor }]}>SISENE</Text>
-          </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => navigationRef.navigate(screenName.profileScreen)}
+            onPress={() => {
+              !_.isEmpty(getProfileList)
+                ? navigationRef.navigate(screenName.profileScreen)
+                : setLoignModal(true);
+            }}
+            style={{flexDirection:'row',alignItems:'center'}}
           >
             <Image
               source={icons.userIcone}
               style={[styles.userIconeStyle, { tintColor: textColor }]}
             />
+             <Text
+              style={[
+                styles.userText,
+                { color: textColor, textTransform: "uppercase" },
+              ]}
+            >
+              {!_.isEmpty(getProfileList)
+                ? `Tere ${getProfileList?.first_name}`
+                : "SISENE"}
+            </Text>
+            
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => navigationRef.navigate(screenName.cartScreen)}
@@ -105,25 +137,40 @@ const Header = ({ containerStyle, isMainScreen }: Props) => {
             />
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => navigationRef.navigate(screenName.cartScreen)}
+            onPress={() => {
+              navigationRef.navigate(screenName.cartScreen);
+            }}
           >
             <Image
               source={icons.notification}
               style={[styles.userIconeStyle, { tintColor: textColor }]}
             />
           </TouchableOpacity>
-          <TouchableOpacity onPress={()=>{
-            clearAsync()
-            dispatch({ type:USER_LOGOUT})
-            }}>
-
-          <Text style={[styles.userText, { fontSize: 12, color: textColor }]}>
-            EST
-          </Text>
+          <TouchableOpacity onPress={() => {}}>
+            <Text style={[styles.userText, { fontSize: 12, color: textColor }]}>
+              EST
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              clearAsync();
+              dispatch({ type: USER_LOGOUT });
+            }}
+          >
+            <Image
+              source={icons.logout}
+              style={[
+                styles.iconStyle,
+                { tintColor: textColor, width: 20, height: 20 },
+              ]}
+            />
           </TouchableOpacity>
         </View>
       </View>
-      <LoginModalWeb isVisible={loginModal} onClose={()=>setLoignModal(false)}/>
+      <LoginModalWeb
+        isVisible={loginModal}
+        onClose={() => setLoignModal(false)}
+      />
     </View>
   );
 };

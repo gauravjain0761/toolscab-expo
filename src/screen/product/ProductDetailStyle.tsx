@@ -172,14 +172,15 @@ export const styles = StyleSheet.create({
     // paddingBottom: 10,
   },
   renderTextMob: {
-    ...defaultFont(700, 14, colors.headerBG),
+    ...defaultFont(700, 16, colors.headerBG),
   },
   rendersubTextMob: {
-    ...defaultFont(400, 9, colors.filterText),
-    marginTop: -3,
+    ...defaultFont(400, 12, colors.filterText),
+    marginTop: 3,
   },
   rendersubValueTextMob: {
-    ...defaultFont(400, 9, colors.filterText),
+    ...defaultFont(400, 12, colors.filterText),
+    marginTop:3
   },
   btnRenderMob: {
     borderColor: colors.headerBG,

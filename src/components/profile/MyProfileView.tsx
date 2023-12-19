@@ -1,67 +1,330 @@
-import { Image, Platform, StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
-import { commonFontStyle,defaultFont } from "../../theme/Fonts";
+import {
+  Image,
+  Platform,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import React, { useEffect, useState } from "react";
+import { commonFontStyle, defaultFont } from "../../theme/Fonts";
 import { fontFamily } from "../../helper/constants";
 import { colors } from "../../theme/Colors";
 import { icons } from "../../theme/Icons";
+import { countryCode, emailCheck } from "../../helper/globalFunctions";
+import { useDispatch, useSelector } from "react-redux";
+import { CountryPicker } from "react-native-country-codes-picker";
+import { getProfileMethods, userSaveProfile } from "../../actions/authAction";
 
 type Props = {
   title?: string;
   list?: any;
-  data?:any
+  data?: any;
+  isSelectValue?: boolean;
 };
 
-const TowValue = ({title,value,textStyle}:any) => {
-if(Platform.OS=='web'){
-  return (
-    <View style={[styles.container,{marginTop:12}]}>
-      <Text style={styles.itemText}>{title}</Text>
-      <Text style={[styles.itemText1,textStyle]}>{value}</Text>
-    </View>
-  );
-}else{
-  return (
-    <View style={[styles.containerMob,{marginTop:12}]}>
-      <Text style={styles.itemTextMob}>{title}</Text>
-      <Text style={[styles.itemText1Mob,textStyle]}>{value}</Text>
-    </View>
-  );
-}
+const TowValue = ({ title, value, textStyle }: any) => {
+  if (Platform.OS == "web") {
+    return (
+      <View style={[styles.container, { marginTop: 12 }]}>
+        <Text style={styles.itemText}>{title}</Text>
+        <Text style={[styles.itemText1, textStyle]}>{value}</Text>
+      </View>
+    );
+  } else {
+    return (
+      <View style={[styles.containerMob, { marginTop: 12 }]}>
+        <Text style={styles.itemTextMob}>{title}</Text>
+        <Text style={[styles.itemText1Mob, textStyle]}>{value}</Text>
+      </View>
+    );
+  }
 };
 
-const MyProfileView = ({ data }: Props) => {
-  const [isSelect, setIsSelect] = useState(false);
- if(Platform.OS == 'web'){
-  return (
-    <View style={[styles.container,{marginTop:25}]}>
-      <View style={[{ flex: 1}]}>
-        <TowValue title='Nimi:' value={`${data?.first_name} ${data?.last_name}`} textStyle={styles.textStyle}/>
-        <TowValue title='Isikukood' value='39203244214' />
-        <TowValue title='E-post' value={data?.email} />
-        <TowValue title='Telefoninumber' value={`${data?.country} ${data?.mobile}`} />
+const TowValueInput = ({ title, value, textStyle, onChangeText }: any) => {
+  if (Platform.OS == "web") {
+    return (
+      <View style={[styles.container, { marginTop: 12 }]}>
+        <Text style={styles.itemText}>{title}</Text>
+        <TextInput
+          value={value}
+          onChangeText={onChangeText}
+          style={styles.inputStyle}
+        />
       </View>
-      <View style={[styles.container,{alignSelf:'flex-start',marginRight:10}]}>
-        <Image source={icons.pen} style={{ width: 18, height: 18 }} />
-        <Text style={styles.headerText}>{"Muuda"}</Text>
+    );
+  } else {
+    return (
+      <View style={[styles.containerMob, { marginTop: 12 }]}>
+        <Text style={styles.itemTextMob}>{title}</Text>
+        <TextInput
+          value={value}
+          onChangeText={onChangeText}
+          style={[styles.inputStyle, { width: 190 }]}
+        />
       </View>
-    </View>
-  );
- }else{
-  return (
-    <View style={[styles.containerMob,{marginTop:25}]}>
-      <View style={[{ flex: 1}]}>
-        <TowValue title='Nimi:'  value={`${data?.first_name} ${data?.last_name}`} textStyle={styles.textStyleMob}/>
-        <TowValue title='Isikukood' value='39203244214' />
-        <TowValue title='E-post' value={data?.email} />
-        <TowValue title='Telefoninumber' value={`${data?.country} ${data?.mobile}`} />
+    );
+  }
+};
+
+const MyProfileView = ({ data, isSelectValue }: Props) => {
+  const [isSelect, setIsSelect] = useState(true);
+  const { getProfileList } = useSelector((state) => state.profile);
+  const [show, setShow] = useState(false);
+  const [country, setCountry] = useState(countryCode(data?.country));
+
+  const [testInputData, setTestInputData] = useState({
+    firstName: data?.first_name,
+    emailId: data?.email,
+    mobileNo: data?.mobile.toString(),
+    code: data?.country,
+  });
+  console.log('testInputData',testInputData);
+  
+  const dispatch = useDispatch();
+
+  const onSubmitPress = () => {
+    if (testInputData?.firstName.trim().length === 0) {
+      alert("Palun sisesta oma eesnimi");
+    } else if (testInputData?.emailId.trim().length === 0) {
+      alert("Palun sisestage oma e-posti aadress");
+    } else if (!emailCheck(testInputData?.emailId)) {
+      alert("Sisestage oma kehtiv e-posti aadress");
+    } else if (country == "") {
+      alert("Sisestage oma riigikood.");
+    } else if (testInputData?.mobileNo.length === 0) {
+      alert("Palun sisestage oma mobiilinumber.");
+    } else {
+      const obj = {
+        data: {
+          first_name: testInputData?.firstName,
+          last_name: data?.lastName,
+          current_balance: 0,
+          mobile: testInputData?.mobileNo,
+          email: testInputData?.emailId,
+          country: testInputData?.code,
+          news_subscription: 0,
+        },
+        onSuccess: (res: any) => {
+          const obj = {
+            params: {
+              customer_id: res,
+            },
+            onSuccess: (res: any) => {
+              setIsSelect(true);
+            },
+            onFailure: () => {},
+          };
+          dispatch(getProfileMethods(obj));
+        },
+        onFailure: (error: any) => {},
+      };
+      dispatch(userSaveProfile(obj));
+    }
+  };
+
+  if (Platform.OS == "web") {
+    return (
+      <View style={[styles.container, { marginTop: 25 }]}>
+        <View style={[{ flex: 1 }]}>
+          {isSelect ? (
+            <TowValue
+              title="Nimi:"
+              value={`${data?.first_name}`}
+              textStyle={styles.textStyle}
+            />
+          ) : (
+            <TowValueInput
+              title="Nimi:"
+              value={testInputData?.firstName}
+              textStyle={styles.textStyle}
+              onChangeText={(text) => {
+                setTestInputData({ ...testInputData, firstName: text });
+              }}
+            />
+          )}
+          {/* <TowValue title='Isikukood' value='39203244214' /> */}
+          {isSelect ? (
+            <TowValue title="E-post" value={data?.email} />
+          ) : (
+            <TowValueInput
+              title="E-post"
+              value={testInputData?.emailId}
+              textStyle={styles.textStyle}
+              onChangeText={(text) => {
+                setTestInputData({ ...testInputData, emailId: text });
+              }}
+            />
+          )}
+          {isSelect ? (
+            <TowValue
+              title="Telefoninumber"
+              value={`${countryCode(data?.country)} ${data?.mobile}`}
+            />
+          ) : (
+            <View style={[styles.container, { marginTop: 12 }]}>
+              <Text style={styles.itemText}>{"Telefoninumber"}</Text>
+              <View style={{ flexDirection: "row" }}>
+                <TouchableOpacity
+                  onPress={() => setShow(true)}
+                  style={[
+                    styles.inputStyle,
+                    {
+                      marginRight: 10,
+                      flexDirection: "row",
+                      alignItems: "center",
+                      paddingHorizontal: 10,
+                    },
+                  ]}
+                >
+                  <Text
+                    style={{
+                      ...commonFontStyle(
+                        fontFamily.articulat_normal,
+                        18,
+                        colors.black
+                      ),
+                    }}
+                  >
+                    {country}
+                  </Text>
+                  <Image
+                    source={icons.downarrow}
+                    style={styles.downarrowStyle}
+                  />
+                </TouchableOpacity>
+                <TextInput
+                  value={testInputData?.mobileNo}
+                  onChangeText={(text) => {
+                    setTestInputData({ ...testInputData, mobileNo: text });
+                  }}
+                  style={styles.inputStyle}
+                />
+              </View>
+            </View>
+          )}
+        </View>
+        <TouchableOpacity
+          onPress={() => {
+            isSelect ? setIsSelect(false) : onSubmitPress();
+          }}
+          style={[
+            styles.container,
+            { alignSelf: "flex-start", marginRight: 10 },
+          ]}
+        >
+          <Image
+            source={isSelect ? icons.pen : icons.save}
+            style={{ width: 18, height: 18 }}
+          />
+          <Text style={styles.headerText}>
+            {isSelect ? "Muuda" : "Salvesta"}
+          </Text>
+        </TouchableOpacity>
+        <CountryPicker
+          show={show}
+          // when picker button press you will get the country object with dial code
+          pickerButtonOnPress={(item) => {
+            console.log("item", item);
+            setCountry(item?.dial_code);
+            setTestInputData({ ...testInputData, code: item?.code });
+            setShow(false);
+          }}
+          style={{ modal: { height: 500, alignSelf: "center" } }}
+        />
       </View>
-      {/* <View style={[styles.container,{alignSelf:'flex-start',marginRight:10}]}>
+    );
+  } else {
+    return (
+      <View style={[styles.containerMob, { marginTop: 25 }]}>
+        <View style={[{ flex: 1 }]}>
+          {isSelectValue ? (
+            <TowValue
+              title="Nimi:"
+              value={`${data?.first_name}`}
+              textStyle={styles.textStyleMob}
+            />
+          ) : (
+            <TowValueInput
+              title="Nimi:"
+              value={testInputData?.firstName}
+              textStyle={styles.textStyle}
+              onChangeText={(text) => {
+                setTestInputData({ ...testInputData, firstName: text });
+              }}
+            />
+          )}
+          {/* <TowValue title='Isikukood' value='39203244214' /> */}
+          {isSelectValue ? (
+            <TowValue title="E-post" value={data?.email} />
+          ) : (
+            <TowValueInput
+              title="E-post"
+              value={testInputData?.emailId}
+              textStyle={styles.textStyle}
+              onChangeText={(text) => {
+                setTestInputData({ ...testInputData, emailId: text });
+              }}
+            />
+          )}
+           {isSelectValue ? (
+            <TowValue
+              title="Telefoninumber"
+              value={`${countryCode(data?.country)} ${data?.mobile}`}
+            />
+          ) : (
+            <View style={[styles.container, { marginTop: 12 }]}>
+              <Text style={styles.itemText}>{"Telefoninumber"}</Text>
+              <View style={{marginTop:25 }}>
+                <TouchableOpacity
+                  onPress={() => setShow(true)}
+                  style={[
+                    styles.inputStyle,
+                    {
+                      marginRight: 10,
+                      flexDirection: "row",
+                      alignItems: "center",
+                      paddingHorizontal: 10,
+                      width:90,
+                      paddingVertical:5
+                    },
+                  ]}
+                >
+                  <Text
+                    style={{
+                      ...commonFontStyle(
+                        fontFamily.articulat_normal,
+                        18,
+                        colors.black
+                      ),
+                    }}
+                  >
+                    {country}
+                  </Text>
+                  <Image
+                    source={icons.downarrow}
+                    style={styles.downarrowStyle}
+                  />
+                </TouchableOpacity>
+                <TextInput
+                  value={testInputData?.mobileNo}
+                  onChangeText={(text) => {
+                    setTestInputData({ ...testInputData, mobileNo: text });
+                  }}
+                  style={[styles.inputStyle, { width: 190,marginTop:5 }]}
+                />
+              </View>
+            </View>
+          )}
+        </View>
+        {/* <View style={[styles.container,{alignSelf:'flex-start',marginRight:10}]}>
         <Image source={icons.pen} style={{ width: 18, height: 18 }} />
         <Text style={styles.headerText}>{"Muuda"}</Text>
       </View> */}
-    </View>
-  );
- }
+      </View>
+    );
+  }
 };
 
 export default MyProfileView;
@@ -70,7 +333,6 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
-   
   },
   bodyHeader: {
     alignItems: "flex-start",
@@ -94,6 +356,12 @@ const styles = StyleSheet.create({
   itemText1: {
     ...commonFontStyle(fontFamily.articulat_normal, 18, colors.black),
   },
+  inputStyle: {
+    ...commonFontStyle(fontFamily.articulat_normal, 18, colors.black),
+    borderWidth: 1,
+    paddingLeft: 10,
+    borderRadius: 8,
+  },
   boxView: {
     width: 20,
     height: 20,
@@ -104,13 +372,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-
+  downarrowStyle: {
+    width: 8,
+    height: 8,
+    tintColor: "#707070",
+    marginLeft: 5,
+  },
   //mobile
 
   containerMob: {
     flexDirection: "row",
     alignItems: "center",
-   
   },
   bodyHeaderMob: {
     alignItems: "flex-start",
@@ -132,8 +404,7 @@ const styles = StyleSheet.create({
     ...defaultFont("700_o", 26, colors.black),
   },
   itemText1Mob: {
-    ...defaultFont(400,18, colors.black),
-
+    ...defaultFont(400, 18, colors.black),
   },
   boxViewMob: {
     width: 20,

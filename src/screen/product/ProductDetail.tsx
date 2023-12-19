@@ -9,7 +9,7 @@ import {
   Platform,
   ImageBackground,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   CommonMapView,
   CommonModalWeb,
@@ -51,6 +51,7 @@ const ProductDetail = (props: Props) => {
   const navigationRef = useNavigation();
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
+  const scrollViewRef = useRef(ScrollView);
 
   const [selectedTab, setselectedTab] = useState(1);
   const [tabIndex1, setTabIndex1] = useState(false);
@@ -68,13 +69,8 @@ const ProductDetail = (props: Props) => {
   const { getPaymentList } = useSelector((state) => state.cart);
   const [imageId, setImageId] = useState(productDetails?.photo_ids?.[0]);
 
-  console.log("productDetails", productDetails);
-  console.log("getPaymentList", getPaymentList);
-  console.log("getProductLocations", getProductLocations);
-  const {
-    catalogueCategorySearchList: catalogueList,
-    catalogueCategoryProductList: CategoryProductList,
-  } = useSelector((state) => state.catalogue);
+console.log('locationId',locationId);
+
 
   const RenderRow = ({ title, value }: any) => {
     if (Platform.OS == "web") {
@@ -115,33 +111,20 @@ const ProductDetail = (props: Props) => {
       setSelectShowValue(2);
       setCommonModalWebShow(true);
     } else {
-      setLoginPaymentModalWebShow(true);
+      onCardItemClick(item);
     }
   };
-  // const onBtnPressMob =async(item:any) => {
-  //   const customer = await getAsyncUserInfo()
-  //   setLocationId(item)
-  //   if(customer == null) {
-  //     navigationRef.navigate(screenName.warningScreen,{tabIndex:1});
-  //   }else if(getPaymentList.length == 0){
-  //     navigationRef.navigate(screenName.warningScreen,{tabIndex:2});
-  //   }else{
-  //     // onCardItemClick(item)
-  //   }
-  // };
 
-  const onCardItemClick = async () => {
+  const onCardItemClick = async (item:any) => {
     const customer = await getAsyncUserInfo();
-
     const obj = {
       params: {
         product_id: productDetails?.product_id,
         customer_id: customer,
-        location_id: locationId,
+        location_id: item,
       },
       onSuccess: (res: any) => {
-        setLoginPaymentModalWebShow(false);
-        navigationRef.navigate(screenName.cardScreen);
+        setLoginPaymentModalWebShow(true);
       },
       onFailure: () => {},
     };
@@ -650,9 +633,23 @@ const ProductDetail = (props: Props) => {
 
         <View style={styles.middleMainView}>
           <View style={[styles.mainContainer, { marginTop: 0 }]}>
-            {(selectedTab == 1 || selectedTab == 3) && (
+            {selectedTab == 1 && (
               <View style={styles.tab1View}>
-                <Text style={styles.tab1TextStyle}>Tehnilised andmed</Text>
+                <FlatList
+                  data={getProductSpecs}
+                  renderItem={({ item, index }) => {
+                    const last = getProductSpecs[getProductSpecs.length - 1];
+                    return (
+                      <>
+                        <RenderRow title={item?.name} value={item?.value} />
+                        {last?.name !== item?.name && (
+                          <View style={styles.whiteLineHalf} />
+                        )}
+                      </>
+                    );
+                  }}
+                />
+                {/* <Text style={styles.tab1TextStyle}>Tehnilised andmed</Text>
                 <View style={styles.whiteLine} />
                 <RenderRow
                   title={"Maksimaalne puhastatav pind (m²/h)"}
@@ -695,7 +692,7 @@ const ProductDetail = (props: Props) => {
                 <RenderRow
                   title={"Mõõdud (pikkus x laius x kõrgus) (mm)"}
                   value={"690 x 325 x 440"}
-                />
+                /> */}
               </View>
             )}
             {selectedTab == 2 && (
@@ -800,13 +797,16 @@ const ProductDetail = (props: Props) => {
         <LoginPaymentModalWeb
           isVisible={loginPaymentModalWebShow}
           onClose={() => setLoginPaymentModalWebShow(false)}
-          oncomfirmPress={onCardItemClick}
+          oncomfirmPress={() => {
+            setLoginPaymentModalWebShow(false);
+            navigationRef.navigate(screenName.cardScreen);
+          }}
         />
       </ScrollView>
     </View>
   ) : (
     <View style={styles.container}>
-      <ScrollView style={styles.container}>
+      <ScrollView style={styles.container} ref={scrollViewRef}>
         <View style={styles.contentView}>
           <Text style={styles.titleDes}>{productDetails?.brand}</Text>
           <Text style={styles.title}>{productDetails?.product_name}</Text>
@@ -1053,11 +1053,12 @@ const ProductDetail = (props: Props) => {
             <CommonGreenBtn
               title="Rendi"
               onPress={() => {
-                setTabIndex2(!tabIndex2);
+                scrollViewRef?.current.scrollTo(500);
+                setTabIndex2(true);
               }}
               style={{ width: "40%" }}
             />
-            <CommonGreenBtn
+            {/* <CommonGreenBtn
               title="Leia kapp"
               onPress={() => {}}
               style={{
@@ -1066,7 +1067,7 @@ const ProductDetail = (props: Props) => {
                 marginLeft: 10,
                 width: "40%",
               }}
-            />
+            /> */}
           </View>
           <Text style={styles.btnBottomTextMob}>Renditingimused</Text>
           <Text style={styles.desProduct}>{productDetails?.description}</Text>
@@ -1095,8 +1096,6 @@ const ProductDetail = (props: Props) => {
                   data={getProductSpecs}
                   renderItem={({ item, index }) => {
                     const last = getProductSpecs[getProductSpecs.length - 1];
-                    console.log("last", last?.name);
-
                     return (
                       <>
                         <RenderRow title={item?.name} value={item?.value} />
@@ -1223,7 +1222,10 @@ const ProductDetail = (props: Props) => {
         <LoginPaymentModalWeb
           isVisible={loginPaymentModalWebShow}
           onClose={() => setLoginPaymentModalWebShow(false)}
-          oncomfirmPress={onCardItemClick}
+          oncomfirmPress={()=>{
+            setLoginPaymentModalWebShow(false);
+            navigationRef.navigate(screenName.cardScreen);
+          }}
         />
         <FooterView />
       </ScrollView>

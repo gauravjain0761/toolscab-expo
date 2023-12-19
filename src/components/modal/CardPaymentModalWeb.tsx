@@ -37,35 +37,42 @@ const CardPaymentModalWeb = ({ isVisible, onClose }: Props) => {
   const [paymentType, setPaymentType] = useState("CreditCard");
   const [isPrimary, setIsPrimary] = useState(false);
   const [cardCode, setCardCode] = useState("");
+  const [cardExpiry, setCardExpiry] = useState("");
+  const [cardCVV, setCardCVV] = useState("");
   const dispatch = useDispatch();
 
   const onClosePress = () => {
     onClose();
-    setIsPrimary(false)
-    setPaymentType('CreditCard')
-    setCardCode("")
+    setIsPrimary(false);
+    setPaymentType("CreditCard");
+    setCardCode("");
+    setCardExpiry('')
+    setCardCVV('')
   };
 
-  const getPayment=async()=>{
-    const customer = await getAsyncUserInfo()
-    if(customer !== null) {
+  const getPayment = async () => {
+    const customer = await getAsyncUserInfo();
+    if (customer !== null) {
       const obj = {
         params: {
-          customer_id:customer,
+          customer_id: customer,
         },
         onSuccess: (res: any) => {},
         onFailure: () => {},
       };
       dispatch(getPaymentMethods(obj));
     }
-  }
+  };
+    
 
   const onConfirmPress = async () => {
     const customer = await getAsyncUserInfo();
     if (customer !== null) {
-       if(cardCode.trim().length === 0){
-           alert("Please enter a card code")
-       } else{
+      if (cardCode.trim().length === 0) {
+        alert("Sisestage kaardi kood");
+      } else if (cardCode.trim().length !== 16) {
+        alert("palun kinnitage oma kaardi kood");
+      } else {
         const obj = {
           data: {
             payment_method_id: null,
@@ -76,15 +83,17 @@ const CardPaymentModalWeb = ({ isVisible, onClose }: Props) => {
             is_primary: isPrimary,
           },
           onSuccess: (res: any) => {
-            getPayment()
-            onClosePress()
-            setIsPrimary(false)
-            setPaymentType('CreditCard')
+            getPayment();
+            onClosePress();
+            setIsPrimary(false);
+            setPaymentType("CreditCard");
+            setCardExpiry('')
+            setCardCVV('')
           },
           onFailure: () => {},
         };
         dispatch(savePaymentMethod(obj));
-       }
+      }
     }
   };
 
@@ -110,9 +119,7 @@ const CardPaymentModalWeb = ({ isVisible, onClose }: Props) => {
               styles.boxStyle,
               {
                 borderColor:
-                  paymentType == item?.name
-                    ? colors.black
-                    : colors.filterText,
+                  paymentType == item?.name ? colors.black : colors.filterText,
               },
             ]}
           >
@@ -139,6 +146,17 @@ const CardPaymentModalWeb = ({ isVisible, onClose }: Props) => {
     }
   };
 
+  const _handlingCardExpiry = (text: any) => {
+    if (text.indexOf(".") >= 0 || text.length > 5) {
+      return;
+    }
+
+    if (text.length === 2 && cardExpiry.length === 1) {
+      text += "/";
+    }
+    setCardExpiry(text);
+  };
+
   return (
     <Modal
       animationInTiming={500}
@@ -157,97 +175,117 @@ const CardPaymentModalWeb = ({ isVisible, onClose }: Props) => {
       <View style={styles.container}>
         <View style={styles.bodyContent}>
           <View style={{ marginHorizontal: 24, marginTop: 30 }}>
-          <Text style={styles.headerTextMob}>Lisa kaart</Text>
-          <View style={styles.bodyViewMob}>
-            <Text style={styles.labelTextMob}>Kaardi number</Text>
-            <TextInput
-              placeholder="1234 5678 90123 456"
-              style={styles.inputTextMob}
-              value={cardCode}
-              onChangeText={(test)=>{
-                setCardCode(test)
-              }}
-              placeholderTextColor={colors.filterText}
-            />
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                marginTop: 20,
-                marginBottom: 10,
-              }}
-            >
-              <View>
-                <Text style={styles.labelTextMob}>Aegub</Text>
-                <TextInput
-                  placeholder="kk/aa"
-                  style={[styles.inputTextMob, { width: screen_width * 0.1 }]}
-                  placeholderTextColor={colors.filterText}
-                />
-              </View>
-              <View style={{ width: 5 }} />
-              <View>
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <Text style={styles.labelTextMob}>Turvakood</Text>
-                  <Image
-                    source={icons.epquestion}
-                    style={styles.epquestionMob}
+            <Text style={styles.headerTextMob}>Lisa kaart</Text>
+            <View style={styles.bodyViewMob}>
+              <Text style={styles.labelTextMob}>Kaardi number</Text>
+              <TextInput
+                placeholder="1234 5678 90123 456"
+                style={styles.inputTextMob}
+                value={cardCode
+                  ?.replace(/\s?/g, "")
+                  .replace(/(\d{4})/g, "$1 ")
+                  .trim()}
+                onChangeText={(text) => {
+                      setCardCode(text.replace(/[^0-9]/g, ''));
+                }}
+                placeholderTextColor={colors.filterText}
+                maxLength={19}
+                keyboardType={"numeric"}
+              />
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  marginTop: 20,
+                  marginBottom: 10,
+                }}
+              >
+                <View>
+                  <Text style={styles.labelTextMob}>Aegub</Text>
+                  <TextInput
+                    placeholder="kk/aa"
+                    style={[styles.inputTextMob, { width: screen_width * 0.1 }]}
+                    placeholderTextColor={colors.filterText}
+                    keyboardType={"numeric"}
+                    value={cardExpiry}
+                    onChangeText={_handlingCardExpiry}
+                    maxLength={5}
                   />
                 </View>
-                <TextInput
-                  placeholder=""
-                  style={[styles.inputTextMob, { width: screen_width * 0.1 }]}
-                />
+                <View style={{ width: 5 }} />
+                <View>
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Text style={styles.labelTextMob}>Turvakood</Text>
+                    <Image
+                      source={icons.epquestion}
+                      style={styles.epquestionMob}
+                    />
+                  </View>
+                  <TextInput
+                    placeholder=""
+                    style={[styles.inputTextMob, { width: screen_width * 0.1 }]}
+                    value={cardCVV}
+                    onChangeText={(text) => setCardCVV(text)}
+                    maxLength={3}
+                    secureTextEntry={true}
+                    keyboardType={"numeric"}
+                  />
+                </View>
+              </View>
+              <FlatList data={data} renderItem={renderItem} horizontal />
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  marginBottom: 10,
+                }}
+              >
+                <TouchableOpacity
+                  onPress={() => setIsPrimary(!isPrimary)}
+                  style={[
+                    styles.boxStyle,
+                    {
+                      borderColor:
+                        isPrimary == true ? colors.black : colors.filterText,
+                      borderRadius: 5,
+                      backgroundColor:
+                        isPrimary == true ? colors.black : colors.white,
+                    },
+                  ]}
+                >
+                  {isPrimary == true && (
+                    <Image
+                      source={icons.done}
+                      style={{ width: 12, height: 12 }}
+                    />
+                  )}
+                </TouchableOpacity>
+                <Text style={styles.itemText}>{"Select to primary"}</Text>
               </View>
             </View>
-            <FlatList data={data} renderItem={renderItem} horizontal/>
             <View
               style={{
                 flexDirection: "row",
-                alignItems: "center",
-                marginBottom: 10,
+                alignSelf: "center",
+                marginBottom: 30,
               }}
             >
-              <TouchableOpacity
-                onPress={() => setIsPrimary(!isPrimary)}
-                style={[
-                  styles.boxStyle,
-                  {
-                    borderColor:
-                      isPrimary == true ? colors.black : colors.filterText,
-                    borderRadius: 5,
-                    backgroundColor:
-                      isPrimary == true ? colors.black : colors.white,
-                  },
-                ]}
-              >
-                {isPrimary == true && (
-                  <Image
-                    source={icons.done}
-                    style={{ width: 12, height: 12 }}
-                  />
-                )}
-              </TouchableOpacity>
-              <Text style={styles.itemText}>{"Select to primary"}</Text>
+              <CommonGreenBtn
+                title="Tühista"
+                onPress={onClosePress}
+                style={styles.btnLeftSideMob}
+              />
+              <CommonGreenBtn
+                title="Lisa kaart +"
+                onPress={onConfirmPress}
+                style={{
+                  borderColor: colors.headerBG,
+                  marginLeft: 10,
+                  width: widthPercentageToDP(7),
+                  marginTop: 50,
+                }}
+              />
             </View>
-          </View>
-          <View style={{ flexDirection: "row", alignSelf: "center",marginBottom:30 }}>
-            <CommonGreenBtn
-              title="Tühista"
-              onPress={onClosePress}
-              style={styles.btnLeftSideMob}
-            />
-            <CommonGreenBtn
-              title="Lisa kaart +"
-              onPress={onConfirmPress}
-              style={{
-                borderColor: colors.headerBG,
-                marginLeft: 10,
-                width: widthPercentageToDP(7),
-                marginTop: 50,
-              }}
-            />
-          </View>
           </View>
         </View>
       </View>
@@ -306,47 +344,43 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
 
-  
-
-
-  headerTextMob:{
+  headerTextMob: {
     ...commonFontStyle(fontFamily.articulat_bold, 18, colors.black),
-    textAlign:'center'
+    textAlign: "center",
   },
-  labelTextMob:{
+  labelTextMob: {
     ...commonFontStyle(fontFamily.articulat_regular, 12, colors.black),
-    marginBottom:4,
-    left:8
+    marginBottom: 4,
+    left: 8,
   },
-  bodyViewMob:{
-    backgroundColor:colors.roheline,
-    paddingVertical:10,
-    marginTop:20,
-    paddingHorizontal:18,
-    borderRadius:16,
-    
+  bodyViewMob: {
+    backgroundColor: colors.roheline,
+    paddingVertical: 10,
+    marginTop: 20,
+    paddingHorizontal: 18,
+    borderRadius: 16,
   },
-  inputTextMob:{
-    flex:1,
-    borderWidth:1,
-    backgroundColor:colors.bottomLine,
-    paddingVertical:12,
-    borderRadius:8,
-    paddingLeft:12
+  inputTextMob: {
+    flex: 1,
+    borderWidth: 1,
+    backgroundColor: colors.bottomLine,
+    paddingVertical: 12,
+    borderRadius: 8,
+    paddingLeft: 12,
   },
-  epquestionMob:{
-    width:14,
-    height:14,
-    marginBottom:4,
-    marginLeft:10
+  epquestionMob: {
+    width: 14,
+    height: 14,
+    marginBottom: 4,
+    marginLeft: 10,
   },
-  btnLeftSideMob:{
+  btnLeftSideMob: {
     borderColor: colors.headerBG,
     width: widthPercentageToDP(7),
     marginTop: 50,
     backgroundColor: colors.white,
     paddingVertical: 10,
-  }
+  },
 });
 
 //make this component available to the app

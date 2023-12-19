@@ -51,12 +51,7 @@ export const userSaveProfile =
         }
       })
       .catch((error) => {
-        const errorValue = error?.response?.data?.detail.includes(
-          "Cannot insert duplicate key row in object"
-        );
-        errorValue &&
-          alert("Email is already in use Please update your email address");
-        if (request.onFailure) request.onFailure(error.response);
+        if (request.onFailure) request.onFailure(error?.response?.data);
       });
   };
 

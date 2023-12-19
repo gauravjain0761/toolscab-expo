@@ -31,6 +31,9 @@ export const api = {
   savePaymentMethod:"Customer/SavePaymentMethod",
   deletePaymentMethod:"Customer/DeletePaymentMethod",
 
+  //Rental/ShoppingCart
+  shoppingCart:"Rental/ShoppingCart"
+
 };
 
 export const POST = "POST";

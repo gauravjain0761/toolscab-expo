@@ -6,19 +6,22 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import Modal from "react-native-modal";
 import { colors } from "../../theme/Colors";
 import { icons } from "../../theme/Icons";
-import { useDispatch } from "react-redux";
-import { TOGGLE_DRAWER } from "../../actions/dispatchTypes";
+import { useDispatch, useSelector } from "react-redux";
+import { TOGGLE_DRAWER, USER_LOGOUT } from "../../actions/dispatchTypes";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { TextInput } from "react-native";
 import { defaultFont } from "../../theme/Fonts";
 
 import { screenName } from "../../helper/constants";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { navigate } from "../../navigations/RootNavigation";
+import { clearAsync, getAsyncUserInfo } from "../../helper/asyncStorage";
+import { getProfileMethods } from "../../actions/authAction";
+import _ from "lodash";
 
 type Props = {
   isVisible: boolean;
@@ -26,10 +29,29 @@ type Props = {
 
 const AppDrawerModalMobile = ({ isVisible }: Props) => {
   const dispatch = useDispatch();
+  const { getProfileList } = useSelector((state) => state.profile);
 
   const onClose = () => {
     dispatch({ type: TOGGLE_DRAWER, payload: false });
   };
+
+  useEffect(() => {
+    const getProfileList = async () => {
+      const customer = await getAsyncUserInfo();
+      if (customer !== null) {
+        const obj = {
+          params: {
+            customer_id: customer,
+          },
+          onSuccess: (res: any) => {},
+          onFailure: () => {},
+        };
+        dispatch(getProfileMethods(obj));
+      }
+    };
+    getProfileList();
+  }, []);
+
   return (
     <Modal
       animationOut={"slideOutRight"}
@@ -107,7 +129,7 @@ const AppDrawerModalMobile = ({ isVisible }: Props) => {
           <TouchableOpacity style={styles.row}>
             <Text style={styles.rowText}>Kontakt</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.row}>
+          <TouchableOpacity style={styles.row} onPress={() => {}}>
             <Text style={styles.rowText}>EST</Text>
           </TouchableOpacity>
 
@@ -116,7 +138,9 @@ const AppDrawerModalMobile = ({ isVisible }: Props) => {
           <TouchableOpacity
             style={styles.row}
             onPress={() => {
-              navigate(screenName.loginScreenMobile);
+              !_.isEmpty(getProfileList)
+                ? navigate(screenName.profileScreen)
+                : navigate(screenName.loginScreenMobile);
               onClose();
             }}
           >
@@ -124,7 +148,11 @@ const AppDrawerModalMobile = ({ isVisible }: Props) => {
               source={icons.userIcone}
               style={[styles.userIconeStyle, { tintColor: colors.white }]}
             />
-            <Text style={styles.rowText}>SISENE</Text>
+            <Text style={[styles.rowText, { textTransform: "uppercase" }]}>
+              {!_.isEmpty(getProfileList)
+                ? `Tere ${getProfileList?.first_name}`
+                : "SISENE"}
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.row}
@@ -138,6 +166,21 @@ const AppDrawerModalMobile = ({ isVisible }: Props) => {
               style={[styles.userIconeStyle, { tintColor: colors.white }]}
             />
             <Text style={styles.rowText}>OSTUKORV</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.row}
+            onPress={() => {
+              clearAsync();
+              dispatch({ type: USER_LOGOUT });
+              navigate(screenName.homeScreen);
+              onClose();
+            }}
+          >
+            <Image
+              source={icons.logout}
+              style={[styles.userIconeStyle, { tintColor: colors.white }]}
+            />
+            <Text style={styles.rowText}>Logi välja</Text>
           </TouchableOpacity>
         </SafeAreaView>
       </View>

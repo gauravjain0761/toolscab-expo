@@ -8,11 +8,10 @@ import {
   TextInput,
   TouchableOpacity,
   FlatList,
+  Platform,
 } from "react-native";
 import { colors } from "../../theme/Colors";
-import {
-  FooterView,
-} from "../../components";
+import { FooterView } from "../../components";
 import { screen_width } from "../../helper/globalFunctions";
 import { icons } from "../../theme/Icons";
 import { styles } from "./CardScreenStyle";
@@ -25,40 +24,44 @@ import { useDispatch } from "react-redux";
 
 // create a component
 const CardScreen = () => {
-
   const navigationRef = useNavigation();
   const [paymentType, setPaymentType] = useState("CreditCard");
   const [isPrimary, setIsPrimary] = useState(false);
   const [cardCode, setCardCode] = useState("");
+  const [cardExpiry, setCardExpiry] = useState("");
+  const [cardCVV, setCardCVV] = useState("");
   const dispatch = useDispatch();
 
   const onClosePress = () => {
-    setIsPrimary(false)
-    setPaymentType('CreditCard')
-    setCardCode("")
-    navigationRef.goBack()
+    setIsPrimary(false);
+    setPaymentType("CreditCard");
+    setCardCode("");
+    navigationRef.goBack();
   };
 
-  const getPayment=async()=>{
-    const customer = await getAsyncUserInfo()
-    if(customer !== null) {
+  const getPayment = async () => {
+    const customer = await getAsyncUserInfo();
+    if (customer !== null) {
       const obj = {
         params: {
-          customer_id:customer,
+          customer_id: customer,
         },
         onSuccess: (res: any) => {},
         onFailure: () => {},
       };
       dispatch(getPaymentMethods(obj));
     }
-  }
+  };
+  console.log("cardCode.trim().length !== 19", cardCode.trim().length);
 
   const onConfirmPress = async () => {
     const customer = await getAsyncUserInfo();
     if (customer !== null) {
-       if(cardCode.trim().length === 0){
-         alert('Please enter a card code')
-       }else{
+      if (cardCode.trim().length === 0) {
+        alert("Sisestage kaardi kood");
+      } else if (cardCode.trim().length !==  16) {
+        alert("palun kinnitage oma kaardi kood");
+      } else {
         const obj = {
           data: {
             payment_method_id: null,
@@ -69,16 +72,27 @@ const CardScreen = () => {
             is_primary: isPrimary,
           },
           onSuccess: (res: any) => {
-            getPayment()
-            setIsPrimary(false)
-            setPaymentType('CreditCard')
-            navigationRef.goBack()
+            getPayment();
+            setIsPrimary(false);
+            setPaymentType("CreditCard");
+            navigationRef.goBack();
           },
           onFailure: () => {},
         };
         dispatch(savePaymentMethod(obj));
-       }
+      }
     }
+  };
+
+  const _handlingCardExpiry = (text: any) => {
+    if (text.indexOf(".") >= 0 || text.length > 5) {
+      return;
+    }
+
+    if (text.length === 2 && cardExpiry.length === 1) {
+      text += "/";
+    }
+    setCardExpiry(text);
   };
 
   const data = [
@@ -87,35 +101,32 @@ const CardScreen = () => {
   ];
 
   const renderItem = ({ item }: any) => {
-      return (
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            marginBottom: 10,
-            marginTop:15
-          }}
+    return (
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          marginBottom: 10,
+          marginTop: 15,
+        }}
+      >
+        <TouchableOpacity
+          onPress={() => setPaymentType(item?.name)}
+          style={[
+            styles.boxStyle,
+            {
+              borderColor:
+                paymentType == item?.name ? colors.black : colors.filterText,
+            },
+          ]}
         >
-           <TouchableOpacity
-            onPress={() => setPaymentType(item?.name)}
-            style={[
-              styles.boxStyle,
-              {
-                borderColor:
-                  paymentType == item?.name
-                    ? colors.black
-                    : colors.filterText,
-              },
-            ]}
-          >
-            {paymentType == item?.name && (
-              <View style={styles.boxContainerStyle} />
-            )}
-          </TouchableOpacity>
-          <Text style={styles.itemTextMob}>{item?.name}</Text>
-        </View>
-      );
-    
+          {paymentType == item?.name && (
+            <View style={styles.boxContainerStyle} />
+          )}
+        </TouchableOpacity>
+        <Text style={styles.itemTextMob}>{item?.name}</Text>
+      </View>
+    );
   };
 
   return (
@@ -128,11 +139,16 @@ const CardScreen = () => {
             <TextInput
               placeholder="1234 5678 90123 456"
               style={styles.inputTextMob}
-              value={cardCode}
-              onChangeText={(test)=>{
-                setCardCode(test)
+              value={cardCode
+                ?.replace(/\s?/g, "")
+                .replace(/(\d{4})/g, "$1 ")
+                .trim()}
+              onChangeText={(text) => {
+                setCardCode(text.replace(/[^0-9]/g, ""));
               }}
               placeholderTextColor={colors.filterText}
+              maxLength={19}
+              keyboardType={"numeric"}
             />
             <View
               style={{
@@ -148,6 +164,10 @@ const CardScreen = () => {
                   placeholder="kk/aa"
                   style={[styles.inputTextMob, { width: screen_width * 0.38 }]}
                   placeholderTextColor={colors.filterText}
+                  keyboardType={"numeric"}
+                  value={cardExpiry}
+                  onChangeText={_handlingCardExpiry}
+                  maxLength={5}
                 />
               </View>
               <View style={{ width: 5 }} />
@@ -163,16 +183,26 @@ const CardScreen = () => {
                   placeholder=""
                   style={[styles.inputTextMob, { width: screen_width * 0.38 }]}
                   placeholderTextColor={colors.filterText}
+                  value={cardCVV}
+                  onChangeText={(text) => setCardCVV(text)}
+                  maxLength={3}
+                  secureTextEntry={true}
+                  keyboardType={"numeric"}
                 />
               </View>
             </View>
-            <FlatList data={data} renderItem={renderItem} horizontal showsHorizontalScrollIndicator={false}/>
+            <FlatList
+              data={data}
+              renderItem={renderItem}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+            />
             <View
               style={{
                 flexDirection: "row",
                 alignItems: "center",
                 marginBottom: 10,
-                marginTop:10
+                marginTop: 10,
               }}
             >
               <TouchableOpacity
@@ -198,7 +228,7 @@ const CardScreen = () => {
               <Text style={styles.itemText}>{"Select to primary"}</Text>
             </View>
           </View>
-         
+
           <View style={{ flexDirection: "row", alignSelf: "center" }}>
             <CommonGreenBtn
               title="Tühista"

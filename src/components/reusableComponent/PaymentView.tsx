@@ -14,32 +14,34 @@ import { icons } from "../../theme/Icons";
 type Props = {
   title?: string;
   list?: any;
+  data?: any;
 };
 
-const data = [
-  { id: 1, name: "Apple Pay", icon: icons.pay1 },
-  { id: 2, name: "**** 1234", icon: icons.pay2 },
-  { id: 3, name: "**** 1234", icon: icons.pay3 },
-];
+// const data = [
+//   { id: 1, name: "Apple Pay", icon: icons.pay1 },
+//   { id: 2, name: "**** 1234", icon: icons.pay2 },
+//   { id: 3, name: "**** 1234", icon: icons.pay3 },
+// ];
 
-const PaymentView = ({ title, list }: Props) => {
-  const renderItem = ({ item }: any) => {
-    return (
-      <View
-        style={{ flexDirection: "row", alignItems: "center", marginBottom: 10 }}
-      >
-        <View style={{ flexDirection: "row", alignItems: "center", flex: 1 }}>
-          <Image
-            source={item?.icon}
-            style={styles.iconStyle}
-            resizeMode="contain"
-          />
-          <Text style={styles.itemText}>{item?.name}</Text>
-        </View>
-        <View style={styles.boxView} />
+const renderItem = ({ item }: any) => {
+  return (
+    <View
+      style={{ flexDirection: "row", alignItems: "center", marginBottom: 10 }}
+    >
+      <View style={{ flexDirection: "row", alignItems: "center", flex: 1 }}>
+        <Image
+          source={icons.pay1}
+          style={styles.iconStyle}
+          resizeMode="contain"
+        />
+        <Text style={styles.itemText}>{item?.code?.replace(/\s?/g, '').replace(/(\d{4})/g, '$1 ').trim()}</Text>
       </View>
-    );
-  };
+      <View style={styles.boxView} />
+    </View>
+  );
+};
+
+const PaymentView = ({ title, list ,data}: Props) => { 
   return (
     <View>
       <Text style={styles.headerText}>{"Maksemeetodid"}</Text>

@@ -64,7 +64,7 @@ const renderItem = (item:any,onPress:any) => {
             style={styles.iconStyle}
             resizeMode="contain"
           />
-          <Text style={styles.itemText}>{item?.code}</Text>
+          <Text style={styles.itemText}>{item?.code?.replace(/\s?/g, '').replace(/(\d{4})/g, '$1 ').trim()}</Text>
         </View>
         <View style={styles.container}>
           {item?.is_primary && <Text style={styles.rightText}>peamine</Text>}
@@ -85,7 +85,7 @@ const renderItem = (item:any,onPress:any) => {
             style={styles.iconStyleMob}
             resizeMode="contain"
           />
-          <Text style={styles.itemTextMob}>{item?.code}</Text>
+          <Text style={styles.itemTextMob}>{item?.code?.replace(/\s?/g, '').replace(/(\d{4})/g, '$1 ').trim()}</Text>
         </View>
         <View style={styles.containerMob}>
           {item?.is_primary && <Text style={styles.rightTextMob}>peamine</Text>}

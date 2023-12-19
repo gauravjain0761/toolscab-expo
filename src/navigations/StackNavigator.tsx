@@ -20,7 +20,7 @@ import {
 } from "react-native";
 import { colors } from "../theme/Colors";
 import { icons } from "../theme/Icons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { TOGGLE_DRAWER } from "../actions/dispatchTypes";
 import ProductLocations from "../screen/product/ProductLocations";
 import RegisterScreen from "../screen/auth/RegisterScreen";
@@ -31,6 +31,7 @@ import { navigate } from "./RootNavigation";
 import CardScreen from "../screen/profile/CardScreen";
 import WarningScreen from "../screen/profile/WarningScreen";
 import QRCodeScannerScreen from "../screen/cart/QRCodeScannerScreen";
+import _ from "lodash";
 
 export type RootStackParamList = {
   HomeScreen: undefined;
@@ -66,12 +67,26 @@ const StackNavigator: FC = () => {
   };
 
   const HeaderRight = ({ navigation, tintColor }: any) => {
+    const { getProfileList } = useSelector((state) => state.profile);
+
     return (
       <View style={{ flexDirection: "row" }}>
-        <TouchableOpacity onPress={() => {navigate(screenName.profileScreen)}} style={styles.menuStyle}>
+        <TouchableOpacity
+          onPress={() => {
+            !_.isEmpty(getProfileList)
+              ? navigate(screenName.profileScreen)
+              : navigate(screenName.loginScreenMobile);
+          }}
+          style={styles.menuStyle}
+        >
           <Image source={icons.userIcone} style={styles.menuIcon} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => {navigate(screenName.cartScreen)}} style={styles.menuStyle}>
+        <TouchableOpacity
+          onPress={() => {
+            navigate(screenName.cartScreen);
+          }}
+          style={styles.menuStyle}
+        >
           <Image source={icons.cartIcon} style={styles.menuIcon} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => {}} style={styles.menuStyle}>
