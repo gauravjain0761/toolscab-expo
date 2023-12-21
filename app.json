@@ -23,7 +23,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.chiragk.toolscab",
-      "versionCode": 12
+      "versionCode": 13
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -36,6 +36,11 @@
     },
     "plugins": [
       "expo-build-properties"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "79b1c08d-ff3a-4295-81f1-f7e847138c74"
+      }
+    }
   }
 }

@@ -265,8 +265,8 @@ console.log('getPaymentList',getPaymentList);
             )}
             {(selectedTab == 2 || selectedTab == 3) && (
               <>
-                <HeaderCommonView title={"Minu profiil"} isShow={true} onPress={()=>setIsSelect(!isSelect)} />
-                <MyProfileView data={getProfileList} isSelectValue={isSelect}/>
+                {/* <HeaderCommonView title={"Minu profiil"} isShow={true} onPress={()=>setIsSelect(!isSelect)} /> */}
+                <MyProfileView data={getProfileList}/>
                 <HeaderCommonView title={"Maksevahendid"} />
                 <PaymentViewCart  data={getPaymentList} onPress={onRenderItemPress}/>
                 {selectedTab == 2 && (

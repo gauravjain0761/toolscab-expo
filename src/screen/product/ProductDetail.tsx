@@ -570,7 +570,7 @@ console.log('locationId',locationId);
                   style={styles.btnView}
                 /> */}
               </View>
-              <Text style={styles.btnBottomText}>Renditingimused</Text>
+              <Text style={styles.btnBottomText}>{productDetails?.banner}</Text>
               <View style={styles.botomLine} />
               {productDetails?.kitProducts_ &&
                 productDetails?.kitProducts_?.length !== 0 && (
@@ -799,7 +799,7 @@ console.log('locationId',locationId);
           onClose={() => setLoginPaymentModalWebShow(false)}
           oncomfirmPress={() => {
             setLoginPaymentModalWebShow(false);
-            navigationRef.navigate(screenName.cardScreen);
+            navigationRef.navigate(screenName.cartScreen);
           }}
         />
       </ScrollView>
@@ -1069,7 +1069,7 @@ console.log('locationId',locationId);
               }}
             /> */}
           </View>
-          <Text style={styles.btnBottomTextMob}>Renditingimused</Text>
+          <Text style={styles.btnBottomTextMob}>{productDetails?.banner}</Text>
           <Text style={styles.desProduct}>{productDetails?.description}</Text>
           <View style={styles.boxStyleMob}>
             <View style={styles.boxBodyMob}>
@@ -1224,7 +1224,7 @@ console.log('locationId',locationId);
           onClose={() => setLoginPaymentModalWebShow(false)}
           oncomfirmPress={()=>{
             setLoginPaymentModalWebShow(false);
-            navigationRef.navigate(screenName.cardScreen);
+            navigationRef.navigate(screenName.cartScreen);
           }}
         />
         <FooterView />

@@ -12,6 +12,7 @@ type Props = {
   value?: string;
   secureTextEntry?: boolean;
   style: any;
+  maxLength:number
 };
 
 const InpuText = ({
@@ -21,6 +22,7 @@ const InpuText = ({
   onChangeText,
   secureTextEntry,
   style,
+  maxLength
 }: Props) => {
   if (Platform.OS === "web") {
     return (
@@ -32,6 +34,7 @@ const InpuText = ({
           value={value}
           onChangeText={onChangeText}
           secureTextEntry={secureTextEntry}
+          maxLength={maxLength}
         />
       </View>
     );
@@ -45,6 +48,7 @@ const InpuText = ({
           value={value}
           onChangeText={onChangeText}
           secureTextEntry={secureTextEntry}
+          maxLength={maxLength}
         />
       </View>
     );

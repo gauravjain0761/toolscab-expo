@@ -12,16 +12,16 @@ import { commonFontStyle, defaultFont } from "../../theme/Fonts";
 import { fontFamily } from "../../helper/constants";
 import { colors } from "../../theme/Colors";
 import { icons } from "../../theme/Icons";
-import { countryCode, emailCheck } from "../../helper/globalFunctions";
+import { countryCode, emailCheck, screen_width } from "../../helper/globalFunctions";
 import { useDispatch, useSelector } from "react-redux";
 import { CountryPicker } from "react-native-country-codes-picker";
 import { getProfileMethods, userSaveProfile } from "../../actions/authAction";
+import { getAsyncUserInfo } from "../../helper/asyncStorage";
 
 type Props = {
   title?: string;
   list?: any;
   data?: any;
-  isSelectValue?: boolean;
 };
 
 const TowValue = ({ title, value, textStyle }: any) => {
@@ -42,7 +42,13 @@ const TowValue = ({ title, value, textStyle }: any) => {
   }
 };
 
-const TowValueInput = ({ title, value, textStyle, onChangeText }: any) => {
+const TowValueInput = ({
+  title,
+  value,
+  textStyle,
+  onChangeText,
+  maxLength,
+}: any) => {
   if (Platform.OS == "web") {
     return (
       <View style={[styles.container, { marginTop: 12 }]}>
@@ -51,6 +57,7 @@ const TowValueInput = ({ title, value, textStyle, onChangeText }: any) => {
           value={value}
           onChangeText={onChangeText}
           style={styles.inputStyle}
+          maxLength={maxLength}
         />
       </View>
     );
@@ -62,49 +69,56 @@ const TowValueInput = ({ title, value, textStyle, onChangeText }: any) => {
           value={value}
           onChangeText={onChangeText}
           style={[styles.inputStyle, { width: 190 }]}
+          maxLength={maxLength}
         />
       </View>
     );
   }
 };
 
-const MyProfileView = ({ data, isSelectValue }: Props) => {
+const MyProfileView = ({ data }: Props) => {
   const [isSelect, setIsSelect] = useState(true);
   const { getProfileList } = useSelector((state) => state.profile);
   const [show, setShow] = useState(false);
-  const [country, setCountry] = useState(countryCode(data?.country));
+  console.log("getProfileList", getProfileList);
 
   const [testInputData, setTestInputData] = useState({
     firstName: data?.first_name,
     emailId: data?.email,
     mobileNo: data?.mobile.toString(),
     code: data?.country,
+    personalNo: data?.social_sec_no,
   });
-  console.log('testInputData',testInputData);
-  
+  console.log("testInputData", getProfileList);
+
   const dispatch = useDispatch();
 
-  const onSubmitPress = () => {
+  const onSubmitPress = async () => {
+    const customer = await getAsyncUserInfo();
     if (testInputData?.firstName.trim().length === 0) {
       alert("Palun sisesta oma eesnimi");
+    } else if (testInputData?.personalNo.trim().length == 0) {
+      alert("Palun sisestage omaisikukood");
     } else if (testInputData?.emailId.trim().length === 0) {
       alert("Palun sisestage oma e-posti aadress");
     } else if (!emailCheck(testInputData?.emailId)) {
       alert("Sisestage oma kehtiv e-posti aadress");
-    } else if (country == "") {
+    } else if (testInputData.code.trim().length == 0) {
       alert("Sisestage oma riigikood.");
     } else if (testInputData?.mobileNo.length === 0) {
       alert("Palun sisestage oma mobiilinumber.");
     } else {
       const obj = {
         data: {
+          customer_id: customer,
           first_name: testInputData?.firstName,
-          last_name: data?.lastName,
+          last_name: data?.last_name,
           current_balance: 0,
           mobile: testInputData?.mobileNo,
           email: testInputData?.emailId,
           country: testInputData?.code,
           news_subscription: 0,
+          social_sec_no: testInputData?.personalNo,
         },
         onSuccess: (res: any) => {
           const obj = {
@@ -144,7 +158,19 @@ const MyProfileView = ({ data, isSelectValue }: Props) => {
               }}
             />
           )}
-          {/* <TowValue title='Isikukood' value='39203244214' /> */}
+          {isSelect ? (
+            <TowValue title="Isikukood" value={data?.social_sec_no} />
+          ) : (
+            <TowValueInput
+              title="Isikukood"
+              value={testInputData?.personalNo}
+              textStyle={styles.textStyle}
+              onChangeText={(text) => {
+                setTestInputData({ ...testInputData, personalNo: text });
+              }}
+              maxLength={11}
+            />
+          )}
           {isSelect ? (
             <TowValue title="E-post" value={data?.email} />
           ) : (
@@ -160,40 +186,19 @@ const MyProfileView = ({ data, isSelectValue }: Props) => {
           {isSelect ? (
             <TowValue
               title="Telefoninumber"
-              value={`${countryCode(data?.country)} ${data?.mobile}`}
+              value={`${data?.country} ${data?.mobile}`}
             />
           ) : (
             <View style={[styles.container, { marginTop: 12 }]}>
               <Text style={styles.itemText}>{"Telefoninumber"}</Text>
               <View style={{ flexDirection: "row" }}>
-                <TouchableOpacity
-                  onPress={() => setShow(true)}
-                  style={[
-                    styles.inputStyle,
-                    {
-                      marginRight: 10,
-                      flexDirection: "row",
-                      alignItems: "center",
-                      paddingHorizontal: 10,
-                    },
-                  ]}
-                >
-                  <Text
-                    style={{
-                      ...commonFontStyle(
-                        fontFamily.articulat_normal,
-                        18,
-                        colors.black
-                      ),
-                    }}
-                  >
-                    {country}
-                  </Text>
-                  <Image
-                    source={icons.downarrow}
-                    style={styles.downarrowStyle}
-                  />
-                </TouchableOpacity>
+                <TextInput
+                  value={testInputData.code}
+                  onChangeText={(text) => {
+                    setTestInputData({ ...testInputData, code: text });
+                  }}
+                  style={[styles.inputStyle, { width: 90, marginRight: 10 }]}
+                />
                 <TextInput
                   value={testInputData?.mobileNo}
                   onChangeText={(text) => {
@@ -222,7 +227,7 @@ const MyProfileView = ({ data, isSelectValue }: Props) => {
             {isSelect ? "Muuda" : "Salvesta"}
           </Text>
         </TouchableOpacity>
-        <CountryPicker
+        {/* <CountryPicker
           show={show}
           // when picker button press you will get the country object with dial code
           pickerButtonOnPress={(item) => {
@@ -232,97 +237,113 @@ const MyProfileView = ({ data, isSelectValue }: Props) => {
             setShow(false);
           }}
           style={{ modal: { height: 500, alignSelf: "center" } }}
-        />
+        /> */}
       </View>
     );
   } else {
     return (
-      <View style={[styles.containerMob, { marginTop: 25 }]}>
-        <View style={[{ flex: 1 }]}>
-          {isSelectValue ? (
-            <TowValue
-              title="Nimi:"
-              value={`${data?.first_name}`}
-              textStyle={styles.textStyleMob}
-            />
-          ) : (
-            <TowValueInput
-              title="Nimi:"
-              value={testInputData?.firstName}
-              textStyle={styles.textStyle}
-              onChangeText={(text) => {
-                setTestInputData({ ...testInputData, firstName: text });
-              }}
-            />
-          )}
-          {/* <TowValue title='Isikukood' value='39203244214' /> */}
-          {isSelectValue ? (
-            <TowValue title="E-post" value={data?.email} />
-          ) : (
-            <TowValueInput
-              title="E-post"
-              value={testInputData?.emailId}
-              textStyle={styles.textStyle}
-              onChangeText={(text) => {
-                setTestInputData({ ...testInputData, emailId: text });
-              }}
-            />
-          )}
-           {isSelectValue ? (
-            <TowValue
-              title="Telefoninumber"
-              value={`${countryCode(data?.country)} ${data?.mobile}`}
-            />
-          ) : (
-            <View style={[styles.container, { marginTop: 12 }]}>
-              <Text style={styles.itemText}>{"Telefoninumber"}</Text>
-              <View style={{marginTop:25 }}>
-                <TouchableOpacity
-                  onPress={() => setShow(true)}
-                  style={[
-                    styles.inputStyle,
-                    {
-                      marginRight: 10,
-                      flexDirection: "row",
-                      alignItems: "center",
-                      paddingHorizontal: 10,
-                      width:90,
-                      paddingVertical:5
-                    },
-                  ]}
-                >
-                  <Text
-                    style={{
-                      ...commonFontStyle(
-                        fontFamily.articulat_normal,
-                        18,
-                        colors.black
-                      ),
-                    }}
-                  >
-                    {country}
-                  </Text>
-                  <Image
-                    source={icons.downarrow}
-                    style={styles.downarrowStyle}
-                  />
-                </TouchableOpacity>
-                <TextInput
-                  value={testInputData?.mobileNo}
-                  onChangeText={(text) => {
-                    setTestInputData({ ...testInputData, mobileNo: text });
-                  }}
-                  style={[styles.inputStyle, { width: 190,marginTop:5 }]}
-                />
-              </View>
-            </View>
-          )}
+      <>
+        <View style={{}}>
+          <View style={{ height: 28 }} />
+          <View style={{ flexDirection: "row" }}>
+            <Text style={styles.headerSubTextMob}>{"Minu profiil"}</Text>
+            <TouchableOpacity
+              onPress={() => (isSelect ? setIsSelect(false) : onSubmitPress())}
+              style={[
+                {
+                  flexDirection: "row",
+                  alignItems: "center",
+                  marginRight: 12,
+                },
+              ]}
+            >
+              <Image
+                source={isSelect ? icons.pen : icons.save}
+                style={{ width: 18, height: 18, marginRight: 8 }}
+              />
+              <Text style={styles.headerRightTextMob}>
+                {isSelect ? "Muuda" : "Salvesta"}
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View style={[styles.unLineStyleMob]} />
         </View>
-        {/* <View style={[styles.container,{alignSelf:'flex-start',marginRight:10}]}>
+        <View style={[styles.containerMob, { marginTop: 10 }]}>
+          <View style={[{ flex: 1 }]}>
+            {isSelect ? (
+              <TowValue
+                title="Nimi:"
+                value={`${data?.first_name}`}
+                textStyle={styles.textStyleMob}
+              />
+            ) : (
+              <TowValueInput
+                title="Nimi:"
+                value={testInputData?.firstName}
+                textStyle={styles.textStyle}
+                onChangeText={(text) => {
+                  setTestInputData({ ...testInputData, firstName: text });
+                }}
+              />
+            )}
+            {isSelect ? (
+              <TowValue title="Isikukood" value={data?.social_sec_no} />
+            ) : (
+              <TowValueInput
+                title="Isikukood"
+                value={testInputData?.personalNo}
+                textStyle={styles.textStyle}
+                onChangeText={(text) => {
+                  setTestInputData({ ...testInputData, personalNo: text });
+                }}
+                maxLength={11}
+              />
+            )}
+            {isSelect ? (
+              <TowValue title="E-post" value={data?.email} />
+            ) : (
+              <TowValueInput
+                title="E-post"
+                value={testInputData?.emailId}
+                textStyle={styles.textStyle}
+                onChangeText={(text) => {
+                  setTestInputData({ ...testInputData, emailId: text });
+                }}
+              />
+            )}
+            {isSelect ? (
+              <TowValue
+                title="Telefoninumber"
+                value={`${data?.country} ${data?.mobile}`}
+              />
+            ) : (
+              <View style={[styles.container, { marginTop: 12 }]}>
+                <Text style={styles.itemText}>{"Telefoninumber"}</Text>
+                <View style={{ marginTop: 25 }}>
+                  <TextInput
+                    value={testInputData.code}
+                    onChangeText={(text) => {
+                      setTestInputData({ ...testInputData, code: text });
+                    }}
+                    style={[styles.inputStyle, { width: 90 }]}
+                  />
+                  <TextInput
+                    value={testInputData?.mobileNo}
+                    onChangeText={(text) => {
+                      setTestInputData({ ...testInputData, mobileNo: text });
+                    }}
+                    style={[styles.inputStyle, { width: 190, marginTop: 5 }]}
+                  />
+                </View>
+              </View>
+            )}
+          </View>
+          {/* <View style={[styles.container,{alignSelf:'flex-start',marginRight:10}]}>
         <Image source={icons.pen} style={{ width: 18, height: 18 }} />
         <Text style={styles.headerText}>{"Muuda"}</Text>
       </View> */}
-      </View>
+        </View>
+      </>
     );
   }
 };
@@ -415,5 +436,22 @@ const styles = StyleSheet.create({
     marginRight: 8,
     alignItems: "center",
     justifyContent: "center",
+  },
+  headerSubTextMob: {
+    marginBottom: 5,
+    ...defaultFont(400, 18, colors.black),
+    flex:1
+  },
+  headerRightTextMob: {
+    ...defaultFont(400, 18, colors.black),
+  },
+  unLineStyleMob: {
+    width: screen_width * 0.85,
+    borderWidth: 0.5,
+    height: 1,
+    borderColor: colors.black,
+    // marginBottom: 12,
+    alignItems: "center",
+    // alignSelf: "center",
   },
 });

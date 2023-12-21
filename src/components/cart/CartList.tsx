@@ -27,12 +27,12 @@ const CartList = ({ title, list,onPress,data }: Props) => {
             resizeMode="contain"
           />
           <View style={{ marginLeft: 30, flex: 0.9 }}>
-            <Text style={styles.headerText}>Tekstiilipesur</Text>
-            <Text style={styles.headerText1}>KARCHER Puzzi 10/1</Text>
+            <Text style={styles.headerText}>{data?.brand}</Text>
+            <Text style={styles.headerText1}>{data?.product_name}</Text>
             <View style={styles.underLine} />
             <Text style={styles.headerText2}>
-              Automaat Tallinna Nautica keskus{" "}
-              <Text style={styles.headerSubText2}>Ahtri 9, Tallinn, Eesti</Text>
+              {data?.spot}{" "}
+              <Text style={styles.headerSubText2}>{data?.city}</Text>
             </Text>
             <View style={{ flexDirection: "row", marginTop: 8 }}>
               <Text style={styles.headerText3}>0,22€/min</Text>
@@ -63,14 +63,14 @@ const CartList = ({ title, list,onPress,data }: Props) => {
             resizeMode="contain"
           />
           <View style={{marginTop:12}}>
-            <Text style={styles.headerTextMob}>Tekstiilipesur</Text>
-            <Text style={styles.headerText1Mob}>KARCHER Puzzi 10/1</Text>
+            <Text style={styles.headerTextMob}>{data?.brand}</Text>
+            <Text style={styles.headerText1Mob}>{data?.product_name}</Text>
             <View style={styles.underLineMob} />
             <Text style={styles.headerText2Mob}>
-              Automaat Tallinna Nautica keskus
+              {data?.spot}
             </Text>
             <Text style={styles.headerSubText2Mob}>
-                Ahtri 9, Tallinn, Eesti
+                {data?.city}
               </Text>
             <View style={{ flexDirection: "row", marginTop:20,justifyContent:'space-between' }}>
               <View>
