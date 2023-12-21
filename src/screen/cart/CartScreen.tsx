@@ -87,11 +87,12 @@ console.log('getShoppingCart',getShoppingCart);
           <View style={styles.mainStyleMob}>
             <Text style={styles.headerTextMob}>Rendikorv</Text>
             <View style={styles.unLineStyleMob} />
-            <Text style={styles.headerSubTextMob}>Korvis kokku 2 toodet</Text>
+            <Text style={styles.headerSubTextMob}>Korvis kokku {getShoppingCart.length} toodet</Text>
             <View style={styles.cartStyleMob}>
               <View style={{ flex: 1, }}>
-                {[0, 1].map(() => {
-                  return <CartList onPress={()=>setqrcodeModalShow(true)}/>
+                
+                  {getShoppingCart.length > 0 && getShoppingCart?.map((item:any) => {
+                  return <CartList data={item} onPress={()=>setqrcodeModalShow(true)}/>;
                 })}
               </View>
       
