@@ -11,25 +11,30 @@ import { navigate } from "../../navigations/RootNavigation";
 type Props = {
   title?: string;
   list?: any;
+  data?: any;
+  onPress?:()=>void;
 };
 
-const CartProfileList = ({ title, list }: Props) => {
+const CartProfileList = ({ title, list, data,onPress }: Props) => {
   if (Platform.OS == "web") {
     return (
       <View style={styles.container}>
         <View style={styles.leftContainer}>
-          <Image
-            source={icons.image1}
+        <Image
+            defaultSource={icons.defultIcon}
+            source={{
+              uri: `https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${data?.product_id}&maxWidth=100&maxHeight=100`,
+            }}
             style={styles.iconsStyle}
             resizeMode="contain"
           />
           <View style={{ marginLeft: 30, flex: 0.9 }}>
-            <Text style={styles.headerText}>Tekstiilipesur</Text>
-            <Text style={styles.headerText1}>KARCHER Puzzi 10/1</Text>
+            <Text style={styles.headerText}>{data?.brand}</Text>
+            <Text style={styles.headerText1}>{data?.product_name}</Text>
             <View style={styles.underLine} />
             <Text style={styles.headerText2}>
-              Automaat Tallinna Nautica keskus{" "}
-              <Text style={styles.headerSubText2}>Ahtri 9, Tallinn, Eesti</Text>
+              {data?.spot}{" "}
+              <Text style={styles.headerSubText2}>{data?.city}</Text>
             </Text>
             <View style={{ flexDirection: "row", marginTop: 8 }}>
               <Text style={styles.headerText3}>0,22€/min</Text>
@@ -52,7 +57,7 @@ const CartProfileList = ({ title, list }: Props) => {
           <Text style={styles.headerText7}>{"00:12 min"}</Text>
           <CommonGreenBtn
             title="Tagasta"
-            onPress={() => {}}
+            onPress={()=>onPress()}
             style={{
               borderColor: colors.headerBG,
               marginLeft: 10,
@@ -67,21 +72,20 @@ const CartProfileList = ({ title, list }: Props) => {
     return (
       <View style={styles.containerMob}>
         <View style={styles.leftContainerMob}>
-          <Image
-            source={icons.image1}
+        <Image
+            defaultSource={icons.defultIcon}
+            source={{
+              uri: `https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${data?.product_id}&maxWidth=100&maxHeight=100`,
+            }}
             style={styles.iconsStyleMob}
             resizeMode="contain"
           />
           <View style={{ marginTop: 12 }}>
-            <Text style={styles.headerTextMob}>Tekstiilipesur</Text>
-            <Text style={styles.headerText1Mob}>KARCHER Puzzi 10/1</Text>
+            <Text style={styles.headerTextMob}>{data?.brand}</Text>
+            <Text style={styles.headerText1Mob}>{data?.product_name}</Text>
             <View style={styles.underLineMob} />
-            <Text style={styles.headerText2Mob}>
-              Automaat Tallinna Nautica keskus
-            </Text>
-            <Text style={styles.headerSubText2Mob}>
-              Ahtri 9, Tallinn, Eesti
-            </Text>
+            <Text style={styles.headerText2Mob}>{data?.spot}</Text>
+            <Text style={styles.headerSubText2Mob}>{data?.city}</Text>
             <View
               style={{
                 flexDirection: "row",
@@ -93,17 +97,12 @@ const CartProfileList = ({ title, list }: Props) => {
                 <View style={styles.headerView3Mob}>
                   <Text style={styles.headerText3Mob}>0,22€/min</Text>
                 </View>
-                <Text
-                style={[
-                  styles.headerText4Mob,
-                  { color: colors.black },
-                ]}
-              >
-                Teata probleemist
-              </Text>
+                <Text style={[styles.headerText4Mob, { color: colors.black }]}>
+                  Teata probleemist
+                </Text>
                 <Text style={styles.headerText4Mob}>eemalda</Text>
               </View>
-              <View style={{ top:15 }}>
+              <View style={{ top: 15 }}>
                 {/* <Text style={styles.headerText5Mob}>{"+0,05€/min"}</Text> */}
                 {/* <Text style={styles.headerText6Mob}>{"14:59"}</Text> */}
                 <Text style={styles.headerText6Mob}>{"0,59€"}</Text>
@@ -111,11 +110,8 @@ const CartProfileList = ({ title, list }: Props) => {
               </View>
             </View>
             <CommonGreenBtn
-              title="Ava kapp"
-              onPress={() => {
-                //@ts-ignore
-                navigate(screenName.warningScreen);
-              }}
+              title="Tagasta"
+              onPress={()=>onPress()}
               style={styles.btnStyleMob}
             />
           </View>

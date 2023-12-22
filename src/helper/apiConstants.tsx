@@ -32,7 +32,10 @@ export const api = {
   deletePaymentMethod:"Customer/DeletePaymentMethod",
 
   //Rental/ShoppingCart
-  shoppingCart:"Rental/ShoppingCart"
+  shoppingCart:"Rental/ShoppingCart",
+  activeRentals:'Rental/ActiveRentals',
+  startRental:'Rental/StartRental',
+  finishRental:'Rental/FinishRental'
 
 };
 

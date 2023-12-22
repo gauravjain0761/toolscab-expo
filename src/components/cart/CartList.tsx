@@ -12,17 +12,25 @@ type Props = {
   title?: string;
   list?: any;
   onPress?: () => void;
-  data?:any
+  data?: any;
 };
 
-const CartList = ({ title, list,onPress,data }: Props) => {
+const CartList = ({ title, list, onPress, data }: Props) => {  
   const navigationRef = useNavigation();
   if (Platform.OS == "web") {
     return (
       <View style={styles.container}>
         <View style={styles.leftContainer}>
-          <Image
+          {/* <Image
             source={icons.image1}
+            style={styles.iconsStyle}
+            resizeMode="contain"
+          /> */}
+          <Image
+            defaultSource={icons.defultIcon}
+            source={{
+              uri: `https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${data?.product_id}&maxWidth=100&maxHeight=100`,
+            }}
             style={styles.iconsStyle}
             resizeMode="contain"
           />
@@ -47,7 +55,7 @@ const CartList = ({ title, list,onPress,data }: Props) => {
           <Text style={styles.headerText7}>{"Tasuta broneering"}</Text>
           <CommonGreenBtn
             title="Ava kapp"
-            onPress={()=>onPress}
+            onPress={() => onPress()}
             style={styles.btnStyle}
           />
         </View>
@@ -57,41 +65,50 @@ const CartList = ({ title, list,onPress,data }: Props) => {
     return (
       <View style={styles.containerMob}>
         <View style={styles.leftContainerMob}>
-          <Image
+          {/* <Image
             source={icons.image1}
             style={styles.iconsStyleMob}
             resizeMode="contain"
+          /> */}
+          <Image
+            defaultSource={icons.defultIcon}
+            source={{
+              uri: `https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${data?.product_id}&maxWidth=100&maxHeight=100`,
+            }}
+            style={styles.iconsStyleMob}
+            resizeMode="contain"
           />
-          <View style={{marginTop:12}}>
+
+          <View style={{ marginTop: 12 }}>
             <Text style={styles.headerTextMob}>{data?.brand}</Text>
             <Text style={styles.headerText1Mob}>{data?.product_name}</Text>
             <View style={styles.underLineMob} />
-            <Text style={styles.headerText2Mob}>
-              {data?.spot}
-            </Text>
-            <Text style={styles.headerSubText2Mob}>
-                {data?.city}
-              </Text>
-            <View style={{ flexDirection: "row", marginTop:20,justifyContent:'space-between' }}>
+            <Text style={styles.headerText2Mob}>{data?.spot}</Text>
+            <Text style={styles.headerSubText2Mob}>{data?.city}</Text>
+            <View
+              style={{
+                flexDirection: "row",
+                marginTop: 20,
+                justifyContent: "space-between",
+              }}
+            >
               <View>
                 <View style={styles.headerView3Mob}>
-
-                <Text style={styles.headerText3Mob}>0,22€/min</Text>
+                  <Text style={styles.headerText3Mob}>0,22€/min</Text>
                 </View>
                 <Text style={styles.headerText4Mob}>eemalda</Text>
               </View>
-              <View style={{bottom:20}}>
+              <View style={{ bottom: 20 }}>
                 <Text style={styles.headerText5Mob}>{"+0,05€/min"}</Text>
                 <Text style={styles.headerText6Mob}>{"14:59"}</Text>
                 <Text style={styles.headerText7Mob}>{"Tasuta broneering"}</Text>
-                
               </View>
             </View>
             <CommonGreenBtn
-                  title="Ava kapp"
-                  onPress={() => onPress()}
-                  style={styles.btnStyleMob}
-                />
+              title="Ava kapp"
+              onPress={() => onPress()}
+              style={styles.btnStyleMob}
+            />
           </View>
         </View>
       </View>
@@ -246,8 +263,8 @@ const styles = StyleSheet.create({
     marginRight: 9,
   },
   headerText4Mob: {
-    marginLeft:10,
-    marginTop:3,
+    marginLeft: 10,
+    marginTop: 3,
     ...defaultFont(400, 12, colors.red),
   },
   headerText5Mob: {
@@ -262,9 +279,9 @@ const styles = StyleSheet.create({
     ...defaultFont(600, 24, colors.headerBG),
   },
   headerText7Mob: {
-    lineHeight: 18, 
+    lineHeight: 18,
     textAlign: "center",
-    bottom:4,
+    bottom: 4,
     ...defaultFont(400, 12, colors.filterText),
   },
   itemTextMob: {
@@ -275,7 +292,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     width: widthPercentageToDP(28),
     marginTop: 40,
-    alignSelf:'center',
-    marginBottom:30
+    alignSelf: "center",
+    marginBottom: 30,
   },
 });

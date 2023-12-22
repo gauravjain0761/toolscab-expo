@@ -25,20 +25,24 @@ import { icons } from "../../theme/Icons";
 import { useDispatch, useSelector } from "react-redux";
 import { getAsyncUserInfo } from "../../helper/asyncStorage";
 import { deletePaymentMethod, getPaymentMethods, getProfileMethods } from "../../actions/authAction";
-import { useIsFocused } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
+import { getProductAction } from "../../actions/catalogueAction";
+import { getActiveRentalsAction, getFinishRentalAction } from "../../actions/cartAction";
+import { screenName } from "../../helper/constants";
 
 // create a component
 const ProfileScreen = () => {
+  const navigationRef = useNavigation();
+
   const [selectedTab, setselectedTab] = useState(1);
   const dispatch = useDispatch();
-  const { getProfileList } = useSelector((state) => state.profile);
+  const { getProfileList ,getActiveRental} = useSelector((state) => state.profile);
   const [isSelect, setIsSelect] = useState(true);
 
   const { getPaymentList } = useSelector(
     (state) => state.cart
   );
   const isFocused = useIsFocused();
-console.log('getPaymentList',getPaymentList);
 
   useEffect(()=>{
      const getProfileList = async() =>{
@@ -52,6 +56,14 @@ console.log('getPaymentList',getPaymentList);
           onFailure: () => {},
         };
         dispatch(getProfileMethods(obj))
+        const obj1 = {
+          params:{
+            customer_id:customer
+          },
+          onSuccess: (res: any) => {},
+          onFailure: () => {},
+        };
+        dispatch(getActiveRentalsAction(obj1))
       }
      }
      getProfileList()
@@ -84,6 +96,21 @@ console.log('getPaymentList',getPaymentList);
     };
     dispatch(deletePaymentMethod(obj));
   };
+
+  const onFinishPress=(item:any)=>{
+    const obj = {
+      params: {
+        rental_id: item?.rental_id,
+        item_id: item?.item_id,
+        qr_code: item?.qr_code,
+      },
+      onSuccess: (res: any) => {
+        navigationRef.navigate(screenName.homeScreen);
+      },
+      onFailure: () => {},
+    };
+    dispatch(getFinishRentalAction(obj));
+  }
 
   const HeaderCommonView = ({ title, style, isShow,onPress }: any) => {
     if (Platform.OS === "web") {
@@ -173,8 +200,8 @@ console.log('getPaymentList',getPaymentList);
                   }}
                 >
                   <View style={{ flex: 1 }}>
-                    {[0, 1].map(() => {
-                      return <CartProfileList />;
+                    {getActiveRental.length > 0 && getActiveRental?.map((item:any) => {
+                      return <CartProfileList data={item} onPress={()=>{onFinishPress(item)}}/>;
                     })}
                   </View>
                 </View>
@@ -182,8 +209,8 @@ console.log('getPaymentList',getPaymentList);
                   title={"Varasemad rendid"}
                   style={{ marginBottom: 45 }}
                 />
-                <PreviousView />
-                <PreviousView />
+                {/* <PreviousView /> */}
+                {/* <PreviousView /> */}
               </>
             )}
             {(selectedTab == 2 || selectedTab == 3) && (
@@ -250,8 +277,8 @@ console.log('getPaymentList',getPaymentList);
                   }}
                 >
                   <View style={{ flex: 1 }}>
-                    {[0, 1].map(() => {
-                      return <CartProfileList />;
+                  {getActiveRental.length > 0 && getActiveRental?.map((item:any) => {
+                      return <CartProfileList data={item} onPress={()=>{onFinishPress(item)}}/>;
                     })}
                   </View>
                 </View>
@@ -259,8 +286,8 @@ console.log('getPaymentList',getPaymentList);
                   title={"Aktiivsed rendid "}
                   style={{ marginBottom: 10 }}
                 />
-                <PreviousView />
-                <PreviousView />
+                {/* <PreviousView />
+                <PreviousView /> */}
               </View>
             )}
             {(selectedTab == 2 || selectedTab == 3) && (
