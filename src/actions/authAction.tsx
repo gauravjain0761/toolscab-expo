@@ -17,17 +17,18 @@ export const userLogin =
     };
     return makeAPIRequest({
       method: POST,
-      url: api.signUp,
+      url: api.login,
       headers: headers,
-      data: request.data,
+      params: request.params,
     })
       .then(async (response: any) => {
         if (response.status === 200) {
-          console.log("response", response);
+          setAsyncUserInfo(response?.data);
+          if (request.onSuccess) request.onSuccess(response?.data);
         }
       })
       .catch((error) => {
-        if (request.onFailure) request.onFailure(error.response);
+        if (request.onFailure) request.onFailure(error.response?.data);
       });
   };
 

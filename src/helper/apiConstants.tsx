@@ -4,6 +4,7 @@ export const api = {
 
   // Auth
   signUp: "Customer/SignUp",
+  login:"Customer/Login",
   logout: "logout",
 
 

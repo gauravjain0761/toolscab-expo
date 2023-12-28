@@ -273,7 +273,11 @@ console.log('locationId',locationId);
               </Text>
               <View style={styles.botomLine} />
               <View style={styles.priceView}>
+              
                 <View>
+              {productDetails?.banner &&  <View style={styles.bannerView}>
+                  <Text style={styles.bannerText}>{productDetails?.banner}</Text>
+                </View>}
                   <Text style={styles.zeroText}>
                     {productDetails?.price ? productDetails?.price : "00"}
                     <Text style={{ fontSize: 60 }}></Text>
@@ -570,7 +574,7 @@ console.log('locationId',locationId);
                   style={styles.btnView}
                 /> */}
               </View>
-              <Text style={styles.btnBottomText}>{productDetails?.banner}</Text>
+              {/* <Text style={styles.btnBottomText}>{productDetails?.banner}</Text> */}
               <View style={styles.botomLine} />
               {productDetails?.kitProducts_ &&
                 productDetails?.kitProducts_?.length !== 0 && (
@@ -819,9 +823,9 @@ console.log('locationId',locationId);
           <View style={styles.bottomView}>
             <View>
               <View style={{ flex: 1 }}>
-                <View style={styles.bannerViewMob}>
-                  <Text style={styles.bannerTextMob}>Ainult täna!</Text>
-                </View>
+                {productDetails?.banner &&<View style={styles.bannerViewMob}>
+                  <Text style={styles.bannerTextMob}>{productDetails?.banner}</Text>
+                </View>}
 
                 <Text
                   style={{

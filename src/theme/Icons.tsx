@@ -57,6 +57,7 @@ export const icons = {
   qrcode:require('../../assets/icon/qrcode.png'),
   bin:require('../../assets/icon/bin.png'),
   logout:require('../../assets/icon/logout.png'),
+  turnoff:require('../../assets/icon/turnoff.png'),
 
 
 

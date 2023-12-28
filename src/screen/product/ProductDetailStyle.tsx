@@ -1,25 +1,9 @@
 import {
   StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  Image,
-  TouchableOpacity,
-  TextInput,
-  Platform,
 } from "react-native";
 import React, { useState } from "react";
-import {
-  CommonMapView,
-  FooterView,
-  Header,
-  ProductView,
-} from "../../components";
 import { colors } from "../../theme/Colors";
 import { hp, screen_width, wp } from "../../helper/globalFunctions";
-import HeaderBottomPathView from "../../components/reusableComponent/HeaderBottomPathView";
-import { icons } from "../../theme/Icons";
-import { FlatList } from "react-native";
 import { SCREEN_WIDTH, commonFontStyle } from "../../theme/Fonts";
 import { fontFamily, screenName } from "../../helper/constants";
 import CommonGreenBtn from "../../components/reusableComponent/CommonGreenBtn";
@@ -449,5 +433,20 @@ export const styles = StyleSheet.create({
     paddingLeft: 20,
     flex: 1,
     marginRight: widthPercentageToDP(10),
+  },
+  bannerView: {
+    backgroundColor: colors.roheline,
+    width: '30%',
+    paddingVertical: 3,
+    position: 'absolute',
+    right: 25,
+    top: 10,
+    borderTopLeftRadius: 10,
+    borderBottomRightRadius: 10
+
+  },
+  bannerText: {
+    ...commonFontStyle(fontFamily.arial_regular, 9, colors.black),
+    textAlign: 'center'
   },
 });

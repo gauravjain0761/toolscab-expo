@@ -1,5 +1,5 @@
 //import liraries
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, Image, TouchableOpacity, ScrollView } from "react-native";
 import { colors } from "../../theme/Colors";
 import { FooterView, InpuText } from "../../components";
@@ -10,10 +10,58 @@ import { icons } from "../../theme/Icons";
 import CommonGreenBtn from "../../components/reusableComponent/CommonGreenBtn";
 import { useNavigation } from "@react-navigation/native";
 import { styles } from "./LoginScreenMobileStyle";
+import { emailCheck } from "../../helper/globalFunctions";
+import { useDispatch } from "react-redux";
+import { getProfileMethods, userLogin } from "../../actions/authAction";
 
 // create a component
 const LoginScreenMobile = () => {
   const navigationRef = useNavigation();
+  const dispatch = useDispatch();
+
+  const [testInputData, setTestInputData] = useState({
+    emailId: "",
+    password: "",
+  });
+
+  const onLoginPress = () => {
+    if (testInputData?.emailId.trim().length === 0) {
+      alert("Palun sisestage oma e-posti aadress");
+    } else if (!emailCheck(testInputData?.emailId)) {
+      alert("Sisestage oma kehtiv e-posti aadress");
+    } else if (testInputData?.password.trim().length === 0) {
+      alert("Palun sisesta oma salasõna");
+    } else if (testInputData?.password.trim().length < 8) {
+      alert("Teie parool peab olema vähemalt 8 tähemärki pikk");
+    } else {
+      const obj = {
+        params: {
+          email: testInputData?.emailId,
+          password: testInputData?.password,
+        },
+        onSuccess: (res: any) => {
+          const obj = {
+            params: {
+              customer_id: res,
+            },
+            onSuccess: (res: any) => {
+              navigationRef.navigate(screenName?.homeScreen)
+            },
+            onFailure: () => {},
+          };
+          dispatch(getProfileMethods(obj));
+          setTestInputData({
+            emailId: "",
+            password: "",
+          });
+        },
+        onFailure: (error: any) => {
+          alert(error?.detail);
+        },
+      };
+      dispatch(userLogin(obj));
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -49,8 +97,21 @@ const LoginScreenMobile = () => {
               </Text>
             </TouchableOpacity>
           </View>
-          <InpuText label={"E-post"} />
-          <InpuText label={"Parool"} />
+
+          <InpuText
+            label={"E-post"}
+            value={testInputData?.emailId}
+            onChangeText={(text) =>
+              setTestInputData({ ...testInputData, emailId: text })
+            }
+          />
+          <InpuText
+            label={"Parool"}
+            value={testInputData?.password}
+            onChangeText={(text) =>
+              setTestInputData({ ...testInputData, password: text })
+            }
+          />
           <Text
             style={{
               ...defaultFont(400, 14, colors.blackType),
@@ -61,9 +122,7 @@ const LoginScreenMobile = () => {
           </Text>
           <CommonGreenBtn
             title="Jätka"
-            onPress={() => {
-              navigationRef.navigate(screenName.homeScreen);
-            }}
+            onPress={onLoginPress}
             style={styles.btnStyle}
           />
           <View style={{ height: 150 }} />

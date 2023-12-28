@@ -14,9 +14,7 @@ import {
   ProductView,
 } from "../../components";
 import { screenName } from "../../helper/constants";
-import { icons } from "../../theme/Icons";
 import { useNavigation } from "@react-navigation/native";
-import { filterDataMobile } from "../../helper/constantData";
 import { styles } from "./CatalogueProductsMobileStyle";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductAction, postcatalogueFilterProductAction } from "../../actions/catalogueAction";
@@ -86,6 +84,7 @@ const CatalogueProductsMobile = () => {
                   onProductPressMobile(item)
                 }
                 mainView={false}
+                banner={item?.banner}
                 aircon={item?.aircon || 0}
                 volumeflow={item?.volumeflow || 0}
                 hoselength={item?.hoselength || 0}

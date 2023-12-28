@@ -33,6 +33,7 @@ type Props = {
   titleStyle?: TextStyle;
   listStyle?: TextStyle;
   product_category_id: any;
+  banner:any
 };
 const ProductView = ({
   heading,
@@ -49,6 +50,7 @@ const ProductView = ({
   titleStyle,
   listStyle,
   product_category_id,
+  banner
 }: Props) => {
   return Platform.OS == "web" ? (
     <>
@@ -70,9 +72,9 @@ const ProductView = ({
         onPress={() => onSelectPress()}
         style={[styles.container]}
       >
-        {!mainView && index === 0 && (
+        {!mainView && banner && (
           <View style={styles.headerRight}>
-            <Text style={styles.headerRightText}>Uus</Text>
+            <Text style={styles.headerRightText}>{banner}</Text>
           </View>
         )}
         <Image
@@ -198,9 +200,9 @@ const ProductView = ({
         onPress={() => onSelectPress()}
         style={styles.containerMob}
       >
-        {!mainView && index === 0 && (
+        {!mainView && banner && (
           <View style={styles.headerRightMob}>
-            <Text style={styles.headerRightTextMob}>Uus</Text>
+            <Text style={styles.headerRightTextMob}>{banner}</Text>
           </View>
         )}
         <Image
@@ -314,9 +316,10 @@ const styles = StyleSheet.create({
     ...defaultFont(700, 8, colors.black),
   },
   imageTools: {
-    width: (SCREEN_WIDTH - heightPercentageToDP(10)) / 2,
-    height: (SCREEN_WIDTH - heightPercentageToDP(10)) / 2,
+    width: (SCREEN_WIDTH - heightPercentageToDP(13)) / 2,
+    height: (SCREEN_WIDTH - heightPercentageToDP(13)) / 2,
     alignSelf: "center",
+    marginTop:6
   },
   bottomRow: {
     flexDirection: "row",

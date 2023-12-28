@@ -1,14 +1,17 @@
 import { useMemo, useRef, useState } from "react";
 import { StyleSheet, View, Text, Image, Platform } from "react-native";
-// import MapView, { Marker } from "react-native-maps";
-// import type { Region } from "react-native-maps";
+import MapView, { Marker } from "react-native-maps";
+import type { Region } from "react-native-maps";
 import { icons } from "../../theme/Icons";
+import { useSelector } from "react-redux";
 // create a component
 
 const CommonMapView = ({ width }: any) => {
-  // const [region, setRegion] = useState<Region | null>(null);
-
-  // const mapRef = useRef<MapView>(null);
+  const [region, setRegion] = useState<Region | null>(null);
+  const { productDetails, getProductSpecs, getProductLocations } = useSelector(
+    (state) => state.catalogue
+  );
+  const mapRef = useRef<MapView>(null);
 
   const loadingFallback = useMemo(() => {
     return (
@@ -21,7 +24,7 @@ const CommonMapView = ({ width }: any) => {
   if (Platform.OS == 'web') {
     return (
       <View style={[styles.container, { width: width ? width : 1102, height: width ? width : 390 }]}>
-        {/* <MapView
+        <MapView
           ref={mapRef}
           provider="google"
           mapType="none"
@@ -33,33 +36,24 @@ const CommonMapView = ({ width }: any) => {
           }}
           style={Platform.OS =='web' ? styles.mapView: styles.mapViewMob}
           customMapStyle={{ borderRadius: 40 }}
-          zoomEnabled={false}
+          // zoomEnabled={false}
           onRegionChange={setRegion}
           loadingFallback={loadingFallback}
-          googleMapsApiKey={process.env.GOOGLE_MAPS_API_KEY}
+          googleMapsApiKey={"AIzaSyDEjeEjROHSLP3YfRln7Sk1GxUQSTGOGCI"}
         >
-          <Marker
-            coordinate={{
-              latitude: 59.3442016958775,
-              longitude: 58.038256636812825,
-            }}
-          >
-            <View style={{ position: "absolute", top: "50%", left: "20%" }}>
-              <Image source={icons.mapImg} style={styles.imageStyle} />
-            </View>
-          </Marker>
-  
-          <Marker
-            coordinate={{
-              latitude: 59.3442016958775,
-              longitude: 18.038256636812825,
-            }}
-          >
-            <View style={{ position: "absolute", top: "50%", left: "50%" }}>
-              <Image source={icons.mapImg} style={styles.imageStyle} />
-            </View>
-          </Marker>
-        </MapView> */}
+         {getProductLocations.map((item)=>{
+          return<Marker
+          coordinate={{
+            latitude: item?.lat,
+            longitude: item?.long,
+          }}
+        >
+          <View style={{ position: "absolute", top: "50%", left: "20%" }}>
+            <Image source={icons.mapImg} style={styles.imageStyle} />
+          </View>
+        </Marker>
+         }) }
+        </MapView>
       </View>
     );
   } else {

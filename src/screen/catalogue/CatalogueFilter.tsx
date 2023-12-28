@@ -104,7 +104,7 @@ const ProductcartList = ({
       {mainView ? (
         <FlatList
           data={listData}
-          numColumns={3}
+          numColumns={4}
           keyExtractor={(_i, index) => index.toString()}
           renderItem={({ item }) => {
             return (
@@ -121,7 +121,7 @@ const ProductcartList = ({
       ) : (
         <FlatList
           data={showProduct}
-          numColumns={3}
+          numColumns={4}
           keyExtractor={(_i, index) => index.toString()}
           renderItem={({ item, index }) => {
             return (
@@ -129,6 +129,7 @@ const ProductcartList = ({
                 index={index}
                 icon={item?.icon}
                 title={item?.product_name}
+                banner={item?.banner}
                 product_category_id={`https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${item?.first_photo_id}&maxWidth=300&maxHeight=300`}
                 label={item?.brand}
                 onSelectPress={() =>

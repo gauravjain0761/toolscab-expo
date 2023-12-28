@@ -98,7 +98,7 @@ const RegisterScreen = () => {
     } else if (testInputData?.password.trim().length === 0) {
       alert("Palun sisesta oma salasõna");
     } else if (testInputData?.password.trim().length < 8) {
-      alert("Teie parool peab olema vähemalt 6 tähemärki pikk");
+      alert("Teie parool peab olema vähemalt 8 tähemärki pikk");
     } else if (
       testInputData?.confirmPassword.trim() !== testInputData?.password.trim()
     ) {
@@ -281,6 +281,7 @@ const RegisterScreen = () => {
                         value={countryCode}
                         onChangeText={(text) => setCountryCode(text)}
                         style={{ width: screen_width * 0.05 }}
+                        maxLength={2}
                       />
                     </View>
                     <InpuText
@@ -355,6 +356,7 @@ const RegisterScreen = () => {
                         value={countryCode}
                         onChangeText={(text) => setCountryCode(text)}
                         style={{ width: screen_width * 0.05 }}
+                        maxLength={2}
                       />
                     </View>
                     <InpuText
@@ -534,6 +536,7 @@ const RegisterScreen = () => {
                         onChangeText={(text) =>
                           setCountryCode(text)
                         }
+                        maxLength={2}
                         style={{ width: screen_width * 0.2 }}
                       />
                     </View>
@@ -614,6 +617,7 @@ const RegisterScreen = () => {
                         onChangeText={(text) =>
                           setCountryCode(text)
                         }
+                        maxLength={2}
                         style={{ width: screen_width * 0.3 }}
                       />
                     </View>

@@ -155,10 +155,11 @@ const Header = ({ containerStyle, isMainScreen }: Props) => {
             onPress={() => {
               clearAsync();
               dispatch({ type: USER_LOGOUT });
+              navigationRef.navigate(screenName.homeScreen);
             }}
           >
             <Image
-              source={icons.logout}
+              source={icons.turnoff}
               style={[
                 styles.iconStyle,
                 { tintColor: textColor, width: 20, height: 20 },

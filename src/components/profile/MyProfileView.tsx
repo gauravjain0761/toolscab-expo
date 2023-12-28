@@ -197,6 +197,7 @@ const MyProfileView = ({ data }: Props) => {
                   onChangeText={(text) => {
                     setTestInputData({ ...testInputData, code: text });
                   }}
+                  maxLength={2}
                   style={[styles.inputStyle, { width: 90, marginRight: 10 }]}
                 />
                 <TextInput
@@ -325,6 +326,7 @@ const MyProfileView = ({ data }: Props) => {
                     onChangeText={(text) => {
                       setTestInputData({ ...testInputData, code: text });
                     }}
+                    maxLength={2}
                     style={[styles.inputStyle, { width: 90 }]}
                   />
                   <TextInput
