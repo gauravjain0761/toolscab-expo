@@ -32,6 +32,7 @@ import CardScreen from "../screen/profile/CardScreen";
 import WarningScreen from "../screen/profile/WarningScreen";
 import QRCodeScannerScreen from "../screen/cart/QRCodeScannerScreen";
 import _ from "lodash";
+import CatalogueSearch from "../screen/catalogue/CatalogueSearch";
 
 export type RootStackParamList = {
   HomeScreen: undefined;
@@ -142,6 +143,17 @@ const StackNavigator: FC = () => {
         })}
         name={screenName.catalogueFilter}
         component={CatalogueFilter}
+      />
+      <Stack.Screen
+        // @ts-ignore
+        options={({ navigation }) => ({
+          headerLeft: () => <HeaderLeft navigation={navigation} />,
+          headerRight: () => <HeaderRight navigation={navigation} />,
+          headerTitle: "",
+          ...headerStyleMain,
+        })}
+        name={screenName.catalogueSearch}
+        component={CatalogueSearch}
       />
       <Stack.Screen
         // @ts-ignore

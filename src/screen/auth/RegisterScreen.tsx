@@ -93,6 +93,8 @@ const RegisterScreen = () => {
       alert("Palun sisestage oma e-posti aadress");
     } else if (testInputData?.personalNo.trim().length == 0) {
       alert("Palun sisestage omaisikukood");
+    }else if (testInputData?.personalNo.trim().length < 11) {
+      alert("Sisestage oma isikukoodiks maksimaalselt 11 numbrit");
     } else if (!emailCheck(testInputData?.emailId)) {
       alert("Sisestage oma kehtiv e-posti aadress");
     } else if (testInputData?.password.trim().length === 0) {
@@ -103,9 +105,7 @@ const RegisterScreen = () => {
       testInputData?.confirmPassword.trim() !== testInputData?.password.trim()
     ) {
       alert("Teie parool ja kinnitusparool ei ühti.");
-    } else if (testInputData?.personalNo.trim().length == 0) {
-      alert("Palun sisestage omaisikukood");
-    } else if (countryCode.trim().length == 0) {
+    }  else if (countryCode.trim().length == 0) {
       alert("Palun sisestage omariigi kood");
     } else if (testInputData?.mobileNo.trim().length === 0) {
       alert("Palun sisestage oma mobiilinumber.");
@@ -513,7 +513,7 @@ const RegisterScreen = () => {
                     onChangeText={(text) =>
                       setTestInputData({ ...testInputData, password: text })
                     }
-                    secureTextEntry={true}
+                   
                   />
                   <InpuText
                     label={"Parool uuesti"}
@@ -524,7 +524,7 @@ const RegisterScreen = () => {
                         confirmPassword: text,
                       })
                     }
-                    secureTextEntry={true}
+                  
                   />
                   <View
                     style={{ width: screen_width * 0.8, flexDirection: "row" }}
@@ -594,7 +594,7 @@ const RegisterScreen = () => {
                     onChangeText={(text) =>
                       setTestInputData({ ...testInputData, password: text })
                     }
-                    secureTextEntry={true}
+                 
                   />
                   <InpuText
                     label={"Parool uuesti"}
@@ -605,7 +605,7 @@ const RegisterScreen = () => {
                         confirmPassword: text,
                       })
                     }
-                    secureTextEntry={true}
+          
                   />
                    <View
                     style={{ width: screen_width * 0.8, flexDirection: "row" }}

@@ -9,7 +9,7 @@ export function commonFontStyle(
   return {
     fontFamily: fontFamily,
     // fontSize: fontSize(size),
-    fontSize: size,
+    fontSize: size+2,
     color: color,
     includeFontPadding: false,
   };

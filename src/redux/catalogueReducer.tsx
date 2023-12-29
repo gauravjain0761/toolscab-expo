@@ -1,7 +1,8 @@
-import { GET_CATALOGUE_CATEGORY_LIST_DATA, GET_CATALOGUE_CATEGORY_PRODUCT_LIST_DATA, GET_CATALOGUE_FILTER_FROM_LIST_DATA, GET_PRODUCT_DETAILS_DATA, GET_PRODUCT_LOCATION_DETAILS_DATA, GET_PRODUCT_SPECS_DETAILS_DATA } from "../actions/dispatchTypes";
+import { GET_CATALOGUE_CATEGORY_LIST_DATA, GET_CATALOGUE_CATEGORY_PRODUCT_LIST_DATA, GET_CATALOGUE_CATEGORY_SEARCH_LIST_DATA, GET_CATALOGUE_FILTER_FROM_LIST_DATA, GET_PRODUCT_DETAILS_DATA, GET_PRODUCT_LOCATION_DETAILS_DATA, GET_PRODUCT_SPECS_DETAILS_DATA } from "../actions/dispatchTypes";
 
 const initialState = {
   catalogueCategorySearchList:[],
+  catalogueSearchList:[],
   catalogueCategoryProductList:[],
   productDetails:[],
   catalogueCategoryFilterList:[],
@@ -16,6 +17,9 @@ export default function (state = initialState, action: any) {
   switch (action.type) {
     case GET_CATALOGUE_CATEGORY_LIST_DATA: {
       return { ...state,catalogueCategorySearchList: action.payload };
+    }
+    case GET_CATALOGUE_CATEGORY_SEARCH_LIST_DATA : {
+      return { ...state,catalogueSearchList: action.payload };
     }
     case GET_CATALOGUE_CATEGORY_PRODUCT_LIST_DATA: {
       return { ...state,catalogueCategoryProductList: action.payload };

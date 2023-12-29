@@ -58,9 +58,7 @@ export const icons = {
   bin:require('../../assets/icon/bin.png'),
   logout:require('../../assets/icon/logout.png'),
   turnoff:require('../../assets/icon/turnoff.png'),
-
-
-
+  searchboxPointer:require('../../assets/icon/searchboxPointer.png'),
 };
 
 export const image = {

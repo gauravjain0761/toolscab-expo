@@ -22,6 +22,12 @@ export const styles = StyleSheet.create({
     // position: 'absolute',
     left: wp(150),
   },
+  serachIconStyle:{
+    width:380,
+    height:105,
+    left: -40,
+    resizeMode:'contain'
+  },
   buttonStyle2: {
     backgroundColor: colors.black,
     flexDirection: "row",
@@ -89,11 +95,19 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.roheline,
     flex: 0.7,
   },
+  serachIconStyleMob:{
+    width:280,
+    height:80,
+    // left: -20,
+    // top:-10,
+    marginLeft:-20,
+    // resizeMode:'contain'
+  },
   userimageStyle: {
     width: wp(550),
-    height: hp(600),
+    height: hp(830),
     marginLeft: wp(120),
-    marginBottom: -hp(40),
+    marginBottom: -hp(155),
   },
   buttonStyle: {
     backgroundColor: colors.black,

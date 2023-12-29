@@ -11,7 +11,13 @@ import {
   Platform,
 } from "react-native";
 import { colors } from "../../theme/Colors";
-import { CommonMapView, CommonModalWeb, FooterView, Header,HomeProductView  } from "../../components";
+import {
+  CommonMapView,
+  CommonModalWeb,
+  FooterView,
+  Header,
+  HomeProductView,
+} from "../../components";
 import { hp, wp } from "../../helper/globalFunctions";
 import { fontFamily, screenName } from "../../helper/constants";
 import { icons } from "../../theme/Icons";
@@ -28,28 +34,27 @@ const HomeScreen = () => {
   const dispatch = useDispatch();
   const navigationRef = useNavigation();
 
-  const { catalogueCategorySearchList:catalogueList } = useSelector((state) => state.catalogue);
+  const { catalogueCategorySearchList: catalogueList } = useSelector(
+    (state) => state.catalogue
+  );
   let data = [
-    `Leia sobiv  seade ning${'\n'}lähim seadmekapp`,
+    `Leia sobiv  seade ning${"\n"}lähim seadmekapp`,
     `Broneeri seade veebis`,
-    `Mine seadmele tööriistakappi${'\n'}järgi ning alusta kasutamist`,
-    `Tagasta seade`
-  ]
+    `Mine seadmele tööriistakappi${"\n"}järgi ning alusta kasutamist`,
+    `Tagasta seade`,
+  ];
 
-useEffect(()=>{
-  const obj = {
-    onSuccess: (res: any) => {
-      
-    },
-    onFailure: () => {},
-  };
-  dispatch(getCatalogueCategorySearchAction(obj))
-
-},[])
+  useEffect(() => {
+    const obj = {
+      onSuccess: (res: any) => {},
+      onFailure: () => {},
+    };
+    dispatch(getCatalogueCategorySearchAction(obj));
+  }, []);
 
   return (
     <View style={styles.container}>
-      {Platform.OS == 'web' ?
+      {Platform.OS == "web" ? (
         <View>
           <Header isMainScreen={true} />
           <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -68,6 +73,17 @@ useEffect(()=>{
                       marginTop: hp(50),
                     }}
                   >
+                    <TouchableOpacity
+                      onPress={() => {
+                        navigationRef.navigate(screenName.catalogueSearch);
+                      }}
+                    >
+                      <Image
+                        source={icons.searchboxPointer}
+                        style={styles.serachIconStyle}
+                        resizeMode="cover"
+                      />
+                    </TouchableOpacity>
                     <Text
                       style={{
                         fontSize: wp(88),
@@ -88,7 +104,12 @@ useEffect(()=>{
                     >
                       {"Eesti esimene minutipõhine tööriistarent"}
                     </Text>
-                    <TouchableOpacity style={styles.buttonStyle} onPress={()=>navigationRef.navigate(screenName.catalogueFilter)}>
+                    <TouchableOpacity
+                      style={styles.buttonStyle}
+                      onPress={() =>
+                        navigationRef.navigate(screenName.catalogueFilter)
+                      }
+                    >
                       <Text
                         style={{
                           fontSize: wp(24),
@@ -149,7 +170,12 @@ useEffect(()=>{
                     height: hp(500),
                   }}
                 >
-                  <TouchableOpacity style={{ alignSelf: "flex-end" }} onPress={()=>navigationRef.navigate(screenName.catalogueFilter)}>
+                  <TouchableOpacity
+                    style={{ alignSelf: "flex-end" }}
+                    onPress={() =>
+                      navigationRef.navigate(screenName.catalogueFilter)
+                    }
+                  >
                     <Image
                       resizeMode="contain"
                       style={{
@@ -226,7 +252,11 @@ useEffect(()=>{
                 >
                   {"Tutvu meie seadmetega"}
                 </Text>
-                <TouchableOpacity onPress={()=>navigationRef.navigate(screenName.catalogueFilter)}>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigationRef.navigate(screenName.catalogueFilter)
+                  }
+                >
                   <Text
                     style={{
                       fontSize: 15,
@@ -274,7 +304,10 @@ useEffect(()=>{
                   backgroundColor: colors.white,
                 }}
               >
-                <Image source={icons.rightBack} style={{ width: 20, height: 20 }} />
+                <Image
+                  source={icons.rightBack}
+                  style={{ width: 20, height: 20 }}
+                />
               </TouchableOpacity>
 
               <View style={{ flexDirection: "row", alignSelf: "center" }}>
@@ -302,8 +335,8 @@ useEffect(()=>{
                 height: 600,
                 backgroundColor: "#E5E1CC",
                 alignItems: "center",
-                justifyContent: 'center',
-                flexDirection: 'row'
+                justifyContent: "center",
+                flexDirection: "row",
               }}
             >
               <View>
@@ -313,10 +346,11 @@ useEffect(()=>{
                     fontFamily: fontFamily.bold,
                     // letterSpacing: -2.84,
                     color: colors.black,
-                    lineHeight: 115
+                    lineHeight: 115,
                   }}
                 >
-                  {"Tark"}<Text style={{ color: colors.roheline }}>{"\nRent"}</Text>
+                  {"Tark"}
+                  <Text style={{ color: colors.roheline }}>{"\nRent"}</Text>
                 </Text>
                 <Text
                   style={{
@@ -329,46 +363,124 @@ useEffect(()=>{
                   }}
                 >{`Toolscab sündis Marie Kondo filosoofiast hoida\nelus ainult neid asju mis toovad su ellu rõõmu.\nEsemed mida me kasutame harva hakkavad\nrõõmu toomise asemel kapis ruumi võtma.\nToolscabi visiooniks on anda sulle tööriistad,\net saaksid keskenduda projektile mis parajasti käsil.`}</Text>
               </View>
-              <Image source={icons.phoneImg} style={{ width: 390, height: 510 }} resizeMode="contain" />
+              <Image
+                source={icons.phoneImg}
+                style={{ width: 390, height: 510 }}
+                resizeMode="contain"
+              />
             </View>
             <FooterView />
           </ScrollView>
         </View>
-        :
+      ) : (
         <View>
           <ScrollView>
             <View style={styles.content_1}>
-              <View style={{ position: 'absolute', paddingLeft: heightPercentageToDP(2), paddingTop: 60 }}>
-                <Text style={{ lineHeight: 40, letterSpacing: -2, ...defaultFont('600_o', 35, colors.black) }}>{"Isetegemise\nrõõmuks!"}</Text>
-                <Text style={{ ...defaultFont(400, 11.25, colors.black) }}>Eesti esimene minutipõhine tööriistarent</Text>
-                <TouchableOpacity style={styles.buttonStyle2} onPress={()=>navigationRef.navigate(screenName.catalogueFilter)}>
-                  <Text style={{ ...defaultFont(600, 13, colors.roheline) }} >
+              <View
+                style={{
+                  position: "absolute",
+                  paddingLeft: heightPercentageToDP(2),
+                  paddingTop: 30,
+                }}
+              >
+                <TouchableOpacity
+                  onPress={() => {
+                    navigationRef.navigate(screenName.catalogueSearch);
+                  }}
+                  style={{ width: 280, height: 80 }}
+                >
+                  <Image
+                    source={icons.searchboxPointer}
+                    style={styles.serachIconStyleMob}
+                    // resizeMode="cover"
+                  />
+                </TouchableOpacity>
+                <Text
+                  style={{
+                    lineHeight: 40,
+                    letterSpacing: -2,
+                    ...defaultFont("600_o", 35, colors.black),
+                  }}
+                >
+                  {"Isetegemise\nrõõmuks!"}
+                </Text>
+                <Text style={{ ...defaultFont(400, 11.25, colors.black) }}>
+                  Eesti esimene minutipõhine tööriistarent
+                </Text>
+                <TouchableOpacity
+                  style={styles.buttonStyle2}
+                  onPress={() =>
+                    navigationRef.navigate(screenName.catalogueFilter)
+                  }
+                >
+                  <Text style={{ ...defaultFont(600, 13, colors.roheline) }}>
                     {"Vaata seadmeid"}
                   </Text>
-                  <Image resizeMode="contain" style={{ height: 10, width: 10, marginLeft: 5 }} source={icons.right_arrow} />
+                  <Image
+                    resizeMode="contain"
+                    style={{ height: 10, width: 10, marginLeft: 5 }}
+                    source={icons.right_arrow}
+                  />
                 </TouchableOpacity>
               </View>
-              <Image resizeMode="contain" style={styles.userimageStyleMobile} source={icons.userImg} />
+              <Image
+                resizeMode="contain"
+                style={styles.userimageStyleMobile}
+                source={icons.userImg}
+              />
             </View>
-            <Image resizeMode="contain" style={{ width: wp(700), height: hp(200), resizeMode: 'contain', alignSelf: 'center', marginVertical: heightPercentageToDP(6) }} source={icons.esimene} />
+            <Image
+              resizeMode="contain"
+              style={{
+                width: wp(700),
+                height: hp(200),
+                resizeMode: "contain",
+                alignSelf: "center",
+                marginVertical: heightPercentageToDP(6),
+              }}
+              source={icons.esimene}
+            />
             {data.map((item, index) => {
               return (
-                <View style={[styles.stpesView, {
-                  borderTopStartRadius: (index == 1 || index == 3) ? 0 : 25,
-                  borderTopEndRadius: (index == 1 || index == 3) ? 25 : 0,
-                  borderBottomStartRadius: (index == 1 || index == 3) ? 25 : 0,
-                  borderBottomEndRadius: (index == 1 || index == 3) ? 0 : 25,
-                }]}>
-                  <Text style={defaultFont('600_o', 50, colors.roheline)}>{index + 1}</Text>
-                  <Text style={{ ...defaultFont(400, 14, colors.white), lineHeight: 20, marginLeft: 15 }}>{item}</Text>
+                <View
+                  style={[
+                    styles.stpesView,
+                    {
+                      borderTopStartRadius: index == 1 || index == 3 ? 0 : 25,
+                      borderTopEndRadius: index == 1 || index == 3 ? 25 : 0,
+                      borderBottomStartRadius:
+                        index == 1 || index == 3 ? 25 : 0,
+                      borderBottomEndRadius: index == 1 || index == 3 ? 0 : 25,
+                    },
+                  ]}
+                >
+                  <Text style={defaultFont("600_o", 50, colors.roheline)}>
+                    {index + 1}
+                  </Text>
+                  <Text
+                    style={{
+                      ...defaultFont(400, 14, colors.white),
+                      lineHeight: 20,
+                      marginLeft: 15,
+                    }}
+                  >
+                    {item}
+                  </Text>
                 </View>
-              )
+              );
             })}
-            <TouchableOpacity style={styles.buttonStyle3}  onPress={()=>navigationRef.navigate(screenName.catalogueFilter)}>
-              <Text style={{ ...defaultFont(600, 13, colors.roheline) }} >
+            <TouchableOpacity
+              style={styles.buttonStyle3}
+              onPress={() => navigationRef.navigate(screenName.catalogueFilter)}
+            >
+              <Text style={{ ...defaultFont(600, 13, colors.roheline) }}>
                 {"Vaata seadmeid"}
               </Text>
-              <Image resizeMode="contain" style={{ height: 10, width: 10, marginLeft: 5 }} source={icons.right_arrow} />
+              <Image
+                resizeMode="contain"
+                style={{ height: 10, width: 10, marginLeft: 5 }}
+                source={icons.right_arrow}
+              />
             </TouchableOpacity>
             <Text style={styles.title}>{"Tutvu meie\nseadmetega"}</Text>
             <FlatList
@@ -382,7 +494,13 @@ useEffect(()=>{
               showsHorizontalScrollIndicator={false}
             />
 
-            <View style={{ flexDirection: "row", alignSelf: "center", marginVertical: heightPercentageToDP(4) }}>
+            <View
+              style={{
+                flexDirection: "row",
+                alignSelf: "center",
+                marginVertical: heightPercentageToDP(4),
+              }}
+            >
               {catalogueList.map((item, index) => {
                 return (
                   <View>
@@ -405,24 +523,40 @@ useEffect(()=>{
               <Text
                 style={{
                   lineHeight: 80,
-                  ...defaultFont('600_o', 64, colors.black)
+                  ...defaultFont("600_o", 64, colors.black),
                 }}
               >
-                {"Tark"}<Text style={{ color: colors.roheline }}>{"\nRent"}</Text>
+                {"Tark"}
+                <Text style={{ color: colors.roheline }}>{"\nRent"}</Text>
               </Text>
 
-              <Image source={icons.phoneImg} style={styles.mobileImage} resizeMode="contain" />
-              <Text style={{ ...defaultFont(400, 14, colors.black), marginTop: heightPercentageToDP(4), lineHeight: 21 }}>Toolscab sündis Marie Kondo filosoofiast hoida elus ainult neid asju mis toovad su ellu rõõmu. Esemed mida me kasutame harva hakkavad rõõmu toomise asemel kapis ruumi võtma. Toolscabi visiooniks on anda sulle tööriistad, et saaksid keskenduda projektile mis parajasti käsil.</Text>
+              <Image
+                source={icons.phoneImg}
+                style={styles.mobileImage}
+                resizeMode="contain"
+              />
+              <Text
+                style={{
+                  ...defaultFont(400, 14, colors.black),
+                  marginTop: heightPercentageToDP(4),
+                  lineHeight: 21,
+                }}
+              >
+                Toolscab sündis Marie Kondo filosoofiast hoida elus ainult neid
+                asju mis toovad su ellu rõõmu. Esemed mida me kasutame harva
+                hakkavad rõõmu toomise asemel kapis ruumi võtma. Toolscabi
+                visiooniks on anda sulle tööriistad, et saaksid keskenduda
+                projektile mis parajasti käsil.
+              </Text>
             </View>
 
             <FooterView />
           </ScrollView>
         </View>
-      }
+      )}
     </View>
   );
 };
-
 
 //make this component available to the app
 export default HomeScreen;

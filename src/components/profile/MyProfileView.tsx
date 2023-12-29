@@ -99,7 +99,9 @@ const MyProfileView = ({ data }: Props) => {
       alert("Palun sisesta oma eesnimi");
     } else if (testInputData?.personalNo.trim().length == 0) {
       alert("Palun sisestage omaisikukood");
-    } else if (testInputData?.emailId.trim().length === 0) {
+    }else if (testInputData?.personalNo.trim().length < 11) {
+      alert("Sisestage oma isikukoodiks maksimaalselt 11 numbrit");
+    }  else if (testInputData?.emailId.trim().length === 0) {
       alert("Palun sisestage oma e-posti aadress");
     } else if (!emailCheck(testInputData?.emailId)) {
       alert("Sisestage oma kehtiv e-posti aadress");
@@ -132,7 +134,15 @@ const MyProfileView = ({ data }: Props) => {
           };
           dispatch(getProfileMethods(obj));
         },
-        onFailure: (error: any) => {},
+        onFailure: (error: any) => {
+          const errorValue = error?.detail.includes(
+            "Cannot insert duplicate key row in object"
+          );
+          errorValue &&
+            alert(
+              "E-post on juba kasutusel Palun värskendage oma e-posti aadressi"
+            );
+        },
       };
       dispatch(userSaveProfile(obj));
     }
