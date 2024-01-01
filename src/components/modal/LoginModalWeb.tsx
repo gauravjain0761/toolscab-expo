@@ -121,6 +121,7 @@ const LoginModalWeb = ({ isVisible, onClose }: Props) => {
               onChangeText={(text) =>
                 setTestInputData({ ...testInputData, password: text })
               }
+              secureTextEntry={true}
             />
             <Text>Unustasid parooli?</Text>
             <CommonGreenBtn

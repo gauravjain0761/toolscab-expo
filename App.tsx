@@ -26,7 +26,7 @@ const Main = () => {
   const toggleDrawer = useSelector(e => e.home.toggleDrawer)
   return (
     <View style={{ flex: 1 }}>
-      <StatusBar barStyle={'light-content'} />
+      <StatusBar barStyle={'light-content'} backgroundColor={colors.headerBG} />
       <MainNavigator />
       {Platform.OS !== 'web' && <AppDrawerModalMobile isVisible={toggleDrawer} />}
     </View>

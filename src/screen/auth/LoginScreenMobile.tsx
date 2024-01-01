@@ -111,6 +111,7 @@ const LoginScreenMobile = () => {
             onChangeText={(text) =>
               setTestInputData({ ...testInputData, password: text })
             }
+            secureTextEntry={true}
           />
           <Text
             style={{

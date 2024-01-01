@@ -1203,13 +1203,13 @@ console.log('locationId',locationId);
                   aircon={item?.aircon}
                   volumeflow={item?.volumeflow}
                   hoselength={item?.hoselength}
-                  listStyle={{ ...defaultFont(400, 12, colors.filterText) }}
+                  listStyle={{ ...defaultFont(400, 10, colors.filterText) }}
                   titleStyle={{
-                    ...defaultFont(700, 14, colors.black),
+                    ...defaultFont(700, 12, colors.black),
                     marginBottom: 10,
                   }}
                   labelStyle={{
-                    ...defaultFont(400, 12, colors.black),
+                    ...defaultFont(400, 10, colors.black),
                     marginBottom: 5,
                   }}
                 />

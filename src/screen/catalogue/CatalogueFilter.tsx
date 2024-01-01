@@ -3,44 +3,29 @@ import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
-  TouchableOpacity,
   FlatList,
-  useWindowDimensions,
   Image,
   ImageBackground,
   Platform,
   ScrollView,
 } from "react-native";
 import { colors } from "../../theme/Colors";
-import {
-  CheckboxView,
-  DropDownMenu,
-  FooterView,
-  Header,
-  ProductFilterModalMobile,
-  ProductView,
-} from "../../components";
-import { hp, screen_height, screen_width } from "../../helper/globalFunctions";
-import { SCREEN_WIDTH, commonFontStyle } from "../../theme/Fonts";
+import { FooterView, Header, ProductView } from "../../components";
+
+import { commonFontStyle } from "../../theme/Fonts";
 import { fontFamily, screenName } from "../../helper/constants";
 import HeaderBottomPathView from "../../components/reusableComponent/HeaderBottomPathView";
 import { icons } from "../../theme/Icons";
-import {
-  heightPercentageToDP,
-  widthPercentageToDP,
-} from "react-native-responsive-screen";
+
 import { useNavigation } from "@react-navigation/native";
 import { styles } from "./CatalogueFilterStyle";
-import { checkList, filterData } from "../../helper/constantData";
+
 import { useDispatch, useSelector } from "react-redux";
 import {
   getCatalogueCategoryProductsAction,
   getCatalogueCategorySearchAction,
-  getCatalogueFilterFormAction,
   getProductAction,
-  postcatalogueFilterProductAction,
 } from "../../actions/catalogueAction";
-import CommonGreenBtn from "../../components/reusableComponent/CommonGreenBtn";
 
 // create a component
 const ProductcartList = ({
@@ -70,7 +55,7 @@ const ProductcartList = ({
 
         setShowProduct(finalADD);
       },
-      onFailure: () => { },
+      onFailure: () => {},
     };
     dispatch(getCatalogueCategoryProductsAction(obj));
   };
@@ -86,7 +71,7 @@ const ProductcartList = ({
       onSuccess: (res: any) => {
         navigationRef.navigate(screenName.productDetail);
       },
-      onFailure: () => { },
+      onFailure: () => {},
     };
     dispatch(getProductAction(obj));
   };
@@ -152,94 +137,19 @@ const ProductcartList = ({
 const CatalogueFilter = () => {
   const navigationRef = useNavigation();
   const [showProduct, setShowProduct] = useState([]);
-  const [filterModal, setFilterModal] = useState(false);
-  const [catalogueFilter, setCatalogueFilter] = useState([]);
-  const [cityList, setCityList] = useState([]);
-  const [typeList, setTypeList] = useState([]);
-  const [brandList, setBrandsList] = useState([]);
-  const [catalogueId, setCatalogueId] = useState([]);
 
   const dispatch = useDispatch();
-  const {
-    catalogueCategorySearchList: catalogueList,
-    catalogueCategoryProductList: CategoryProductList,
-  } = useSelector((state) => state.catalogue);
+  const { catalogueCategorySearchList: catalogueList } = useSelector(
+    (state) => state.catalogue
+  );
 
   useEffect(() => {
     const obj = {
-      onSuccess: (res: any) => { },
-      onFailure: () => { },
+      onSuccess: (res: any) => {},
+      onFailure: () => {},
     };
     dispatch(getCatalogueCategorySearchAction(obj));
-    const obj1 = {
-      onSuccess: (res: any) => {
-        setCatalogueFilter(res);
-      },
-      onFailure: () => { },
-    };
-    dispatch(getCatalogueFilterFormAction(obj1));
   }, []);
-
-  const onSelectPress = (item: any) => {
-    setCatalogueId(item);
-  };
-  const onFilterPress = () => {
-    const obj = {
-      data: {
-        product_category_id: catalogueId?.product_category_id,
-        statuses: ["Online"],
-        cities: cityList,
-        brands: brandList,
-        types: typeList,
-      },
-      data1: {
-        brand: catalogueId?.category_title,
-      },
-      onSuccess: (res: any) => {
-        const finalADD = [
-          // {
-          //   brand: catalogueId?.category_title,
-          // },
-          ...res,
-        ];
-        setShowProduct(finalADD);
-      },
-      onFailure: () => { },
-    };
-    dispatch(postcatalogueFilterProductAction(obj));
-  };
-  const onResetFilterPress = () => {
-    setBrandsList([]), setCityList([]), setTypeList([]);
-    setCatalogueId([]);
-    setShowProduct([]);
-  };
-  const onBrandPress = (res) => {
-    const update = brandList.filter((item) => item === res);
-    if (update?.length) {
-      const update = brandList.filter((item) => item !== res);
-      setBrandsList(update);
-    } else {
-      setBrandsList([...brandList, res]);
-    }
-  };
-  const onCitysPress = (res) => {
-    const update = cityList.filter((item) => item === res);
-    if (update?.length) {
-      const update = cityList.filter((item) => item !== res);
-      setCityList(update);
-    } else {
-      setCityList([...cityList, res]);
-    }
-  };
-  const onTypePress = (res) => {
-    const update = typeList.filter((item) => item === res);
-    if (update?.length) {
-      const update = typeList.filter((item) => item !== res);
-      setTypeList(update);
-    } else {
-      setTypeList([...typeList, res]);
-    }
-  };
 
   const onCataloguePressMobile = (res) => {
     const obj = {
@@ -252,28 +162,9 @@ const CatalogueFilter = () => {
       onSuccess: (res: any) => {
         navigationRef.navigate(screenName.catalogueProductsMobile);
       },
-      onFailure: () => { },
+      onFailure: () => {},
     };
     dispatch(getCatalogueCategoryProductsAction(obj));
-  };
-
-  const onFilterPressMobile = (res) => {
-    const upfdate = catalogueList?.filter(
-      (item) => item?.product_category_id == res?.product_category_id
-    );
-
-    const obj = {
-      data: res,
-      data1: {
-        brand: upfdate[0]?.category_title,
-      },
-      onSuccess: (res: any) => {
-        setFilterModal(false);
-        navigationRef.navigate(screenName.catalogueProductsMobile);
-      },
-      onFailure: () => { },
-    };
-    dispatch(postcatalogueFilterProductAction(obj));
   };
 
   return Platform.OS == "web" ? (
@@ -290,82 +181,6 @@ const CatalogueFilter = () => {
           }}
         />
         <View style={styles.containerBody}>
-          {/* <View style={styles.leftView}>
-            <Text style={styles.leftHeaderText}>Tootekategooriad</Text>
-            {catalogueList?.map((item: any) => {
-              return (
-                <TouchableOpacity
-                  onPress={() => {
-                    onSelectPress(item);
-                  }}
-                >
-                  <Text
-                    style={[
-                      styles.leftHeaderItemText,
-                      {
-                        fontFamily:
-                          //@ts-ignore
-                          // showProduct[0]?.brand === item?.category_title ||
-                          catalogueId?.category_title === item?.category_title
-                            ? fontFamily.articulat_bold
-                            : fontFamily.articulat_normal,
-                      },
-                    ]}
-                  >
-                    {item?.category_title}
-                  </Text>
-                </TouchableOpacity>
-              );
-            })}
-            <Text style={[styles.leftHeaderText, { marginTop: hp(32) }]}>
-              Filtreeri
-            </Text>
-            <DropDownMenu />
-            <View style={{ marginTop: 16 }}>
-              <CheckboxView
-                title={"kaubamärgid"}
-                list={catalogueFilter?.brands}
-                selectData={brandList}
-                onPressItem={(item) => onBrandPress(item)}
-              />
-              <CheckboxView
-                title={"linnad"}
-                list={catalogueFilter?.cities}
-                selectData={cityList}
-                onPressItem={(item) => onCitysPress(item)}
-              />
-              <CheckboxView
-                title={"tüübid"}
-                list={catalogueFilter?.types}
-                selectData={typeList}
-                onPressItem={(item) => onTypePress(item)}
-              />
-            </View>
-            <CommonGreenBtn
-              title="kohaldadas"
-              onPress={() => {
-                onFilterPress();
-              }}
-              style={{
-                borderColor: colors.headerBG,
-                marginLeft: 10,
-                width: widthPercentageToDP(7),
-                marginTop: 50,
-              }}
-            />
-            <CommonGreenBtn
-              title="lähtestada"
-              onPress={() => {
-                onResetFilterPress();
-              }}
-              style={{
-                borderColor: colors.headerBG,
-                marginLeft: 10,
-                width: widthPercentageToDP(7),
-                marginTop: 20,
-              }}
-            />
-          </View> */}
           <View style={styles.rightView}>
             {showProduct?.length == 0 ? (
               <ProductcartList
@@ -416,7 +231,6 @@ const CatalogueFilter = () => {
                   //@ts-ignorez
                   onCataloguePressMobile(item)
                 }
-
                 mainView={true}
               />
             );
@@ -429,19 +243,6 @@ const CatalogueFilter = () => {
         ></Image>
         <FooterView />
       </ScrollView>
-      {/* <TouchableOpacity
-        style={styles.filterView}
-        onPress={() => setFilterModal(true)}
-      >
-        <Image style={styles.filterIcon} source={icons.filterMobileIcon} />
-      </TouchableOpacity> */}
-      <ProductFilterModalMobile
-        isVisible={filterModal}
-        onClose={() => setFilterModal(false)}
-        onFilterPressMobile={(res) => {
-          onFilterPressMobile(res);
-        }}
-      />
     </View>
   );
 };

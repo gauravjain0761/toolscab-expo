@@ -5,22 +5,15 @@ import {
   Text,
   FlatList,
   Image,
-  ImageBackground,
   Platform,
   ScrollView,
   TextInput,
   TouchableOpacity,
 } from "react-native";
 import { colors } from "../../theme/Colors";
-import {
-  FooterView,
-  Header,
-  ProductFilterModalMobile,
-  ProductView,
-} from "../../components";
-import { SCREEN_WIDTH, commonFontStyle } from "../../theme/Fonts";
+import { FooterView, Header, ProductView } from "../../components";
+import { commonFontStyle } from "../../theme/Fonts";
 import { fontFamily, screenName } from "../../helper/constants";
-import HeaderBottomPathView from "../../components/reusableComponent/HeaderBottomPathView";
 import { icons } from "../../theme/Icons";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { styles } from "./CatalogueFilterStyle";
@@ -28,10 +21,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   catalogueCategorySearchAction,
   getCatalogueCategoryProductsAction,
-  getCatalogueCategorySearchAction,
-  getCatalogueFilterFormAction,
   getProductAction,
-  postcatalogueFilterProductAction,
 } from "../../actions/catalogueAction";
 
 // create a component
@@ -149,57 +139,14 @@ const CatalogueSearch = () => {
   const navigationRef = useNavigation();
   const [showProduct, setShowProduct] = useState([]);
   const [searchValue, setSearchValue] = useState("");
-  const [filterModal, setFilterModal] = useState(false);
-  const [catalogueFilter, setCatalogueFilter] = useState([]);
-  const [cityList, setCityList] = useState([]);
-  const [typeList, setTypeList] = useState([]);
-  const [brandList, setBrandsList] = useState([]);
-  const [catalogueId, setCatalogueId] = useState([]);
   const isFocused = useIsFocused();
 
   const dispatch = useDispatch();
-  const {
-    catalogueCategorySearchList: catalogueList,
-    catalogueCategoryProductList: CategoryProductList,
-    catalogueSearchList,
-  } = useSelector((state) => state.catalogue);
+  const { catalogueSearchList } = useSelector((state) => state.catalogue);
 
   useEffect(() => {
-    const obj1 = {
-      onSuccess: (res: any) => {
-        setCatalogueFilter(res);
-      },
-      onFailure: () => {},
-    };
-    dispatch(getCatalogueFilterFormAction(obj1));
     setShowProduct([]);
   }, [isFocused]);
-
-  const onFilterPress = () => {
-    const obj = {
-      data: {
-        product_category_id: catalogueId?.product_category_id,
-        statuses: ["Online"],
-        cities: cityList,
-        brands: brandList,
-        types: typeList,
-      },
-      data1: {
-        brand: catalogueId?.category_title,
-      },
-      onSuccess: (res: any) => {
-        const finalADD = [
-          // {
-          //   brand: catalogueId?.category_title,
-          // },
-          ...res,
-        ];
-        setShowProduct(finalADD);
-      },
-      onFailure: () => {},
-    };
-    dispatch(postcatalogueFilterProductAction(obj));
-  };
 
   const onCataloguePressMobile = (res) => {
     const obj = {
@@ -215,25 +162,6 @@ const CatalogueSearch = () => {
       onFailure: () => {},
     };
     dispatch(getCatalogueCategoryProductsAction(obj));
-  };
-
-  const onFilterPressMobile = (res) => {
-    const upfdate = catalogueSearchList?.filter(
-      (item) => item?.product_category_id == res?.product_category_id
-    );
-
-    const obj = {
-      data: res,
-      data1: {
-        brand: upfdate[0]?.category_title,
-      },
-      onSuccess: (res: any) => {
-        setFilterModal(false);
-        navigationRef.navigate(screenName.catalogueProductsMobile);
-      },
-      onFailure: () => {},
-    };
-    dispatch(postcatalogueFilterProductAction(obj));
   };
 
   const onSearchPress = () => {
@@ -305,7 +233,9 @@ const CatalogueSearch = () => {
             <Image source={icons.search} style={styles.searchIconMob} />
           </TouchableOpacity>
         </View>
-       {catalogueSearchList.length > 0 && <Text style={styles.title}>Meie seadmed</Text>}
+        {catalogueSearchList.length > 0 && (
+          <Text style={styles.title}>Meie seadmed</Text>
+        )}
         <FlatList
           data={catalogueSearchList}
           numColumns={2}
@@ -325,27 +255,9 @@ const CatalogueSearch = () => {
             );
           }}
         />
-        {/* <Image
-          source={icons.imageBg}
-          resizeMode="cover"
-          style={styles.imageBgStyleMob}
-        ></Image> */}
-        <View style={{height:200}}/>
+        <View style={{ height: 200 }} />
         <FooterView />
       </ScrollView>
-      {/* <TouchableOpacity
-        style={styles.filterView}
-        onPress={() => setFilterModal(true)}
-      >
-        <Image style={styles.filterIcon} source={icons.filterMobileIcon} />
-      </TouchableOpacity> */}
-      <ProductFilterModalMobile
-        isVisible={filterModal}
-        onClose={() => setFilterModal(false)}
-        onFilterPressMobile={(res) => {
-          onFilterPressMobile(res);
-        }}
-      />
     </View>
   );
 };

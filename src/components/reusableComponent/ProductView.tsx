@@ -11,7 +11,12 @@ import {
   TextStyle,
 } from "react-native";
 import { colors } from "../../theme/Colors";
-import { catalogueImg, screen_height, screen_width, wp } from "../../helper/globalFunctions";
+import {
+  catalogueImg,
+  screen_height,
+  screen_width,
+  wp,
+} from "../../helper/globalFunctions";
 import { SCREEN_WIDTH, commonFontStyle } from "../../theme/Fonts";
 import { fontFamily } from "../../helper/constants";
 import { icons } from "../../theme/Icons";
@@ -33,7 +38,7 @@ type Props = {
   titleStyle?: TextStyle;
   listStyle?: TextStyle;
   product_category_id: any;
-  banner:any
+  banner: any;
 };
 const ProductView = ({
   heading,
@@ -50,7 +55,7 @@ const ProductView = ({
   titleStyle,
   listStyle,
   product_category_id,
-  banner
+  banner,
 }: Props) => {
   return Platform.OS == "web" ? (
     <>
@@ -170,10 +175,7 @@ const ProductView = ({
             }}
             onPress={() => onSelectPress()}
           >
-            <Image
-              source={icons.rightBack}
-              style={{ width: 20, height: 20 }}
-            />
+            <Image source={icons.rightBack} style={{ width: 20, height: 20 }} />
           </TouchableOpacity>
         </View>
       </TouchableOpacity>
@@ -221,7 +223,7 @@ const ProductView = ({
               <>
                 <Text
                   style={[
-                    { ...defaultFont(400, 8, colors.black) },
+                    { marginTop: 5, ...defaultFont(400, 9, colors.black) },
                     labelStyle,
                   ]}
                 >
@@ -231,7 +233,8 @@ const ProductView = ({
                   style={[
                     {
                       marginBottom: 5,
-                      ...defaultFont(700, 10, colors.black),
+                      marginTop: 5,
+                      ...defaultFont(700, 11, colors.black),
                     },
                     titleStyle,
                   ]}
@@ -241,7 +244,7 @@ const ProductView = ({
                 <Text
                   style={[
                     {
-                      ...defaultFont(400, 8, colors.filterText),
+                      ...defaultFont(400, 9, colors.filterText),
                     },
                     listStyle,
                   ]}
@@ -251,7 +254,7 @@ const ProductView = ({
                 <Text
                   style={[
                     {
-                      ...defaultFont(400, 8, colors.filterText),
+                      ...defaultFont(400, 9, colors.filterText),
                     },
                     listStyle,
                   ]}
@@ -261,7 +264,7 @@ const ProductView = ({
                 <Text
                   style={[
                     {
-                      ...defaultFont(400, 8, colors.filterText),
+                      ...defaultFont(400, 9, colors.filterText),
                     },
                     listStyle,
                   ]}
@@ -275,18 +278,13 @@ const ProductView = ({
             style={styles.backImageView}
             onPress={() => onSelectPress()}
           >
-            <Image
-              source={icons.rightBack}
-              style={{ width: 13, height: 13 }}
-            />
+            <Image source={icons.rightBack} style={{ width: 13, height: 13 }} />
           </TouchableOpacity>
         </View>
       </TouchableOpacity>
       {/* )} */}
     </>
   );
-
-
 };
 
 // define your styles
@@ -319,7 +317,7 @@ const styles = StyleSheet.create({
     width: (SCREEN_WIDTH - heightPercentageToDP(13)) / 2,
     height: (SCREEN_WIDTH - heightPercentageToDP(13)) / 2,
     alignSelf: "center",
-    marginTop:6
+    marginTop: 6,
   },
   bottomRow: {
     flexDirection: "row",

@@ -9,7 +9,7 @@ export function commonFontStyle(
   return {
     fontFamily: fontFamily,
     // fontSize: fontSize(size),
-    fontSize: size+2,
+    fontSize: size + 3,
     color: color,
     includeFontPadding: false,
   };
@@ -43,7 +43,7 @@ export function getFontType(fontWeight: any) {
 export const defaultFont = (fontWeight: any, fontSize: any, color: any) => {
   return {
     fontFamily: getFontType(fontWeight),
-    fontSize: actuatedNormalize(fontSize - 2),
+    fontSize: actuatedNormalize(fontSize+1),
     color: color,
     includeFontPadding: false,
   };

@@ -12,7 +12,11 @@ import { commonFontStyle, defaultFont } from "../../theme/Fonts";
 import { fontFamily } from "../../helper/constants";
 import { colors } from "../../theme/Colors";
 import { icons } from "../../theme/Icons";
-import { countryCode, emailCheck, screen_width } from "../../helper/globalFunctions";
+import {
+  countryCode,
+  emailCheck,
+  screen_width,
+} from "../../helper/globalFunctions";
 import { useDispatch, useSelector } from "react-redux";
 import { CountryPicker } from "react-native-country-codes-picker";
 import { getProfileMethods, userSaveProfile } from "../../actions/authAction";
@@ -48,29 +52,53 @@ const TowValueInput = ({
   textStyle,
   onChangeText,
   maxLength,
+  showNewTextInput,
+  textInputStyle,
+  value1,
+  onChangeText1,
 }: any) => {
   if (Platform.OS == "web") {
     return (
       <View style={[styles.container, { marginTop: 12 }]}>
         <Text style={styles.itemText}>{title}</Text>
-        <TextInput
-          value={value}
-          onChangeText={onChangeText}
-          style={styles.inputStyle}
-          maxLength={maxLength}
-        />
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <TextInput
+            value={value}
+            onChangeText={onChangeText}
+            style={[styles.inputStyle, textInputStyle]}
+            maxLength={maxLength}
+          />
+          {showNewTextInput && (
+            <TextInput
+              value={value1}
+              onChangeText={onChangeText1}
+              style={[styles.inputStyle, { marginLeft: 10 }, textInputStyle]}
+              maxLength={maxLength}
+            />
+          )}
+        </View>
       </View>
     );
   } else {
     return (
       <View style={[styles.containerMob, { marginTop: 12 }]}>
         <Text style={styles.itemTextMob}>{title}</Text>
-        <TextInput
-          value={value}
-          onChangeText={onChangeText}
-          style={[styles.inputStyle, { width: 190 }]}
-          maxLength={maxLength}
-        />
+        <View style={{}}>
+          <TextInput
+            value={value}
+            onChangeText={onChangeText}
+            style={[styles.inputStyle, { width: 190 }]}
+            maxLength={maxLength}
+          />
+          {showNewTextInput && (
+            <TextInput
+              value={value1}
+              onChangeText={onChangeText1}
+              style={[styles.inputStyle, { marginTop:5 }, textInputStyle]}
+              maxLength={maxLength}
+            />
+          )}
+        </View>
       </View>
     );
   }
@@ -78,18 +106,15 @@ const TowValueInput = ({
 
 const MyProfileView = ({ data }: Props) => {
   const [isSelect, setIsSelect] = useState(true);
-  const { getProfileList } = useSelector((state) => state.profile);
-  const [show, setShow] = useState(false);
-  console.log("getProfileList", getProfileList);
 
   const [testInputData, setTestInputData] = useState({
     firstName: data?.first_name,
+    lastName: data?.last_name,
     emailId: data?.email,
     mobileNo: data?.mobile.toString(),
     code: data?.country,
     personalNo: data?.social_sec_no,
   });
-  console.log("testInputData", getProfileList);
 
   const dispatch = useDispatch();
 
@@ -97,16 +122,16 @@ const MyProfileView = ({ data }: Props) => {
     const customer = await getAsyncUserInfo();
     if (testInputData?.firstName.trim().length === 0) {
       alert("Palun sisesta oma eesnimi");
+    } else if (testInputData?.lastName.trim().length === 0) {
+      alert("Palun sisestage oma perekonnanimi");
     } else if (testInputData?.personalNo.trim().length == 0) {
       alert("Palun sisestage omaisikukood");
-    }else if (testInputData?.personalNo.trim().length < 11) {
+    } else if (testInputData?.personalNo.trim().length < 11) {
       alert("Sisestage oma isikukoodiks maksimaalselt 11 numbrit");
-    }  else if (testInputData?.emailId.trim().length === 0) {
+    } else if (testInputData?.emailId.trim().length === 0) {
       alert("Palun sisestage oma e-posti aadress");
     } else if (!emailCheck(testInputData?.emailId)) {
       alert("Sisestage oma kehtiv e-posti aadress");
-    } else if (testInputData.code.trim().length == 0) {
-      alert("Sisestage oma riigikood.");
     } else if (testInputData?.mobileNo.length === 0) {
       alert("Palun sisestage oma mobiilinumber.");
     } else {
@@ -114,11 +139,10 @@ const MyProfileView = ({ data }: Props) => {
         data: {
           customer_id: customer,
           first_name: testInputData?.firstName,
-          last_name: data?.last_name,
+          last_name: testInputData?.lastName,
           current_balance: 0,
           mobile: testInputData?.mobileNo,
           email: testInputData?.emailId,
-          country: testInputData?.code,
           news_subscription: 0,
           social_sec_no: testInputData?.personalNo,
         },
@@ -155,18 +179,26 @@ const MyProfileView = ({ data }: Props) => {
           {isSelect ? (
             <TowValue
               title="Nimi:"
-              value={`${data?.first_name}`}
+              value={`${data?.first_name} ${data?.last_name}`}
               textStyle={styles.textStyle}
             />
           ) : (
-            <TowValueInput
-              title="Nimi:"
-              value={testInputData?.firstName}
-              textStyle={styles.textStyle}
-              onChangeText={(text) => {
-                setTestInputData({ ...testInputData, firstName: text });
-              }}
-            />
+            <>
+              <TowValueInput
+                title="Nimi:"
+                value={testInputData?.firstName}
+                value1={testInputData?.lastName}
+                textStyle={styles.textStyle}
+                onChangeText={(text) => {
+                  setTestInputData({ ...testInputData, firstName: text });
+                }}
+                onChangeText1={(text) => {
+                  setTestInputData({ ...testInputData, lastName: text });
+                }}
+                textInputStyle={{ width: 160 }}
+                showNewTextInput={true}
+              />
+            </>
           )}
           {isSelect ? (
             <TowValue title="Isikukood" value={data?.social_sec_no} />
@@ -196,20 +228,20 @@ const MyProfileView = ({ data }: Props) => {
           {isSelect ? (
             <TowValue
               title="Telefoninumber"
-              value={`${data?.country} ${data?.mobile}`}
+              value={`${data?.mobile}`}
             />
           ) : (
             <View style={[styles.container, { marginTop: 12 }]}>
               <Text style={styles.itemText}>{"Telefoninumber"}</Text>
               <View style={{ flexDirection: "row" }}>
-                <TextInput
+                {/* <TextInput
                   value={testInputData.code}
                   onChangeText={(text) => {
                     setTestInputData({ ...testInputData, code: text });
                   }}
                   maxLength={2}
                   style={[styles.inputStyle, { width: 90, marginRight: 10 }]}
-                />
+                /> */}
                 <TextInput
                   value={testInputData?.mobileNo}
                   onChangeText={(text) => {
@@ -238,17 +270,6 @@ const MyProfileView = ({ data }: Props) => {
             {isSelect ? "Muuda" : "Salvesta"}
           </Text>
         </TouchableOpacity>
-        {/* <CountryPicker
-          show={show}
-          // when picker button press you will get the country object with dial code
-          pickerButtonOnPress={(item) => {
-            console.log("item", item);
-            setCountry(item?.dial_code);
-            setTestInputData({ ...testInputData, code: item?.code });
-            setShow(false);
-          }}
-          style={{ modal: { height: 500, alignSelf: "center" } }}
-        /> */}
       </View>
     );
   } else {
@@ -284,18 +305,24 @@ const MyProfileView = ({ data }: Props) => {
             {isSelect ? (
               <TowValue
                 title="Nimi:"
-                value={`${data?.first_name}`}
+                value={`${data?.first_name} ${data?.last_name}`}
                 textStyle={styles.textStyleMob}
               />
-            ) : (
+            ) : ( 
               <TowValueInput
-                title="Nimi:"
-                value={testInputData?.firstName}
-                textStyle={styles.textStyle}
-                onChangeText={(text) => {
-                  setTestInputData({ ...testInputData, firstName: text });
-                }}
-              />
+              title="Nimi:"
+              value={testInputData?.firstName}
+              value1={testInputData?.lastName}
+              textStyle={styles.textStyle}
+              onChangeText={(text) => {
+                setTestInputData({ ...testInputData, firstName: text });
+              }}
+              onChangeText1={(text) => {
+                setTestInputData({ ...testInputData, lastName: text });
+              }}
+              textInputStyle={{ width: 160 }}
+              showNewTextInput={true}
+            />
             )}
             {isSelect ? (
               <TowValue title="Isikukood" value={data?.social_sec_no} />
@@ -325,35 +352,31 @@ const MyProfileView = ({ data }: Props) => {
             {isSelect ? (
               <TowValue
                 title="Telefoninumber"
-                value={`${data?.country} ${data?.mobile}`}
+                value={`${data?.mobile}`}
               />
             ) : (
               <View style={[styles.container, { marginTop: 12 }]}>
                 <Text style={styles.itemText}>{"Telefoninumber"}</Text>
-                <View style={{ marginTop: 25 }}>
-                  <TextInput
+                <View style={{ }}>
+                  {/* <TextInput
                     value={testInputData.code}
                     onChangeText={(text) => {
                       setTestInputData({ ...testInputData, code: text });
                     }}
                     maxLength={2}
                     style={[styles.inputStyle, { width: 90 }]}
-                  />
+                  /> */}
                   <TextInput
                     value={testInputData?.mobileNo}
                     onChangeText={(text) => {
                       setTestInputData({ ...testInputData, mobileNo: text });
                     }}
-                    style={[styles.inputStyle, { width: 190, marginTop: 5 }]}
+                    style={[styles.inputStyle, { width: 190 }]}
                   />
                 </View>
               </View>
             )}
           </View>
-          {/* <View style={[styles.container,{alignSelf:'flex-start',marginRight:10}]}>
-        <Image source={icons.pen} style={{ width: 18, height: 18 }} />
-        <Text style={styles.headerText}>{"Muuda"}</Text>
-      </View> */}
         </View>
       </>
     );
@@ -452,7 +475,7 @@ const styles = StyleSheet.create({
   headerSubTextMob: {
     marginBottom: 5,
     ...defaultFont(400, 18, colors.black),
-    flex:1
+    flex: 1,
   },
   headerRightTextMob: {
     ...defaultFont(400, 18, colors.black),

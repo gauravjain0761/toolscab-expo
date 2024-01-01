@@ -61,9 +61,9 @@ const StackNavigator: FC = () => {
   };
   const HeaderLeft = ({ navigation, tintColor }: any) => {
     return (
-      <View>
+      <TouchableOpacity onPress={()=>navigate(screenName.homeScreen)}>
         <Image source={icons.appLogo} style={styles.appLogo} />
-      </View>
+      </TouchableOpacity>
     );
   };
 

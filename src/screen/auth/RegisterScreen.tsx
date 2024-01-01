@@ -80,8 +80,6 @@ const RegisterScreen = () => {
     confirmPassword: "",
     mobileNo: "",
   });
-  const [show, setShow] = useState(false);
-  const [countryCode, setCountryCode] = useState("");
   const dispatch = useDispatch();
 
   const onSubmitPress = () => {
@@ -93,7 +91,7 @@ const RegisterScreen = () => {
       alert("Palun sisestage oma e-posti aadress");
     } else if (testInputData?.personalNo.trim().length == 0) {
       alert("Palun sisestage omaisikukood");
-    }else if (testInputData?.personalNo.trim().length < 11) {
+    } else if (testInputData?.personalNo.trim().length < 11) {
       alert("Sisestage oma isikukoodiks maksimaalselt 11 numbrit");
     } else if (!emailCheck(testInputData?.emailId)) {
       alert("Sisestage oma kehtiv e-posti aadress");
@@ -105,8 +103,6 @@ const RegisterScreen = () => {
       testInputData?.confirmPassword.trim() !== testInputData?.password.trim()
     ) {
       alert("Teie parool ja kinnitusparool ei ühti.");
-    }  else if (countryCode.trim().length == 0) {
-      alert("Palun sisestage omariigi kood");
     } else if (testInputData?.mobileNo.trim().length === 0) {
       alert("Palun sisestage oma mobiilinumber.");
     } else if (!checkBox3) {
@@ -121,7 +117,6 @@ const RegisterScreen = () => {
           email: testInputData?.emailId,
           password: testInputData?.password,
           social_sec_no: testInputData?.personalNo,
-          country: countryCode,
           news_subscription: 0,
         },
         onSuccess: (res: any) => {
@@ -146,10 +141,10 @@ const RegisterScreen = () => {
             mobileNo: "",
             personalNo: "",
           });
-          setCountryCode("");
-          setCheckBox3(false)
-          setCheckBox1(false)
-          setCheckBox2(false)
+         
+          setCheckBox3(false);
+          setCheckBox1(false);
+          setCheckBox2(false);
         },
         onFailure: (error: any) => {
           const errorValue = error?.detail.includes(
@@ -165,7 +160,7 @@ const RegisterScreen = () => {
     }
   };
 
-  const closePress=()=>{
+  const closePress = () => {
     setTestInputData({
       firstName: "",
       lastName: "",
@@ -175,11 +170,10 @@ const RegisterScreen = () => {
       mobileNo: "",
       personalNo: "",
     });
-    setCountryCode("");
-    setCheckBox3(false)
-    setCheckBox1(false)
-    setCheckBox2(false)
-  }
+    setCheckBox3(false);
+    setCheckBox1(false);
+    setCheckBox2(false);
+  };
 
   if (Platform.OS === "web") {
     return (
@@ -193,8 +187,7 @@ const RegisterScreen = () => {
             <View style={styles.tabView}>
               <TouchableOpacity
                 onPress={() => {
-                  setSelectTab(1)
-                  closePress()
+                  setSelectTab(1);
                 }}
                 style={[
                   styles.tabBtn,
@@ -207,10 +200,10 @@ const RegisterScreen = () => {
                 <Text style={styles.tabText}>Erakonto</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() =>{
-                   setSelectTab(2)
-                   closePress()
-                  }}
+                onPress={() => {
+                  setSelectTab(2);
+
+                }}
                 style={[
                   styles.tabBtn,
                   {
@@ -261,6 +254,7 @@ const RegisterScreen = () => {
                     onChangeText={(text) =>
                       setTestInputData({ ...testInputData, password: text })
                     }
+                    secureTextEntry={true}
                   />
                   <InpuText
                     label={"Parool uuesti"}
@@ -271,31 +265,18 @@ const RegisterScreen = () => {
                         confirmPassword: text,
                       })
                     }
+                    secureTextEntry={true}
                   />
-                  <View
-                    style={{ width: screen_width * 0.25, flexDirection: "row" }}
-                  >
-                    <View style={{ marginRight: 10 }}>
-                      <InpuText
-                        label={"Riigi kood"}
-                        value={countryCode}
-                        onChangeText={(text) => setCountryCode(text)}
-                        style={{ width: screen_width * 0.05 }}
-                        maxLength={2}
-                      />
-                    </View>
-                    <InpuText
-                      label={"Mobiiltelefon"}
-                      value={testInputData?.mobileNo}
-                      onChangeText={(text) =>
-                        setTestInputData({
-                          ...testInputData,
-                          mobileNo: text,
-                        })
-                      }
-                      style={{ width: screen_width * 0.193 }}
-                    />
-                  </View>
+                  <InpuText
+                    label={"Mobiiltelefon"}
+                    value={testInputData?.mobileNo}
+                    onChangeText={(text) =>
+                      setTestInputData({
+                        ...testInputData,
+                        mobileNo: text,
+                      })
+                    }
+                  />
                 </>
               )}
               {selectTab == 2 && (
@@ -336,6 +317,8 @@ const RegisterScreen = () => {
                     onChangeText={(text) =>
                       setTestInputData({ ...testInputData, password: text })
                     }
+                    secureTextEntry={true}
+
                   />
                   <InpuText
                     label={"Parool uuesti"}
@@ -346,41 +329,22 @@ const RegisterScreen = () => {
                         confirmPassword: text,
                       })
                     }
+                    secureTextEntry={true}
+
                   />
-                  <View
-                    style={{ width: screen_width * 0.25, flexDirection: "row" }}
-                  >
-                    <View style={{ marginRight: 10 }}>
-                      <InpuText
-                        label={"Riigi kood"}
-                        value={countryCode}
-                        onChangeText={(text) => setCountryCode(text)}
-                        style={{ width: screen_width * 0.05 }}
-                        maxLength={2}
-                      />
-                    </View>
-                    <InpuText
-                      label={"Mobiiltelefon"}
-                      value={testInputData?.mobileNo}
-                      onChangeText={(text) =>
-                        setTestInputData({
-                          ...testInputData,
-                          mobileNo: text,
-                        })
-                      }
-                      style={{ width: screen_width * 0.193 }}
-                    />
-                  </View>
+                  <InpuText
+                    label={"Mobiiltelefon"}
+                    value={testInputData?.mobileNo}
+                    onChangeText={(text) =>
+                      setTestInputData({
+                        ...testInputData,
+                        mobileNo: text,
+                      })
+                    }
+                  />
+
                   <Text style={styles.headerText}>{"Ettevõtte info"}</Text>
-                  <InpuText label={"Firma"} />
                   <InpuText label={"Registrikood"} />
-                  <InpuText label={"KMKR"} />
-                  <Text style={styles.headerText}>{"Ettevõtte aadress"}</Text>
-                  <InpuText label={"Aadress"} />
-                  <InpuText label={"Linnd"} />
-                  <InpuText label={"Postiindeks"} />
-                  <InpuText label={"Riik"} />
-                  <InpuText label={"Mobiiltelefon (xxxxxxxx)"} />
                 </>
               )}
               <View style={{ height: 44 }} />
@@ -390,13 +354,13 @@ const RegisterScreen = () => {
                 select={checkBox1}
                 onSelectionChange={() => setCheckBox1(!checkBox1)}
               />
-              <CheckBoxView
+              {/* <CheckBoxView
                 select={checkBox2}
                 onSelectionChange={() => setCheckBox2(!checkBox2)}
                 title="Soovin edaspidi saada Toolscabilt turunduslikke pakkumisi (soodustused, kampaaniad, mängud) ja uudiseid. "
-              />
+              /> */}
               <Text
-                style={[styles.checkText, { marginLeft: -25, marginTop: 15 }]}
+                style={[styles.checkText, { marginLeft: 15, marginTop: 15 }]}
               >
                 Andmete töötlemise põhimõtetega saate tutvuda SIIN:{" "}
                 <Text style={{ color: colors.Roheline2 }}> vajuta siia</Text>
@@ -417,17 +381,6 @@ const RegisterScreen = () => {
           </View>
           <View style={{ height: 150 }} />
           <FooterView />
-          <CountryPicker
-            show={show}
-            // when picker button press you will get the country object with dial code
-            pickerButtonOnPress={(item) => {
-              console.log("item", item);
-
-              setCountryCode(item);
-              setShow(false);
-            }}
-            style={{ modal: { height: 500, alignSelf: "center" } }}
-          />
         </ScrollView>
       </View>
     );
@@ -444,8 +397,7 @@ const RegisterScreen = () => {
             <View style={styles.tabViewMob}>
               <TouchableOpacity
                 onPress={() => {
-                  setSelectTab(1)
-                  closePress()
+                  setSelectTab(1);
                 }}
                 style={[
                   styles.tabBtnMob,
@@ -459,9 +411,7 @@ const RegisterScreen = () => {
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
-
-                  setSelectTab(2)
-                  closePress()
+                  setSelectTab(2);
                 }}
                 style={[
                   styles.tabBtnMob,
@@ -492,7 +442,7 @@ const RegisterScreen = () => {
                       setTestInputData({ ...testInputData, lastName: text })
                     }
                   />
-                   <InpuText
+                  <InpuText
                     label={"Isikukood"}
                     value={testInputData?.personalNo}
                     onChangeText={(text) =>
@@ -513,7 +463,8 @@ const RegisterScreen = () => {
                     onChangeText={(text) =>
                       setTestInputData({ ...testInputData, password: text })
                     }
-                   
+                    secureTextEntry={true}
+
                   />
                   <InpuText
                     label={"Parool uuesti"}
@@ -524,34 +475,19 @@ const RegisterScreen = () => {
                         confirmPassword: text,
                       })
                     }
-                  
+                    secureTextEntry={true}
+
                   />
-                  <View
-                    style={{ width: screen_width * 0.8, flexDirection: "row" }}
-                  >
-                    <View style={{ marginRight: 10 }}>
-                      <InpuText
-                        label={"Riigi kood"}
-                        value={countryCode}
-                        onChangeText={(text) =>
-                          setCountryCode(text)
-                        }
-                        maxLength={2}
-                        style={{ width: screen_width * 0.2 }}
-                      />
-                    </View>
-                    <InpuText
-                      label={"Mobiiltelefon"}
-                      value={testInputData?.mobileNo}
-                      onChangeText={(text) =>
-                        setTestInputData({
-                          ...testInputData,
-                          mobileNo: text,
-                        })
-                      }
-                      style={{ width: screen_width * 0.67 }}
-                    />
-                  </View>
+                  <InpuText
+                    label={"Mobiiltelefon"}
+                    value={testInputData?.mobileNo}
+                    onChangeText={(text) =>
+                      setTestInputData({
+                        ...testInputData,
+                        mobileNo: text,
+                      })
+                    }
+                  />
                 </>
               )}
               {selectTab == 2 && (
@@ -573,7 +509,7 @@ const RegisterScreen = () => {
                       setTestInputData({ ...testInputData, lastName: text })
                     }
                   />
-                   <InpuText
+                  <InpuText
                     label={"Isikukood"}
                     value={testInputData?.personalNo}
                     onChangeText={(text) =>
@@ -594,7 +530,8 @@ const RegisterScreen = () => {
                     onChangeText={(text) =>
                       setTestInputData({ ...testInputData, password: text })
                     }
-                 
+                    secureTextEntry={true}
+
                   />
                   <InpuText
                     label={"Parool uuesti"}
@@ -605,46 +542,22 @@ const RegisterScreen = () => {
                         confirmPassword: text,
                       })
                     }
-          
+                    secureTextEntry={true}
+
                   />
-                   <View
-                    style={{ width: screen_width * 0.8, flexDirection: "row" }}
-                  >
-                    <View style={{ marginRight: 10 }}>
-                      <InpuText
-                        label={"Riigi kood"}
-                        value={countryCode}
-                        onChangeText={(text) =>
-                          setCountryCode(text)
-                        }
-                        maxLength={2}
-                        style={{ width: screen_width * 0.3 }}
-                      />
-                    </View>
-                    <InpuText
-                      label={"Mobiiltelefon"}
-                      value={testInputData?.mobileNo}
-                      onChangeText={(text) =>
-                        setTestInputData({
-                          ...testInputData,
-                          mobileNo: text,
-                        })
-                      }
-                      style={{ width: screen_width * 0.57 }}
-                    />
-                  </View>
+                  <InpuText
+                    label={"Mobiiltelefon"}
+                    value={testInputData?.mobileNo}
+                    onChangeText={(text) =>
+                      setTestInputData({
+                        ...testInputData,
+                        mobileNo: text,
+                      })
+                    }
+                  />
                   <Text style={styles.headerTextMob}>{"Ettevõtte info"}</Text>
-                  <InpuText label={"Firma"} />
+
                   <InpuText label={"Registrikood"} />
-                  <InpuText label={"KMKR"} />
-                  <Text style={styles.headerTextMob}>
-                    {"Ettevõtte aadress"}
-                  </Text>
-                  <InpuText label={"Aadress"} />
-                  <InpuText label={"Linnd"} />
-                  <InpuText label={"Postiindeks"} />
-                  <InpuText label={"Riik"} />
-                  <InpuText label={"Mobiiltelefon (xxxxxxxx)"} />
                 </>
               )}
 
@@ -655,11 +568,11 @@ const RegisterScreen = () => {
                 select={checkBox1}
                 onSelectionChange={() => setCheckBox1(!checkBox1)}
               />
-              <CheckBoxView
+              {/* <CheckBoxView
                 select={checkBox2}
                 onSelectionChange={() => setCheckBox2(!checkBox2)}
                 title="Soovin edaspidi saada Toolscabilt turunduslikke pakkumisi (soodustused, kampaaniad, mängud) ja uudiseid. "
-              />
+              /> */}
               <Text
                 style={[
                   styles.checkTextMob,
@@ -684,17 +597,7 @@ const RegisterScreen = () => {
             </View>
           </View>
           <View style={{ height: 150 }} />
-          <CountryPicker
-            show={show}
-            // when picker button press you will get the country object with dial code
-            pickerButtonOnPress={(item) => {
-              console.log("itemmmm", item);
 
-              setCountryCode(item);
-              setShow(false);
-            }}
-            style={{ modal: { height: 500, alignSelf: "center" } }}
-          />
           <FooterView />
         </ScrollView>
       </View>
