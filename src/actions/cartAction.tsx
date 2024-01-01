@@ -97,7 +97,7 @@ export const getActiveRentalsAction =
       method: POST,
       url: api.startRental,
       headers: headers,
-      params: request.params,
+      data: request.data,
     })
       .then(async (response: any) => {
         if (response.status === 200) {
@@ -105,7 +105,7 @@ export const getActiveRentalsAction =
         }
       })
       .catch((error) => {
-        alert(error?.response?.data?.detail);
+        alert(error?.response?.data?.title);
         if (request.onFailure) request.onFailure(error.response);
       });
   };
@@ -121,7 +121,7 @@ export const getActiveRentalsAction =
       method: POST,
       url: api.finishRental,
       headers: headers,
-      params: request.params,
+      data: request.data,
     })
       .then(async (response: any) => {
         if (response.status === 200) {

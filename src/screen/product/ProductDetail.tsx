@@ -69,8 +69,7 @@ const ProductDetail = (props: Props) => {
   const { getPaymentList } = useSelector((state) => state.cart);
   const [imageId, setImageId] = useState(productDetails?.photo_ids?.[0]);
 
-console.log('locationId',locationId);
-
+  console.log("locationId", locationId);
 
   const RenderRow = ({ title, value }: any) => {
     if (Platform.OS == "web") {
@@ -115,7 +114,7 @@ console.log('locationId',locationId);
     }
   };
 
-  const onCardItemClick = async (item:any) => {
+  const onCardItemClick = async (item: any) => {
     const customer = await getAsyncUserInfo();
     const obj = {
       params: {
@@ -220,7 +219,7 @@ console.log('locationId',locationId);
   return Platform.OS == "web" ? (
     <View style={styles.container}>
       <Header isMainScreen={false} />
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }} ref={scrollViewRef}>
         <View style={styles.mainContainer}>
           <HeaderBottomPathView
             heading={" Seadmed "}
@@ -273,11 +272,14 @@ console.log('locationId',locationId);
               </Text>
               <View style={styles.botomLine} />
               <View style={styles.priceView}>
-              
                 <View>
-              {productDetails?.banner &&  <View style={styles.bannerView}>
-                  <Text style={styles.bannerText}>{productDetails?.banner}</Text>
-                </View>}
+                  {productDetails?.banner && (
+                    <View style={styles.bannerView}>
+                      <Text style={styles.bannerText}>
+                        {productDetails?.banner}
+                      </Text>
+                    </View>
+                  )}
                   <Text style={styles.zeroText}>
                     {productDetails?.price ? productDetails?.price : "00"}
                     <Text style={{ fontSize: 60 }}></Text>
@@ -565,6 +567,7 @@ console.log('locationId',locationId);
                 <CommonGreenBtn
                   title="Rendi"
                   onPress={() => {
+                    scrollViewRef?.current.scrollTo(600);
                     setselectedTab(2);
                   }}
                 />
@@ -823,9 +826,13 @@ console.log('locationId',locationId);
           <View style={styles.bottomView}>
             <View>
               <View style={{ flex: 1 }}>
-                {productDetails?.banner &&<View style={styles.bannerViewMob}>
-                  <Text style={styles.bannerTextMob}>{productDetails?.banner}</Text>
-                </View>}
+                {productDetails?.banner && (
+                  <View style={styles.bannerViewMob}>
+                    <Text style={styles.bannerTextMob}>
+                      {productDetails?.banner}
+                    </Text>
+                  </View>
+                )}
 
                 <Text
                   style={{
@@ -1226,7 +1233,7 @@ console.log('locationId',locationId);
         <LoginPaymentModalWeb
           isVisible={loginPaymentModalWebShow}
           onClose={() => setLoginPaymentModalWebShow(false)}
-          oncomfirmPress={()=>{
+          oncomfirmPress={() => {
             setLoginPaymentModalWebShow(false);
             navigationRef.navigate(screenName.cartScreen);
           }}

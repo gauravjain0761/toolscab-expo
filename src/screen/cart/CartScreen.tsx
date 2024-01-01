@@ -68,10 +68,9 @@ const CartScreen = () => {
 
   const onActivePress = (item) => {
     const obj = {
-      params: {
+      data: {
         rental_id: item?.rental_id,
-        item_id: item?.item_id,
-        qr_code: item?.qr_code,
+        qr_codes: [item?.components?.[0]?.qr_code],
       },
       onSuccess: (res: any) => {
         navigationRef.navigate(screenName.profileScreen);

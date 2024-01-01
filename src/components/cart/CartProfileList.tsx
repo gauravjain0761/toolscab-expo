@@ -23,21 +23,21 @@ const CartProfileList = ({ title, list, data,onPress }: Props) => {
         <Image
             defaultSource={icons.defultIcon}
             source={{
-              uri: `https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${data?.product_id}&maxWidth=100&maxHeight=100`,
+              uri: `https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${data?.main_product?.product_id}&maxWidth=100&maxHeight=100`,
             }}
             style={styles.iconsStyle}
             resizeMode="contain"
           />
           <View style={{ marginLeft: 30, flex: 0.9 }}>
-            <Text style={styles.headerText}>{data?.brand}</Text>
-            <Text style={styles.headerText1}>{data?.product_name}</Text>
+            <Text style={styles.headerText}>{data?.main_product?.brand}</Text>
+            <Text style={styles.headerText1}>{data?.main_product?.product_name}</Text>
             <View style={styles.underLine} />
             <Text style={styles.headerText2}>
-              {data?.spot}{" "}
-              <Text style={styles.headerSubText2}>{data?.city}</Text>
+              {data?.location?.spot}{" "}
+              <Text style={styles.headerSubText2}>{data?.location?.city}</Text>
             </Text>
             <View style={{ flexDirection: "row", marginTop: 8 }}>
-              <Text style={styles.headerText3}>0,22€/min</Text>
+              <Text style={styles.headerText3}>{data?.main_product?.price}€/min</Text>
               <Text
                 style={[
                   styles.headerText4,
@@ -53,7 +53,7 @@ const CartProfileList = ({ title, list, data,onPress }: Props) => {
         </View>
         <View>
           {/* <Text style={styles.headerText5}>{"+0,05€/min"}</Text> */}
-          <Text style={styles.headerText6}>{"0,59€"}</Text>
+          <Text style={styles.headerText6}>{`${data?.main_product?.price}€`}</Text>
           <Text style={styles.headerText7}>{"00:12 min"}</Text>
           <CommonGreenBtn
             title="Tagasta"
@@ -75,17 +75,17 @@ const CartProfileList = ({ title, list, data,onPress }: Props) => {
         <Image
             defaultSource={icons.defultIcon}
             source={{
-              uri: `https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${data?.product_id}&maxWidth=100&maxHeight=100`,
+              uri: `https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${data?.main_product?.product_id}&maxWidth=100&maxHeight=100`,
             }}
             style={styles.iconsStyleMob}
             resizeMode="contain"
           />
           <View style={{ marginTop: 12 }}>
-            <Text style={styles.headerTextMob}>{data?.brand}</Text>
-            <Text style={styles.headerText1Mob}>{data?.product_name}</Text>
+            <Text style={styles.headerTextMob}>{data?.main_product?.brand}</Text>
+            <Text style={styles.headerText1Mob}>{data?.main_product?.product_name}</Text>
             <View style={styles.underLineMob} />
-            <Text style={styles.headerText2Mob}>{data?.spot}</Text>
-            <Text style={styles.headerSubText2Mob}>{data?.city}</Text>
+            <Text style={styles.headerText2Mob}>{data?.location?.spot}</Text>
+            <Text style={styles.headerSubText2Mob}>{data?.location?.city}</Text>
             <View
               style={{
                 flexDirection: "row",
@@ -95,7 +95,7 @@ const CartProfileList = ({ title, list, data,onPress }: Props) => {
             >
               <View>
                 <View style={styles.headerView3Mob}>
-                  <Text style={styles.headerText3Mob}>0,22€/min</Text>
+                  <Text style={styles.headerText3Mob}>{data?.main_product?.price}€/min</Text>
                 </View>
                 <Text style={[styles.headerText4Mob, { color: colors.black }]}>
                   Teata probleemist
@@ -105,7 +105,7 @@ const CartProfileList = ({ title, list, data,onPress }: Props) => {
               <View style={{ top: 15 }}>
                 {/* <Text style={styles.headerText5Mob}>{"+0,05€/min"}</Text> */}
                 {/* <Text style={styles.headerText6Mob}>{"14:59"}</Text> */}
-                <Text style={styles.headerText6Mob}>{"0,59€"}</Text>
+                <Text style={styles.headerText6Mob}>{`${data?.main_product?.price}€`}</Text>
                 <Text style={styles.headerText7Mob}>{"00:12 min"}</Text>
               </View>
             </View>
