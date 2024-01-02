@@ -1,6 +1,13 @@
 //import liraries
 import React, { useEffect, useState } from "react";
-import { View, Text, ScrollView, Platform, Image } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  Platform,
+  Image,
+  FlatList,
+} from "react-native";
 import {
   CartList,
   FooterView,
@@ -19,7 +26,8 @@ import {
   getShoppingCartAction,
   getStartRentalsAction,
 } from "../../actions/cartAction";
-import { screenName } from "../../helper/constants";
+import { fontFamily, screenName } from "../../helper/constants";
+import { commonFontStyle, defaultFont } from "../../theme/Fonts";
 
 // create a component
 const CartScreen = () => {
@@ -92,16 +100,36 @@ const CartScreen = () => {
               Korvis kokku {getShoppingCart.length} toodet
             </Text>
             <View style={styles.cartStyle}>
-              <View style={{ flex: 1, marginRight: 18 }}>
-                {getShoppingCart.length > 0 &&
-                  getShoppingCart?.map((item: any) => {
+              <View style={{ flex: 1, marginRight: 18,alignSelf:'flex-start' }}>
+                <FlatList
+                  data={getShoppingCart}
+                  renderItem={({ item }) => {
                     return (
                       <CartList
                         data={item}
                         onPress={() => onActivePress(item)}
                       />
                     );
-                  })}
+                  }}
+                  ListEmptyComponent={() => {
+                    return (
+                      <View>
+                        <Text
+                          style={{
+                            alignSelf: "center",
+                            ...commonFontStyle(
+                              fontFamily.articulat_medium,
+                              16,
+                              colors.black
+                            ),
+                          }}
+                        >
+                          Ostukorvis ei ole ühtegi toodet
+                        </Text>
+                      </View>
+                    );
+                  }}
+                />
               </View>
               <View style={styles.paymentStyle}>
                 <PaymentView data={getPaymentList} />
@@ -125,15 +153,35 @@ const CartScreen = () => {
             </Text>
             <View style={styles.cartStyleMob}>
               <View style={{ flex: 1 }}>
-                {getShoppingCart.length > 0 &&
-                  getShoppingCart?.map((item: any) => {
+                <FlatList
+                  data={getShoppingCart}
+                  renderItem={({ item }) => {
                     return (
                       <CartList
                         data={item}
                         onPress={() => onActivePress(item)}
                       />
                     );
-                  })}
+                  }}
+                  ListEmptyComponent={() => {
+                    return (
+                      <View>
+                        <Text
+                          style={{
+                            alignSelf: "center",
+                            ...defaultFont(
+                              500,
+                              16,
+                              colors.black
+                            ),
+                          }}
+                        >
+                          Ostukorvis ei ole ühtegi toodet
+                        </Text>
+                      </View>
+                    );
+                  }}
+                />
               </View>
             </View>
           </View>

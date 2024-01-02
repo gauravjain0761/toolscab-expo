@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Platform,
   Image,
+  FlatList,
 } from "react-native";
 import { colors } from "../../theme/Colors";
 import {
@@ -24,11 +25,19 @@ import { tabData } from "../../helper/constantData";
 import { icons } from "../../theme/Icons";
 import { useDispatch, useSelector } from "react-redux";
 import { getAsyncUserInfo } from "../../helper/asyncStorage";
-import { deletePaymentMethod, getPaymentMethods, getProfileMethods } from "../../actions/authAction";
+import {
+  deletePaymentMethod,
+  getPaymentMethods,
+  getProfileMethods,
+} from "../../actions/authAction";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { getProductAction } from "../../actions/catalogueAction";
-import { getActiveRentalsAction, getFinishRentalAction } from "../../actions/cartAction";
-import { screenName } from "../../helper/constants";
+import {
+  getActiveRentalsAction,
+  getFinishRentalAction,
+} from "../../actions/cartAction";
+import { fontFamily, screenName } from "../../helper/constants";
+import { commonFontStyle, defaultFont } from "../../theme/Fonts";
 
 // create a component
 const ProfileScreen = () => {
@@ -36,69 +45,69 @@ const ProfileScreen = () => {
 
   const [selectedTab, setselectedTab] = useState(1);
   const dispatch = useDispatch();
-  const { getProfileList ,getActiveRental} = useSelector((state) => state.profile);
-  const [isSelect, setIsSelect] = useState(true);
-console.log("getActiveRental",getActiveRental);
-
-  const { getPaymentList } = useSelector(
-    (state) => state.cart
+  const { getProfileList, getActiveRental } = useSelector(
+    (state) => state.profile
   );
+  const [isSelect, setIsSelect] = useState(true);
+  console.log("getActiveRental", getActiveRental);
+
+  const { getPaymentList } = useSelector((state) => state.cart);
   const isFocused = useIsFocused();
 
-  useEffect(()=>{
-     const getProfileList = async() =>{
-      const customer = await getAsyncUserInfo()
-      if(customer !==null){
+  useEffect(() => {
+    const getProfileList = async () => {
+      const customer = await getAsyncUserInfo();
+      if (customer !== null) {
         const obj = {
-          params:{
-            customer_id:customer
+          params: {
+            customer_id: customer,
           },
           onSuccess: (res: any) => {},
           onFailure: () => {},
         };
-        dispatch(getProfileMethods(obj))
+        dispatch(getProfileMethods(obj));
         const obj1 = {
-          params:{
-            customer_id:customer
+          params: {
+            customer_id: customer,
           },
           onSuccess: (res: any) => {},
           onFailure: () => {},
         };
-        dispatch(getActiveRentalsAction(obj1))
+        dispatch(getActiveRentalsAction(obj1));
       }
-     }
-     getProfileList()
-     getPayment()
-  },[isFocused])
+    };
+    getProfileList();
+    getPayment();
+  }, [isFocused]);
 
-  const getPayment=async()=>{
-    const customer = await getAsyncUserInfo()
-    if(customer !== null) {
+  const getPayment = async () => {
+    const customer = await getAsyncUserInfo();
+    if (customer !== null) {
       const obj = {
         params: {
-          customer_id:customer,
+          customer_id: customer,
         },
         onSuccess: (res: any) => {},
         onFailure: () => {},
       };
       dispatch(getPaymentMethods(obj));
     }
-  }
+  };
 
-  const onRenderItemPress = (item: any) => {    
+  const onRenderItemPress = (item: any) => {
     const obj = {
       params: {
         Payment_method_id: item,
       },
       onSuccess: (res: any) => {
-        getPayment()
+        getPayment();
       },
       onFailure: () => {},
     };
     dispatch(deletePaymentMethod(obj));
   };
 
-  const onFinishPress=(item:any)=>{
+  const onFinishPress = (item: any) => {
     const obj = {
       data: {
         rental_id: item?.rental_id,
@@ -110,9 +119,9 @@ console.log("getActiveRental",getActiveRental);
       onFailure: () => {},
     };
     dispatch(getFinishRentalAction(obj));
-  }
+  };
 
-  const HeaderCommonView = ({ title, style, isShow,onPress }: any) => {
+  const HeaderCommonView = ({ title, style, isShow, onPress }: any) => {
     if (Platform.OS === "web") {
       return (
         <View style={style}>
@@ -129,7 +138,7 @@ console.log("getActiveRental",getActiveRental);
             <Text style={styles.headerSubTextMob}>{title}</Text>
             {isShow && (
               <TouchableOpacity
-               onPress={onPress}
+                onPress={onPress}
                 style={[
                   {
                     flexDirection: "row",
@@ -142,7 +151,9 @@ console.log("getActiveRental",getActiveRental);
                   source={isSelect ? icons.pen : icons.save}
                   style={{ width: 18, height: 18, marginRight: 8 }}
                 />
-                <Text style={styles.headerRightTextMob}>{isSelect ? "Muuda" : "Salvesta"}</Text>
+                <Text style={styles.headerRightTextMob}>
+                  {isSelect ? "Muuda" : "Salvesta"}
+                </Text>
               </TouchableOpacity>
             )}
           </View>
@@ -200,25 +211,78 @@ console.log("getActiveRental",getActiveRental);
                   }}
                 >
                   <View style={{ flex: 1 }}>
-                    {getActiveRental.length > 0 && getActiveRental?.map((item:any) => {
-                      return <CartProfileList data={item} onPress={()=>{onFinishPress(item)}}/>;
-                    })}
+                    <FlatList
+                      data={getActiveRental}
+                      renderItem={({ item }) => {
+                        return (
+                          <CartProfileList
+                            data={item}
+                            onPress={() => {
+                              onFinishPress(item);
+                            }}
+                          />
+                        );
+                      }}
+                      ListEmptyComponent={() => {
+                        return (
+                          <View>
+                            <Text
+                              style={{
+                                alignSelf: "center",
+                                ...commonFontStyle(
+                                  fontFamily.articulat_medium,
+                                  16,
+                                  colors.black
+                                ),
+                              }}
+                            >
+                              Aktiivsetes laenutustes pole tooteid
+                            </Text>
+                          </View>
+                        );
+                      }}
+                    />
                   </View>
                 </View>
                 <HeaderCommonView
                   title={"Varasemad rendid"}
-                  style={{ marginBottom: 45 }}
+                  style={{ marginBottom: 20 }}
                 />
-                {/* <PreviousView /> */}
-                {/* <PreviousView /> */}
+                <FlatList
+                  data={getActiveRental}
+                  renderItem={({ item }) => {
+                    return <PreviousView />;
+                  }}
+                  ListEmptyComponent={() => {
+                    return (
+                      <View>
+                        <Text
+                          style={{
+                            alignSelf: "center",
+                            ...commonFontStyle(
+                              fontFamily.articulat_medium,
+                              16,
+                              colors.black
+                            ),
+                          }}
+                        >
+                          Varasemates üürilepingutes tooteid ei ole
+                        </Text>
+                      </View>
+                    );
+                  }}
+                />
               </>
             )}
             {(selectedTab == 2 || selectedTab == 3) && (
               <>
                 <HeaderCommonView title={"Minu profiil"} />
-                <MyProfileView data={getProfileList}/>
+                <MyProfileView data={getProfileList} />
                 <HeaderCommonView title={"Maksevahendid"} />
-                <PaymentViewCart  data={getPaymentList} onPress={onRenderItemPress}/>
+                <PaymentViewCart
+                  data={getPaymentList}
+                  onPress={onRenderItemPress}
+                />
                 {selectedTab == 2 && (
                   <>
                     <HeaderCommonView title={"E-maili seaded"} />
@@ -239,7 +303,9 @@ console.log("getActiveRental",getActiveRental);
         <ScrollView contentContainerStyle={{ flexGrow: 1, marginTop: 20 }}>
           <View style={{ marginHorizontal: 24, marginTop: 30 }}>
             <Text style={styles.headerTextMob}>
-              {selectedTab == 1 ? `Tere, ${getProfileList?.first_name}!` : "Minu profiil"}
+              {selectedTab == 1
+                ? `Tere, ${getProfileList?.first_name}!`
+                : "Minu profiil"}
             </Text>
             <View style={{ flexDirection: "row" }}>
               {tabData.map((item) => {
@@ -277,25 +343,74 @@ console.log("getActiveRental",getActiveRental);
                   }}
                 >
                   <View style={{ flex: 1 }}>
-                  {getActiveRental.length > 0 && getActiveRental?.map((item:any) => {
-                      return <CartProfileList data={item} onPress={()=>{onFinishPress(item)}}/>;
-                    })}
+                    <FlatList
+                      data={getActiveRental}
+                      renderItem={({ item }) => {
+                        return (
+                          <CartProfileList
+                            data={item}
+                            onPress={() => {
+                              onFinishPress(item);
+                            }}
+                          />
+                        );
+                      }}
+                      ListEmptyComponent={() => {
+                        return (
+                          <View>
+                            <Text
+                              style={{
+                                alignSelf: "center",
+                                ...defaultFont(500, 14, colors.black),
+                              }}
+                            >
+                              Aktiivsetes laenutustes pole tooteid
+                            </Text>
+                          </View>
+                        );
+                      }}
+                    />
                   </View>
                 </View>
                 <HeaderCommonView
                   title={"Aktiivsed rendid "}
                   style={{ marginBottom: 10 }}
                 />
-                {/* <PreviousView />
-                <PreviousView /> */}
+                <FlatList
+                  data={getActiveRental}
+                  renderItem={({ item }) => {
+                    return <PreviousView />;
+                  }}
+                  ListEmptyComponent={() => {
+                    return (
+                      <View>
+                        <Text
+                          style={{
+                            alignSelf: "center",
+                            ...defaultFont(
+                              500,
+                              14,
+                              colors.black
+                            ),
+                          }}
+                        >
+                          Varasemates üürilepingutes tooteid ei ole
+                        </Text>
+                      </View>
+                    );
+                  }}
+                />
               </View>
             )}
             {(selectedTab == 2 || selectedTab == 3) && (
               <>
                 {/* <HeaderCommonView title={"Minu profiil"} isShow={true} onPress={()=>setIsSelect(!isSelect)} /> */}
-                <MyProfileView data={getProfileList}/>
+                <MyProfileView data={getProfileList} />
                 <HeaderCommonView title={"Maksevahendid"} />
-                <PaymentViewCart  data={getPaymentList} onPress={onRenderItemPress}/>
+                <PaymentViewCart
+                  data={getPaymentList}
+                  onPress={onRenderItemPress}
+                />
                 {selectedTab == 2 && (
                   <>
                     <HeaderCommonView title={"E-maili seaded"} />

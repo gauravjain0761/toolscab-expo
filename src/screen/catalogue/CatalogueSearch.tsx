@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { colors } from "../../theme/Colors";
 import { FooterView, Header, ProductView } from "../../components";
-import { commonFontStyle } from "../../theme/Fonts";
+import { commonFontStyle, defaultFont } from "../../theme/Fonts";
 import { fontFamily, screenName } from "../../helper/constants";
 import { icons } from "../../theme/Icons";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
@@ -103,6 +103,24 @@ const ProductcartList = ({
               />
             );
           }}
+          ListEmptyComponent={() => {
+            return (
+              <View>
+                <Text
+                  style={{
+                    alignSelf: "center",
+                    ...commonFontStyle(
+                      fontFamily.articulat_medium,
+                      18,
+                      colors.black
+                    ),
+                  }}
+                >
+                  Toodet ei leitud
+                </Text>
+              </View>
+            );
+          }}
         />
       ) : (
         <FlatList
@@ -183,7 +201,7 @@ const CatalogueSearch = () => {
       <View style={[styles.mainStyleWeb, {}]}>
         <View style={styles.tab2MainStyleWeb}>
           <TextInput
-            placeholder="typing search here.... "
+            placeholder="otsing"
             style={styles.textInputStyleWeb}
             value={searchValue}
             onChangeText={(text) => setSearchValue(text)}
@@ -220,7 +238,7 @@ const CatalogueSearch = () => {
       <ScrollView style={styles.container}>
         <View style={styles.tab2MainStyleMob}>
           <TextInput
-            placeholder="typing search here.... "
+            placeholder="otsing"
             style={styles.textInputStyleMob}
             value={searchValue}
             onChangeText={(text) => setSearchValue(text)}
@@ -236,6 +254,7 @@ const CatalogueSearch = () => {
         {catalogueSearchList.length > 0 && (
           <Text style={styles.title}>Meie seadmed</Text>
         )}
+
         <FlatList
           data={catalogueSearchList}
           numColumns={2}
@@ -252,6 +271,21 @@ const CatalogueSearch = () => {
                 }
                 mainView={true}
               />
+            );
+          }}
+          ListEmptyComponent={() => {
+            return (
+              <View>
+                <Text
+                  style={{
+                    alignSelf: "center",
+                    marginTop: 30,
+                    ...defaultFont(500, 18, colors.black),
+                  }}
+                >
+                  Toodet ei leitud
+                </Text>
+              </View>
             );
           }}
         />

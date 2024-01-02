@@ -24,6 +24,7 @@ import QRCodeModal from './modal/QRCodeModal'
 import CommonModalWeb from './modal/CommonModalWeb'
 import LoginPaymentModalWeb from './modal/LoginPaymentModalWeb'
 import CardPaymentModalWeb from './modal/CardPaymentModalWeb'
+import ImageModalWeb from './modal/ImageModalWeb'
 
 
 export {
@@ -50,5 +51,6 @@ export {
     QRCodeModal,
     CommonModalWeb,
     LoginPaymentModalWeb,
-    CardPaymentModalWeb
+    CardPaymentModalWeb,
+    ImageModalWeb
 }

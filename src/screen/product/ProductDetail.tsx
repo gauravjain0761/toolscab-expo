@@ -15,6 +15,7 @@ import {
   CommonModalWeb,
   FooterView,
   Header,
+  ImageModalWeb,
   LoginPaymentModalWeb,
   ProductView,
 } from "../../components";
@@ -68,6 +69,7 @@ const ProductDetail = (props: Props) => {
   );
   const { getPaymentList } = useSelector((state) => state.cart);
   const [imageId, setImageId] = useState(productDetails?.photo_ids?.[0]);
+  const [showImage, setShowImage] = useState(false);
 
   console.log("locationId", locationId);
 
@@ -173,6 +175,8 @@ const ProductDetail = (props: Props) => {
     }
   };
 
+  console.log("productDetails", productDetails);
+
   useEffect(() => {
     if (productDetails) {
       onProductSpecsPress();
@@ -241,7 +245,7 @@ const ProductDetail = (props: Props) => {
               <Image
                 defaultSource={icons.defultIcon}
                 source={{
-                  uri: `https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${imageId}&maxWidth=100&maxHeight=100`,
+                  uri: `https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${productDetails?.photo_ids?.[0]}&maxWidth=100&maxHeight=100`,
                 }}
                 style={styles.imageProduct}
                 resizeMode="contain"
@@ -251,9 +255,12 @@ const ProductDetail = (props: Props) => {
                 horizontal
                 renderItem={({ item, index }) => {
                   return (
-                    <TouchableOpacity onPress={() => setImageId(item)}>
+                    <TouchableOpacity onPress={() => {
+                      setShowImage(true)
+                      setImageId(item)}}>
                       <ImageBackground
                         defaultSource={icons.defultIcon}
+                        resizeMode="contain"
                         source={{
                           uri: `https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${item}&maxWidth=100&maxHeight=100`,
                         }}
@@ -323,189 +330,43 @@ const ProductDetail = (props: Props) => {
                     ]}
                   />
                   <View style={{ marginHorizontal: widthPercentageToDP(1.5) }}>
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        alignItems: "flex-start",
-                        justifyContent: "space-between",
-                        marginBottom: 5,
-                      }}
-                    >
-                      <Text
-                        style={{
-                          ...commonFontStyle(
-                            fontFamily.articulat_regular,
-                            12,
-                            colors.black
-                          ),
-                        }}
-                      >
+                    <View style={styles.showProductView}>
+                      <Text style={styles.showProductText}>
                         {"Miinimumhind"}
                       </Text>
-                      <Text
-                        style={{
-                          ...commonFontStyle(
-                            fontFamily.articulat_regular,
-                            12,
-                            colors.black
-                          ),
-                        }}
-                      >
+                      <Text style={styles.showProductText}>
                         {productDetails?.price_layout?.minimum}€
                       </Text>
                     </View>
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        alignItems: "flex-start",
-                        justifyContent: "space-between",
-                        marginBottom: 5,
-                      }}
-                    >
-                      <Text
-                        style={{
-                          ...commonFontStyle(
-                            fontFamily.articulat_regular,
-                            12,
-                            colors.black
-                          ),
-                        }}
-                      >
+                    <View style={[styles.showProductView, { marginBottom: 5 }]}>
+                      <Text style={styles.showProductText}>
                         {"Broneering esimesed 15 min"}
                       </Text>
-                      <Text
-                        style={{
-                          ...commonFontStyle(
-                            fontFamily.articulat_regular,
-                            12,
-                            colors.black
-                          ),
-                        }}
-                      >
-                        {"Tasuta"}
-                      </Text>
+                      <Text style={styles.showProductText}>{"Tasuta"}</Text>
                     </View>
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        alignItems: "flex-start",
-                        justifyContent: "space-between",
-                        marginBottom: 5,
-                      }}
-                    >
-                      <Text
-                        style={{
-                          ...commonFontStyle(
-                            fontFamily.articulat_regular,
-                            12,
-                            colors.black
-                          ),
-                        }}
-                      >
+                    <View style={[styles.showProductView, { marginBottom: 5 }]}>
+                      <Text style={styles.showProductText}>
                         {"Broneering pärast 15 min"}
                       </Text>
-                      <Text
-                        style={{
-                          ...commonFontStyle(
-                            fontFamily.articulat_regular,
-                            12,
-                            colors.black
-                          ),
-                        }}
-                      >
+                      <Text style={styles.showProductText}>
                         {productDetails?.price_layout?.booking}€/min
                       </Text>
                     </View>
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        alignItems: "flex-start",
-                        justifyContent: "space-between",
-                        marginBottom: 5,
-                      }}
-                    >
-                      <Text
-                        style={{
-                          ...commonFontStyle(
-                            fontFamily.articulat_regular,
-                            12,
-                            colors.black
-                          ),
-                        }}
-                      >
-                        {"Minut"}
-                      </Text>
-                      <Text
-                        style={{
-                          ...commonFontStyle(
-                            fontFamily.articulat_regular,
-                            12,
-                            colors.black
-                          ),
-                        }}
-                      >
+                    <View style={[styles.showProductView, { marginBottom: 5 }]}>
+                      <Text style={styles.showProductText}>{"Minut"}</Text>
+                      <Text style={styles.showProductText}>
                         {productDetails?.price_layout?.minute_1}€
                       </Text>
                     </View>
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        alignItems: "flex-start",
-                        justifyContent: "space-between",
-                        marginBottom: 5,
-                      }}
-                    >
-                      <Text
-                        style={{
-                          ...commonFontStyle(
-                            fontFamily.articulat_regular,
-                            12,
-                            colors.black
-                          ),
-                        }}
-                      >
-                        {"Tund"}
-                      </Text>
-                      <Text
-                        style={{
-                          ...commonFontStyle(
-                            fontFamily.articulat_regular,
-                            12,
-                            colors.black
-                          ),
-                        }}
-                      >
+                    <View style={[styles.showProductView, { marginBottom: 5 }]}>
+                      <Text style={styles.showProductText}>{"Tund"}</Text>
+                      <Text style={styles.showProductText}>
                         {productDetails?.price_layout?.minute_60}€
                       </Text>
                     </View>
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        alignItems: "flex-start",
-                        justifyContent: "space-between",
-                        marginBottom: 5,
-                      }}
-                    >
-                      <Text
-                        style={{
-                          ...commonFontStyle(
-                            fontFamily.articulat_regular,
-                            12,
-                            colors.black
-                          ),
-                        }}
-                      >
-                        {"Päev"}
-                      </Text>
-                      <Text
-                        style={{
-                          ...commonFontStyle(
-                            fontFamily.articulat_regular,
-                            12,
-                            colors.black
-                          ),
-                        }}
-                      >
+                    <View style={[styles.showProductView, { marginBottom: 5 }]}>
+                      <Text style={styles.showProductText}>{"Päev"}</Text>
+                      <Text style={styles.showProductText}>
                         {productDetails?.price_layout?.minute_1440}€
                       </Text>
                     </View>
@@ -656,50 +517,6 @@ const ProductDetail = (props: Props) => {
                     );
                   }}
                 />
-                {/* <Text style={styles.tab1TextStyle}>Tehnilised andmed</Text>
-                <View style={styles.whiteLine} />
-                <RenderRow
-                  title={"Maksimaalne puhastatav pind (m²/h)"}
-                  value={"20 - 25"}
-                />
-                <View style={styles.whiteLineHalf} />
-                <RenderRow title={"Õhuvoolu hulk (l/s)"} value={"74"} />
-
-                <View style={styles.whiteLine} />
-                <RenderRow title={"Vaakum (mbar/kPa)"} value={"254 / 25,4"} />
-                <View style={styles.whiteLineHalf} />
-                <RenderRow title={"Pihustusmäär (l/min)"} value={"1"} />
-
-                <View style={styles.whiteLine} />
-                <RenderRow title={"Pihustusrõhk (bar)"} value={"1"} />
-                <View style={styles.whiteLineHalf} />
-                <RenderRow
-                  title={"Puhta/musta vee paak (l)"}
-                  value={"10 / 9"}
-                />
-                <View style={styles.whiteLine} />
-                <RenderRow title={"Turbiini võimsus (W)"} value={"1250"} />
-                <View style={styles.whiteLineHalf} />
-                <RenderRow title={"Pumba võimsus (W)"} value={"40"} />
-
-                <View style={styles.whiteLine} />
-                <RenderRow
-                  title={"Toitepinge (V/Hz)"}
-                  value={"220 - 240 / 50 - 60"}
-                />
-                <View style={styles.whiteLineHalf} />
-                <RenderRow
-                  title={"Kaal ilma lisatarvikuteta (kg)"}
-                  value={"10,5"}
-                />
-
-                <View style={styles.whiteLine} />
-                <RenderRow title={"Kaal, sh pakend (kg)"} value={"16,1"} />
-                <View style={styles.whiteLineHalf} />
-                <RenderRow
-                  title={"Mõõdud (pikkus x laius x kõrgus) (mm)"}
-                  value={"690 x 325 x 440"}
-                /> */}
               </View>
             )}
             {selectedTab == 2 && (
@@ -809,6 +626,7 @@ const ProductDetail = (props: Props) => {
             navigationRef.navigate(screenName.cartScreen);
           }}
         />
+        <ImageModalWeb sourceId={imageId} isVisible={showImage} onClose={()=>{setShowImage(false)}}/>
       </ScrollView>
     </View>
   ) : (

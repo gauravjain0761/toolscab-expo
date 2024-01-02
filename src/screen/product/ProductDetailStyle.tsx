@@ -449,4 +449,17 @@ export const styles = StyleSheet.create({
     ...commonFontStyle(fontFamily.arial_regular, 9, colors.black),
     textAlign: 'center'
   },
+  showProductView:{
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    marginBottom: 5,
+  },
+  showProductText:{
+    ...commonFontStyle(
+      fontFamily.articulat_regular,
+      12,
+      colors.black
+    ),
+  }
 });
