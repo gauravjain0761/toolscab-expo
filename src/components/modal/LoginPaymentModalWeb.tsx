@@ -207,7 +207,7 @@ const LoginPaymentModalWeb = ({ isVisible, onClose,oncomfirmPress }: Props) => {
                 <Text
                   style={[
                     styles.headerTextMob,
-                    { lineHeight: 36, textAlign: "center" },
+                    { lineHeight: 46, textAlign: "center" },
                   ]}
                 >
                   {"Sinu seade on\nbroneeritud!"}
@@ -377,7 +377,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginTop: 100,
     marginBottom: 20,
-    lineHeight:34
+    lineHeight:40
   },
   headerSubTextMob: {
     ...defaultFont(400, 14, colors.headerBG),
@@ -398,9 +398,10 @@ const styles = StyleSheet.create({
   },
   timeValueStyleMob: {
     ...defaultFont(700, 24, colors.black),
-    lineHeight: 26,
+    lineHeight: 36,
   },
   timeTextStyleMob: {
+    lineHeight: 20,
     ...defaultFont(400, 14, colors.headerBG),
   },
 });

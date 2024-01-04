@@ -323,6 +323,7 @@ const styles = StyleSheet.create({
     ...defaultFont(400, 14, colors.headerBG),
     alignSelf: "center",
     textAlign: "center",
+    lineHeight:20
   },
   btnLeftSideMob: {
     borderColor: colors.headerBG,
@@ -337,9 +338,10 @@ const styles = StyleSheet.create({
   },
   timeValueStyleMob: {
     ...defaultFont(700, 24, colors.black),
-    lineHeight: 20,
+    lineHeight: 30,
   },
   timeTextStyleMob: {
+    lineHeight:20,
     ...defaultFont(700, 14, colors.headerBG),
   },
 });

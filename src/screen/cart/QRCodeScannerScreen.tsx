@@ -43,7 +43,10 @@ const QRCodeScannerScreen = () => {
         setScanned(false);
         navigationRef.navigate(screenName.profileScreen);
       },
-      onFailure: () => {},
+      onFailure: () => {
+        setScannedValue([]);
+        setScanned(false);
+      },
     };
 
     dispatch(getStartRentalsAction(obj));

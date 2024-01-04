@@ -43,7 +43,7 @@ export function getFontType(fontWeight: any) {
 export const defaultFont = (fontWeight: any, fontSize: any, color: any) => {
   return {
     fontFamily: getFontType(fontWeight),
-    fontSize: actuatedNormalize(fontSize+1),
+    fontSize: actuatedNormalize(fontSize -2),
     color: color,
     includeFontPadding: false,
   };

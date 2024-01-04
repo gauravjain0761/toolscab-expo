@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   regText: {
-    lineHeight: 28,
+    lineHeight: 36,
     marginTop: 30,
     // marginBottom: 20,
     marginHorizontal:24,

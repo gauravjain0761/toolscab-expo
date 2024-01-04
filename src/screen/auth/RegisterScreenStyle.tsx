@@ -35,7 +35,7 @@ export const styles = StyleSheet.create({
     ...commonFontStyle(fontFamily.articulat_regular, 12, colors.headerBG),
   },
   tabText: {
-    lineHeight: 20,
+    lineHeight: 28,
     ...commonFontStyle(fontFamily.articulat_regular, 18, colors.headerBG),
   },
 

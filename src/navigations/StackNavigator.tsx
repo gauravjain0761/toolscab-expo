@@ -119,7 +119,7 @@ const StackNavigator: FC = () => {
   return (
     <Stack.Navigator
       // @ts-ignore
-      initialRouteName={screenName.cartScreen}
+      initialRouteName={screenName.homeScreen}
       screenOptions={options}
     >
       <Stack.Screen
