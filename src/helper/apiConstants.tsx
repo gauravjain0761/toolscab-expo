@@ -36,7 +36,8 @@ export const api = {
   shoppingCart:"Rental/ShoppingCart",
   activeRentals:'Rental/ActiveRentals',
   startRental:'Rental/StartRental',
-  finishRental:'Rental/FinishRental'
+  finishRental:'Rental/FinishRental',
+  removeItemFromCart:"Rental/RemoveItemFromCart"
 
 };
 

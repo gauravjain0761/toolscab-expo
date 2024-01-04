@@ -1,4 +1,4 @@
-import { Image, Platform, StyleSheet, Text, View } from "react-native";
+import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { commonFontStyle, defaultFont } from "../../theme/Fonts";
 import { fontFamily, screenName } from "../../helper/constants";
@@ -13,21 +13,22 @@ type Props = {
   title?: string;
   list?: any;
   onPress?: () => void;
+  removeRental?: () => void;
   data?: any;
 };
 
-const CartList = ({ title, list, onPress, data }: Props) => {
+const CartList = ({ title, list, onPress, data ,removeRental}: Props) => {
   const navigationRef = useNavigation();
-  const duration = moment.duration(
-    moment(new Date()).diff(moment(data?.added_to_cart))
-  );
-  console.log("duration", new Date());
 
-  const second = Math.floor(duration / 1000);
+  const duration = moment(new Date()).diff(
+    moment(data?.added_to_cart),
+    "seconds"
+  );
+
+  const second = Math.floor(duration);
   const [delay, setDelay] = useState(second < 900 ? second : 0);
   const minutes = Math.floor(delay / 60);
   const seconds = Math.floor(delay % 60);
-  console.log("delay", delay);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -82,24 +83,21 @@ const CartList = ({ title, list, onPress, data }: Props) => {
           </View>
         </View>
         <View>
-          {delay !== 0 && (
-            <Text
-              style={styles.headerText5}
-            >{`${data?.main_product?.price}€/min`}</Text>
-          )}
-          {delay !== 0 && (
-            <Text
-              style={[
-                styles.headerText6,
-                { color: delay < 50 ? colors.red : colors.headerBG },
-              ]}
-            >
-              {minutes}:{seconds}
-            </Text>
-          )}
-          {delay !== 0 && (
-            <Text style={styles.headerText7}>{"Tasuta broneering"}</Text>
-          )}
+          <Text
+            style={styles.headerText5}
+          >{`${data?.main_product?.price}€/min`}</Text>
+
+          <Text
+            style={[
+              styles.headerText6,
+              { color: delay < 50 ? colors.red : colors.headerBG },
+            ]}
+          >
+            {minutes}:{seconds}
+          </Text>
+
+          <Text style={styles.headerText7}>{"Tasuta broneering"}</Text>
+
           <CommonGreenBtn
             title="Ava kapp"
             onPress={() => onPress()}
@@ -149,29 +147,26 @@ const CartList = ({ title, list, onPress, data }: Props) => {
                     {data?.main_product?.price}€/min
                   </Text>
                 </View>
+                <TouchableOpacity onPress={removeRental}>
+
                 <Text style={styles.headerText4Mob}>eemalda</Text>
+                </TouchableOpacity>
               </View>
               <View style={{ bottom: 20 }}>
-                {delay !== 0 && (
-                  <Text
-                    style={styles.headerText5Mob}
-                  >{`${data?.main_product?.price}€/min`}</Text>
-                )}
-                {delay !== 0 && (
-                  <Text
-                    style={[
-                      styles.headerText7Mob,
-                      { color: delay < 50 ? colors.red : colors.headerBG },
-                    ]}
-                  >
-                    {minutes}:{seconds}
-                  </Text>
-                )}
-                {delay !== 0 && (
-                  <Text style={styles.headerText7Mob}>
-                    {"Tasuta broneering"}
-                  </Text>
-                )}
+                <Text
+                  style={styles.headerText5Mob}
+                >{`${data?.main_product?.price}€/min`}</Text>
+
+                <Text
+                  style={[
+                    styles.headerText7Mob,
+                    { color: delay < 50 ? colors.red : colors.headerBG },
+                  ]}
+                >
+                  {minutes}:{seconds}
+                </Text>
+
+                <Text style={styles.headerText7Mob}>{"Tasuta broneering"}</Text>
               </View>
             </View>
             <CommonGreenBtn
@@ -351,7 +346,6 @@ const styles = StyleSheet.create({
   headerText7Mob: {
     lineHeight: 18,
     textAlign: "center",
-    bottom: 4,
     ...defaultFont(400, 12, colors.filterText),
   },
   itemTextMob: {

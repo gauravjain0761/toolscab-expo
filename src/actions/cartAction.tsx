@@ -105,7 +105,7 @@ export const getActiveRentalsAction =
         }
       })
       .catch((error) => {
-        alert(error?.response?.data?.title);
+        alert(error?.response?.data?.detail);
         if (request.onFailure) request.onFailure(error.response);
       });
   };
@@ -122,6 +122,31 @@ export const getActiveRentalsAction =
       url: api.finishRental,
       headers: headers,
       data: request.data,
+    })
+      .then(async (response: any) => {
+        if (response.status === 200) {
+          if (request.onSuccess) request.onSuccess(response?.data);
+        }
+      })
+      .catch((error) => {
+        alert(error?.response?.data?.detail);
+        if (request.onFailure) request.onFailure(error.response);
+      });
+  };
+
+
+  export const removeItemFromCartAction =
+  (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
+  async (dispatch) => {
+    let headers = {
+      Accept: "application/json",
+    };
+
+    return makeAPIRequest({
+      method: POST,
+      url: api.removeItemFromCart,
+      headers: headers,
+      params: request.params,
     })
       .then(async (response: any) => {
         if (response.status === 200) {

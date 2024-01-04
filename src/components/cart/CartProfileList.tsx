@@ -1,4 +1,4 @@
-import { Image, Platform, StyleSheet, Text, View } from "react-native";
+import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { commonFontStyle, defaultFont } from "../../theme/Fonts";
 import { fontFamily, screenName } from "../../helper/constants";
@@ -13,9 +13,10 @@ type Props = {
   list?: any;
   data?: any;
   onPress?:()=>void;
+  removeRental?:()=>void;
 };
 
-const CartProfileList = ({ title, list, data,onPress }: Props) => {
+const CartProfileList = ({ title, list, data,onPress,removeRental }: Props) => {
   if (Platform.OS == "web") {
     return (
       <View style={styles.container}>
@@ -46,7 +47,10 @@ const CartProfileList = ({ title, list, data,onPress }: Props) => {
               >
                 Teata probleemist
               </Text>
+              <TouchableOpacity onPress={removeRental}>
+                
               <Text style={styles.headerText4}>eemalda</Text>
+              </TouchableOpacity>
             </View>
             <View></View>
           </View>
@@ -100,7 +104,9 @@ const CartProfileList = ({ title, list, data,onPress }: Props) => {
                 <Text style={[styles.headerText4Mob, { color: colors.black }]}>
                   Teata probleemist
                 </Text>
+                <TouchableOpacity onPress={removeRental}>
                 <Text style={styles.headerText4Mob}>eemalda</Text>
+                </TouchableOpacity>
               </View>
               <View style={{ top: 15 }}>
                 {/* <Text style={styles.headerText5Mob}>{"+0,05€/min"}</Text> */}

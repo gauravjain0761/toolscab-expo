@@ -51,6 +51,7 @@ export const icons = {
   filterMobileIcon:require('../../assets/icon/filterMobileIcon.png'),
   mobileFooterbg:require('../../assets/icon/mobileFooterbg.png'),
   commonicon:require('../../assets/icon/commonicon.png'),
+  qrcodecart:require('../../assets/icon/qrcodecart.png'),
   ellipse1:require('../../assets/icon/ellipse1.png'),
   ellipse:require('../../assets/icon/ellipse.png'),
   defultIcon:require('../../assets/icon/defultIcon.jpeg'),

@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   btnTextMob: {
-    ...defaultFont(700, 14, colors.black),
+    ...defaultFont(500, 14, colors.black),
     marginRight: 3,
   },
 

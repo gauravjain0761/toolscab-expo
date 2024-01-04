@@ -25,6 +25,7 @@ import CommonModalWeb from './modal/CommonModalWeb'
 import LoginPaymentModalWeb from './modal/LoginPaymentModalWeb'
 import CardPaymentModalWeb from './modal/CardPaymentModalWeb'
 import ImageModalWeb from './modal/ImageModalWeb'
+import CartFlowModal from './modal/CartFlowModal'
 
 
 export {
@@ -52,5 +53,6 @@ export {
     CommonModalWeb,
     LoginPaymentModalWeb,
     CardPaymentModalWeb,
-    ImageModalWeb
+    ImageModalWeb,
+    CartFlowModal
 }

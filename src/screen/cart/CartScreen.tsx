@@ -9,6 +9,7 @@ import {
   FlatList,
 } from "react-native";
 import {
+  CartFlowModal,
   CartList,
   FooterView,
   Header,
@@ -25,6 +26,7 @@ import { getPaymentMethods } from "../../actions/authAction";
 import {
   getShoppingCartAction,
   getStartRentalsAction,
+  removeItemFromCartAction,
 } from "../../actions/cartAction";
 import { fontFamily, screenName } from "../../helper/constants";
 import { commonFontStyle, defaultFont } from "../../theme/Fonts";
@@ -32,6 +34,8 @@ import { commonFontStyle, defaultFont } from "../../theme/Fonts";
 // create a component
 const CartScreen = () => {
   const [qrcodeModalShow, setqrcodeModalShow] = useState(false);
+  const [locarShow, setLocarShow] = useState(false);
+  const [itemData, setItemDate] = useState([]);
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
   const navigationRef = useNavigation();
@@ -41,21 +45,22 @@ const CartScreen = () => {
   );
   console.log("getShoppingCart", getShoppingCart);
 
+  const getCardList = async () => {
+    const customer = await getAsyncUserInfo();
+    if (customer !== null) {
+      const obj = {
+        params: {
+          //  customer_id:"902f8f9b-1c9e-4e6f-8f2d-9c6e85e9c955"
+          customer_id: customer,
+        },
+        onSuccess: (res: any) => {},
+        onFailure: () => {},
+      };
+      dispatch(getShoppingCartAction(obj));
+    }
+  };
+
   useEffect(() => {
-    const getCardList = async () => {
-      const customer = await getAsyncUserInfo();
-      if (customer !== null) {
-        const obj = {
-          params: {
-            //  customer_id:"902f8f9b-1c9e-4e6f-8f2d-9c6e85e9c955"
-            customer_id: customer,
-          },
-          onSuccess: (res: any) => {},
-          onFailure: () => {},
-        };
-        dispatch(getShoppingCartAction(obj));
-      }
-    };
     getCardList();
     getPayment();
   }, [isFocused]);
@@ -74,18 +79,37 @@ const CartScreen = () => {
     }
   };
 
-  const onActivePress = (item) => {
+  const onActivePress = () => {
+    const qeCodelist = [];
+    itemData?.components.map((item) => {
+      qeCodelist.push(item.qr_code);
+    });
     const obj = {
       data: {
-        rental_id: item?.rental_id,
-        qr_codes: [item?.components?.[0]?.qr_code],
+        rental_id: itemData?.rental_id,
+        qr_codes: qeCodelist,
       },
       onSuccess: (res: any) => {
-        navigationRef.navigate(screenName.profileScreen);
+        setTimeout(() => {
+          setqrcodeModalShow(true);
+        }, 500);
+        setLocarShow(false);
       },
       onFailure: () => {},
     };
     dispatch(getStartRentalsAction(obj));
+  };
+  const onPessRemoveRental = (item: any) => {
+    const obj = {
+      params: {
+        rental_id: item?.rental_id,
+      },
+      onSuccess: (res: any) => {
+        getCardList();
+      },
+      onFailure: () => {},
+    };
+    dispatch(removeItemFromCartAction(obj));
   };
 
   if (Platform.OS == "web") {
@@ -100,7 +124,9 @@ const CartScreen = () => {
               Korvis kokku {getShoppingCart.length} toodet
             </Text>
             <View style={styles.cartStyle}>
-              <View style={{ flex: 1, marginRight: 18,alignSelf:'flex-start' }}>
+              <View
+                style={{ flex: 1, marginRight: 18, alignSelf: "flex-start" }}
+              >
                 <FlatList
                   data={getShoppingCart}
                   renderItem={({ item }) => {
@@ -108,6 +134,7 @@ const CartScreen = () => {
                       <CartList
                         data={item}
                         onPress={() => onActivePress(item)}
+                        removeRental={() => onPessRemoveRental(item)}
                       />
                     );
                   }}
@@ -159,7 +186,11 @@ const CartScreen = () => {
                     return (
                       <CartList
                         data={item}
-                        onPress={() => onActivePress(item)}
+                        onPress={() => {
+                          setLocarShow(true);
+                          setItemDate(item);
+                        }}
+                        removeRental={() => onPessRemoveRental(item)}
                       />
                     );
                   }}
@@ -169,11 +200,7 @@ const CartScreen = () => {
                         <Text
                           style={{
                             alignSelf: "center",
-                            ...defaultFont(
-                              500,
-                              16,
-                              colors.black
-                            ),
+                            ...defaultFont(500, 16, colors.black),
                           }}
                         >
                           Ostukorvis ei ole ühtegi toodet
@@ -215,6 +242,20 @@ const CartScreen = () => {
           <QRCodeModal
             isVisible={qrcodeModalShow}
             onClose={() => setqrcodeModalShow(false)}
+            itemData={itemData}
+          />
+          <CartFlowModal
+            isVisible={locarShow}
+            onClose={() => {
+              setLocarShow(false);
+            }}
+            itemData={itemData}
+            oncomfirmPress={() => {
+              setTimeout(() => {
+                setqrcodeModalShow(true);
+              }, 1000);
+              setLocarShow(false);
+            }}
           />
         </ScrollView>
       </View>

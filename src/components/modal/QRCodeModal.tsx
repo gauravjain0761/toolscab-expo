@@ -15,10 +15,11 @@ import { screen_width } from "../../helper/globalFunctions";
 type Props = {
   isVisible: boolean;
   onClose: () => void;
+  itemData:any
 };
 
 // create a component
-const QRCodeModal = ({ isVisible, onClose }: Props) => {
+const QRCodeModal = ({ isVisible, onClose,itemData }: Props) => {
   const navigationRef = useNavigation();
   const valueList=['Kontrollin seadme komplektsust',"Tagastan seadme puhtana ning samas komplektuses, kui seade rentides oli","Kui seadmel esineb defekte, puudujääke või on must teavitan sellest kohe ToolsCabi kliendituge: tel nr +372 5333 333 või info@toolscab.eu"]
   
@@ -55,7 +56,7 @@ const QRCodeModal = ({ isVisible, onClose }: Props) => {
               title="Sule"
               onPress={() => {
                 onClose()
-                navigationRef.navigate(screenName.qrCodeScannerScreen)
+                navigationRef.navigate(screenName.qrCodeScannerScreen,{itemData:itemData})
               }}
 
               style={{
@@ -124,7 +125,8 @@ const styles = StyleSheet.create({
     marginTop: 30,
     // marginBottom: 20,
     marginHorizontal:24,
-    ...defaultFont(600, 24, colors.black),
+    marginBottom:10,
+    ...defaultFont(500, 24, colors.black),
   },
 });
 

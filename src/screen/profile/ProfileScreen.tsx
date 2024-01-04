@@ -35,6 +35,7 @@ import { getProductAction } from "../../actions/catalogueAction";
 import {
   getActiveRentalsAction,
   getFinishRentalAction,
+  removeItemFromCartAction,
 } from "../../actions/cartAction";
 import { fontFamily, screenName } from "../../helper/constants";
 import { commonFontStyle, defaultFont } from "../../theme/Fonts";
@@ -54,29 +55,31 @@ const ProfileScreen = () => {
   const { getPaymentList } = useSelector((state) => state.cart);
   const isFocused = useIsFocused();
 
+
+  const getProfileListAction = async () => {
+    const customer = await getAsyncUserInfo();
+    if (customer !== null) {
+      const obj = {
+        params: {
+          customer_id: customer,
+        },
+        onSuccess: (res: any) => {},
+        onFailure: () => {},
+      };
+      dispatch(getProfileMethods(obj));
+      const obj1 = {
+        params: {
+          customer_id: customer,
+        },
+        onSuccess: (res: any) => {},
+        onFailure: () => {},
+      };
+      dispatch(getActiveRentalsAction(obj1));
+    }
+  };
   useEffect(() => {
-    const getProfileList = async () => {
-      const customer = await getAsyncUserInfo();
-      if (customer !== null) {
-        const obj = {
-          params: {
-            customer_id: customer,
-          },
-          onSuccess: (res: any) => {},
-          onFailure: () => {},
-        };
-        dispatch(getProfileMethods(obj));
-        const obj1 = {
-          params: {
-            customer_id: customer,
-          },
-          onSuccess: (res: any) => {},
-          onFailure: () => {},
-        };
-        dispatch(getActiveRentalsAction(obj1));
-      }
-    };
-    getProfileList();
+  
+    getProfileListAction();
     getPayment();
   }, [isFocused]);
 
@@ -119,6 +122,19 @@ const ProfileScreen = () => {
       onFailure: () => {},
     };
     dispatch(getFinishRentalAction(obj));
+  };
+
+  const onPessRemoveRental = (item:any) => {
+    const obj = {
+      params: {
+        rental_id: item?.rental_id,
+      },
+      onSuccess: (res: any) => {
+        getProfileListAction();
+      },
+      onFailure: () => {},
+    };
+    dispatch(removeItemFromCartAction(obj));
   };
 
   const HeaderCommonView = ({ title, style, isShow, onPress }: any) => {
@@ -220,6 +236,7 @@ const ProfileScreen = () => {
                             onPress={() => {
                               onFinishPress(item);
                             }}
+                            removeRental={()=>onPessRemoveRental(item)}
                           />
                         );
                       }}
@@ -352,6 +369,7 @@ const ProfileScreen = () => {
                             onPress={() => {
                               onFinishPress(item);
                             }}
+                            removeRental={()=>onPessRemoveRental(item)}
                           />
                         );
                       }}
