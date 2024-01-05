@@ -103,13 +103,13 @@ export const styles = StyleSheet.create({
     height:47
   },
   listTest1:{
-    ...defaultFont(700, 12, colors.filterText),
+    ...defaultFont(700, 14, colors.filterText),
   },
   listTest2:{
-    ...defaultFont(400, 12, colors.filterText),
+    ...defaultFont(400, 14, colors.filterText),
   },
   listTest3:{
     marginTop:15,
-    ...defaultFont(400, 12, colors.filterText),
+    ...defaultFont(400, 14, colors.filterText),
   },
 });

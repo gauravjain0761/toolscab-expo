@@ -219,6 +219,7 @@ const CartScreen = () => {
               paddingTop: 30,
               paddingHorizontal: 30,
               paddingBottom: 40,
+              marginTop:20
             }}
           >
             <Image source={icons.commonicon} style={styles.commoniconStyle} />
@@ -227,8 +228,7 @@ const CartScreen = () => {
                 Esimesed 15 minutit on broneering tasuta
               </Text>
               <Text style={styles.listTest2}>
-                {" "}
-                ning seejärel muutub tasuliseks vastavalt seadmele
+                {"ning seejärel muutub tasuliseks\nvastavalt seadmele"}
               </Text>
               <Text style={styles.listTest3}>
                 {
@@ -239,11 +239,11 @@ const CartScreen = () => {
           </View>
           {/* <View style={{ height: 150 }} /> */}
           <FooterView />
-          <QRCodeModal
+          {/* <QRCodeModal
             isVisible={qrcodeModalShow}
             onClose={() => setqrcodeModalShow(false)}
             itemData={itemData}
-          />
+          /> */}
           <CartFlowModal
             isVisible={locarShow}
             onClose={() => {
@@ -252,7 +252,8 @@ const CartScreen = () => {
             itemData={itemData}
             oncomfirmPress={() => {
               setTimeout(() => {
-                setqrcodeModalShow(true);
+                // setqrcodeModalShow(true);
+                navigationRef.navigate(screenName.qrCodeScannerScreen,{itemData:itemData})
               }, 1000);
               setLocarShow(false);
             }}

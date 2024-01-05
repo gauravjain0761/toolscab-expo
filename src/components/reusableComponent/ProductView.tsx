@@ -223,7 +223,7 @@ const ProductView = ({
               <>
                 <Text
                   style={[
-                    { marginTop: 5, ...defaultFont(400, 9, colors.black) },
+                    { marginTop: 5, ...defaultFont(400, 11, colors.black) },
                     labelStyle,
                   ]}
                 >
@@ -234,7 +234,7 @@ const ProductView = ({
                     {
                       marginBottom: 5,
                       marginTop: 5,
-                      ...defaultFont(700, 11, colors.black),
+                      ...defaultFont(700, 14, colors.black),
                     },
                     titleStyle,
                   ]}
@@ -244,7 +244,7 @@ const ProductView = ({
                 <Text
                   style={[
                     {
-                      ...defaultFont(400, 9, colors.filterText),
+                      ...defaultFont(400, 11, colors.filterText),
                     },
                     listStyle,
                   ]}
@@ -254,7 +254,7 @@ const ProductView = ({
                 <Text
                   style={[
                     {
-                      ...defaultFont(400, 9, colors.filterText),
+                      ...defaultFont(400, 11, colors.filterText),
                     },
                     listStyle,
                   ]}
@@ -264,7 +264,7 @@ const ProductView = ({
                 <Text
                   style={[
                     {
-                      ...defaultFont(400, 9, colors.filterText),
+                      ...defaultFont(400, 11, colors.filterText),
                     },
                     listStyle,
                   ]}

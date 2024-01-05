@@ -53,7 +53,7 @@ export const styles = StyleSheet.create({
   },
 
   prodDes2: {
-    ...defaultFont(400, 12, colors.headerBG),
+    ...defaultFont(400, 13, colors.headerBG),
     marginBottom: 5,
   },
   btnRowMob: {
@@ -67,8 +67,15 @@ export const styles = StyleSheet.create({
   desProduct: {
     ...defaultFont(400, 14, colors.black),
     marginTop: heightPercentageToDP(5),
-    marginBottom: heightPercentageToDP(4),
+    // marginBottom: heightPercentageToDP(4),
     lineHeight: 20,
+    
+  },
+  seeMoreTexr: {
+    ...defaultFont(400, 14, colors.black),
+    lineHeight: 20,
+       marginBottom: heightPercentageToDP(4),
+    alignSelf:'flex-end'
   },
   downarrowMob: {
     width: widthPercentageToDP(4),

@@ -58,6 +58,7 @@ const ProductDetail = (props: Props) => {
   const [tabIndex1, setTabIndex1] = useState(false);
   const [tabIndex2, setTabIndex2] = useState(false);
   const [tabIndex3, setTabIndex3] = useState(false);
+  const [moreShow, setMoreShow] = useState(false);
   const [commonModalWebShow, setCommonModalWebShow] = useState(false);
   const [loginPaymentModalWebShow, setLoginPaymentModalWebShow] =
     useState(false);
@@ -255,9 +256,12 @@ const ProductDetail = (props: Props) => {
                 horizontal
                 renderItem={({ item, index }) => {
                   return (
-                    <TouchableOpacity onPress={() => {
-                      setShowImage(true)
-                      setImageId(item)}}>
+                    <TouchableOpacity
+                      onPress={() => {
+                        setShowImage(true);
+                        setImageId(item);
+                      }}
+                    >
                       <ImageBackground
                         defaultSource={icons.defultIcon}
                         resizeMode="contain"
@@ -626,7 +630,13 @@ const ProductDetail = (props: Props) => {
             navigationRef.navigate(screenName.cartScreen);
           }}
         />
-        <ImageModalWeb sourceId={imageId} isVisible={showImage} onClose={()=>{setShowImage(false)}}/>
+        <ImageModalWeb
+          sourceId={imageId}
+          isVisible={showImage}
+          onClose={() => {
+            setShowImage(false);
+          }}
+        />
       </ScrollView>
     </View>
   ) : (
@@ -751,10 +761,10 @@ const ProductDetail = (props: Props) => {
                     marginBottom: 5,
                   }}
                 >
-                  <Text style={{ ...defaultFont(400, 12, colors.black) }}>
+                  <Text style={{ ...defaultFont(400, 13, colors.black) }}>
                     {"Miinimumhind"}
                   </Text>
-                  <Text style={{ ...defaultFont(400, 12, colors.black) }}>
+                  <Text style={{ ...defaultFont(400, 13, colors.black) }}>
                     {productDetails?.price_layout?.minimum}€
                   </Text>
                 </View>
@@ -766,10 +776,10 @@ const ProductDetail = (props: Props) => {
                     marginBottom: 5,
                   }}
                 >
-                  <Text style={{ ...defaultFont(400, 12, colors.black) }}>
+                  <Text style={{ ...defaultFont(400, 13, colors.black) }}>
                     {"Broneering esimesed 15 min"}
                   </Text>
-                  <Text style={{ ...defaultFont(400, 12, colors.black) }}>
+                  <Text style={{ ...defaultFont(400, 13, colors.black) }}>
                     {"Tasuta"}
                   </Text>
                 </View>
@@ -781,10 +791,10 @@ const ProductDetail = (props: Props) => {
                     marginBottom: 5,
                   }}
                 >
-                  <Text style={{ ...defaultFont(400, 12, colors.black) }}>
+                  <Text style={{ ...defaultFont(400, 13, colors.black) }}>
                     {"Broneering pärast 15 min"}
                   </Text>
-                  <Text style={{ ...defaultFont(400, 12, colors.black) }}>
+                  <Text style={{ ...defaultFont(400, 13, colors.black) }}>
                     {productDetails?.price_layout?.booking}€/min
                   </Text>
                 </View>
@@ -796,10 +806,10 @@ const ProductDetail = (props: Props) => {
                     marginBottom: 5,
                   }}
                 >
-                  <Text style={{ ...defaultFont(400, 12, colors.black) }}>
+                  <Text style={{ ...defaultFont(400, 13, colors.black) }}>
                     {"Minut"}
                   </Text>
-                  <Text style={{ ...defaultFont(400, 12, colors.black) }}>
+                  <Text style={{ ...defaultFont(400, 13, colors.black) }}>
                     {productDetails?.price_layout?.minute_1}€
                   </Text>
                 </View>
@@ -811,10 +821,10 @@ const ProductDetail = (props: Props) => {
                     marginBottom: 5,
                   }}
                 >
-                  <Text style={{ ...defaultFont(400, 12, colors.black) }}>
+                  <Text style={{ ...defaultFont(400, 13, colors.black) }}>
                     {"Tund"}
                   </Text>
-                  <Text style={{ ...defaultFont(400, 12, colors.black) }}>
+                  <Text style={{ ...defaultFont(400, 13, colors.black) }}>
                     {productDetails?.price_layout?.minute_60}€
                   </Text>
                 </View>
@@ -826,10 +836,10 @@ const ProductDetail = (props: Props) => {
                     marginBottom: 5,
                   }}
                 >
-                  <Text style={{ ...defaultFont(400, 12, colors.black) }}>
+                  <Text style={{ ...defaultFont(400, 13, colors.black) }}>
                     {"Päev"}
                   </Text>
-                  <Text style={{ ...defaultFont(400, 12, colors.black) }}>
+                  <Text style={{ ...defaultFont(400, 13, colors.black) }}>
                     {productDetails?.price_layout?.minute_1440}€
                   </Text>
                 </View>
@@ -848,7 +858,7 @@ const ProductDetail = (props: Props) => {
                 })} */}
                 <Text
                   style={{
-                    ...defaultFont(400, 12, colors.filterText),
+                    ...defaultFont(400, 14, colors.filterText),
                     marginTop: 15,
                   }}
                 >
@@ -882,7 +892,7 @@ const ProductDetail = (props: Props) => {
             <CommonGreenBtn
               title="Rendi"
               onPress={() => {
-                scrollViewRef?.current.scrollTo(500);
+                scrollViewRef?.current.scrollTo(650);
                 setTabIndex2(true);
               }}
               style={{ width: "40%" }}
@@ -899,7 +909,23 @@ const ProductDetail = (props: Props) => {
             /> */}
           </View>
           <Text style={styles.btnBottomTextMob}>{productDetails?.banner}</Text>
-          <Text style={styles.desProduct}>{productDetails?.description}</Text>
+
+          <Text
+            style={styles.desProduct}
+            numberOfLines={!moreShow ? 5 : productDetails?.description?.length}
+          >
+            {productDetails?.description}
+          </Text>
+          <TouchableOpacity
+            onPress={() => {
+             {moreShow && scrollViewRef?.current.scrollTo(200);}
+              setMoreShow(!moreShow);
+            }}
+          >
+            <Text style={styles.seeMoreTexr}>{`${
+              moreShow ? "Show less" : "Show more"
+            }`}</Text>
+          </TouchableOpacity>
           <View style={styles.boxStyleMob}>
             <View style={styles.boxBodyMob}>
               <Text style={styles.boxBodyText}>Tehnilised andmed</Text>
@@ -1028,13 +1054,13 @@ const ProductDetail = (props: Props) => {
                   aircon={item?.aircon}
                   volumeflow={item?.volumeflow}
                   hoselength={item?.hoselength}
-                  listStyle={{ ...defaultFont(400, 10, colors.filterText) }}
+                  listStyle={{ ...defaultFont(400, 11, colors.filterText) }}
                   titleStyle={{
-                    ...defaultFont(700, 12, colors.black),
+                    ...defaultFont(700, 14, colors.black),
                     marginBottom: 10,
                   }}
                   labelStyle={{
-                    ...defaultFont(400, 10, colors.black),
+                    ...defaultFont(400, 11, colors.black),
                     marginBottom: 5,
                   }}
                 />

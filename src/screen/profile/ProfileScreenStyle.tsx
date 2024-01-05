@@ -72,7 +72,7 @@ export const styles = StyleSheet.create({
     // alignSelf: "center",
   },
   tabTextMob: {
-    ...defaultFont(400, 14, colors.black),
+    ...defaultFont(400, 18, colors.black),
   },
   tabViewMob: {
     // width: '1%',

@@ -1,4 +1,11 @@
-import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { commonFontStyle, defaultFont } from "../../theme/Fonts";
 import { fontFamily, screenName } from "../../helper/constants";
@@ -17,7 +24,7 @@ type Props = {
   data?: any;
 };
 
-const CartList = ({ title, list, onPress, data ,removeRental}: Props) => {
+const CartList = ({ title, list, onPress, data, removeRental }: Props) => {
   const navigationRef = useNavigation();
 
   const duration = moment(new Date()).diff(
@@ -148,8 +155,7 @@ const CartList = ({ title, list, onPress, data ,removeRental}: Props) => {
                   </Text>
                 </View>
                 <TouchableOpacity onPress={removeRental}>
-
-                <Text style={styles.headerText4Mob}>eemalda</Text>
+                  <Text style={styles.headerText4Mob}>eemalda</Text>
                 </TouchableOpacity>
               </View>
               <View style={{ bottom: 20 }}>
@@ -160,7 +166,10 @@ const CartList = ({ title, list, onPress, data ,removeRental}: Props) => {
                 <Text
                   style={[
                     styles.headerText7Mob,
-                    { color: delay < 50 ? colors.red : colors.headerBG },
+                    {
+                      color: delay < 50 ? colors.red : colors.headerBG,
+                      fontSize: 20,
+                    },
                   ]}
                 >
                   {minutes}:{seconds}
@@ -297,20 +306,20 @@ const styles = StyleSheet.create({
   },
   headerTextMob: {
     lineHeight: 18,
-    ...defaultFont(400, 12, colors.filterText),
+    ...defaultFont(400, 14, colors.filterText),
   },
   headerText1Mob: {
     lineHeight: 24,
     marginTop: 8,
-    ...defaultFont(400, 18, colors.black),
+    ...defaultFont(400, 20, colors.black),
   },
   headerText2Mob: {
     lineHeight: 21,
-    ...defaultFont(700, 14, colors.black),
+    ...defaultFont(700, 18, colors.black),
   },
   headerSubText2Mob: {
     lineHeight: 21,
-    ...defaultFont(400, 14, colors.headerBG),
+    ...defaultFont(400, 15, colors.headerBG),
   },
   headerText3Mob: {
     backgroundColor: colors.roheline,
@@ -318,7 +327,7 @@ const styles = StyleSheet.create({
     paddingVertical: 1,
     borderRadius: 8,
     marginRight: 9,
-    ...defaultFont(400, 12, colors.headerBG),
+    ...defaultFont(400, 14, colors.headerBG),
   },
   headerView3Mob: {
     backgroundColor: colors.roheline,
@@ -329,14 +338,14 @@ const styles = StyleSheet.create({
   },
   headerText4Mob: {
     marginLeft: 10,
-    marginTop: 3,
-    ...defaultFont(400, 12, colors.red),
+    marginTop: 5,
+    ...defaultFont(400, 14, colors.red),
   },
   headerText5Mob: {
     lineHeight: 18,
     textAlign: "center",
     marginBottom: 4,
-    ...defaultFont(400, 12, colors.red),
+    ...defaultFont(400, 14, colors.red),
   },
   headerText6Mob: {
     textAlign: "center",
@@ -346,10 +355,10 @@ const styles = StyleSheet.create({
   headerText7Mob: {
     lineHeight: 18,
     textAlign: "center",
-    ...defaultFont(400, 12, colors.filterText),
+    ...defaultFont(400, 14, colors.filterText),
   },
   itemTextMob: {
-    ...defaultFont(400, 12, colors.checkBoxText),
+    ...defaultFont(400, 14, colors.checkBoxText),
   },
   btnStyleMob: {
     borderColor: colors.headerBG,
