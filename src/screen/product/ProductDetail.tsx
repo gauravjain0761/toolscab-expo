@@ -72,7 +72,7 @@ const ProductDetail = (props: Props) => {
   const [imageId, setImageId] = useState(productDetails?.photo_ids?.[0]);
   const [showImage, setShowImage] = useState(false);
 
-  console.log("locationId", locationId);
+  console.log("productDetails", productDetails);
 
   const RenderRow = ({ title, value }: any) => {
     if (Platform.OS == "web") {
@@ -176,7 +176,7 @@ const ProductDetail = (props: Props) => {
     }
   };
 
-  console.log("productDetails", productDetails);
+  console.log("productDetails", productDetails?.photo_ids?.[0]);
 
   useEffect(() => {
     if (productDetails) {

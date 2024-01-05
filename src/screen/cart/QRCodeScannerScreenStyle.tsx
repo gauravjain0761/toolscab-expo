@@ -19,6 +19,11 @@ const styles = {
     marginBottom: 40,
     ...defaultFont(400, 16, colors.black),
   },
+  headerText: {
+    marginBottom: 5,
+    alignSelf: 'center',
+    ...defaultFont(400, 16, colors.black),
+  },
   cameraContainer: {
     width: "80%",
     aspectRatio: 1,

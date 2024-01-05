@@ -40,6 +40,8 @@ const CatalogueProductsMobile = () => {
           // horizontal
           keyExtractor={(_i, index) => index.toString()}
           renderItem={({ item, index }) => {
+            console.log('item?.first_photo_id',item?.first_photo_id);
+
             return (
               <ProductView
                 index={index}

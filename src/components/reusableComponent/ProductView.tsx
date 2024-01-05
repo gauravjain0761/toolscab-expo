@@ -6,16 +6,12 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  ImageBackground,
   Platform,
   TextStyle,
 } from "react-native";
 import { colors } from "../../theme/Colors";
 import {
-  catalogueImg,
-  screen_height,
   screen_width,
-  wp,
 } from "../../helper/globalFunctions";
 import { SCREEN_WIDTH, commonFontStyle } from "../../theme/Fonts";
 import { fontFamily } from "../../helper/constants";

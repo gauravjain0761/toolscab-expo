@@ -116,7 +116,7 @@ const LoginPaymentModalWeb = ({ isVisible, onClose,oncomfirmPress }: Props) => {
               {selectTab == 2 && (
                 <View style={styles.timeView}>
                   <Text style={styles.timeValueStyle}>
-                    {minutes}:{seconds}
+                  {minutes ? minutes : "00"}:{seconds ? seconds : "00"}
                   </Text>
                   <Text style={styles.timeTextStyle}>Tasuta broneering</Text>
                 </View>
@@ -216,7 +216,7 @@ const LoginPaymentModalWeb = ({ isVisible, onClose,oncomfirmPress }: Props) => {
               {selectTab == 2 && (
                 <View style={styles.timeViewMob}>
                   <Text style={styles.timeValueStyleMob}>
-                    {minutes}:{seconds}
+                  {minutes ? minutes : "00"}:{seconds ? seconds : "00"}
                   </Text>
                   <Text style={styles.timeTextStyleMob}>Tasuta broneering</Text>
                 </View>

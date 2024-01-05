@@ -125,7 +125,7 @@ const WarningScreen = () => {
             {selectTab == 2 && (
               <View style={styles.timeViewMob}>
                 <Text style={styles.timeValueStyleMob}>
-                  {minutes}:{seconds}
+                {minutes ? minutes : "00"}:{seconds ? seconds : "00"}
                 </Text>
                 <Text style={styles.timeTextStyleMob}>Tasuta broneering</Text>
               </View>

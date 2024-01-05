@@ -27,6 +27,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCatalogueCategorySearchAction } from "../../actions/catalogueAction";
 import { useNavigation } from "@react-navigation/native";
 import { styles } from "./HomeScreenStyle";
+import axios from "axios";
 // create a component
 const HomeScreen = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -51,6 +52,22 @@ const HomeScreen = () => {
     };
     dispatch(getCatalogueCategorySearchAction(obj));
   }, []);
+
+  var config = {
+    method: 'get',
+    url: 'https://api.toolscab.ee/Catalogue/CategorySearch',
+    headers: { 
+      'accept': 'text/plain'
+    }
+  };
+  
+  axios(config)
+  .then(function (response) {
+    console.log(JSON.stringify(response.data));
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
 
   return (
     <View style={styles.container}>

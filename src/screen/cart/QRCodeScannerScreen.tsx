@@ -96,6 +96,7 @@ const QRCodeScannerScreen = () => {
   return (
     <View style={styles.container}>
       {renderCamera()}
+      <Text style={styles.headerText}>{`Jätkamiseks peate skannima ${params?.itemData?.lockers.length} QR-koodi`}</Text>
       {params?.itemData?.lockers.length - scannedValue.length != 0 && (
         <CommonGreenBtn
           // disabled={scanned}

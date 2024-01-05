@@ -12,13 +12,11 @@ import {
 import Modal from "react-native-modal";
 import { colors } from "../../theme/Colors";
 import { icons } from "../../theme/Icons";
-import InpuText from "../reusableComponent/InpuText";
 import CommonGreenBtn from "../reusableComponent/CommonGreenBtn";
 import { widthPercentageToDP } from "react-native-responsive-screen";
 import { commonFontStyle, defaultFont } from "../../theme/Fonts";
-import { fontFamily, screenName } from "../../helper/constants";
+import { fontFamily } from "../../helper/constants";
 import { useNavigation } from "@react-navigation/native";
-import { navigate } from "../../navigations/RootNavigation";
 import moment from "moment";
 
 type Props = {
@@ -120,7 +118,7 @@ const CartFlowModal = ({
               {selectTab == 2 && (
                 <View style={styles.timeView}>
                   <Text style={styles.timeValueStyle}>
-                    {minutes}:{seconds}
+                    {minutes ? minutes : "00"}:{seconds ? seconds : "00"}
                   </Text>
                   <Text style={styles.timeTextStyle}>Tasuta broneering</Text>
                 </View>
@@ -173,7 +171,7 @@ const CartFlowModal = ({
       <Modal
         animationInTiming={500}
         animationOutTiming={500}
-        style={{ margin: 0, flex: 1 }}
+        // style={{ margin: 0, flex: 1 }}
         backdropColor={colors.headerBG}
         backdropOpacity={0.2}
         isVisible={isVisible}
@@ -200,7 +198,7 @@ const CartFlowModal = ({
               {selectTab === 1 ? (
                 <>
                   <Text style={styles.headerTextMob}>
-                    {`Sinu kapp on \n№ `}
+                    {`Sinu kapp on \n`}
                     {itemData?.lockers?.map((item, index) => {
                       return (
                         <Text
@@ -209,15 +207,23 @@ const CartFlowModal = ({
                             { color: colors.black },
                           ]}
                         >
+                          <Text
+                            style={[
+                              styles.headerTextMob,
+                              { color: colors.Roheline2 },
+                            ]}
+                          >
+                            {"№ "}
+                          </Text>
                           {item?.locker_number}
-                          {index !== 0 && (
+                          {index == 0 && (
                             <Text
                               style={[
                                 styles.headerTextMob,
                                 { color: colors.Roheline2 },
                               ]}
                             >
-                              {" ja № "}
+                              {" ja "}
                             </Text>
                           )}
                         </Text>
@@ -252,7 +258,7 @@ const CartFlowModal = ({
               {selectTab == 1 && (
                 <View style={styles.timeViewMob}>
                   <Text style={styles.timeValueStyleMob}>
-                    {minutes}:{seconds}
+                    {minutes ? minutes : "00"}:{seconds ? seconds : "00"}
                   </Text>
                   <Text style={styles.timeTextStyleMob}>Tasuta broneering</Text>
                 </View>

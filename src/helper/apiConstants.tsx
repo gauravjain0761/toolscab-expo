@@ -15,6 +15,7 @@ export const api = {
   catalogueFilterProducts:"Catalogue/FilterProducts",
 
   // /Product
+  productSearch:"Product/Search",
   get_product: "Product",
   product_photo: "Product/Photos",
   product_specs: "Product/Specs",

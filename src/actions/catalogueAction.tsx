@@ -38,7 +38,7 @@ export const getCatalogueCategorySearchAction =
 
       return makeAPIRequest({
         method: GET,
-        url: api.catalogue,
+        url: api.productSearch,
         headers: headers,
         params:request.params
       })

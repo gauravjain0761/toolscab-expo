@@ -166,20 +166,20 @@ const CatalogueSearch = () => {
     setShowProduct([]);
   }, [isFocused]);
 
-  const onCataloguePressMobile = (res) => {
+  const onCataloguePressMobile = (res:any) => {
     const obj = {
       params: {
-        category_id: res?.product_category_id,
-      },
-      data1: {
-        brand: res?.category_title,
+        product_id: res?.product_id,
+        include_photo_ids: true,
       },
       onSuccess: (res: any) => {
-        navigationRef.navigate(screenName.catalogueProductsMobile);
+         //@ts-ignore
+        navigationRef.navigate(screenName.productDetail);
       },
       onFailure: () => {},
     };
-    dispatch(getCatalogueCategoryProductsAction(obj));
+    //@ts-ignore
+    dispatch(getProductAction(obj));
   };
 
   const onSearchPress = () => {
@@ -260,17 +260,33 @@ const CatalogueSearch = () => {
           numColumns={2}
           keyExtractor={(_i, index) => index.toString()}
           renderItem={({ item, index }) => {
+            console.log('item?.first_photo_id',item);
+        
             return (
+              // <ProductView
+              //   icon={icons.image1}
+              //   title={item?.category_title}
+              //   product_category_id={`https://api.toolscab.ee/PhotoBinary/CategoryPhoto?category_id=${item?.product_category_id}&maxWidth=300&maxHeight=300`}
+              //   onSelectPress={() =>
+              //     //@ts-ignorez
+              //     onCataloguePressMobile(item)
+              //   }
+              //   mainView={true}
+              // />
               <ProductView
-                icon={icons.image1}
-                title={item?.category_title}
-                product_category_id={`https://api.toolscab.ee/PhotoBinary/CategoryPhoto?category_id=${item?.product_category_id}&maxWidth=300&maxHeight=300`}
-                onSelectPress={() =>
-                  //@ts-ignorez
-                  onCataloguePressMobile(item)
-                }
-                mainView={true}
-              />
+              index={index}
+              icon={item?.icon}
+              title={item?.product_name}
+              label={item?.brand}
+             
+              product_category_id={`https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${item?.product_id}&maxWidth=100&maxHeight=100`}
+              onSelectPress={() => onCataloguePressMobile(item)}
+              mainView={false}
+              banner={item?.banner}
+              aircon={item?.aircon || 0}
+              volumeflow={item?.volumeflow || 0}
+              hoselength={item?.hoselength || 0}
+            />
             );
           }}
           ListEmptyComponent={() => {

@@ -100,7 +100,7 @@ const CartList = ({ title, list, onPress, data, removeRental }: Props) => {
               { color: delay < 50 ? colors.red : colors.headerBG },
             ]}
           >
-            {minutes}:{seconds}
+             {minutes ? minutes : "00"}:{seconds ? seconds : "00"}
           </Text>
 
           <Text style={styles.headerText7}>{"Tasuta broneering"}</Text>
@@ -172,7 +172,7 @@ const CartList = ({ title, list, onPress, data, removeRental }: Props) => {
                     },
                   ]}
                 >
-                  {minutes}:{seconds}
+                  {minutes ? minutes : "00"}:{seconds ? seconds : "00"}
                 </Text>
 
                 <Text style={styles.headerText7Mob}>{"Tasuta broneering"}</Text>
