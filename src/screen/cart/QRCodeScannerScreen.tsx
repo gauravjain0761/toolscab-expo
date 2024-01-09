@@ -3,7 +3,15 @@
 // import QRCodeScanner from 'react-native-qrcode-scanner';
 // import styles from './scanStyle';
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, TouchableOpacity, View, Button } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Button,
+  Image,
+  ImageBackground,
+} from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { Camera } from "expo-camera";
 import styles from "./QRCodeScannerScreenStyle";
@@ -13,13 +21,22 @@ import { screenName } from "../../helper/constants";
 import { useDispatch } from "react-redux";
 import { getStartRentalsAction } from "../../actions/cartAction";
 import { colors } from "../../theme/Colors";
+import ReactNativeModal from "react-native-modal";
+import { icons } from "../../theme/Icons";
 const QRCodeScannerScreen = () => {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [scannedValue, setScannedValue] = useState([]);
   const navigationRef = useNavigation();
   const dispatch = useDispatch();
+  const [modalShow, setModalShow] = useState(false);
+  const [sucessModal, setSucessModal] = useState(false);
+  const [failModal, setFailModal] = useState(true);
   const { params } = useRoute();
+
+  console.log("scannedValue", scannedValue);
+  console.log("scannedValue", params?.itemData?.lockers);
+  console.log("scannedValue", params?.itemData?.rental_id);
 
   useEffect(() => {
     (async () => {
@@ -32,34 +49,50 @@ const QRCodeScannerScreen = () => {
     };
   }, []);
 
-  const onActivePress = (item) => {
+  const onActivePress = (value:any) => {
     const obj = {
       data: {
         rental_id: params?.itemData?.rental_id,
-        qr_codes: scannedValue,
+        qr_codes: value,
       },
       onSuccess: (res: any) => {
-        setScannedValue([]);
-        setScanned(false);
-        navigationRef.navigate(screenName.profileScreen);
+        setSucessModal(true);
       },
       onFailure: () => {
-        setScannedValue([]);
-        setScanned(false);
+        setSucessModal(true);
+        setFailModal(true);
       },
     };
-
     dispatch(getStartRentalsAction(obj));
   };
 
-  const handleBarCodeScanned = ({ type, data }) => {
-    const scannerData = [];
+  const onsubmitPress = () => {
+    if (failModal == false) {
+      setScannedValue([]);
+      setScanned(false);
+      setSucessModal(false);
+      setFailModal(false);
+      navigationRef.navigate(screenName.profileScreen);
+    } else {
+      setSucessModal(false);
+      setFailModal(false);
+    }
+  };
+
+  const handleBarCodeScanned = ({ data }) => {
     setScanned(true);
-    const updateData = scannedValue.filter((item) => item == data);    
+    const updateData = scannedValue.filter((item) => item == data);
     if (updateData.length == 0) {
-      setScannedValue((prevArray) => [...prevArray,data]);
+      const updatValue = [...scannedValue, data];
+      setScannedValue(updatValue);
+      if (updatValue.length === params?.itemData?.lockers.length) {
+        onActivePress(updatValue);
+      } else {
+        setModalShow(true);
+      }
     } else {
       setScannedValue((prevArray) => [...prevArray]);
+      setScanned(false);
     }
   };
 
@@ -95,24 +128,86 @@ const QRCodeScannerScreen = () => {
   }
   return (
     <View style={styles.container}>
-      {renderCamera()}
-      <Text style={styles.headerText}>{`Jätkamiseks peate skannima ${params?.itemData?.lockers.length} QR-koodi`}</Text>
-      {params?.itemData?.lockers.length - scannedValue.length != 0 && (
-        <CommonGreenBtn
-          // disabled={scanned}
-          title={`Skaneeri QR ${
-            params?.itemData?.lockers.length - scannedValue.length
-          }`}
-          onPress={() => setScanned(false)}
-          style={[styles.button, { marginTop: 20 }]}
-        />
+      {!sucessModal ? renderCamera() :null}
+      {modalShow && (
+        <ReactNativeModal isVisible={modalShow}>
+          <View
+            style={{
+              borderRadius: 25,
+              backgroundColor: colors.white,
+              padding: 10,
+              paddingVertical: 20,
+              paddingHorizontal: 30,
+            }}
+          >
+            <Text style={styles.textstyle}>
+              kappide avamiseks skaneeri nüüd QR-kood kapilt No
+            </Text>
+            <Text style={styles.textstyle1}>
+              {params?.itemData?.lockers[scannedValue?.length]?.locker_number}
+            </Text>
+            <Text style={styles.textstyle2}>
+              kappe on kokku{" "}
+              <Text style={{ color: colors.black }}>
+                {params?.itemData?.lockers?.length}
+              </Text>
+            </Text>
+            <Text style={styles.textstyle3}>
+              {"kapid avanevad alles pärast\nkõigi koodide skaneerimist"}
+            </Text>
+            <CommonGreenBtn
+              // disabled={params?.itemData?.lockers.length - scannedValue.length != 0}
+              title={"järgmiseks"}
+              onPress={() => {
+                setModalShow(false);
+                setScanned(false);
+              }}
+              style={[styles.button, { marginTop: 20, alignSelf: "center" }]}
+            />
+          </View>
+        </ReactNativeModal>
       )}
-      <CommonGreenBtn
-        disabled={params?.itemData?.lockers.length - scannedValue.length != 0}
-        title={"Esita"}
-        onPress={() => onActivePress()}
-        style={[styles.button, { marginTop: 20 }]}
-      />
+      {sucessModal && (
+        <ReactNativeModal isVisible={sucessModal}>
+          <View
+            style={{
+              borderRadius: 25,
+              backgroundColor: colors.white,
+              padding: 10,
+              paddingVertical: 20,
+              paddingHorizontal: 30,
+            }}
+          >
+            <View
+              style={[
+                styles.logoStyleMob,
+                {
+                  backgroundColor:
+                  failModal == false ? colors.roheline : colors.red,
+                },
+              ]}
+            >
+              {failModal == false ? (
+                <Image source={icons.done} style={styles.doneIconMob} />
+              ) : (
+                <Image source={icons.closeIcon} style={styles.closeIcon} />
+              )}
+            </View>
+
+            <Text style={styles.textstyle}>
+              {failModal == false ? "edukas" : "ebaõnnestunud"}
+            </Text>
+            <Text style={styles.textSubStyle}>
+              {failModal == false ? "" : "proovi uuesti"}
+            </Text>
+            <CommonGreenBtn
+              title={failModal == false ? "Esita" : "tühistada"}
+              onPress={onsubmitPress}
+              style={[styles.button, { marginTop: 20, alignSelf: "center" }]}
+            />
+          </View>
+        </ReactNativeModal>
+      )}
     </View>
   );
 };

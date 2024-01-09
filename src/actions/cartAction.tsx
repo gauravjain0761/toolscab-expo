@@ -105,7 +105,7 @@ export const getActiveRentalsAction =
         }
       })
       .catch((error) => {
-        alert(error?.response?.data?.detail);
+        console.log('error?.response?.data',error?.response?.data);
         if (request.onFailure) request.onFailure(error.response);
       });
   };

@@ -15,6 +15,7 @@ import CommonGreenBtn from "../reusableComponent/CommonGreenBtn";
 import { widthPercentageToDP } from "react-native-responsive-screen";
 import { useNavigation } from "@react-navigation/native";
 import moment from "moment";
+import "moment-timezone";
 
 type Props = {
   title?: string;
@@ -28,9 +29,10 @@ const CartList = ({ title, list, onPress, data, removeRental }: Props) => {
   const navigationRef = useNavigation();
 
   const duration = moment(new Date()).diff(
-    moment(data?.added_to_cart),
+    moment(data?.added_to_cart).tz('Asia/Kolkata'),
     "seconds"
   );
+
 
   const second = Math.floor(duration);
   const [delay, setDelay] = useState(second < 900 ? second : 0);
