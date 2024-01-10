@@ -171,6 +171,7 @@ const CartList = ({ title, list, onPress, data, removeRental }: Props) => {
                     {
                       color: delay < 50 ? colors.red : colors.headerBG,
                       fontSize: 20,
+                      lineHeight:24
                     },
                   ]}
                 >
@@ -261,7 +262,7 @@ const styles = StyleSheet.create({
   },
   headerText6: {
     textAlign: "center",
-    lineHeight: 24,
+    lineHeight: 30,
     ...commonFontStyle(fontFamily.articulat_bold, 24, colors.headerBG),
   },
   headerText7: {

@@ -30,6 +30,8 @@ import {
 } from "../../actions/cartAction";
 import { fontFamily, screenName } from "../../helper/constants";
 import { commonFontStyle, defaultFont } from "../../theme/Fonts";
+import CommonGreenBtn from "../../components/reusableComponent/CommonGreenBtn";
+import ReactNativeModal from "react-native-modal";
 
 // create a component
 const CartScreen = () => {
@@ -39,6 +41,7 @@ const CartScreen = () => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
   const navigationRef = useNavigation();
+  const [modalShow, setModalShow] = useState(false);
 
   const { getPaymentList, getShoppingCart } = useSelector(
     (state) => state.cart
@@ -187,7 +190,8 @@ const CartScreen = () => {
                       <CartList
                         data={item}
                         onPress={() => {
-                          setLocarShow(true);
+                          // setLocarShow(true);
+                          setModalShow(true);
                           setItemDate(item);
                         }}
                         removeRental={() => onPessRemoveRental(item)}
@@ -219,7 +223,7 @@ const CartScreen = () => {
               paddingTop: 30,
               paddingHorizontal: 30,
               paddingBottom: 40,
-              marginTop:20
+              marginTop: 20,
             }}
           >
             <Image source={icons.commonicon} style={styles.commoniconStyle} />
@@ -253,11 +257,59 @@ const CartScreen = () => {
             oncomfirmPress={() => {
               setTimeout(() => {
                 // setqrcodeModalShow(true);
-                navigationRef.navigate(screenName.qrCodeScannerScreen,{itemData:itemData})
+                navigationRef.navigate(screenName.qrCodeScannerScreen, {
+                  itemData: itemData,
+                });
               }, 1000);
               setLocarShow(false);
             }}
           />
+          {modalShow && (
+            <ReactNativeModal isVisible={modalShow}>
+              <View
+                style={{
+                  borderRadius: 25,
+                  backgroundColor: colors.white,
+                  padding: 10,
+                  paddingVertical: 20,
+                  paddingHorizontal: 30,
+                }}
+              >
+                <Text style={styles.textstyle}>
+                  kappide avamiseks skaneeri nüüd QR-kood kapilt No
+                </Text>
+                <Text style={styles.textstyle1}>
+                  {itemData?.lockers[0]?.locker_number}
+                </Text>
+                <Text style={styles.textstyle2}>
+                  kappe on kokku{" "}
+                  <Text style={{ color: colors.black }}>
+                    {itemData?.lockers?.length}
+                  </Text>
+                </Text>
+                <Text style={styles.textstyle3}>
+                  {"kapid avanevad alles pärast\nkõigi koodide skaneerimist"}
+                </Text>
+                <CommonGreenBtn
+                  // disabled={params?.itemData?.lockers.length - scannedValue.length != 0}
+                  title={"järgmiseks"}
+                  onPress={() => {
+                    setTimeout(() => {
+                      // setqrcodeModalShow(true);
+                      navigationRef.navigate(screenName.qrCodeScannerScreen, {
+                        itemData: itemData,
+                      });
+                    }, 1000);
+                    setModalShow(false);
+                  }}
+                  style={[
+                    styles.button,
+                    { marginTop: 20, alignSelf: "center" },
+                  ]}
+                />
+              </View>
+            </ReactNativeModal>
+          )}
         </ScrollView>
       </View>
     );

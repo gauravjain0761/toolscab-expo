@@ -280,7 +280,7 @@ const styles = StyleSheet.create({
   },
   headerText6Mob: {
     textAlign: "center",
-    lineHeight: 30,
+    lineHeight: 34,
     ...defaultFont(600, 24, colors.headerBG),
   },
   headerText7Mob: {

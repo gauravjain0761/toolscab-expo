@@ -112,4 +112,36 @@ export const styles = StyleSheet.create({
     marginTop:15,
     ...defaultFont(400, 14, colors.filterText),
   },
+  textstyle:{
+    marginTop: 50,
+    alignSelf:"center",
+    ...defaultFont(400, 24, colors.Roheline2),
+  },
+  textSubStyle:{
+    marginVertical: 20,
+    alignSelf:"center",
+    ...defaultFont(400, 20, colors.black),
+  },
+  textstyle1:{
+    alignSelf:"center",
+    marginVertical: 10,
+    ...defaultFont(400, 34, colors.black),
+    fontWeight: 'bold',
+  },
+  textstyle2:{
+    alignSelf:"center",
+    marginVertical: 20,
+    ...defaultFont(400, 18, colors.Roheline2),
+  },
+  textstyle3:{
+    alignSelf:"center",
+    marginTop: 10,
+    ...defaultFont(400, 17, colors.black),
+  },
+  button: {
+    borderColor: colors.black,
+    marginLeft: 10,
+    width: "40%",
+    backgroundColor: colors.roheline,
+  },
 });

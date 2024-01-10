@@ -31,12 +31,9 @@ const QRCodeScannerScreen = () => {
   const dispatch = useDispatch();
   const [modalShow, setModalShow] = useState(false);
   const [sucessModal, setSucessModal] = useState(false);
-  const [failModal, setFailModal] = useState(true);
+  const [failModal, setFailModal] = useState(false);
   const { params } = useRoute();
 
-  console.log("scannedValue", scannedValue);
-  console.log("scannedValue", params?.itemData?.lockers);
-  console.log("scannedValue", params?.itemData?.rental_id);
 
   useEffect(() => {
     (async () => {
@@ -63,8 +60,13 @@ const QRCodeScannerScreen = () => {
         setFailModal(true);
       },
     };
+  
     dispatch(getStartRentalsAction(obj));
   };
+
+
+  console.log('sucessModal',sucessModal);
+  
 
   const onsubmitPress = () => {
     if (failModal == false) {
@@ -76,6 +78,7 @@ const QRCodeScannerScreen = () => {
     } else {
       setSucessModal(false);
       setFailModal(false);
+      navigationRef.goBack()
     }
   };
 
