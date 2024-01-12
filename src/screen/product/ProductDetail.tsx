@@ -274,7 +274,26 @@ const ProductDetail = (props: Props) => {
                   );
                 }}
               />
-              <Text style={styles.des}>{productDetails?.description}</Text>
+              <Text
+                style={styles.des}
+                numberOfLines={
+                  !moreShow ? 5 : productDetails?.description?.length
+                }
+              >
+                {productDetails?.description}
+              </Text>
+              <TouchableOpacity
+                onPress={() => {
+                  {
+                    moreShow && scrollViewRef?.current.scrollTo(200);
+                  }
+                  setMoreShow(!moreShow);
+                }}
+              >
+                <Text style={styles.seeMoreTextWeb}>{`${
+                  moreShow ? "Show less" : "Show more"
+                }`}</Text>
+              </TouchableOpacity>
             </View>
             <View style={styles.rightView}>
               <Text style={styles.title1}>{productDetails?.brand}</Text>
@@ -918,7 +937,9 @@ const ProductDetail = (props: Props) => {
           </Text>
           <TouchableOpacity
             onPress={() => {
-             {moreShow && scrollViewRef?.current.scrollTo(200);}
+              {
+                moreShow && scrollViewRef?.current.scrollTo(200);
+              }
               setMoreShow(!moreShow);
             }}
           >

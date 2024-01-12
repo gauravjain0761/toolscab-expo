@@ -170,48 +170,50 @@ const CatalogueFilter = () => {
   return Platform.OS == "web" ? (
     <View style={styles.container}>
       <Header isMainScreen={false} />
-      <View style={styles.mainStyleWeb}>
-        <HeaderBottomPathView
-          heading={" Seadmed "}
-          //@ts-ignore
-          heading1={`/ ${showProduct[0]?.brand}`}
-          onHeadingPress={() => setShowProduct([])}
-          onHeadingMainPress={() => {
-            navigationRef.navigate(screenName.homeScreen);
-          }}
-        />
-        <View style={styles.containerBody}>
-          <View style={styles.rightView}>
-            {showProduct?.length == 0 ? (
-              <ProductcartList
-                listData={catalogueList}
-                mainView={true}
-                setShowProduct={setShowProduct}
-              />
-            ) : (
-              <ProductcartList mainView={false} showProduct={showProduct} />
-            )}
+      <ScrollView>
+        <View style={styles.mainStyleWeb}>
+          <HeaderBottomPathView
+            heading={" Seadmed "}
+            //@ts-ignore
+            heading1={`/ ${showProduct[0]?.brand}`}
+            onHeadingPress={() => setShowProduct([])}
+            onHeadingMainPress={() => {
+              navigationRef.navigate(screenName.homeScreen);
+            }}
+          />
+          <View style={styles.containerBody}>
+            <View style={styles.rightView}>
+              {showProduct?.length == 0 ? (
+                <ProductcartList
+                  listData={catalogueList}
+                  mainView={true}
+                  setShowProduct={setShowProduct}
+                />
+              ) : (
+                <ProductcartList mainView={false} showProduct={showProduct} />
+              )}
+            </View>
           </View>
         </View>
-      </View>
-      {showProduct?.length == 0 ? (
-        <View style={styles.showProductStyle}>
-          <ImageBackground
-            source={icons.imageBg}
-            resizeMode="contain"
-            style={styles.imageBgStyleWeb}
-          >
-            <Text
-              style={styles.imageTextWeb}
-            >{`See sektsioon siin on lihtsalt sellejaoks, et lehte kuidagi ära lõpetada\nja ülemisele osale jalgu anda. Siia võib panna Vaata lisaks sektsiooni või blogipostitused`}</Text>
-          </ImageBackground>
+        {showProduct?.length == 0 ? (
+          <View style={styles.showProductStyle}>
+            <ImageBackground
+              source={icons.imageBg}
+              resizeMode="contain"
+              style={styles.imageBgStyleWeb}
+            >
+              <Text
+                style={styles.imageTextWeb}
+              >{`See sektsioon siin on lihtsalt sellejaoks, et lehte kuidagi ära lõpetada\nja ülemisele osale jalgu anda. Siia võib panna Vaata lisaks sektsiooni või blogipostitused`}</Text>
+            </ImageBackground>
+          </View>
+        ) : (
+          <View style={{ marginTop: 90 }} />
+        )}
+        <View style={{ justifyContent: "flex-end" }}>
+          <FooterView />
         </View>
-      ) : (
-        <View style={{ marginTop: 90 }} />
-      )}
-      <View style={{ justifyContent: "flex-end" }}>
-        <FooterView />
-      </View>
+      </ScrollView>
     </View>
   ) : (
     <View style={styles.container}>

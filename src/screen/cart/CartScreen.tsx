@@ -292,7 +292,7 @@ const CartScreen = () => {
                 </Text>
                 <CommonGreenBtn
                   // disabled={params?.itemData?.lockers.length - scannedValue.length != 0}
-                  title={"järgmiseks"}
+                  title={"skaneeri"}
                   onPress={() => {
                     setTimeout(() => {
                       // setqrcodeModalShow(true);

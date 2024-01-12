@@ -9,6 +9,7 @@ import {
   ImageBackground,
   FlatList,
   Platform,
+  TouchableHighlight,
 } from "react-native";
 import { colors } from "../../theme/Colors";
 import {
@@ -28,6 +29,7 @@ import { getCatalogueCategorySearchAction } from "../../actions/catalogueAction"
 import { useNavigation } from "@react-navigation/native";
 import { styles } from "./HomeScreenStyle";
 import axios from "axios";
+import { Pressable } from "react-native";
 // create a component
 const HomeScreen = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -54,20 +56,20 @@ const HomeScreen = () => {
   }, []);
 
   var config = {
-    method: 'get',
-    url: 'https://api.toolscab.ee/Catalogue/CategorySearch',
-    headers: { 
-      'accept': 'text/plain'
-    }
+    method: "get",
+    url: "https://api.toolscab.ee/Catalogue/CategorySearch",
+    headers: {
+      accept: "text/plain",
+    },
   };
-  
+
   axios(config)
-  .then(function (response) {
-    console.log(JSON.stringify(response.data));
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
+    .then(function (response) {
+      console.log(JSON.stringify(response.data));
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 
   return (
     <View style={styles.container}>
@@ -398,20 +400,27 @@ const HomeScreen = () => {
                   position: "absolute",
                   paddingLeft: heightPercentageToDP(2),
                   paddingTop: 30,
+                  height: hp(600),
                 }}
               >
-                <TouchableOpacity
+                <TouchableHighlight
                   onPress={() => {
                     navigationRef.navigate(screenName.catalogueSearch);
                   }}
-                  style={{ width: 280, height: 80 }}
                 >
-                  <Image
-                    source={icons.searchboxPointer}
-                    style={styles.serachIconStyleMob}
-                    // resizeMode="cover"
-                  />
-                </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      navigationRef.navigate(screenName.catalogueSearch);
+                    }}
+                    style={{ marginLeft: -20 }}
+                  >
+                    <Image
+                      source={icons.searchboxPointer}
+                      style={styles.serachIconStyleMob}
+                      resizeMode="cover"
+                    />
+                  </TouchableOpacity>
+                </TouchableHighlight>
                 <Text
                   style={{
                     lineHeight: 40,

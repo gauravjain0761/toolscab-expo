@@ -77,6 +77,7 @@ export const styles = StyleSheet.create({
        marginBottom: heightPercentageToDP(4),
     alignSelf:'flex-end'
   },
+ 
   downarrowMob: {
     width: widthPercentageToDP(4),
     height: widthPercentageToDP(4),
@@ -335,6 +336,12 @@ export const styles = StyleSheet.create({
   },
   minText: {
     ...commonFontStyle(fontFamily.articulat_regular, 14, colors.headerBG),
+  },
+  seeMoreTextWeb: {
+    ...commonFontStyle("400", 14, colors.black),
+    lineHeight: 20,
+       marginBottom: heightPercentageToDP(4),
+    alignSelf:'flex-end'
   },
   arrowViewStyle: {
     flex: 1,

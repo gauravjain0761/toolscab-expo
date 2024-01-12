@@ -111,10 +111,17 @@ const ProfileScreen = () => {
   };
 
   const onFinishPress = (item: any) => {
+
+    const updateQR=[]
+
+    item?.lockers.map(list=>{
+      updateQR.push(list.qr_code)
+    })
+
     const obj = {
       data: {
         rental_id: item?.rental_id,
-        qr_codes: [item?.components?.[0]?.qr_code],
+        qr_codes: updateQR,
       },
       onSuccess: (res: any) => {
         navigationRef.navigate(screenName.homeScreen);

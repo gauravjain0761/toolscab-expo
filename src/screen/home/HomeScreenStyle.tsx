@@ -7,20 +7,24 @@ import {
 import { colors } from "../../theme/Colors";
 import { hp, wp } from "../../helper/globalFunctions";
 import { heightPercentageToDP } from "react-native-responsive-screen";
-import { defaultFont } from "../../theme/Fonts";
+import { SCREEN_HEIGHT, SCREEN_WIDTH, defaultFont } from "../../theme/Fonts";
 
 
 export const styles = StyleSheet.create({
   //mobile
   content_1: {
     backgroundColor: colors.roheline,
-    paddingTop: 40
+    paddingTop: 40,
+    height: hp(600),
   },
   userimageStyleMobile: {
-    height: hp(600),
-    paddingRight: -200,
+    height: hp(500),
+    // paddingRight: -200,
     // position: 'absolute',
-    left: wp(150),
+    // width:wp(550),
+    right: -(SCREEN_WIDTH * 0.19),
+    top:SCREEN_HEIGHT*0.012,
+    zIndex:-1
   },
   serachIconStyle:{
     width:380,
@@ -100,7 +104,6 @@ export const styles = StyleSheet.create({
     height:80,
     // left: -20,
     // top:-10,
-    marginLeft:-20,
     // resizeMode:'contain'
   },
   userimageStyle: {

@@ -141,7 +141,7 @@ export const styles = StyleSheet.create({
   button: {
     borderColor: colors.black,
     marginLeft: 10,
-    width: "40%",
+    width: "70%",
     backgroundColor: colors.roheline,
   },
 });

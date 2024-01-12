@@ -3,7 +3,7 @@ import { AnyAction } from "redux";
 import { makeAPIRequest } from "../helper/apiGlobal";
 import { GET, POST, api } from "../helper/apiConstants";
 import { RootState } from "../helper/types";
-import { GET_CATALOGUE_CATEGORY_LIST_DATA, GET_CATALOGUE_CATEGORY_PRODUCT_LIST_DATA, GET_CATALOGUE_CATEGORY_SEARCH_LIST_DATA, GET_CATALOGUE_FILTER_FROM_LIST_DATA, GET_PRODUCT_DETAILS_DATA, GET_PRODUCT_LOCATION_DETAILS_DATA, GET_PRODUCT_SPECS_DETAILS_DATA } from "./dispatchTypes";
+import { GET_CATALOGUE_CATEGORY_LIST_DATA, GET_CATALOGUE_CATEGORY_PRODUCT_LIST_DATA, GET_CATALOGUE_CATEGORY_SEARCH_LIST_DATA, GET_CATALOGUE_FILTER_FROM_LIST_DATA, GET_PRODUCT_DETAILS_DATA, GET_PRODUCT_LOCATION_DETAILS_DATA, GET_PRODUCT_SPECS_DETAILS_DATA, GET_SEARCH_TEXT } from "./dispatchTypes";
 
 export const getCatalogueCategorySearchAction =
   (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
@@ -21,6 +21,7 @@ export const getCatalogueCategorySearchAction =
         .then(async (response: any) => {
           if (response.status === 200) {
             console.log('response', response?.data);
+            if (request.onSuccess) request.onSuccess(response?.data);
             dispatch({ type: GET_CATALOGUE_CATEGORY_LIST_DATA, payload: response?.data });
           }
         })
@@ -44,8 +45,10 @@ export const getCatalogueCategorySearchAction =
       })
         .then(async (response: any) => {
           if (response.status === 200) {
-            console.log('response', response?.data);
+            console.log('responsedada', response?.data);
+            if (request.onSuccess) request.onSuccess(response?.data);
             dispatch({ type: GET_CATALOGUE_CATEGORY_SEARCH_LIST_DATA, payload: response?.data });
+            dispatch({ type: GET_SEARCH_TEXT, payload: request.params?.search });
           }
         })
         .catch((error) => {

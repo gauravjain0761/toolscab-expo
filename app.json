@@ -23,7 +23,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.chiragk.toolscab",
-      "versionCode": 17
+      "versionCode": 24
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -39,8 +39,9 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "79b1c08d-ff3a-4295-81f1-f7e847138c74"
+        "projectId": "6d6e91e8-180f-46ac-ae85-3582380f0b87"
       }
-    }
+    },
+    "owner": "ritva_19"
   }
 }

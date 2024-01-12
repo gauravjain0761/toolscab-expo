@@ -34,6 +34,7 @@ const QRCodeScannerScreen = () => {
   const [failModal, setFailModal] = useState(false);
   const { params } = useRoute();
 
+console.log(params.itemData.lockers);
 
   useEffect(() => {
     (async () => {
@@ -105,7 +106,7 @@ const QRCodeScannerScreen = () => {
         style={[
           styles.cameraContainer,
           {
-            borderWidth: scanned ? 4 : 0,
+            borderWidth: scanned ? 4 : 1,
             borderColor: scanned ? colors.Roheline2 : colors.black,
           },
         ]}
@@ -131,6 +132,7 @@ const QRCodeScannerScreen = () => {
   }
   return (
     <View style={styles.container}>
+      <Text style={styles.headerTextMain}>Kaamera luba ei antud</Text>
       {!sucessModal ? renderCamera() :null}
       {modalShow && (
         <ReactNativeModal isVisible={modalShow}>
@@ -160,7 +162,7 @@ const QRCodeScannerScreen = () => {
             </Text>
             <CommonGreenBtn
               // disabled={params?.itemData?.lockers.length - scannedValue.length != 0}
-              title={"järgmiseks"}
+              title={"skaneeri"}
               onPress={() => {
                 setModalShow(false);
                 setScanned(false);

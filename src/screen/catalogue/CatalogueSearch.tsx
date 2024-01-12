@@ -157,23 +157,27 @@ const CatalogueSearch = () => {
   const navigationRef = useNavigation();
   const [showProduct, setShowProduct] = useState([]);
   const [searchValue, setSearchValue] = useState("");
+  const [noFound, setNoFound] = useState(false);
   const isFocused = useIsFocused();
 
   const dispatch = useDispatch();
-  const { catalogueSearchList } = useSelector((state) => state.catalogue);
+  const { catalogueSearchList, searchText } = useSelector(
+    (state) => state.catalogue
+  );
 
   useEffect(() => {
     setShowProduct([]);
+    setSearchValue(searchText);
   }, [isFocused]);
 
-  const onCataloguePressMobile = (res:any) => {
+  const onCataloguePressMobile = (res: any) => {
     const obj = {
       params: {
         product_id: res?.product_id,
         include_photo_ids: true,
       },
       onSuccess: (res: any) => {
-         //@ts-ignore
+        //@ts-ignore
         navigationRef.navigate(screenName.productDetail);
       },
       onFailure: () => {},
@@ -183,14 +187,19 @@ const CatalogueSearch = () => {
   };
 
   const onSearchPress = () => {
-    setShowProduct([]);
     const obj = {
       params: {
         search: searchValue,
         includeImages: true,
       },
-      onSuccess: (res: any) => {},
-      onFailure: () => {},
+      onSuccess: (res: any) => {
+        if (res.length === 0) {
+          setNoFound(true);
+        }
+      },
+      onFailure: () => {
+        setNoFound(true);
+      },
     };
     dispatch(catalogueCategorySearchAction(obj));
   };
@@ -204,8 +213,12 @@ const CatalogueSearch = () => {
             placeholder="otsing"
             style={styles.textInputStyleWeb}
             value={searchValue}
-            onChangeText={(text) => setSearchValue(text)}
+            onChangeText={(text) => {
+              setNoFound(false);
+              setSearchValue(text);
+            }}
             placeholderTextColor={colors.whiteGray}
+            onSubmitEditing={()=>onSearchPress()}
           />
           <TouchableOpacity
             style={styles.searchViewWeb}
@@ -216,14 +229,23 @@ const CatalogueSearch = () => {
         </View>
         <View style={styles.containerBody}>
           <View style={styles.rightView}>
-            {showProduct?.length == 0 ? (
+            {!noFound ? (
               <ProductcartList
-                listData={catalogueSearchList}
-                mainView={true}
-                setShowProduct={setShowProduct}
+                mainView={false}
+                showProduct={catalogueSearchList}
               />
             ) : (
-              <ProductcartList mainView={false} showProduct={showProduct} />
+              <View>
+                <Text
+                  style={{
+                    alignSelf: "center",
+                    marginTop: 30,
+                    ...commonFontStyle("500", 18, colors.black),
+                  }}
+                >
+                  Toodet ei leitud
+                </Text>
+              </View>
             )}
           </View>
         </View>
@@ -241,8 +263,11 @@ const CatalogueSearch = () => {
             placeholder="otsing"
             style={styles.textInputStyleMob}
             value={searchValue}
-            onChangeText={(text) => setSearchValue(text)}
+            onChangeText={(text) =>{
+              setNoFound(false)
+               setSearchValue(text)}}
             placeholderTextColor={colors.whiteGray}
+            onSubmitEditing={()=>onSearchPress()}
           />
           <TouchableOpacity
             style={styles.searchViewMob}
@@ -255,56 +280,43 @@ const CatalogueSearch = () => {
           <Text style={styles.title}>Meie seadmed</Text>
         )}
 
-        <FlatList
-          data={catalogueSearchList}
-          numColumns={2}
-          keyExtractor={(_i, index) => index.toString()}
-          renderItem={({ item, index }) => {
-            console.log('item?.first_photo_id',item);
-        
-            return (
-              // <ProductView
-              //   icon={icons.image1}
-              //   title={item?.category_title}
-              //   product_category_id={`https://api.toolscab.ee/PhotoBinary/CategoryPhoto?category_id=${item?.product_category_id}&maxWidth=300&maxHeight=300`}
-              //   onSelectPress={() =>
-              //     //@ts-ignorez
-              //     onCataloguePressMobile(item)
-              //   }
-              //   mainView={true}
-              // />
-              <ProductView
-              index={index}
-              icon={item?.icon}
-              title={item?.product_name}
-              label={item?.brand}
-             
-              product_category_id={`https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${item?.product_id}&maxWidth=100&maxHeight=100`}
-              onSelectPress={() => onCataloguePressMobile(item)}
-              mainView={false}
-              banner={item?.banner}
-              aircon={item?.aircon || 0}
-              volumeflow={item?.volumeflow || 0}
-              hoselength={item?.hoselength || 0}
-            />
-            );
-          }}
-          ListEmptyComponent={() => {
-            return (
-              <View>
-                <Text
-                  style={{
-                    alignSelf: "center",
-                    marginTop: 30,
-                    ...defaultFont(500, 18, colors.black),
-                  }}
-                >
-                  Toodet ei leitud
-                </Text>
-              </View>
-            );
-          }}
-        />
+        {!noFound ? (
+          <FlatList
+            data={catalogueSearchList}
+            numColumns={2}
+            keyExtractor={(_i, index) => index.toString()}
+            renderItem={({ item, index }) => {
+              return (
+                <ProductView
+                  index={index}
+                  icon={item?.icon}
+                  title={item?.product_name}
+                  label={item?.brand}
+                  product_category_id={`https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${item?.product_id}&maxWidth=100&maxHeight=100`}
+                  onSelectPress={() => onCataloguePressMobile(item)}
+                  mainView={false}
+                  banner={item?.banner}
+                  aircon={item?.aircon || 0}
+                  volumeflow={item?.volumeflow || 0}
+                  hoselength={item?.hoselength || 0}
+                />
+              );
+            }}
+          />
+        ) : (
+          <View>
+            <Text
+              style={{
+                alignSelf: "center",
+                marginTop: 30,
+                ...commonFontStyle("500", 18, colors.black),
+              }}
+            >
+              Toodet ei leitud
+            </Text>
+          </View>
+        )}
+
         <View style={{ height: 200 }} />
         <FooterView />
       </ScrollView>

@@ -22,6 +22,8 @@ export const userLogin =
       params: request.params,
     })
       .then(async (response: any) => {
+        console.log('response',response?.data);
+        
         if (response.status === 200) {
           setAsyncUserInfo(response?.data);
           if (request.onSuccess) request.onSuccess(response?.data);
