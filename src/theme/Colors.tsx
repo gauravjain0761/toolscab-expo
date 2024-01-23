@@ -14,6 +14,7 @@ export const colors = {
   filterText: '#787878',
   checkBoxText: '#2C2C2E',
   grey_6: 'rgba(209, 209, 214, 1)',
+  grey_D1: '#D1D1D6',
 
   grey_1: "#D9D9D9",
   Roheline2: '#B2E00E',

@@ -33,6 +33,7 @@ import WarningScreen from "../screen/profile/WarningScreen";
 import QRCodeScannerScreen from "../screen/cart/QRCodeScannerScreen";
 import _ from "lodash";
 import CatalogueSearch from "../screen/catalogue/CatalogueSearch";
+import FinishQRCodeScanner from "../screen/profile/FinishQRCodeScanner";
 
 export type RootStackParamList = {
   HomeScreen: undefined;
@@ -291,6 +292,17 @@ const StackNavigator: FC = () => {
           ...headerStyleMain,
         })}
         component={QRCodeScannerScreen}
+      />
+      <Stack.Screen
+        // @ts-ignore
+        name={screenName.finishQRCodeScanner}
+        options={({ navigation }) => ({
+          headerLeft: () => <HeaderLeft navigation={navigation} />,
+          headerRight: () => <HeaderRight navigation={navigation} />,
+          headerTitle: "",
+          ...headerStyleMain,
+        })}
+        component={FinishQRCodeScanner}
       />
     </Stack.Navigator>
   );

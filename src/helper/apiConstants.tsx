@@ -38,7 +38,9 @@ export const api = {
   activeRentals:'Rental/ActiveRentals',
   startRental:'Rental/StartRental',
   finishRental:'Rental/FinishRental',
-  removeItemFromCart:"Rental/RemoveItemFromCart"
+  removeItemFromCart:"Rental/RemoveItemFromCart",
+  terminateInvalidStart:"Rental/TerminateInvalidStart",
+  rateService:"Rental/RateService",
 
 };
 

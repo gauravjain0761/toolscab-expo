@@ -15,6 +15,7 @@ export const screenName = {
   cardScreen: "CardScreen",
   warningScreen: "WarningScreen",
   qrCodeScannerScreen: "QRCodeScannerScreen",
+  finishQRCodeScanner: "FinishQRCodeScanner",
 };
 
 export const fontFamily = {

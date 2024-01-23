@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
     ...commonFontStyle(fontFamily.articulat_normal, 12, colors.filterText),
   },
   headerText1: {
-    lineHeight: 20,
+    lineHeight: 28,
     marginTop: 8,
     ...commonFontStyle(fontFamily.articulat_normal, 18, colors.black),
   },
@@ -312,12 +312,12 @@ const styles = StyleSheet.create({
     ...defaultFont(400, 14, colors.filterText),
   },
   headerText1Mob: {
-    lineHeight: 24,
+    lineHeight: 30,
     marginTop: 8,
     ...defaultFont(400, 20, colors.black),
   },
   headerText2Mob: {
-    lineHeight: 21,
+    lineHeight: 28,
     ...defaultFont(700, 18, colors.black),
   },
   headerSubText2Mob: {

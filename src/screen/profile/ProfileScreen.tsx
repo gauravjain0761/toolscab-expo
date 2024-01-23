@@ -18,6 +18,7 @@ import {
   MyProfileView,
   PaymentViewCart,
   PreviousView,
+  QRCodeScnnerModal,
 } from "../../components";
 import { screen_width } from "../../helper/globalFunctions";
 import { styles } from "./ProfileScreenStyle";
@@ -50,11 +51,13 @@ const ProfileScreen = () => {
     (state) => state.profile
   );
   const [isSelect, setIsSelect] = useState(true);
+  const [itemData, setItemDate] = useState([]);
+  const [locarShow, setLocarShow] = useState(false);
+
   console.log("getActiveRental", getActiveRental);
 
   const { getPaymentList } = useSelector((state) => state.cart);
   const isFocused = useIsFocused();
-
 
   const getProfileListAction = async () => {
     const customer = await getAsyncUserInfo();
@@ -78,7 +81,6 @@ const ProfileScreen = () => {
     }
   };
   useEffect(() => {
-  
     getProfileListAction();
     getPayment();
   }, [isFocused]);
@@ -111,27 +113,12 @@ const ProfileScreen = () => {
   };
 
   const onFinishPress = (item: any) => {
-
-    const updateQR=[]
-
-    item?.lockers.map(list=>{
-      updateQR.push(list.qr_code)
-    })
-
-    const obj = {
-      data: {
-        rental_id: item?.rental_id,
-        qr_codes: updateQR,
-      },
-      onSuccess: (res: any) => {
-        navigationRef.navigate(screenName.homeScreen);
-      },
-      onFailure: () => {},
-    };
-    dispatch(getFinishRentalAction(obj));
+    setLocarShow(true);
+    setItemDate(item);
+   
   };
 
-  const onPessRemoveRental = (item:any) => {
+  const onPessRemoveRental = (item: any) => {
     const obj = {
       params: {
         rental_id: item?.rental_id,
@@ -243,7 +230,7 @@ const ProfileScreen = () => {
                             onPress={() => {
                               onFinishPress(item);
                             }}
-                            removeRental={()=>onPessRemoveRental(item)}
+                            removeRental={() => onPessRemoveRental(item)}
                           />
                         );
                       }}
@@ -376,7 +363,7 @@ const ProfileScreen = () => {
                             onPress={() => {
                               onFinishPress(item);
                             }}
-                            removeRental={()=>onPessRemoveRental(item)}
+                            removeRental={() => onPessRemoveRental(item)}
                           />
                         );
                       }}
@@ -412,11 +399,7 @@ const ProfileScreen = () => {
                         <Text
                           style={{
                             alignSelf: "center",
-                            ...defaultFont(
-                              500,
-                              14,
-                              colors.black
-                            ),
+                            ...defaultFont(500, 14, colors.black),
                           }}
                         >
                           Varasemates üürilepingutes tooteid ei ole
@@ -447,6 +430,22 @@ const ProfileScreen = () => {
           </View>
           <View style={{ height: 150 }} />
           <FooterView />
+        {locarShow &&  <QRCodeScnnerModal
+            totle={1}
+            lockersNo={itemData?.lockers[0]?.locker_number}
+            isVisible={locarShow}
+            itemData={itemData}
+            onClose={() => setLocarShow(false)}
+            oncomfirmPress={()=>{
+              setTimeout(() => {
+                // setqrcodeModalShow(true);
+                navigationRef.navigate(screenName.finishQRCodeScanner, {
+                  itemData: itemData,
+                });
+              }, 1000);
+              setLocarShow(false);
+            }}
+          />}
         </ScrollView>
       </View>
     );

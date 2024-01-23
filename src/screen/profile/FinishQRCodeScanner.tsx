@@ -14,17 +14,21 @@ import {
 } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { Camera } from "expo-camera";
-import styles from "./QRCodeScannerScreenStyle";
+import styles from "./FinishQRCodeScannerStyle";
 import CommonGreenBtn from "../../components/reusableComponent/CommonGreenBtn";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { screenName } from "../../helper/constants";
 import { useDispatch } from "react-redux";
-import { getStartRentalsAction } from "../../actions/cartAction";
+import { getFinishRentalAction, getStartRentalsAction } from "../../actions/cartAction";
 import { colors } from "../../theme/Colors";
 import ReactNativeModal from "react-native-modal";
 import { icons } from "../../theme/Icons";
-import { CartAddFLowModal } from "../../components";
-const QRCodeScannerScreen = () => {
+import {
+  CartAddFLowModal,
+  QRCodeScnnerModal,
+  ReviewSuccessModal,
+} from "../../components";
+const FinishQRCodeScanner = () => {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [scannedValue, setScannedValue] = useState([]);
@@ -35,8 +39,7 @@ const QRCodeScannerScreen = () => {
   const [failModal, setFailModal] = useState(false);
   const { params } = useRoute();
   const [locarShow, setLocarShow] = useState(false);
-
-  console.log(params.itemData.lockers);
+  const [lockersValue, setLockersValue] = useState({});
 
   useEffect(() => {
     (async () => {
@@ -56,7 +59,8 @@ const QRCodeScannerScreen = () => {
         qr_codes: value,
       },
       onSuccess: (res: any) => {
-        setLocarShow(true);
+        setLockersValue(res)
+       setLocarShow(true)
       },
       onFailure: () => {
         setSucessModal(true);
@@ -64,8 +68,7 @@ const QRCodeScannerScreen = () => {
         setScannedValue([]);
       },
     };
-
-    dispatch(getStartRentalsAction(obj));
+    dispatch(getFinishRentalAction(obj));
   };
 
   console.log("sucessModal", sucessModal);
@@ -131,50 +134,28 @@ const QRCodeScannerScreen = () => {
       </View>
     );
   }
+
+  console.log('scannedValue?.length,scannedValue?.length',scannedValue?.length);
+  
   return (
     <View style={styles.container}>
       <View>
         <Text style={styles.headerTextMain}>Kaamera luba ei antud</Text>
       </View>
       {!sucessModal ? renderCamera() : null}
-      {modalShow && (
-        <ReactNativeModal isVisible={modalShow}>
-          <View
-            style={{
-              borderRadius: 25,
-              backgroundColor: colors.white,
-              padding: 10,
-              paddingVertical: 20,
-              paddingHorizontal: 30,
-            }}
-          >
-            <Text style={styles.textstyle}>
-              kappide avamiseks skaneeri nüüd QR-kood kapilt No
-            </Text>
-            <Text style={styles.textstyle1}>
-              {params?.itemData?.lockers[scannedValue?.length]?.locker_number}
-            </Text>
-            <Text style={styles.textstyle2}>
-              kappe on kokku{" "}
-              <Text style={{ color: colors.black }}>
-                {params?.itemData?.lockers?.length}
-              </Text>
-            </Text>
-            <Text style={styles.textstyle3}>
-              {"kapid avanevad alles pärast\nkõigi koodide skaneerimist"}
-            </Text>
-            <CommonGreenBtn
-              // disabled={params?.itemData?.lockers.length - scannedValue.length != 0}
-              title={"skaneeri"}
-              onPress={() => {
-                setModalShow(false);
-                setScanned(false);
-              }}
-              style={[styles.button, { marginTop: 20, alignSelf: "center" }]}
-            />
-          </View>
-        </ReactNativeModal>
-      )}
+     {modalShow && <QRCodeScnnerModal
+        totle={scannedValue?.length+1}
+        lockersNo={
+          params?.itemData?.lockers[scannedValue?.length]?.locker_number
+        }
+        isVisible={modalShow}
+        itemData={params?.itemData}
+        onClose={() => setModalShow(false)}
+        oncomfirmPress={()=>{
+          setModalShow(false);
+          setScanned(false);
+        }}
+      />}
       {sucessModal && (
         <ReactNativeModal isVisible={sucessModal}>
           <View
@@ -216,11 +197,13 @@ const QRCodeScannerScreen = () => {
           </View>
         </ReactNativeModal>
       )}
-      <CartAddFLowModal
+
+      <ReviewSuccessModal
         isVisible={locarShow}
         onClose={() => {
           setLocarShow(false);
         }}
+        lockersValue={lockersValue}
         itemData={params?.itemData}
         oncomfirmPress={() => {}}
       />
@@ -228,4 +211,4 @@ const QRCodeScannerScreen = () => {
   );
 };
 
-export default QRCodeScannerScreen;
+export default FinishQRCodeScanner;

@@ -129,7 +129,7 @@ export const getActiveRentalsAction =
         }
       })
       .catch((error) => {
-        alert(error?.response?.data?.detail);
+        // alert(error?.response?.data?.detail);
         if (request.onFailure) request.onFailure(error.response);
       });
   };

@@ -26,6 +26,9 @@ import LoginPaymentModalWeb from './modal/LoginPaymentModalWeb'
 import CardPaymentModalWeb from './modal/CardPaymentModalWeb'
 import ImageModalWeb from './modal/ImageModalWeb'
 import CartFlowModal from './modal/CartFlowModal'
+import CartAddFLowModal from './modal/CartAddFLowModal'
+import QRCodeScnnerModal from './modal/QRCodeScnnerModal'
+import ReviewSuccessModal from './modal/ReviewSuccessModal'
 
 
 export {
@@ -54,5 +57,8 @@ export {
     LoginPaymentModalWeb,
     CardPaymentModalWeb,
     ImageModalWeb,
-    CartFlowModal
+    CartFlowModal,
+    CartAddFLowModal,
+    QRCodeScnnerModal,
+    ReviewSuccessModal
 }

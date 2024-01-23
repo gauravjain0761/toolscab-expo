@@ -16,6 +16,7 @@ export const icons = {
   image8: require("../../assets/icon/image8.png"),
   image9: require("../../assets/icon/image9.png"),
   done: require("../../assets/icon/done.png"),
+  sadIcon: require("../../assets/icon/sadIcon.png"),
   instagram: require("../../assets/icon/instagram.png"),
   map: require("../../assets/icon/map.png"),
   notification: require("../../assets/icon/notification.png"),
@@ -38,6 +39,8 @@ export const icons = {
   dotsthreefill1: require("../../assets/icon/dotsthreefill1.png"),
   search:require("../../assets/icon/search.png"),
   epquestion:require("../../assets/icon/epquestion.png"),
+  starIn:require("../../assets/icon/starIn.png"),
+  starout:require("../../assets/icon/starout.png"),
 
   menuIcon: require("../../assets/icon/menuIcon.png"),
   closeIcon: require("../../assets/icon/close.png"),
