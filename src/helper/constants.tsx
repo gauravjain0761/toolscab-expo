@@ -16,6 +16,7 @@ export const screenName = {
   warningScreen: "WarningScreen",
   qrCodeScannerScreen: "QRCodeScannerScreen",
   finishQRCodeScanner: "FinishQRCodeScanner",
+  webView: "WebView",
 };
 
 export const fontFamily = {

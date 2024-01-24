@@ -246,7 +246,7 @@ const ProductDetail = (props: Props) => {
               <Image
                 defaultSource={icons.defultIcon}
                 source={{
-                  uri: `https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${productDetails?.photo_ids?.[0]}&maxWidth=100&maxHeight=100`,
+                  uri: `https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${productDetails?.photo_ids?.[0]}&maxWidth=500&maxHeight=500`,
                 }}
                 style={styles.imageProduct}
                 resizeMode="contain"
@@ -266,7 +266,7 @@ const ProductDetail = (props: Props) => {
                         defaultSource={icons.defultIcon}
                         resizeMode="contain"
                         source={{
-                          uri: `https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${item}&maxWidth=100&maxHeight=100`,
+                          uri: `https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${item}&maxWidth=500&maxHeight=500`,
                         }}
                         style={styles.bottomImages}
                       ></ImageBackground>
@@ -666,7 +666,7 @@ const ProductDetail = (props: Props) => {
           <Text style={styles.title}>{productDetails?.product_name}</Text>
           <Image
             source={{
-              uri: `https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${productDetails?.photo_ids?.[0]}&maxWidth=100&maxHeight=100`,
+              uri: `https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${productDetails?.photo_ids?.[0]}&maxWidth=900&maxHeight=900`,
             }}
             style={styles.mainImage}
           />
@@ -1075,13 +1075,13 @@ const ProductDetail = (props: Props) => {
                   aircon={item?.aircon}
                   volumeflow={item?.volumeflow}
                   hoselength={item?.hoselength}
-                  listStyle={{ ...defaultFont(400, 11, colors.filterText) }}
+                  listStyle={{ ...defaultFont(400, 13, colors.filterText) }}
                   titleStyle={{
-                    ...defaultFont(700, 14, colors.black),
+                    ...defaultFont(700, 16, colors.black),
                     marginBottom: 10,
                   }}
                   labelStyle={{
-                    ...defaultFont(400, 11, colors.black),
+                    ...defaultFont(400, 13, colors.black),
                     marginBottom: 5,
                   }}
                 />

@@ -34,7 +34,7 @@ const ImageModalWeb = ({ isVisible, onClose, sourceId }: Props) => {
             resizeMode="contain"
             style={styles.imageStyle}
             source={{
-              uri: `https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${sourceId}&maxWidth=100&maxHeight=100`,
+              uri: `https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${sourceId}&maxWidth=500&maxHeight=500`,
             }}
           />
         </View>

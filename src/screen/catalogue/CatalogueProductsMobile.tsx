@@ -48,7 +48,7 @@ const CatalogueProductsMobile = () => {
                 icon={item?.icon}
                 title={item?.product_name}
                 label={item?.brand}
-                product_category_id={`https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${item?.first_photo_id}&maxWidth=300&maxHeight=300`}
+                product_category_id={`https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${item?.first_photo_id}&maxWidth=500&maxHeight=500`}
                 onSelectPress={() => onProductPressMobile(item)}
                 mainView={false}
                 banner={item?.banner}

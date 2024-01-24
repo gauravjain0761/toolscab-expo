@@ -96,7 +96,7 @@ const ProductcartList = ({
             return (
               <ProductView
                 icon={item.icon}
-                product_category_id={`https://api.toolscab.ee/PhotoBinary/CategoryPhoto?category_id=${item?.product_category_id}&maxWidth=300&maxHeight=300`}
+                product_category_id={`https://api.toolscab.ee/PhotoBinary/CategoryPhoto?category_id=${item?.product_category_id}&maxWidth=500&maxHeight=500`}
                 title={item?.category_title}
                 onSelectPress={() => onSelectPress(item)}
                 mainView={true}
@@ -134,7 +134,7 @@ const ProductcartList = ({
                 icon={item?.icon}
                 title={item?.product_name}
                 banner={item?.banner}
-                product_category_id={`https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${item?.first_photo_id}&maxWidth=300&maxHeight=300`}
+                product_category_id={`https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${item?.first_photo_id}&maxWidth=500&maxHeight=500`}
                 label={item?.brand}
                 onSelectPress={() =>
                   //@ts-ignore
@@ -292,7 +292,7 @@ const CatalogueSearch = () => {
                   icon={item?.icon}
                   title={item?.product_name}
                   label={item?.brand}
-                  product_category_id={`https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${item?.product_id}&maxWidth=100&maxHeight=100`}
+                  product_category_id={`https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${item?.product_id}&maxWidth=500&maxHeight=500`}
                   onSelectPress={() => onCataloguePressMobile(item)}
                   mainView={false}
                   banner={item?.banner}

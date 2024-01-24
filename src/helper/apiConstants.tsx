@@ -42,6 +42,10 @@ export const api = {
   terminateInvalidStart:"Rental/TerminateInvalidStart",
   rateService:"Rental/RateService",
 
+
+  //html
+  contentHtml:'Content/Html'
+
 };
 
 export const POST = "POST";

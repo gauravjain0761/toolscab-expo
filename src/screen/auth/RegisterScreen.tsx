@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Platform,
   Image,
+  Linking,
 } from "react-native";
 import { colors } from "../../theme/Colors";
 import { FooterView, Header, InpuText } from "../../components";
@@ -141,7 +142,7 @@ const RegisterScreen = () => {
             mobileNo: "",
             personalNo: "",
           });
-         
+
           setCheckBox3(false);
           setCheckBox1(false);
           setCheckBox2(false);
@@ -202,7 +203,6 @@ const RegisterScreen = () => {
               <TouchableOpacity
                 onPress={() => {
                   setSelectTab(2);
-
                 }}
                 style={[
                   styles.tabBtn,
@@ -255,6 +255,7 @@ const RegisterScreen = () => {
                       setTestInputData({ ...testInputData, password: text })
                     }
                     secureTextEntry={true}
+                    placeholder={"min 8 tähte"}
                   />
                   <InpuText
                     label={"Parool uuesti"}
@@ -265,6 +266,7 @@ const RegisterScreen = () => {
                         confirmPassword: text,
                       })
                     }
+                    placeholder={"min 8 tähte"}
                     secureTextEntry={true}
                   />
                   <InpuText
@@ -317,8 +319,8 @@ const RegisterScreen = () => {
                     onChangeText={(text) =>
                       setTestInputData({ ...testInputData, password: text })
                     }
+                    placeholder={"min 8 tähte"}
                     secureTextEntry={true}
-
                   />
                   <InpuText
                     label={"Parool uuesti"}
@@ -329,8 +331,8 @@ const RegisterScreen = () => {
                         confirmPassword: text,
                       })
                     }
+                    placeholder={"min 8 tähte"}
                     secureTextEntry={true}
-
                   />
                   <InpuText
                     label={"Mobiiltelefon"}
@@ -363,7 +365,9 @@ const RegisterScreen = () => {
                 style={[styles.checkText, { marginLeft: 15, marginTop: 15 }]}
               >
                 Andmete töötlemise põhimõtetega saate tutvuda SIIN:{" "}
-                <Text style={{ color: colors.Roheline2 }}> vajuta siia</Text>
+                <TouchableOpacity onPress={()=>Linking.openURL("https://api.toolscab.ee/Content/Html?title=content%2Fhtml%3Ftitle%3Dprivacy")}>
+                  <Text style={{ color: colors.Roheline2 }}> vajuta siia</Text>
+                </TouchableOpacity>
               </Text>
               <CheckBoxView
                 select={checkBox3}
@@ -463,8 +467,8 @@ const RegisterScreen = () => {
                     onChangeText={(text) =>
                       setTestInputData({ ...testInputData, password: text })
                     }
+                    placeholder={"min 8 tähte"}
                     secureTextEntry={true}
-
                   />
                   <InpuText
                     label={"Parool uuesti"}
@@ -475,8 +479,8 @@ const RegisterScreen = () => {
                         confirmPassword: text,
                       })
                     }
+                    placeholder={"min 8 tähte"}
                     secureTextEntry={true}
-
                   />
                   <InpuText
                     label={"Mobiiltelefon"}
@@ -530,8 +534,8 @@ const RegisterScreen = () => {
                     onChangeText={(text) =>
                       setTestInputData({ ...testInputData, password: text })
                     }
+                    placeholder={"min 8 tähte"}
                     secureTextEntry={true}
-
                   />
                   <InpuText
                     label={"Parool uuesti"}
@@ -542,8 +546,8 @@ const RegisterScreen = () => {
                         confirmPassword: text,
                       })
                     }
+                    placeholder={"min 8 tähte"}
                     secureTextEntry={true}
-
                   />
                   <InpuText
                     label={"Mobiiltelefon"}
@@ -580,7 +584,10 @@ const RegisterScreen = () => {
                 ]}
               >
                 Andmete töötlemise põhimõtetega saate tutvuda SIIN:{"\n"}
+                <TouchableOpacity onPress={()=>Linking.openURL('https://api.toolscab.ee/Content/Html?title=content%2Fhtml%3Ftitle%3Dprivacy')}>
+
                 <Text style={{ color: colors.Roheline2 }}> vajuta siia</Text>
+                </TouchableOpacity>
               </Text>
               <CheckBoxView
                 select={checkBox3}

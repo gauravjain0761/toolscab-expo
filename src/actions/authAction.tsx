@@ -151,3 +151,23 @@ export const deletePaymentMethod =
         if (request.onFailure) request.onFailure(error.response);
       });
   };
+
+  export const getHtmlMethod =
+  (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
+  async (dispatch) => {
+
+    return makeAPIRequest({
+      method: POST,
+      url: api.contentHtml,
+      params: request.params,
+    })
+      .then(async (response: any) => {
+        if (response.status === 200) {
+          console.log("response", response);
+          if (request.onSuccess) request.onSuccess(response?.data);
+        }
+      })
+      .catch((error) => {
+        if (request.onFailure) request.onFailure(error.response);
+      });
+  };

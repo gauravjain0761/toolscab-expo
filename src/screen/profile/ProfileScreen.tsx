@@ -115,7 +115,6 @@ const ProfileScreen = () => {
   const onFinishPress = (item: any) => {
     setLocarShow(true);
     setItemDate(item);
-   
   };
 
   const onPessRemoveRental = (item: any) => {
@@ -430,22 +429,24 @@ const ProfileScreen = () => {
           </View>
           <View style={{ height: 150 }} />
           <FooterView />
-        {locarShow &&  <QRCodeScnnerModal
-            totle={1}
-            lockersNo={itemData?.lockers[0]?.locker_number}
-            isVisible={locarShow}
-            itemData={itemData}
-            onClose={() => setLocarShow(false)}
-            oncomfirmPress={()=>{
-              setTimeout(() => {
-                // setqrcodeModalShow(true);
-                navigationRef.navigate(screenName.finishQRCodeScanner, {
-                  itemData: itemData,
-                });
-              }, 1000);
-              setLocarShow(false);
-            }}
-          />}
+          {locarShow && (
+            <QRCodeScnnerModal
+              totle={1}
+              lockersNo={itemData?.lockers[0]?.locker_number}
+              isVisible={locarShow}
+              itemData={itemData}
+              onClose={() => setLocarShow(false)}
+              oncomfirmPress={() => {
+                setTimeout(() => {
+                  // setqrcodeModalShow(true);
+                  navigationRef.navigate(screenName.finishQRCodeScanner, {
+                    itemData: itemData,
+                  });
+                }, 1000);
+                setLocarShow(false);
+              }}
+            />
+          )}
         </ScrollView>
       </View>
     );

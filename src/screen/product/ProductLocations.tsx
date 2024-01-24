@@ -65,7 +65,7 @@ const ProductLocations = () => {
             <View style={styles.boxStyle}>
               <View>
                 <Image
-                  source={{ uri: `https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${productDetails?.photo_ids?.[0]}&maxWidth=100&maxHeight=100`,}}
+                  source={{ uri: `https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${productDetails?.photo_ids?.[0]}&maxWidth=500&maxHeight=500`,}}
                   style={styles.leftIcon}
                   resizeMode="contain"
                 />
@@ -141,7 +141,7 @@ const ProductLocations = () => {
                 <Text style={styles.bodyHeaderTextMob}>{productDetails?.product_name}</Text>
               <View>
                 <Image
-                   source={{ uri: `https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${productDetails?.photo_ids?.[0]}&maxWidth=100&maxHeight=100`,}}
+                   source={{ uri: `https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${productDetails?.photo_ids?.[0]}&maxWidth=500&maxHeight=500`,}}
                   style={styles.leftIconMob}
                   resizeMode="contain"
                 />

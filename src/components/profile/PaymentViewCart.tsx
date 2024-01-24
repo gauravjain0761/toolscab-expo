@@ -48,7 +48,7 @@ const renderItem = (item:any,onPress:any) => {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        {text: 'Okei', onPress: () =>onPress(item)},
+        {text: 'Jah', onPress: () =>onPress(item)},
       ]);
     }
   }

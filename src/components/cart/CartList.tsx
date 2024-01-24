@@ -65,7 +65,7 @@ const CartList = ({ title, list, onPress, data, removeRental }: Props) => {
           <Image
             defaultSource={icons.defultIcon}
             source={{
-              uri: `https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${data?.main_product?.product_id}&maxWidth=100&maxHeight=100`,
+              uri: `https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${data?.main_product?.product_id}&maxWidth=500&maxHeight=500`,
             }}
             style={styles.iconsStyle}
             resizeMode="contain"
@@ -127,7 +127,7 @@ const CartList = ({ title, list, onPress, data, removeRental }: Props) => {
           <Image
             defaultSource={icons.defultIcon}
             source={{
-              uri: `https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${data?.main_product?.product_id}&maxWidth=100&maxHeight=100`,
+              uri: `https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${data?.main_product?.product_id}&maxWidth=500&maxHeight=500`,
             }}
             style={styles.iconsStyleMob}
             resizeMode="contain"

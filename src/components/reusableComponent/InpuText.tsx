@@ -12,7 +12,8 @@ type Props = {
   value?: string;
   secureTextEntry?: boolean;
   style: any;
-  maxLength:number
+  maxLength:number,
+  placeholder?: string;
 };
 
 const InpuText = ({
@@ -22,19 +23,21 @@ const InpuText = ({
   onChangeText,
   secureTextEntry,
   style,
-  maxLength
+  maxLength,
+  placeholder
 }: Props) => {
   if (Platform.OS === "web") {
     return (
       <View style={styles.container}>
         <Text style={styles.labelText}>{label}</Text>
         <TextInput
-          placeholder=""
+          placeholder={placeholder}
           style={[styles.textInput, style]}
           value={value}
           onChangeText={onChangeText}
           secureTextEntry={secureTextEntry}
           maxLength={maxLength}
+          placeholderTextColor={colors.grey}
         />
       </View>
     );

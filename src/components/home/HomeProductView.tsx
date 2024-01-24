@@ -27,7 +27,7 @@ const HomeProductView = ({ data }: any) => {
       <Image
         defaultSource={icons.defultIcon}
         source={{
-          uri: `https://api.toolscab.ee/PhotoBinary/CategoryPhoto?category_id=${data?.product_category_id}&maxWidth=300&maxHeight=300`,
+          uri: `https://api.toolscab.ee/PhotoBinary/CategoryPhoto?category_id=${data?.product_category_id}&maxWidth=500&maxHeight=500`,
         }}
         style={styles.iconStyle}
         resizeMode="contain"
@@ -38,7 +38,7 @@ const HomeProductView = ({ data }: any) => {
     <TouchableOpacity onPress={onCardPress} style={styles.containerMob}>
       <Image
         source={{
-          uri: `https://api.toolscab.ee/PhotoBinary/CategoryPhoto?category_id=${data?.product_category_id}&maxWidth=300&maxHeight=300`,
+          uri: `https://api.toolscab.ee/PhotoBinary/CategoryPhoto?category_id=${data?.product_category_id}&maxWidth=500&maxHeight=500`,
         }}
         style={styles.iconStyleMob}
         resizeMode="contain"
