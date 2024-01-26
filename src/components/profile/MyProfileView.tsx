@@ -94,7 +94,7 @@ const TowValueInput = ({
             <TextInput
               value={value1}
               onChangeText={onChangeText1}
-              style={[styles.inputStyle, { marginTop:5 }, textInputStyle]}
+              style={[styles.inputStyle, { marginTop: 5 }, textInputStyle]}
               maxLength={maxLength}
             />
           )}
@@ -127,7 +127,7 @@ const MyProfileView = ({ data }: Props) => {
     } else if (testInputData?.personalNo.trim().length == 0) {
       alert("Palun sisestage omaisikukood");
     } else if (testInputData?.personalNo.trim().length < 11) {
-      alert("Sisestage oma isikukoodiks maksimaalselt 11 numbrit");
+      alert("isikukood on 11 numbrit");
     } else if (testInputData?.emailId.trim().length === 0) {
       alert("Palun sisestage oma e-posti aadress");
     } else if (!emailCheck(testInputData?.emailId)) {
@@ -162,10 +162,11 @@ const MyProfileView = ({ data }: Props) => {
           const errorValue = error?.detail.includes(
             "Cannot insert duplicate key row in object"
           );
-          errorValue &&
-            alert(
-              "E-post on juba kasutusel Palun värskendage oma e-posti aadressi"
-            );
+          errorValue
+            ? alert(
+                "E-post on juba kasutusel Palun värskendage oma e-posti aadressi"
+              )
+            : alert(error?.detail);
         },
       };
       dispatch(userSaveProfile(obj));
@@ -226,10 +227,7 @@ const MyProfileView = ({ data }: Props) => {
             />
           )}
           {isSelect ? (
-            <TowValue
-              title="Telefoninumber"
-              value={`${data?.mobile}`}
-            />
+            <TowValue title="Telefoninumber" value={`${data?.mobile}`} />
           ) : (
             <View style={[styles.container, { marginTop: 12 }]}>
               <Text style={styles.itemText}>{"Telefoninumber"}</Text>
@@ -308,21 +306,21 @@ const MyProfileView = ({ data }: Props) => {
                 value={`${data?.first_name} ${data?.last_name}`}
                 textStyle={styles.textStyleMob}
               />
-            ) : ( 
+            ) : (
               <TowValueInput
-              title="Nimi:"
-              value={testInputData?.firstName}
-              value1={testInputData?.lastName}
-              textStyle={styles.textStyle}
-              onChangeText={(text) => {
-                setTestInputData({ ...testInputData, firstName: text });
-              }}
-              onChangeText1={(text) => {
-                setTestInputData({ ...testInputData, lastName: text });
-              }}
-              textInputStyle={{ width: 160 }}
-              showNewTextInput={true}
-            />
+                title="Nimi:"
+                value={testInputData?.firstName}
+                value1={testInputData?.lastName}
+                textStyle={styles.textStyle}
+                onChangeText={(text) => {
+                  setTestInputData({ ...testInputData, firstName: text });
+                }}
+                onChangeText1={(text) => {
+                  setTestInputData({ ...testInputData, lastName: text });
+                }}
+                textInputStyle={{ width: 160 }}
+                showNewTextInput={true}
+              />
             )}
             {isSelect ? (
               <TowValue title="Isikukood" value={data?.social_sec_no} />
@@ -350,14 +348,11 @@ const MyProfileView = ({ data }: Props) => {
               />
             )}
             {isSelect ? (
-              <TowValue
-                title="Telefoninumber"
-                value={`${data?.mobile}`}
-              />
+              <TowValue title="Telefoninumber" value={`${data?.mobile}`} />
             ) : (
               <View style={[styles.container, { marginTop: 12 }]}>
                 <Text style={styles.itemText}>{"Telefoninumber"}</Text>
-                <View style={{ }}>
+                <View style={{}}>
                   {/* <TextInput
                     value={testInputData.code}
                     onChangeText={(text) => {

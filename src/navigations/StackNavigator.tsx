@@ -92,9 +92,9 @@ const StackNavigator: FC = () => {
         >
           <Image source={icons.cartIcon} style={styles.menuIcon} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => {}} style={styles.menuStyle}>
+        {/* <TouchableOpacity onPress={() => {}} style={styles.menuStyle}>
           <Image source={icons.notification} style={styles.menuIcon} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <TouchableOpacity onPress={() => onOpenDrawer()}>
           <Image source={icons.menuIcon} style={styles.menuIcon} />
         </TouchableOpacity>
@@ -109,8 +109,8 @@ const StackNavigator: FC = () => {
       resizeMode: "contain",
     },
     menuIcon: {
-      width: 18,
-      height: 18,
+      width: 24,
+      height: 24,
       resizeMode: "contain",
     },
     menuStyle: {

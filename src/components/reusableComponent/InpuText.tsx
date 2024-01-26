@@ -12,7 +12,7 @@ type Props = {
   value?: string;
   secureTextEntry?: boolean;
   style: any;
-  maxLength:number,
+  maxLength: number;
   placeholder?: string;
 };
 
@@ -24,7 +24,7 @@ const InpuText = ({
   secureTextEntry,
   style,
   maxLength,
-  placeholder
+  placeholder,
 }: Props) => {
   if (Platform.OS === "web") {
     return (
@@ -46,8 +46,8 @@ const InpuText = ({
       <View style={styles.containerMob}>
         <Text style={styles.labelTextMob}>{label}</Text>
         <TextInput
-          placeholder=""
-          style={[styles.textInputMob,style]}
+          placeholder={placeholder}
+          style={[styles.textInputMob, style]}
           value={value}
           onChangeText={onChangeText}
           secureTextEntry={secureTextEntry}

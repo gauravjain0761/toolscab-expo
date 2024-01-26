@@ -136,7 +136,7 @@ const Header = ({ containerStyle, isMainScreen }: Props) => {
               style={[styles.iconStyle, { tintColor: textColor }]}
             />
           </TouchableOpacity>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => {
               navigationRef.navigate(screenName.cartScreen);
             }}
@@ -145,7 +145,7 @@ const Header = ({ containerStyle, isMainScreen }: Props) => {
               source={icons.notification}
               style={[styles.userIconeStyle, { tintColor: textColor }]}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity onPress={() => {}}>
             <Text style={[styles.userText, { fontSize: 12, color: textColor }]}>
               EST

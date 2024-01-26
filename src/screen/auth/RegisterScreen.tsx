@@ -93,7 +93,7 @@ const RegisterScreen = () => {
     } else if (testInputData?.personalNo.trim().length == 0) {
       alert("Palun sisestage omaisikukood");
     } else if (testInputData?.personalNo.trim().length < 11) {
-      alert("Sisestage oma isikukoodiks maksimaalselt 11 numbrit");
+      alert("isikukood on 11 numbrit");
     } else if (!emailCheck(testInputData?.emailId)) {
       alert("Sisestage oma kehtiv e-posti aadress");
     } else if (testInputData?.password.trim().length === 0) {
@@ -151,10 +151,10 @@ const RegisterScreen = () => {
           const errorValue = error?.detail.includes(
             "Cannot insert duplicate key row in object"
           );
-          errorValue &&
+          errorValue ?
             alert(
               "E-post on juba kasutusel Palun värskendage oma e-posti aadressi"
-            );
+            ) : alert(error?.detail)
         },
       };
       dispatch(userSaveProfile(obj));
