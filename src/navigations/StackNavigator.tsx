@@ -108,6 +108,13 @@ const StackNavigator: FC = () => {
       height: 22,
       resizeMode: "contain",
     },
+    backIcon: {
+      width: 22,
+      height: 22,
+      resizeMode: "contain",
+      transform: [{ rotate: '180deg'}],
+      tintColor:colors.white
+    },
     menuIcon: {
       width: 24,
       height: 24,
@@ -307,7 +314,7 @@ const StackNavigator: FC = () => {
       />
       <Stack.Screen
         // @ts-ignore
-        name={screenName.webView}
+        name={screenName.webViewScreen}
         options={({ navigation }) => ({
           headerLeft: () => <HeaderLeft navigation={navigation} />,
           headerRight: () => <HeaderRight navigation={navigation} />,

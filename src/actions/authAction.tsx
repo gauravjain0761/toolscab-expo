@@ -13,7 +13,7 @@ export const userLogin =
   (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
   async (dispatch) => {
     let headers = {
-      "Content-Type": "multipart/form-data",
+      "Content-Type": "application/json",
     };
     return makeAPIRequest({
       method: POST,
@@ -38,7 +38,7 @@ export const userSaveProfile =
   (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
   async (dispatch) => {
     let headers = {
-      "Content-Type": "multipart/form-data",
+      "Content-Type": "application/json",
     };
     return makeAPIRequest({
       method: POST,
@@ -54,7 +54,11 @@ export const userSaveProfile =
         }
       })
       .catch((error) => {
-        if (request.onFailure) request.onFailure(error?.response?.data);
+        if(error?.response?.status == 415){
+          alert(error?.response?.data?.title)
+        }else{
+          if (request.onFailure) request.onFailure(error?.response?.data);
+        }
       });
   };
 
@@ -62,7 +66,7 @@ export const getPaymentMethods =
   (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
   async (dispatch) => {
     let headers = {
-      "Content-Type": "multipart/form-data",
+      "Content-Type": "application/json",
     };
     return makeAPIRequest({
       method: GET,
@@ -86,7 +90,7 @@ export const getProfileMethods =
   (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
   async (dispatch) => {
     let headers = {
-      "Content-Type": "multipart/form-data",
+      "Content-Type": "application/json",
     };
     return makeAPIRequest({
       method: GET,
@@ -110,7 +114,7 @@ export const savePaymentMethod =
   (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
   async (dispatch) => {
     let headers = {
-      "Content-Type": "multipart/form-data",
+      "Content-Type": "application/json",
     };
     return makeAPIRequest({
       method: POST,
@@ -133,7 +137,7 @@ export const deletePaymentMethod =
   (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
   async (dispatch) => {
     let headers = {
-      "Content-Type": "multipart/form-data",
+      "Content-Type": "application/json",
     };
     return makeAPIRequest({
       method: POST,
@@ -157,7 +161,7 @@ export const deletePaymentMethod =
   async (dispatch) => {
 
     return makeAPIRequest({
-      method: POST,
+      method: GET,
       url: api.contentHtml,
       params: request.params,
     })

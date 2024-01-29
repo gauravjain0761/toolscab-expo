@@ -18,9 +18,11 @@ import { heightPercentageToDP } from "react-native-responsive-screen";
 import { listData } from "../../helper/constantData";
 import { styles } from "./FAQScreenStyle";
 import { WebView } from "react-native-webview";
+import { useRoute } from "@react-navigation/native";
 
 // create a component
 const WebViewScreen = () => {
+  const {params}=useRoute<any>()
   if (Platform.OS == "web") {
     return (
       <View style={styles.container}>
@@ -40,17 +42,12 @@ const WebViewScreen = () => {
   } else {
     return (
       <View style={styles.containerMob}>
-        <ScrollView contentContainerStyle={styles.mainStyleMob}>
-          <Text style={styles.headermainTextMob}>KKK</Text>
-          <View style={styles.headerLine} />
-          <WebView
-            source={{ uri: "https://reactnative.dev/" }}
-            style={{ flex: 1 }}
-          />
-          ;
-          <View style={{ height: heightPercentageToDP(10) }} />
+        <WebView
+          source={{ uri: params?.uri }}
+          style={{ flex: 1 }}
+        />
+         <View style={{ height: heightPercentageToDP(10) }} />
           <FooterView />
-        </ScrollView>
       </View>
     );
   }

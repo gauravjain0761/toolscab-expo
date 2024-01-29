@@ -37,6 +37,7 @@ export const getShoppingCartAction =
   async (dispatch) => {
     let headers = {
       Accept: "application/json",
+      customer_id: request.params?.customer_id
     };
 
     return makeAPIRequest({
@@ -52,8 +53,6 @@ export const getShoppingCartAction =
         }
       })
       .catch((error) => {
-        console.log("errorerror", error?.response);
-
         alert(error?.response?.data?.detail);
         if (request.onFailure) request.onFailure(error.response);
       });
@@ -64,6 +63,7 @@ export const getActiveRentalsAction =
   async (dispatch) => {
     let headers = {
       Accept: "application/json",
+      customer_id: request.params?.customer_id
     };
 
     return makeAPIRequest({
@@ -79,8 +79,6 @@ export const getActiveRentalsAction =
         }
       })
       .catch((error) => {
-        console.log("errorerror", error?.response);
-
         alert(error?.response?.data?.detail);
         if (request.onFailure) request.onFailure(error.response);
       });
@@ -91,6 +89,7 @@ export const getActiveRentalsAction =
   async (dispatch) => {
     let headers = {
       Accept: "application/json",
+      customer_id: request.params?.customer_id
     };
 
     return makeAPIRequest({
@@ -115,6 +114,7 @@ export const getActiveRentalsAction =
   async (dispatch) => {
     let headers = {
       Accept: "application/json",
+      customer_id: request.params?.customer_id
     };
 
     return makeAPIRequest({
@@ -129,7 +129,6 @@ export const getActiveRentalsAction =
         }
       })
       .catch((error) => {
-        // alert(error?.response?.data?.detail);
         if (request.onFailure) request.onFailure(error.response);
       });
   };
@@ -140,6 +139,7 @@ export const getActiveRentalsAction =
   async (dispatch) => {
     let headers = {
       Accept: "application/json",
+      customer_id: request.params?.customer_id
     };
 
     return makeAPIRequest({

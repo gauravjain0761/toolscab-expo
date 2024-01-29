@@ -43,7 +43,7 @@ import {
 import { getAsyncToken, getAsyncUserInfo } from "../../helper/asyncStorage";
 import { navigate } from "../../navigations/RootNavigation";
 import { addItemToCartAction } from "../../actions/cartAction";
-import { getPaymentMethods } from "../../actions/authAction";
+import { getHtmlMethod, getPaymentMethods } from "../../actions/authAction";
 import { useIsFocused } from "@react-navigation/native";
 
 type Props = {};
@@ -55,6 +55,7 @@ const ProductDetail = (props: Props) => {
   const scrollViewRef = useRef(ScrollView);
 
   const [selectedTab, setselectedTab] = useState(1);
+  const [htmlView, setHtmlView] = useState("");
   const [tabIndex1, setTabIndex1] = useState(false);
   const [tabIndex2, setTabIndex2] = useState(false);
   const [tabIndex3, setTabIndex3] = useState(false);
@@ -182,6 +183,7 @@ const ProductDetail = (props: Props) => {
     if (productDetails) {
       onProductSpecsPress();
       onProductLocationPress();
+      onWebViewPress();
       getPayment();
     }
   }, [productDetails, isFocused]);
@@ -219,6 +221,19 @@ const ProductDetail = (props: Props) => {
       onFailure: () => {},
     };
     dispatch(getProductLocationAction(obj));
+  };
+
+  const onWebViewPress = () => {
+    const obj = {
+      params: {
+        title: `ProductContent/${productDetails?.product_id}`,
+      },
+      onSuccess: (res: any) => {
+        setHtmlView(res);
+      },
+      onFailure: () => {},
+    };
+    dispatch(getHtmlMethod(obj));
   };
 
   return Platform.OS == "web" ? (
@@ -508,7 +523,9 @@ const ProductDetail = (props: Props) => {
               <Text style={styles.tabText}>Saadavus</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => setselectedTab(3)}
+              onPress={() => {
+                onWebViewPress(), setselectedTab(3);
+              }}
               style={[
                 styles.tabView,
                 {
@@ -578,6 +595,11 @@ const ProductDetail = (props: Props) => {
                     }}
                   />
                 </View>
+              </View>
+            )}
+            {selectedTab == 3 && (
+              <View style={styles.tab1View}>
+                <Text>{htmlView}</Text>
               </View>
             )}
           </View>
@@ -1041,9 +1063,21 @@ const ProductDetail = (props: Props) => {
           <View style={[styles.boxStyleMob, { marginTop: 13 }]}>
             <View style={styles.boxBodyMob}>
               <Text style={styles.boxBodyText}>Kasutamine</Text>
-              <Image source={icons.downarrow} style={styles.downarrowMob} />
+              <TouchableOpacity
+                onPress={() => {
+                  onWebViewPress();
+                  setTabIndex3(!tabIndex3);
+                }}
+              >
+                <Image source={icons.downarrow} style={styles.downarrowMob} />
+              </TouchableOpacity>
             </View>
           </View>
+          {tabIndex3 && (
+            <View style={styles.tab1View}>
+              <Text style={{alignSelf:'center'}}>{htmlView}</Text>
+            </View>
+          )}
 
           <Text style={styles.devicesText}>Viimati vaadatud seadmed</Text>
           <FlatList

@@ -12,7 +12,7 @@ import {
 import { icons } from "../../theme/Icons";
 import { SCREEN_WIDTH, commonFontStyle } from "../../theme/Fonts";
 import { colors } from "../../theme/Colors";
-import { fontFamily } from "../../helper/constants";
+import { fontFamily, screenName } from "../../helper/constants";
 import { screen_width } from "../../helper/globalFunctions";
 import { ImageBackground } from "react-native";
 import { heightPercentageToDP } from "react-native-responsive-screen";
@@ -26,19 +26,15 @@ const FooterView = () => {
   const navigationRef = useNavigation();
   const dispatch = useDispatch<any>();
   const onRenditingimused = () => {
-    Linking.openURL(
-      "https://api.toolscab.ee/Content/Html?title=content%2Fhtml%3Ftitle%3Dtos"
-    );
-    // const obj = {
-    //   params: {
-    //     title: "content/html?title=tos",
-    //   },
-    //   onSuccess: (res: any) => {
-
-    //   },
-    //   onFailure: () => {},
-    // };
-    // dispatch(getHtmlMethod(obj));
+    if (Platform.OS === 'web') {
+      Linking.openURL(
+        "https://api.toolscab.ee/Content/Html?title=content%2Fhtml%3Ftitle%3Dtos"
+      );
+    } else {
+      navigationRef.navigate(screenName.webViewScreen, {
+        uri: "https://api.toolscab.ee/Content/Html?title=content%2Fhtml%3Ftitle%3Dtos",
+      });
+    }
   };
   if (Platform.OS == "web")
     return (
@@ -76,11 +72,17 @@ const FooterView = () => {
               2023 © Kõik õigused kaitstud.
             </Text>
             <TouchableOpacity
-              onPress={() =>
-                Linking.openURL(
-                  "https://api.toolscab.ee/Content/Html?title=content%20title%20privacy"
-                )
-              }
+              onPress={() => {
+                if (Platform.OS === "web") {
+                  Linking.openURL(
+                    "https://api.toolscab.ee/Content/Html?title=content%20title%20privacy"
+                  );
+                } else {
+                  navigationRef.navigate(screenName.webViewScreen, {
+                    uri: "https://api.toolscab.ee/Content/Html?title=content%20title%20privacy",
+                  });
+                }
+              }}
             >
               <Text style={styles.footerBodyText}>
                 Privaatsuspoliitika ja küpsised
@@ -158,11 +160,17 @@ const FooterView = () => {
             2023 © Kõik õigused kaitstud.
           </Text>
           <TouchableOpacity
-            onPress={() =>
-              Linking.openURL(
-                "https://api.toolscab.ee/Content/Html?title=content%20title%20privacy"
-              )
-            }
+            onPress={() => {
+              if (Platform.OS === "web") {
+                Linking.openURL(
+                  "https://api.toolscab.ee/Content/Html?title=content%20title%20privacy"
+                );
+              } else {
+                navigationRef.navigate(screenName.webViewScreen, {
+                  uri: "https://api.toolscab.ee/Content/Html?title=content%20title%20privacy",
+                });
+              }
+            }}
           >
             <Text
               style={[

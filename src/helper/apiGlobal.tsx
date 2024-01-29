@@ -27,6 +27,7 @@ export const makeAPIRequest = ({
       data,
       headers: {
         Accept: "text/plain",
+        ...headers
       },
       params,
     };

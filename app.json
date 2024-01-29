@@ -23,7 +23,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.chiragk.toolscab",
-      "versionCode": 30
+      "versionCode": 35
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -39,9 +39,9 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "1d022017-1dec-4438-bf12-f47d3be27cd4"
+        "projectId": "51a7145f-7187-47b7-9d90-441c2d46d9b2"
       }
     },
-    "owner": "chiragkk"
+    "owner": "chiragyop"
   }
 }

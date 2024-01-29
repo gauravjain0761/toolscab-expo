@@ -80,84 +80,170 @@ const RegisterScreen = () => {
     password: "",
     confirmPassword: "",
     mobileNo: "",
+    companyRegno: "",
   });
   const dispatch = useDispatch();
 
   const onSubmitPress = () => {
-    if (testInputData?.firstName.trim().length === 0) {
-      alert("Palun sisesta oma eesnimi");
-    } else if (testInputData?.lastName.trim().length === 0) {
-      alert("Palun sisestage oma perekonnanimi");
-    } else if (testInputData?.emailId.trim().length === 0) {
-      alert("Palun sisestage oma e-posti aadress");
-    } else if (testInputData?.personalNo.trim().length == 0) {
-      alert("Palun sisestage omaisikukood");
-    } else if (testInputData?.personalNo.trim().length < 11) {
-      alert("isikukood on 11 numbrit");
-    } else if (!emailCheck(testInputData?.emailId)) {
-      alert("Sisestage oma kehtiv e-posti aadress");
-    } else if (testInputData?.password.trim().length === 0) {
-      alert("Palun sisesta oma salasõna");
-    } else if (testInputData?.password.trim().length < 8) {
-      alert("Teie parool peab olema vähemalt 8 tähemärki pikk");
-    } else if (
-      testInputData?.confirmPassword.trim() !== testInputData?.password.trim()
-    ) {
-      alert("Teie parool ja kinnitusparool ei ühti.");
-    } else if (testInputData?.mobileNo.trim().length === 0) {
-      alert("Palun sisestage oma mobiilinumber.");
-    } else if (!checkBox3) {
-      alert("Palun valige tähtajad ja renditingimused");
+    if (selectTab == 1) {
+      if (testInputData?.firstName.trim().length === 0) {
+        alert("Palun sisesta oma eesnimi");
+      } else if (testInputData?.lastName.trim().length === 0) {
+        alert("Palun sisestage oma perekonnanimi");
+      } else if (testInputData?.emailId.trim().length === 0) {
+        alert("Palun sisestage oma e-posti aadress");
+      } else if (testInputData?.personalNo.trim().length == 0) {
+        alert("Palun sisestage omaisikukood");
+      } else if (testInputData?.personalNo.trim().length < 11) {
+        alert("isikukood on 11 numbrit");
+      } else if (!emailCheck(testInputData?.emailId)) {
+        alert("Sisestage oma kehtiv e-posti aadress");
+      } else if (testInputData?.password.trim().length === 0) {
+        alert("Palun sisesta oma salasõna");
+      } else if (testInputData?.password.trim().length < 8) {
+        alert("Teie parool peab olema vähemalt 8 tähemärki pikk");
+      } else if (
+        testInputData?.confirmPassword.trim() !== testInputData?.password.trim()
+      ) {
+        alert("Teie parool ja kinnitusparool ei ühti.");
+      } else if (testInputData?.mobileNo.trim().length === 0) {
+        alert("Palun sisestage oma mobiilinumber.");
+      } else if (!checkBox3) {
+        alert("Palun valige tähtajad ja renditingimused");
+      } else {
+        const obj = {
+          data: {
+            first_name: testInputData?.firstName,
+            last_name: testInputData?.lastName,
+            current_balance: 0,
+            mobile: testInputData?.mobileNo,
+            email: testInputData?.emailId,
+            password: testInputData?.password,
+            social_sec_no: testInputData?.personalNo,
+            news_subscription: 0,
+          },
+          onSuccess: (res: any) => {
+            Platform.OS == "web"
+              ? navigationRef.goBack()
+              : navigationRef.navigate(screenName.profileScreen);
+
+            const obj = {
+              params: {
+                customer_id: res,
+              },
+              onSuccess: (res: any) => {},
+              onFailure: () => {},
+            };
+            dispatch(getProfileMethods(obj));
+            setTestInputData({
+              firstName: "",
+              lastName: "",
+              emailId: "",
+              password: "",
+              confirmPassword: "",
+              mobileNo: "",
+              personalNo: "",
+              companyRegno: "",
+            });
+
+            setCheckBox3(false);
+            setCheckBox1(false);
+            setCheckBox2(false);
+          },
+          onFailure: (error: any) => {
+            const errorValue = error?.detail.includes(
+              "Cannot insert duplicate key row in object"
+            );
+            errorValue
+              ? alert(
+                  "E-post on juba kasutusel Palun värskendage oma e-posti aadressi"
+                )
+              : alert(error?.detail);
+          },
+        };
+        dispatch(userSaveProfile(obj));
+      }
     } else {
-      const obj = {
-        data: {
-          first_name: testInputData?.firstName,
-          last_name: testInputData?.lastName,
-          current_balance: 0,
-          mobile: testInputData?.mobileNo,
-          email: testInputData?.emailId,
-          password: testInputData?.password,
-          social_sec_no: testInputData?.personalNo,
-          news_subscription: 0,
-        },
-        onSuccess: (res: any) => {
-          Platform.OS == "web"
-            ? navigationRef.goBack()
-            : navigationRef.navigate(screenName.profileScreen);
+      if (testInputData?.firstName.trim().length === 0) {
+        alert("Palun sisesta oma eesnimi");
+      } else if (testInputData?.lastName.trim().length === 0) {
+        alert("Palun sisestage oma perekonnanimi");
+      } else if (testInputData?.emailId.trim().length === 0) {
+        alert("Palun sisestage oma e-posti aadress");
+      } else if (testInputData?.personalNo.trim().length == 0) {
+        alert("Palun sisestage omaisikukood");
+      } else if (testInputData?.personalNo.trim().length < 11) {
+        alert("isikukood on 11 numbrit");
+      } else if (!emailCheck(testInputData?.emailId)) {
+        alert("Sisestage oma kehtiv e-posti aadress");
+      } else if (testInputData?.password.trim().length === 0) {
+        alert("Palun sisesta oma salasõna");
+      } else if (testInputData?.password.trim().length < 8) {
+        alert("Teie parool peab olema vähemalt 8 tähemärki pikk");
+      } else if (
+        testInputData?.confirmPassword.trim() !== testInputData?.password.trim()
+      ) {
+        alert("Teie parool ja kinnitusparool ei ühti.");
+      } else if (testInputData?.mobileNo.trim().length === 0) {
+        alert("Palun sisestage oma mobiilinumber.");
+      } else if (testInputData?.companyRegno.trim().length === 0) {
+        alert("Firma reg nr peab olema 8 kohaline!");
+      } else if (!checkBox3) {
+        alert("Palun valige tähtajad ja renditingimused");
+      } else {
+        const obj = {
+          data: {
+            first_name: testInputData?.firstName,
+            last_name: testInputData?.lastName,
+            current_balance: 0,
+            mobile: testInputData?.mobileNo,
+            email: testInputData?.emailId,
+            password: testInputData?.password,
+            social_sec_no: testInputData?.personalNo,
+            news_subscription: 0,
+            company_regno: testInputData.companyRegno,
+          },
+          onSuccess: (res: any) => {
+            Platform.OS == "web"
+              ? navigationRef.goBack()
+              : navigationRef.navigate(screenName.profileScreen);
 
-          const obj = {
-            params: {
-              customer_id: res,
-            },
-            onSuccess: (res: any) => {},
-            onFailure: () => {},
-          };
-          dispatch(getProfileMethods(obj));
-          setTestInputData({
-            firstName: "",
-            lastName: "",
-            emailId: "",
-            password: "",
-            confirmPassword: "",
-            mobileNo: "",
-            personalNo: "",
-          });
+            const obj = {
+              params: {
+                customer_id: res,
+              },
+              onSuccess: (res: any) => {},
+              onFailure: () => {},
+            };
+            dispatch(getProfileMethods(obj));
+            setTestInputData({
+              firstName: "",
+              lastName: "",
+              emailId: "",
+              password: "",
+              confirmPassword: "",
+              mobileNo: "",
+              personalNo: "",
+              companyRegno: "",
+            });
 
-          setCheckBox3(false);
-          setCheckBox1(false);
-          setCheckBox2(false);
-        },
-        onFailure: (error: any) => {
-          const errorValue = error?.detail.includes(
-            "Cannot insert duplicate key row in object"
-          );
-          errorValue ?
-            alert(
-              "E-post on juba kasutusel Palun värskendage oma e-posti aadressi"
-            ) : alert(error?.detail)
-        },
-      };
-      dispatch(userSaveProfile(obj));
+            setCheckBox3(false);
+            setCheckBox1(false);
+            setCheckBox2(false);
+          },
+          onFailure: (error: any) => {
+            const errorValue = error?.detail.includes(
+              "Cannot insert duplicate key row in object"
+            );
+            errorValue
+              ? alert(
+                  "E-post on juba kasutusel Palun värskendage oma e-posti aadressi"
+                )
+              : alert(error?.detail);
+          },
+        };
+        dispatch(userSaveProfile(obj));
+      }
     }
   };
 
@@ -170,6 +256,7 @@ const RegisterScreen = () => {
       confirmPassword: "",
       mobileNo: "",
       personalNo: "",
+      companyRegno: "",
     });
     setCheckBox3(false);
     setCheckBox1(false);
@@ -346,7 +433,16 @@ const RegisterScreen = () => {
                   />
 
                   <Text style={styles.headerText}>{"Ettevõtte info"}</Text>
-                  <InpuText label={"Registrikood"} />
+                  <InpuText
+                    label={"Registrikood"}
+                    value={testInputData?.companyRegno}
+                    onChangeText={(text) =>
+                      setTestInputData({
+                        ...testInputData,
+                        companyRegno: text,
+                      })
+                    }
+                  />
                 </>
               )}
               <View style={{ height: 44 }} />
@@ -365,7 +461,19 @@ const RegisterScreen = () => {
                 style={[styles.checkText, { marginLeft: 15, marginTop: 15 }]}
               >
                 Andmete töötlemise põhimõtetega saate tutvuda SIIN:{" "}
-                <TouchableOpacity onPress={()=>Linking.openURL("https://api.toolscab.ee/Content/Html?title=content%2Fhtml%3Ftitle%3Dprivacy")}>
+                <TouchableOpacity
+                  onPress={() => {
+                    if (Platform.OS === "web") {
+                      Linking.openURL(
+                        "https://api.toolscab.ee/Content/Html?title=content%2Fhtml%3Ftitle%3Dprivacy"
+                      );
+                    } else {
+                      navigationRef.navigate(screenName.webViewScreen, {
+                        uri: "https://api.toolscab.ee/Content/Html?title=content%2Fhtml%3Ftitle%3Dprivacy",
+                      });
+                    }
+                  }}
+                >
                   <Text style={{ color: colors.Roheline2 }}> vajuta siia</Text>
                 </TouchableOpacity>
               </Text>
@@ -561,7 +669,13 @@ const RegisterScreen = () => {
                   />
                   <Text style={styles.headerTextMob}>{"Ettevõtte info"}</Text>
 
-                  <InpuText label={"Registrikood"} />
+                  <InpuText label={"Registrikood"}  value={testInputData?.companyRegno}
+                    onChangeText={(text) =>
+                      setTestInputData({
+                        ...testInputData,
+                        companyRegno: text,
+                      })
+                    }/>
                 </>
               )}
 
@@ -584,9 +698,20 @@ const RegisterScreen = () => {
                 ]}
               >
                 Andmete töötlemise põhimõtetega saate tutvuda SIIN:{"\n"}
-                <TouchableOpacity onPress={()=>Linking.openURL('https://api.toolscab.ee/Content/Html?title=content%2Fhtml%3Ftitle%3Dprivacy')}>
-
-                <Text style={{ color: colors.Roheline2 }}> vajuta siia</Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    if (Platform.OS === "web") {
+                      Linking.openURL(
+                        "https://api.toolscab.ee/Content/Html?title=content%2Fhtml%3Ftitle%3Dprivacy"
+                      );
+                    } else {
+                      navigationRef.navigate(screenName.webViewScreen, {
+                        uri: "https://api.toolscab.ee/Content/Html?title=content%2Fhtml%3Ftitle%3Dprivacy",
+                      });
+                    }
+                  }}
+                >
+                  <Text style={{ color: colors.Roheline2 }}> vajuta siia</Text>
                 </TouchableOpacity>
               </Text>
               <CheckBoxView
