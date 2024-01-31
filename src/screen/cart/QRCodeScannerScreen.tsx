@@ -24,6 +24,7 @@ import { colors } from "../../theme/Colors";
 import ReactNativeModal from "react-native-modal";
 import { icons } from "../../theme/Icons";
 import { CartAddFLowModal } from "../../components";
+import { getAsyncUserInfo } from "../../helper/asyncStorage";
 const QRCodeScannerScreen = () => {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
@@ -36,7 +37,7 @@ const QRCodeScannerScreen = () => {
   const { params } = useRoute();
   const [locarShow, setLocarShow] = useState(false);
 
-  console.log(params.itemData.lockers);
+  console.log("sdada",params.itemData.lockers);
 
   useEffect(() => {
     (async () => {
@@ -49,12 +50,14 @@ const QRCodeScannerScreen = () => {
     };
   }, []);
 
-  const onActivePress = (value: any) => {
+  const onActivePress = async(value: any) => {
+    const customer = await getAsyncUserInfo();
     const obj = {
       data: {
         rental_id: params?.itemData?.rental_id,
         qr_codes: value,
       },
+      customer_id:  customer,
       onSuccess: (res: any) => {
         setLocarShow(true);
       },

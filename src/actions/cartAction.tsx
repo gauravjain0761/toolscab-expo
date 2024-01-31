@@ -12,6 +12,7 @@ export const addItemToCartAction =
   async (dispatch) => {
     let headers = {
       Accept: "application/json",
+      customer_id: request.params?.customer_id
     };
 
     return makeAPIRequest({
@@ -89,7 +90,7 @@ export const getActiveRentalsAction =
   async (dispatch) => {
     let headers = {
       Accept: "application/json",
-      customer_id: request.params?.customer_id
+      customer_id: request?.customer_id
     };
 
     return makeAPIRequest({
@@ -139,7 +140,7 @@ export const getActiveRentalsAction =
   async (dispatch) => {
     let headers = {
       Accept: "application/json",
-      customer_id: request.params?.customer_id
+      customer_id: request?.customer_id
     };
 
     return makeAPIRequest({
@@ -154,7 +155,7 @@ export const getActiveRentalsAction =
         }
       })
       .catch((error) => {
-        alert(error?.response?.data?.detail);
+        // alert(error?.response?.data?.detail);
         if (request.onFailure) request.onFailure(error.response);
       });
   };

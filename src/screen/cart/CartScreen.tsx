@@ -82,7 +82,8 @@ const CartScreen = () => {
     }
   };
 
-  const onActivePress = () => {
+  const onActivePress = async() => {
+    const customer = await getAsyncUserInfo();
     const qeCodelist = [];
     itemData?.components.map((item) => {
       qeCodelist.push(item.qr_code);
@@ -92,6 +93,7 @@ const CartScreen = () => {
         rental_id: itemData?.rental_id,
         qr_codes: qeCodelist,
       },
+      customer_id:  customer,
       onSuccess: (res: any) => {
         setTimeout(() => {
           setqrcodeModalShow(true);
@@ -102,17 +104,21 @@ const CartScreen = () => {
     };
     dispatch(getStartRentalsAction(obj));
   };
-  const onPessRemoveRental = (item: any) => {
+  const onPessRemoveRental =async (item: any) => {
+    const customer = await getAsyncUserInfo();
+    if (customer !== null) {
     const obj = {
       params: {
         rental_id: item?.rental_id,
       },
+      customer_id:  customer,
       onSuccess: (res: any) => {
         getCardList();
       },
       onFailure: () => {},
     };
     dispatch(removeItemFromCartAction(obj));
+  }
   };
 
   if (Platform.OS == "web") {

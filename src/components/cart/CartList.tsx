@@ -28,14 +28,12 @@ type Props = {
 const CartList = ({ title, list, onPress, data, removeRental }: Props) => {
   const navigationRef = useNavigation();
 
-  const duration = moment(new Date()).diff(
-    moment(data?.added_to_cart).tz('Asia/Kolkata'),
-    "seconds"
-  );
-
+  const duration = moment
+    .utc(new Date())
+    .diff(moment(data?.added_to_cart), "seconds");
 
   const second = Math.floor(duration);
-  const [delay, setDelay] = useState(second < 900 ? second : 0);
+  const [delay, setDelay] = useState(second < 900 ? 900 - second : 0);
   const minutes = Math.floor(delay / 60);
   const seconds = Math.floor(delay % 60);
 
@@ -52,7 +50,7 @@ const CartList = ({ title, list, onPress, data, removeRental }: Props) => {
       clearInterval(timer);
     };
   });
-
+  
   if (Platform.OS == "web") {
     return (
       <View style={styles.container}>
@@ -65,7 +63,7 @@ const CartList = ({ title, list, onPress, data, removeRental }: Props) => {
           <Image
             defaultSource={icons.defultIcon}
             source={{
-              uri: `https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${data?.main_product?.product_id}&maxWidth=500&maxHeight=500`,
+              uri: `https://api.toolscab.ee/PhotoBinary/CategoryPhoto?category_id=${data?.main_product?.product_category_id}&maxWidth=500&maxHeight=500`,
             }}
             style={styles.iconsStyle}
             resizeMode="contain"
@@ -86,7 +84,9 @@ const CartList = ({ title, list, onPress, data, removeRental }: Props) => {
               <Text style={styles.headerText3}>
                 {data?.main_product?.price}€/min
               </Text>
-              <Text style={styles.headerText4}>eemalda</Text>
+              <TouchableOpacity onPress={removeRental}>
+                <Text style={styles.headerText4}>eemalda</Text>
+              </TouchableOpacity>
             </View>
             <View></View>
           </View>
@@ -102,7 +102,8 @@ const CartList = ({ title, list, onPress, data, removeRental }: Props) => {
               { color: delay < 50 ? colors.red : colors.headerBG },
             ]}
           >
-             {minutes ? minutes : "00"}:{seconds ? seconds : "00"}
+            {minutes ? `${minutes < 10 ? "0" : ""}${minutes}` : "00"}:
+            {seconds ? `${seconds < 10 ? "0" : ""}${seconds}` : "00"}
           </Text>
 
           <Text style={styles.headerText7}>{"Tasuta broneering"}</Text>
@@ -127,7 +128,7 @@ const CartList = ({ title, list, onPress, data, removeRental }: Props) => {
           <Image
             defaultSource={icons.defultIcon}
             source={{
-              uri: `https://api.toolscab.ee/PhotoBinary/ProductPhoto?product_photo_id=${data?.main_product?.product_id}&maxWidth=500&maxHeight=500`,
+              uri: `https://api.toolscab.ee/PhotoBinary/CategoryPhoto?category_id=${data?.main_product?.product_category_id}&maxWidth=500&maxHeight=500`,
             }}
             style={styles.iconsStyleMob}
             resizeMode="contain"
@@ -171,11 +172,11 @@ const CartList = ({ title, list, onPress, data, removeRental }: Props) => {
                     {
                       color: delay < 50 ? colors.red : colors.headerBG,
                       fontSize: 20,
-                      lineHeight:24
+                      lineHeight: 24,
                     },
                   ]}
                 >
-                  {minutes ? minutes : "00"}:{seconds ? seconds : "00"}
+                  {minutes ? `${minutes < 10 ? "0" : ""}${minutes}` : "00"}:{seconds ? `${seconds < 10 ? "0" : ""}${seconds}` : "00"}
                 </Text>
 
                 <Text style={styles.headerText7Mob}>{"Tasuta broneering"}</Text>

@@ -117,17 +117,21 @@ const ProfileScreen = () => {
     setItemDate(item);
   };
 
-  const onPessRemoveRental = (item: any) => {
+  const onPessRemoveRental = async(item: any) => {
+    const customer = await getAsyncUserInfo();
+    if (customer !== null) {
     const obj = {
       params: {
         rental_id: item?.rental_id,
       },
+      customer_id:  customer,
       onSuccess: (res: any) => {
         getProfileListAction();
       },
       onFailure: () => {},
     };
     dispatch(removeItemFromCartAction(obj));
+  }
   };
 
   const HeaderCommonView = ({ title, style, isShow, onPress }: any) => {
