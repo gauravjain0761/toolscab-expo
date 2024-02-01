@@ -105,7 +105,13 @@ const AppDrawerModalMobile = ({ isVisible }: Props) => {
           <TouchableOpacity style={styles.row}>
             <Text style={styles.rowText}>Asukohad</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.row}>
+          <TouchableOpacity
+            style={styles.row}
+            onPress={() => {
+              navigate(screenName.ourOfUsScreen);
+              onClose();
+            }}
+          >
             <Text style={styles.rowText}>Meist</Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -126,12 +132,18 @@ const AppDrawerModalMobile = ({ isVisible }: Props) => {
           >
             <Text style={styles.rowText}>Renditingimused</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.row}>
+          <TouchableOpacity
+            style={styles.row}
+            onPress={() => {
+              navigate(screenName.contactScreen);
+              onClose();
+            }}
+          >
             <Text style={styles.rowText}>Kontakt</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.row} onPress={() => {}}>
+          {/* <TouchableOpacity style={styles.row} onPress={() => {}}>
             <Text style={styles.rowText}>EST</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           <View style={styles.line} />
 

@@ -10,6 +10,7 @@ import {
   Platform,
   ScrollView,
   TextInput,
+  Alert,
 } from "react-native";
 import Modal from "react-native-modal";
 import { colors } from "../../theme/Colors";
@@ -42,6 +43,12 @@ const CartAddFLowModal = ({
   const [selectTab, setSelectedTab] = useState(1);
   const [inputSadValue, setInputSadValue] = useState("");
   const [showAddReview, setShowAddReview] = useState(false);
+  const [checkBoxData, setCheckBoxData] = useState(
+    itemData?.components.map((item) => {
+      return { ...item, isSelect: false };
+    })
+  );
+  const [mainCheckBox, setMainCheckBox] = useState(false);
   const dispatch = useDispatch();
 
   const onFirstTimePress = () => {
@@ -59,7 +66,7 @@ const CartAddFLowModal = ({
         problemDescription: inputSadValue,
       },
       onSuccess: (res: any) => {
-          navigationRef.navigate(screenName.homeScreen)
+        navigationRef.navigate(screenName.homeScreen);
         setInputSadValue("");
         onClosePress();
       },
@@ -70,6 +77,19 @@ const CartAddFLowModal = ({
     };
 
     dispatch(onReviewAddAction(obj));
+  };
+
+  const onTabfirstPress = () => {
+    if (showAddReview) {
+      setSelectedTab(2);
+    } else {
+      const updatedata = checkBoxData.filter((item) => item.isSelect == true);
+      if (updatedata.length && mainCheckBox) {
+        setSelectedTab(3);
+      }else{
+        Alert.alert("")
+      }
+    }
   };
 
   const CheckBoxText = ({
@@ -275,16 +295,41 @@ const CartAddFLowModal = ({
               ) : null}
               {selectTab === 1 && (
                 <View>
-                  {itemData?.components?.map((item: any) => {
-                    return <CheckBoxText title={item.product_name} />;
+                  {checkBoxData?.map((item: any) => {
+                    return (
+                      <CheckBoxText
+                        title={item.product_name}
+                        select={item.isSelect}
+                        onSelectionChange={() => {
+                          const updateData = checkBoxData?.map((list: any) => {
+                            if (list.product_name == item.product_name) {
+                              return { ...list, isSelect: !list.isSelect };
+                            } else {
+                              return { ...list };
+                            }
+                          });
+                          setCheckBoxData(updateData);
+                          setShowAddReview(false);
+                        }}
+                      />
+                    );
                   })}
                   <CheckBoxText
                     title={`${itemData?.main_product?.product_name},${itemData?.main_product?.brand}`}
+                    select={mainCheckBox}
+                    onSelectionChange={() => {
+                      setMainCheckBox(!mainCheckBox);
+                      setShowAddReview(false);
+                    }}
                   />
                   <CheckBoxText
                     select={showAddReview}
                     onSelectionChange={() => {
                       setShowAddReview(!showAddReview);
+                      setCheckBoxData( itemData?.components.map((item) => {
+                        return { ...item, isSelect: false };
+                      }));
+                      setMainCheckBox(false)
                     }}
                     redColor={true}
                     title={
@@ -311,10 +356,11 @@ const CartAddFLowModal = ({
               )}
 
               {selectTab == 1 ? (
-                <CommonGreenBtn
+                <>
+              {(showAddReview ||  (checkBoxData.filter((item) => item.isSelect == true).length && mainCheckBox))  ?  <CommonGreenBtn
                   title="Jätka"
                   onPress={() => {
-                    showAddReview ? setSelectedTab(2) : setSelectedTab(3);
+                    onTabfirstPress();
                   }}
                   style={{
                     borderColor: colors.headerBG,
@@ -324,10 +370,9 @@ const CartAddFLowModal = ({
                     alignSelf: "center",
                     marginBottom: 30,
                   }}
-                />
-                // <View style={{ marginTop: 50, marginBottom: 30 }} />
-              ) : // null
-              selectTab == 3 ? (
+                /> : <View style={{height: 126,}}/>}
+                </>
+              ) : selectTab == 3 ? (
                 <CommonGreenBtn
                   title="Sule"
                   onPress={() => {

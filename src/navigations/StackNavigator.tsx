@@ -35,6 +35,7 @@ import _ from "lodash";
 import CatalogueSearch from "../screen/catalogue/CatalogueSearch";
 import FinishQRCodeScanner from "../screen/profile/FinishQRCodeScanner";
 import WebViewScreen from "../screen/home/WebViewScreen";
+import ContactScreen from "../screen/home/ContactScreen";
 
 export type RootStackParamList = {
   HomeScreen: undefined;
@@ -189,6 +190,12 @@ const StackNavigator: FC = () => {
       <Stack.Screen
         // @ts-ignore
         name={screenName.ourOfUsScreen}
+        options={({ navigation }) => ({
+          headerLeft: () => <HeaderLeft navigation={navigation} />,
+          headerRight: () => <HeaderRight navigation={navigation} />,
+          headerTitle: "",
+          ...headerStyleMain,
+        })}
         component={OurOfUsScreen}
       />
       <Stack.Screen
@@ -322,6 +329,17 @@ const StackNavigator: FC = () => {
           ...headerStyleMain,
         })}
         component={WebViewScreen}
+      />
+      <Stack.Screen
+        // @ts-ignore
+        name={screenName.contactScreen}
+        options={({ navigation }) => ({
+          headerLeft: () => <HeaderLeft navigation={navigation} />,
+          headerRight: () => <HeaderRight navigation={navigation} />,
+          headerTitle: "",
+          ...headerStyleMain,
+        })}
+        component={ContactScreen}
       />
     </Stack.Navigator>
   );

@@ -36,8 +36,9 @@ const QRCodeScannerScreen = () => {
   const [failModal, setFailModal] = useState(false);
   const { params } = useRoute();
   const [locarShow, setLocarShow] = useState(false);
+  const [errorText, setErrorText] = useState("");
 
-  console.log("sdada",params.itemData.lockers);
+  console.log("sdada", params.itemData.lockers);
 
   useEffect(() => {
     (async () => {
@@ -50,18 +51,19 @@ const QRCodeScannerScreen = () => {
     };
   }, []);
 
-  const onActivePress = async(value: any) => {
+  const onActivePress = async (value: any) => {
     const customer = await getAsyncUserInfo();
     const obj = {
       data: {
         rental_id: params?.itemData?.rental_id,
         qr_codes: value,
       },
-      customer_id:  customer,
+      customer_id: customer,
       onSuccess: (res: any) => {
         setLocarShow(true);
       },
-      onFailure: () => {
+      onFailure: (err) => {
+        setErrorText(err?.data?.detail)
         setSucessModal(true);
         setFailModal(true);
         setScannedValue([]);
@@ -136,9 +138,9 @@ const QRCodeScannerScreen = () => {
   }
   return (
     <View style={styles.container}>
-      <View>
+      {/* <View>
         <Text style={styles.headerTextMain}>Kaamera luba ei antud</Text>
-      </View>
+      </View> */}
       {!sucessModal ? renderCamera() : null}
       {modalShow && (
         <ReactNativeModal isVisible={modalShow}>
@@ -209,7 +211,7 @@ const QRCodeScannerScreen = () => {
               {failModal == false ? "edukas" : "ebaõnnestunud"}
             </Text>
             <Text style={styles.textSubStyle}>
-              {failModal == false ? "" : "proovi uuesti"}
+              {failModal == false ? "" : errorText}
             </Text>
             <CommonGreenBtn
               title={failModal == false ? "Esita" : "tühistada"}

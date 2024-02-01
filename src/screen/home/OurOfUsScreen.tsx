@@ -1,18 +1,53 @@
 //import liraries
-import React from "react";
-import { View, Text, ScrollView, Image } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, ScrollView, Image, Platform } from "react-native";
 import { colors } from "../../theme/Colors";
 import { FooterView, Header } from "../../components";
 import { icons, image } from "../../theme/Icons";
 import { styles } from "./OurOfUsScreenStyle";
+import { getHtmlMethod } from "../../actions/authAction";
+import { useDispatch } from "react-redux";
+import { useIsFocused } from "@react-navigation/native";
+import RenderHTML from "react-native-render-html";
+import { SCREEN_WIDTH } from "../../theme/Fonts";
+import { heightPercentageToDP } from "react-native-responsive-screen";
 
 // create a component
 const OurOfUsScreen = () => {
-  return (
-    <View style={styles.container}>
-      <Header isMainScreen={false} />
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <View style={styles.mainStyle}>
+  const [htmlView, setHtmlView] = useState("");
+  const dispatch = useDispatch();
+  const isFocused = useIsFocused();
+
+  const onWebViewPress = () => {
+    const obj = {
+      params: {
+        title: `content?title=us`,
+      },
+      onSuccess: (res: any) => {
+        setHtmlView(res);
+      },
+      onFailure: () => {},
+    };
+    dispatch(getHtmlMethod(obj));
+  };
+
+  useEffect(() => {
+    onWebViewPress();
+  }, [isFocused]);
+  if (Platform.OS == "web") {
+    return (
+      <View style={styles.container}>
+        <Header isMainScreen={false} />
+        <ScrollView contentContainerStyle={{  flexGrow: 1, marginTop: 150  }}>
+          <View style={{ alignSelf: "center" }}>
+            <RenderHTML
+              contentWidth={SCREEN_WIDTH}
+              source={{
+                html: `${htmlView}`,
+              }}
+            />
+          </View>
+          {/* <View style={styles.mainStyle}>
           <View style={styles.imgStyle}>
             <Image
               resizeMode="contain"
@@ -51,11 +86,36 @@ const OurOfUsScreen = () => {
             style={styles.phoneIcon}
             resizeMode="contain"
           />
-        </View>
-        <FooterView />
-      </ScrollView>
-    </View>
-  );
+        </View> */}
+          <View style={{ height: 160 }} />
+          <FooterView />
+        </ScrollView>
+      </View>
+    );
+  } else {
+    return (
+      <View style={styles.container}>
+        <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+            marginTop: heightPercentageToDP(4),
+          }}
+        >
+          <View style={{ alignSelf: "center" ,flex:1}}>
+            <RenderHTML
+              contentWidth={SCREEN_WIDTH}
+              source={{
+                html: `${htmlView}`,
+              }}
+            />
+          </View>
+          <View style={{ height: heightPercentageToDP(10) }} />
+
+          <FooterView />
+        </ScrollView>
+      </View>
+    );
+  }
 };
 
 //make this component available to the app

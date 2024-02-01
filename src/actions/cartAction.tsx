@@ -115,7 +115,7 @@ export const getActiveRentalsAction =
   async (dispatch) => {
     let headers = {
       Accept: "application/json",
-      customer_id: request.params?.customer_id
+      customer_id: request?.customer_id
     };
 
     return makeAPIRequest({

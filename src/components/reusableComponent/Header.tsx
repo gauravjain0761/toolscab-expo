@@ -80,7 +80,11 @@ const Header = ({ containerStyle, isMainScreen }: Props) => {
       name: "Renditingimused",
       onPress: () => navigationRef.navigate(screenName.rentalConditionsScreen),
     },
-    { id: 6, name: "Kontakt" },
+    {
+      id: 6,
+      name: "Kontakt",
+      onPress: () => navigationRef.navigate(screenName.contactScreen),
+    },
   ];
 
   return (
@@ -110,13 +114,13 @@ const Header = ({ containerStyle, isMainScreen }: Props) => {
                 ? navigationRef.navigate(screenName.profileScreen)
                 : setLoignModal(true);
             }}
-            style={{flexDirection:'row',alignItems:'center'}}
+            style={{ flexDirection: "row", alignItems: "center" }}
           >
             <Image
               source={icons.userIcone}
               style={[styles.userIconeStyle, { tintColor: textColor }]}
             />
-             <Text
+            <Text
               style={[
                 styles.userText,
                 { color: textColor, textTransform: "uppercase" },
@@ -126,7 +130,6 @@ const Header = ({ containerStyle, isMainScreen }: Props) => {
                 ? `Tere ${getProfileList?.first_name}`
                 : "SISENE"}
             </Text>
-            
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => navigationRef.navigate(screenName.cartScreen)}
@@ -146,11 +149,11 @@ const Header = ({ containerStyle, isMainScreen }: Props) => {
               style={[styles.userIconeStyle, { tintColor: textColor }]}
             />
           </TouchableOpacity> */}
-          <TouchableOpacity onPress={() => {}}>
+          {/* <TouchableOpacity onPress={() => {}}>
             <Text style={[styles.userText, { fontSize: 12, color: textColor }]}>
               EST
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity
             onPress={() => {
               clearAsync();

@@ -28,6 +28,7 @@ import {
   QRCodeScnnerModal,
   ReviewSuccessModal,
 } from "../../components";
+import { getAsyncUserInfo } from "../../helper/asyncStorage";
 const FinishQRCodeScanner = () => {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
@@ -40,6 +41,7 @@ const FinishQRCodeScanner = () => {
   const { params } = useRoute();
   const [locarShow, setLocarShow] = useState(false);
   const [lockersValue, setLockersValue] = useState({});
+  const [errorText, setErrorText] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -52,17 +54,21 @@ const FinishQRCodeScanner = () => {
     };
   }, []);
 
-  const onActivePress = (value: any) => {
+  const onActivePress = async(value: any) => {
+    const customer = await getAsyncUserInfo();
+
     const obj = {
       data: {
         rental_id: params?.itemData?.rental_id,
         qr_codes: value,
       },
+      customer_id: customer,
       onSuccess: (res: any) => {
         setLockersValue(res)
        setLocarShow(true)
       },
-      onFailure: () => {
+      onFailure: (err) => {
+        setErrorText(err?.data?.detail)
         setSucessModal(true);
         setFailModal(true);
         setScannedValue([]);
@@ -187,7 +193,7 @@ const FinishQRCodeScanner = () => {
               {failModal == false ? "edukas" : "ebaõnnestunud"}
             </Text>
             <Text style={styles.textSubStyle}>
-              {failModal == false ? "" : "proovi uuesti"}
+              {failModal == false ? "" : errorText}
             </Text>
             <CommonGreenBtn
               title={failModal == false ? "Esita" : "tühistada"}

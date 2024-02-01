@@ -45,6 +45,7 @@ import { navigate } from "../../navigations/RootNavigation";
 import { addItemToCartAction } from "../../actions/cartAction";
 import { getHtmlMethod, getPaymentMethods } from "../../actions/authAction";
 import { useIsFocused } from "@react-navigation/native";
+import RenderHtml from "react-native-render-html";
 
 type Props = {};
 
@@ -599,7 +600,12 @@ const ProductDetail = (props: Props) => {
             )}
             {selectedTab == 3 && (
               <View style={styles.tab1View}>
-                <Text>{htmlView}</Text>
+                <RenderHtml
+                  contentWidth={SCREEN_WIDTH}
+                  source={{
+                    html: `${htmlView}`,
+                  }}
+                />
               </View>
             )}
           </View>
@@ -1075,7 +1081,7 @@ const ProductDetail = (props: Props) => {
           </View>
           {tabIndex3 && (
             <View style={styles.tab1View}>
-              <Text style={{alignSelf:'center'}}>{htmlView}</Text>
+              <Text style={{ alignSelf: "center" }}>{htmlView}</Text>
             </View>
           )}
 
