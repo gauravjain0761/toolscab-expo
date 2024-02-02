@@ -13,6 +13,7 @@ import {
   GET_PRODUCT_SPECS_DETAILS_DATA,
   GET_SEARCH_TEXT,
 } from "./dispatchTypes";
+import { Alert } from "react-native";
 
 export const getCatalogueCategorySearchAction =
   (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
@@ -250,6 +251,7 @@ export const onReviewAddAction =
   async (dispatch) => {
     let headers = {
       Accept: "application/json",
+      customer_id:request.customer_id
     };
 
     return makeAPIRequest({
@@ -264,6 +266,9 @@ export const onReviewAddAction =
         }
       })
       .catch((error) => {
+        console.log("errrr",error.response.data);
+        alert(error?.response?.data?.detail)
+        
         if (request.onFailure) request.onFailure(error.response);
       });
   };

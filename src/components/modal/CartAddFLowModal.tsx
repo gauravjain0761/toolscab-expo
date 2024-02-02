@@ -24,6 +24,8 @@ import moment from "moment";
 import { useDispatch } from "react-redux";
 import { onReviewAddAction } from "../../actions/catalogueAction";
 import { Keyboard } from "react-native";
+import { getFinishRentalAction } from "../../actions/cartAction";
+import { getAsyncUserInfo } from "../../helper/asyncStorage";
 
 type Props = {
   isVisible: boolean;
@@ -58,25 +60,48 @@ const CartAddFLowModal = ({
   const onClosePress = () => {
     onClose();
   };
+  console.log('itemData',itemData?.lockers);
+  
 
-  const onReviewPress = () => {
+  const onReviewPress = async() => {    
+    const customer = await getAsyncUserInfo();
     const obj = {
       params: {
         rental_id: itemData?.rental_id,
         problemDescription: inputSadValue,
       },
+      customer_id: customer,
+      onSuccess: (res: any) => {
+        onFinishPress()
+      },
+      onFailure: () => {
+        // setSelectedTab(3);
+        // setInputSadValue("");
+      },
+    };
+    dispatch(onReviewAddAction(obj));
+  };
+
+  const onFinishPress = async () => {
+    const customer = await getAsyncUserInfo();
+    const qeCodelist = [];
+     itemData?.lockers.map((item) => {
+      qeCodelist.push(item.qr_code);
+    });
+    const obj = {
+      data: {
+        rental_id: itemData?.rental_id,
+        qr_codes: qeCodelist,
+      },
+      customer_id: customer,
       onSuccess: (res: any) => {
         navigationRef.navigate(screenName.homeScreen);
         setInputSadValue("");
         onClosePress();
       },
-      onFailure: () => {
-        setSelectedTab(3);
-        setInputSadValue("");
-      },
+      onFailure: (err) => {},
     };
-
-    dispatch(onReviewAddAction(obj));
+    dispatch(getFinishRentalAction(obj));
   };
 
   const onTabfirstPress = () => {
@@ -86,8 +111,8 @@ const CartAddFLowModal = ({
       const updatedata = checkBoxData.filter((item) => item.isSelect == true);
       if (updatedata.length && mainCheckBox) {
         setSelectedTab(3);
-      }else{
-        Alert.alert("")
+      } else {
+        Alert.alert("");
       }
     }
   };
@@ -289,7 +314,7 @@ const CartAddFLowModal = ({
               ) : selectTab === 2 ? (
                 <Text style={styles.tabText1}>
                   {
-                    " Kui seade oli defektne või puudusid osad \nsaad kohe kapi avada ning seadme tagastada"
+                    "palun pane kõik asjad tagasi täpselt sinna kappi,kust sa selle võtsid"
                   }
                 </Text>
               ) : null}
@@ -326,10 +351,12 @@ const CartAddFLowModal = ({
                     select={showAddReview}
                     onSelectionChange={() => {
                       setShowAddReview(!showAddReview);
-                      setCheckBoxData( itemData?.components.map((item) => {
-                        return { ...item, isSelect: false };
-                      }));
-                      setMainCheckBox(false)
+                      setCheckBoxData(
+                        itemData?.components.map((item) => {
+                          return { ...item, isSelect: false };
+                        })
+                      );
+                      setMainCheckBox(false);
                     }}
                     redColor={true}
                     title={
@@ -357,20 +384,27 @@ const CartAddFLowModal = ({
 
               {selectTab == 1 ? (
                 <>
-              {(showAddReview ||  (checkBoxData.filter((item) => item.isSelect == true).length && mainCheckBox))  ?  <CommonGreenBtn
-                  title="Jätka"
-                  onPress={() => {
-                    onTabfirstPress();
-                  }}
-                  style={{
-                    borderColor: colors.headerBG,
-                    marginLeft: 10,
-                    width: widthPercentageToDP(30),
-                    marginTop: 50,
-                    alignSelf: "center",
-                    marginBottom: 30,
-                  }}
-                /> : <View style={{height: 126,}}/>}
+                  {showAddReview ||
+                  (checkBoxData.filter((item) => item.isSelect == true)
+                    .length &&
+                    mainCheckBox) ? (
+                    <CommonGreenBtn
+                      title="Jätka"
+                      onPress={() => {
+                        onTabfirstPress();
+                      }}
+                      style={{
+                        borderColor: colors.headerBG,
+                        marginLeft: 10,
+                        width: widthPercentageToDP(30),
+                        marginTop: 50,
+                        alignSelf: "center",
+                        marginBottom: 30,
+                      }}
+                    />
+                  ) : (
+                    <View style={{ height: 126 }} />
+                  )}
                 </>
               ) : selectTab == 3 ? (
                 <CommonGreenBtn
@@ -407,7 +441,7 @@ const CartAddFLowModal = ({
                     style={styles.btnLeftSideMob}
                   />
                   <CommonGreenBtn
-                    title={"Ava kapp"}
+                    title={"Valmis"}
                     onPress={onReviewPress}
                     style={{
                       borderColor: colors.headerBG,

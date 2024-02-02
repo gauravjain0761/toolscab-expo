@@ -83,26 +83,26 @@ const CartScreen = () => {
   };
 
   const onActivePress = async() => {
-    const customer = await getAsyncUserInfo();
-    const qeCodelist = [];
-    itemData?.components.map((item) => {
-      qeCodelist.push(item.qr_code);
-    });
-    const obj = {
-      data: {
-        rental_id: itemData?.rental_id,
-        qr_codes: qeCodelist,
-      },
-      customer_id:  customer,
-      onSuccess: (res: any) => {
-        setTimeout(() => {
-          setqrcodeModalShow(true);
-        }, 500);
-        setLocarShow(false);
-      },
-      onFailure: () => {},
-    };
-    dispatch(getStartRentalsAction(obj));
+    // const customer = await getAsyncUserInfo();
+    // const qeCodelist = [];
+    // itemData?.components.map((item) => {
+    //   qeCodelist.push(item.qr_code);
+    // });
+    // const obj = {
+    //   data: {
+    //     rental_id: itemData?.rental_id,
+    //     qr_codes: qeCodelist,
+    //   },
+    //   customer_id:  customer,
+    //   onSuccess: (res: any) => {
+    //     setTimeout(() => {
+    //       setqrcodeModalShow(true);
+    //     }, 500);
+    //     setLocarShow(false);
+    //   },
+    //   onFailure: () => {},
+    // };
+    // dispatch(getStartRentalsAction(obj));
   };
   const onPessRemoveRental =async (item: any) => {
     const customer = await getAsyncUserInfo();
