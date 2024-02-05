@@ -145,9 +145,9 @@ const FinishQRCodeScanner = () => {
   
   return (
     <View style={styles.container}>
-      <View>
+      {/* <View>
         <Text style={styles.headerTextMain}>Kaamera luba ei antud</Text>
-      </View>
+      </View> */}
       {!sucessModal ? renderCamera() : null}
      {modalShow && <QRCodeScnnerModal
         totle={scannedValue?.length+1}

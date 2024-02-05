@@ -21,6 +21,7 @@ import { useNavigation } from "@react-navigation/native";
 import moment from "moment";
 import { useDispatch } from "react-redux";
 import { onReviewAddAction } from "../../actions/catalogueAction";
+import { getAsyncUserInfo } from "../../helper/asyncStorage";
 
 type Props = {
   isVisible: boolean;
@@ -49,13 +50,15 @@ const ReviewSuccessModal = ({
   const dispatch = useDispatch();
 
 
-  const onFirstTimePress = () => {
+  const onFirstTimePress = async() => {
+    const customer = await getAsyncUserInfo();
     const obj = {
       params: {
         rental_id: itemData?.rental_id,
         rating: seletValue,
         feedback:inputSadValue
       },
+      customer_id: customer,
       onSuccess: (res: any) => {
         setInputSadValue("");
         setSeletValue(4),

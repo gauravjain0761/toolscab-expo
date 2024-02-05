@@ -11,6 +11,7 @@ import {
   Button,
   Image,
   ImageBackground,
+  Alert,
 } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { Camera } from "expo-camera";
@@ -38,8 +39,6 @@ const QRCodeScannerScreen = () => {
   const [locarShow, setLocarShow] = useState(false);
   const [errorText, setErrorText] = useState("");
 
-  console.log("sdada", params.itemData.lockers);
-
   useEffect(() => {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
@@ -63,7 +62,7 @@ const QRCodeScannerScreen = () => {
         setLocarShow(true);
       },
       onFailure: (err) => {
-        setErrorText(err?.data?.detail)
+        setErrorText(err?.data?.detail);
         setSucessModal(true);
         setFailModal(true);
         setScannedValue([]);
@@ -72,8 +71,6 @@ const QRCodeScannerScreen = () => {
 
     dispatch(getStartRentalsAction(obj));
   };
-
-  console.log("sucessModal", sucessModal);
 
   const onsubmitPress = () => {
     if (failModal == false) {
@@ -93,12 +90,25 @@ const QRCodeScannerScreen = () => {
     setScanned(true);
     const updateData = scannedValue.filter((item) => item == data);
     if (updateData.length == 0) {
-      const updatValue = [...scannedValue, data];
-      setScannedValue(updatValue);
-      if (updatValue.length === params?.itemData?.lockers.length) {
-        onActivePress(updatValue);
+      let QRData = params?.itemData?.lockers[scannedValue?.length]?.qr_code;
+      if (data == QRData) {
+        const updatValue = [...scannedValue, data];
+        setScannedValue(updatValue);
+        if (updatValue.length === params?.itemData?.lockers.length) {
+          onActivePress(updatValue);
+        } else {
+          setModalShow(true);
+        }
       } else {
-        setModalShow(true);
+        Alert.alert("QR-kood ei ühti", "", [
+          {
+            text: "Jah",
+            onPress: () => {
+              setScannedValue((prevArray) => [...prevArray]);
+              setScanned(false);
+            },
+          },
+        ]);
       }
     } else {
       setScannedValue((prevArray) => [...prevArray]);

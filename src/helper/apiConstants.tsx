@@ -41,10 +41,11 @@ export const api = {
   removeItemFromCart:"Rental/RemoveItemFromCart",
   terminateInvalidStart:"Rental/TerminateInvalidStart",
   rateService:"Rental/RateService",
+  rentalOpenLocker:'Rental/OpenLocker',
 
 
   //html
-  contentHtml:'Content/Html'
+  contentHtml:'Content/Html',
 
 };
 

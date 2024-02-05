@@ -159,3 +159,29 @@ export const getActiveRentalsAction =
         if (request.onFailure) request.onFailure(error.response);
       });
   };
+
+
+  export const rentalOpenLockerAction =
+  (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
+  async (dispatch) => {
+    let headers = {
+      Accept: "application/json",
+      customer_id: request?.customer_id
+    };
+
+    return makeAPIRequest({
+      method: GET,
+      url: api.rentalOpenLocker,
+      headers: headers,
+      params: request.params,
+    })
+      .then(async (response: any) => {
+        if (response.status === 200) {
+          if (request.onSuccess) request.onSuccess(response?.data);
+        }
+      })
+      .catch((error) => {
+        alert(error?.response?.data?.detail);
+        if (request.onFailure) request.onFailure(error.response);
+      });
+  };

@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   ImageBackground,
   Platform,
-  ScrollView,
   TextInput,
   Alert,
 } from "react-native";
@@ -20,11 +19,10 @@ import { widthPercentageToDP } from "react-native-responsive-screen";
 import { commonFontStyle, defaultFont } from "../../theme/Fonts";
 import { fontFamily, screenName } from "../../helper/constants";
 import { useNavigation } from "@react-navigation/native";
-import moment from "moment";
 import { useDispatch } from "react-redux";
 import { onReviewAddAction } from "../../actions/catalogueAction";
 import { Keyboard } from "react-native";
-import { getFinishRentalAction } from "../../actions/cartAction";
+import { rentalOpenLockerAction } from "../../actions/cartAction";
 import { getAsyncUserInfo } from "../../helper/asyncStorage";
 
 type Props = {
@@ -60,10 +58,8 @@ const CartAddFLowModal = ({
   const onClosePress = () => {
     onClose();
   };
-  console.log('itemData',itemData?.lockers);
-  
 
-  const onReviewPress = async() => {    
+  const onReviewPress = async () => {
     const customer = await getAsyncUserInfo();
     const obj = {
       params: {
@@ -71,37 +67,13 @@ const CartAddFLowModal = ({
         problemDescription: inputSadValue,
       },
       customer_id: customer,
-      onSuccess: (res: any) => {
-        onFinishPress()
-      },
+      onSuccess: (res: any) => {},
       onFailure: () => {
         // setSelectedTab(3);
         // setInputSadValue("");
       },
     };
     dispatch(onReviewAddAction(obj));
-  };
-
-  const onFinishPress = async () => {
-    const customer = await getAsyncUserInfo();
-    const qeCodelist = [];
-     itemData?.lockers.map((item) => {
-      qeCodelist.push(item.qr_code);
-    });
-    const obj = {
-      data: {
-        rental_id: itemData?.rental_id,
-        qr_codes: qeCodelist,
-      },
-      customer_id: customer,
-      onSuccess: (res: any) => {
-        navigationRef.navigate(screenName.homeScreen);
-        setInputSadValue("");
-        onClosePress();
-      },
-      onFailure: (err) => {},
-    };
-    dispatch(getFinishRentalAction(obj));
   };
 
   const onTabfirstPress = () => {
@@ -115,6 +87,33 @@ const CartAddFLowModal = ({
         Alert.alert("");
       }
     }
+  };
+
+  const onQrcodePress = async () => {
+    const customer = await getAsyncUserInfo();
+    itemData?.lockers.map((item: any, index: any) => {
+      const obj = {
+        params: {
+          rental_id: itemData?.rental_id,
+          Qr_code: item?.qr_code,
+        },
+        customer_id: customer,
+        onSuccess: (res: any) => {
+          if (index === itemData?.lockers.length - 1) {
+            setShowAddReview(!showAddReview);
+            setCheckBoxData(
+              itemData?.components.map((item: any) => {
+                return { ...item, isSelect: false };
+              })
+            );
+            setMainCheckBox(false);
+            setSelectedTab(2);
+          }
+        },
+        onFailure: (err: any) => {},
+      };
+      dispatch(rentalOpenLockerAction(obj));
+    });
   };
 
   const CheckBoxText = ({
@@ -350,13 +349,7 @@ const CartAddFLowModal = ({
                   <CheckBoxText
                     select={showAddReview}
                     onSelectionChange={() => {
-                      setShowAddReview(!showAddReview);
-                      setCheckBoxData(
-                        itemData?.components.map((item) => {
-                          return { ...item, isSelect: false };
-                        })
-                      );
-                      setMainCheckBox(false);
+                      onQrcodePress();
                     }}
                     redColor={true}
                     title={
@@ -384,10 +377,8 @@ const CartAddFLowModal = ({
 
               {selectTab == 1 ? (
                 <>
-                  {showAddReview ||
-                  (checkBoxData.filter((item) => item.isSelect == true)
-                    .length &&
-                    mainCheckBox) ? (
+                  {checkBoxData.filter((item) => item.isSelect == true)
+                    .length && mainCheckBox ? (
                     <CommonGreenBtn
                       title="Jätka"
                       onPress={() => {
@@ -590,6 +581,7 @@ const styles = StyleSheet.create({
     maxHeight: 200,
     textAlignVertical: "top",
     marginTop: 30,
+    left: 2,
     ...defaultFont(400, 14, colors.headerBG),
   },
   btnLeftSideMob: {
