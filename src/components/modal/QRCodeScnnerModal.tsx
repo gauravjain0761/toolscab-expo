@@ -64,7 +64,18 @@ const QRCodeScnnerModal = ({
       onSuccess: (res: any) => {
         setQueryIsLocked(res);
         if (!res) {
-          Alert.alert(`${res}`);
+          Alert.alert("close the locker", "", [
+            {
+              text: "Tühista",
+              onPress: () => {onClosePress()},
+            },
+            {
+              text: "Jah",
+              onPress: () => {
+                onRentalQueryIsLockedPress()
+              },
+            },
+          ]);
         }
       },
       onFailure: () => {},

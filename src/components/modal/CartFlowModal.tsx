@@ -272,11 +272,6 @@ const CartFlowModal = ({
                 }}
               >
                 <CommonGreenBtn
-                  title="Loobun"
-                  onPress={onClosePress}
-                  style={styles.btnLeftSideMob}
-                />
-                <CommonGreenBtn
                   title={selectTab == 1 ? "Skanneeri" : "Rendikorv"}
                   onPress={onFirstTimePress}
                   style={{

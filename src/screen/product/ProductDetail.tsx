@@ -115,7 +115,7 @@ const ProductDetail = (props: Props) => {
       setSelectShowValue(2);
       setCommonModalWebShow(true);
     } else {
-      onCardItemClick(item);
+      setLoginPaymentModalWebShow(true);
     }
   };
 
@@ -127,9 +127,7 @@ const ProductDetail = (props: Props) => {
         customer_id: customer,
         location_id: item,
       },
-      onSuccess: (res: any) => {
-        setLoginPaymentModalWebShow(true);
-      },
+      onSuccess: (res: any) => {},
       onFailure: () => {},
     };
     dispatch(addItemToCartAction(obj));
@@ -674,7 +672,8 @@ const ProductDetail = (props: Props) => {
           onClose={() => setLoginPaymentModalWebShow(false)}
           oncomfirmPress={() => {
             setLoginPaymentModalWebShow(false);
-            navigationRef.navigate(screenName.cartScreen);
+            
+            // navigationRef.navigate(screenName.cartScreen);
           }}
         />
         <ImageModalWeb
@@ -1137,6 +1136,7 @@ const ProductDetail = (props: Props) => {
         />
         <LoginPaymentModalWeb
           isVisible={loginPaymentModalWebShow}
+          locationId={locationId}
           onClose={() => setLoginPaymentModalWebShow(false)}
           oncomfirmPress={() => {
             setLoginPaymentModalWebShow(false);

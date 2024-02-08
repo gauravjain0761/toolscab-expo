@@ -224,11 +224,6 @@ const CartAddFLowModal = ({
                 }}
               >
                 <CommonGreenBtn
-                  title="Loobun"
-                  onPress={onClosePress}
-                  style={styles.btnLeftSide}
-                />
-                <CommonGreenBtn
                   title={selectTab == 1 ? "Nõustun" : "Rendikorv"}
                   onPress={onFirstTimePress}
                   style={{

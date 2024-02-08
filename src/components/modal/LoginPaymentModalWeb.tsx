@@ -15,24 +15,35 @@ import { icons } from "../../theme/Icons";
 import InpuText from "../reusableComponent/InpuText";
 import CommonGreenBtn from "../reusableComponent/CommonGreenBtn";
 import { widthPercentageToDP } from "react-native-responsive-screen";
-import { commonFontStyle,defaultFont} from "../../theme/Fonts";
+import { commonFontStyle, defaultFont } from "../../theme/Fonts";
 import { fontFamily, screenName } from "../../helper/constants";
 import { useNavigation } from "@react-navigation/native";
 import { navigate } from "../../navigations/RootNavigation";
+import { getAsyncUserInfo } from "../../helper/asyncStorage";
+import { useDispatch, useSelector } from "react-redux";
+import { addItemToCartAction } from "../../actions/cartAction";
 
 type Props = {
   isVisible: boolean;
+  locationId: any;
   onClose: () => void;
   oncomfirmPress: () => void;
 };
 
 // create a component
-const LoginPaymentModalWeb = ({ isVisible, onClose,oncomfirmPress }: Props) => {
+const LoginPaymentModalWeb = ({
+  isVisible,
+  onClose,
+  oncomfirmPress,
+  locationId,
+}: Props) => {
   const navigationRef = useNavigation();
   const [selectTab, setSelectedTab] = useState(1);
   const [delay, setDelay] = useState(900);
   const minutes = Math.floor(delay / 60);
   const seconds = Math.floor(delay % 60);
+  const dispatch = useDispatch();
+  const { productDetails } = useSelector((state) => state.catalogue);
   useEffect(() => {
     const timer = setInterval(() => {
       selectTab == 2 && setDelay(delay - 1);
@@ -47,12 +58,28 @@ const LoginPaymentModalWeb = ({ isVisible, onClose,oncomfirmPress }: Props) => {
     };
   });
 
+  const onCardItemClick = async () => {
+    const customer = await getAsyncUserInfo();
+    const obj = {
+      params: {
+        product_id: productDetails?.product_id,
+        customer_id: customer,
+        location_id: locationId,
+      },
+      onSuccess: (res: any) => {
+        setSelectedTab(2);
+        setDelay(900);
+      },
+      onFailure: () => {},
+    };
+    dispatch(addItemToCartAction(obj));
+  };
+
   const onFirstTimePress = () => {
     if (selectTab == 1) {
-     setSelectedTab(2)
-     setDelay(900)
+      onCardItemClick();
     } else {
-      oncomfirmPress()
+      oncomfirmPress();
     }
   };
 
@@ -64,7 +91,7 @@ const LoginPaymentModalWeb = ({ isVisible, onClose,oncomfirmPress }: Props) => {
     }, 400);
   };
 
-   if(Platform.OS == 'web'){
+  if (Platform.OS == "web") {
     return (
       <Modal
         animationInTiming={500}
@@ -116,7 +143,7 @@ const LoginPaymentModalWeb = ({ isVisible, onClose,oncomfirmPress }: Props) => {
               {selectTab == 2 && (
                 <View style={styles.timeView}>
                   <Text style={styles.timeValueStyle}>
-                  {minutes ? minutes : "00"}:{seconds ? seconds : "00"}
+                    {minutes ? minutes : "00"}:{seconds ? seconds : "00"}
                   </Text>
                   <Text style={styles.timeTextStyle}>Tasuta broneering</Text>
                 </View>
@@ -134,7 +161,7 @@ const LoginPaymentModalWeb = ({ isVisible, onClose,oncomfirmPress }: Props) => {
                   }
                 </Text>
               )}
-  
+
               <View
                 style={{
                   flexDirection: "row",
@@ -164,7 +191,7 @@ const LoginPaymentModalWeb = ({ isVisible, onClose,oncomfirmPress }: Props) => {
         </View>
       </Modal>
     );
-   }else{
+  } else {
     return (
       <Modal
         animationInTiming={500}
@@ -216,7 +243,7 @@ const LoginPaymentModalWeb = ({ isVisible, onClose,oncomfirmPress }: Props) => {
               {selectTab == 2 && (
                 <View style={styles.timeViewMob}>
                   <Text style={styles.timeValueStyleMob}>
-                  {minutes ? minutes : "00"}:{seconds ? seconds : "00"}
+                    {minutes ? minutes : "00"}:{seconds ? seconds : "00"}
                   </Text>
                   <Text style={styles.timeTextStyleMob}>Tasuta broneering</Text>
                 </View>
@@ -234,7 +261,7 @@ const LoginPaymentModalWeb = ({ isVisible, onClose,oncomfirmPress }: Props) => {
                   }
                 </Text>
               )}
-  
+
               <View
                 style={{
                   flexDirection: "row",
@@ -264,7 +291,7 @@ const LoginPaymentModalWeb = ({ isVisible, onClose,oncomfirmPress }: Props) => {
         </View>
       </Modal>
     );
-   }
+  }
 };
 
 // define your styles
@@ -334,7 +361,6 @@ const styles = StyleSheet.create({
     ...commonFontStyle(fontFamily.articulat_regular, 14, colors.headerBG),
   },
 
-
   //mobile
 
   containerMob: {
@@ -377,13 +403,13 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginTop: 100,
     marginBottom: 20,
-    lineHeight:40
+    lineHeight: 40,
   },
   headerSubTextMob: {
     ...defaultFont(400, 14, colors.headerBG),
     alignSelf: "center",
     textAlign: "center",
-    lineHeight:18
+    lineHeight: 18,
   },
   btnLeftSideMob: {
     borderColor: colors.headerBG,
