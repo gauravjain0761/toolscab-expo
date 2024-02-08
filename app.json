@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "toolcab",
-    "slug": "expo",
+    "slug": "toolscab",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -23,7 +23,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.chiragk.toolscab",
-      "versionCode": 36
+      "versionCode": 42
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -39,9 +39,9 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "51a7145f-7187-47b7-9d90-441c2d46d9b2"
+        "projectId": "6d6e91e8-180f-46ac-ae85-3582380f0b87"
       }
     },
-    "owner": "chiragyop"
+    "owner": "ritva_19"
   }
 }

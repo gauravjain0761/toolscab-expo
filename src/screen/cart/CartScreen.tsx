@@ -46,7 +46,7 @@ const CartScreen = () => {
   const { getPaymentList, getShoppingCart } = useSelector(
     (state) => state.cart
   );
-  console.log("getShoppingCart", getShoppingCart);
+  console.log("getShoppingCart", JSON.stringify(getShoppingCart));
 
   const getCardList = async () => {
     const customer = await getAsyncUserInfo();

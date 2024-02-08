@@ -19,6 +19,9 @@ import { commonFontStyle, defaultFont } from "../../theme/Fonts";
 import { fontFamily } from "../../helper/constants";
 import { useNavigation } from "@react-navigation/native";
 import moment from "moment";
+import { getAsyncUserInfo } from "../../helper/asyncStorage";
+import { useDispatch } from "react-redux";
+import { rentalQueryIsLockedAction } from "../../actions/cartAction";
 
 type Props = {
   isVisible: boolean;
@@ -27,6 +30,7 @@ type Props = {
   itemData: any;
   totle: any;
   lockersNo: any;
+  qrCode;
 };
 
 // create a component
@@ -37,6 +41,7 @@ const QRCodeScnnerModal = ({
   itemData,
   totle,
   lockersNo,
+  qrCode,
 }: Props) => {
   const navigationRef = useNavigation();
   const [selectTab, setSelectedTab] = useState(1);
@@ -46,6 +51,26 @@ const QRCodeScnnerModal = ({
     })
   );
   const [mainCheckBox, setMainCheckBox] = useState(false);
+  const [queryIsLocked, setQueryIsLocked] = useState(false);
+  const dispatch = useDispatch();
+
+  const onRentalQueryIsLockedPress = async () => {
+    const customer = await getAsyncUserInfo();
+    const obj = {
+      params: {
+        Qr_code: qrCode,
+      },
+      customer_id: customer,
+      onSuccess: (res: any) => {
+        setQueryIsLocked(res);
+        if (!res) {
+          Alert.alert(`${res}`);
+        }
+      },
+      onFailure: () => {},
+    };
+    dispatch(rentalQueryIsLockedAction(obj));
+  };
 
   const onFirstTimePress = () => {
     const updatedata = checkBoxData.filter((item) => item.isSelect == true);
@@ -55,6 +80,13 @@ const QRCodeScnnerModal = ({
       Alert.alert("Valige märkeruut");
     }
   };
+
+  useEffect(() => {
+    const updatedata = checkBoxData.filter((item) => item.isSelect == true);
+    if (updatedata.length && mainCheckBox) {
+      onRentalQueryIsLockedPress();
+    }
+  }, [checkBoxData, mainCheckBox]);
 
   const onClosePress = () => {
     onClose();
@@ -171,16 +203,20 @@ const QRCodeScnnerModal = ({
                   onPress={onClosePress}
                   style={styles.btnLeftSide}
                 />
-                <CommonGreenBtn
-                  title={selectTab == 1 ? "Nõustun" : "Rendikorv"}
-                  onPress={onFirstTimePress}
-                  style={{
-                    borderColor: colors.headerBG,
-                    marginLeft: 10,
-                    width: widthPercentageToDP(7),
-                    marginTop: 50,
-                  }}
-                />
+                {mainCheckBox &&
+                  checkBoxData.filter((item) => item.isSelect == true)
+                    .length && (
+                    <CommonGreenBtn
+                      title={selectTab == 1 ? "Nõustun" : "Rendikorv"}
+                      onPress={onFirstTimePress}
+                      style={{
+                        borderColor: colors.headerBG,
+                        marginLeft: 10,
+                        width: widthPercentageToDP(7),
+                        marginTop: 50,
+                      }}
+                    />
+                  )}
               </View>
             </View>
           </View>
@@ -277,16 +313,22 @@ const QRCodeScnnerModal = ({
                   onPress={onClosePress}
                   style={styles.btnLeftSideMob}
                 />
-                <CommonGreenBtn
-                  title={"Jätka"}
-                  onPress={onFirstTimePress}
-                  style={{
-                    borderColor: colors.headerBG,
-                    marginLeft: 10,
-                    width: widthPercentageToDP(30),
-                    marginTop: 50,
-                  }}
-                />
+                {(
+                  queryIsLocked &&
+                  mainCheckBox &&
+                  checkBoxData.filter((item) => item.isSelect == true)
+                ).length && (
+                  <CommonGreenBtn
+                    title={"Jätka"}
+                    onPress={onFirstTimePress}
+                    style={{
+                      borderColor: colors.headerBG,
+                      marginLeft: 10,
+                      width: widthPercentageToDP(30),
+                      marginTop: 50,
+                    }}
+                  />
+                )}
               </View>
             </View>
           </View>

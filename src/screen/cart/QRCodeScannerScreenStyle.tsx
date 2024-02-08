@@ -15,6 +15,10 @@ const styles = {
     textAlign: "center",
     ...defaultFont(700, 24, colors.black),
   },
+  headerTextMain1:{
+    marginBottom: 20,
+    ...defaultFont(400, 24, colors.black),
+  },
   paragraph: {
     marginBottom: 40,
     ...defaultFont(400, 16, colors.black),
@@ -57,6 +61,7 @@ const styles = {
   },
   headerTextMain:{
     marginBottom: 20,
+    alignSelf:"center",
     ...defaultFont(400, 30, colors.black),
   },
   textstyle1:{

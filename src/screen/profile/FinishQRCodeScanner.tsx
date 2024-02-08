@@ -48,6 +48,7 @@ const FinishQRCodeScanner = () => {
   const [locarShow, setLocarShow] = useState(false);
   const [lockersValue, setLockersValue] = useState({});
   const [errorText, setErrorText] = useState("");
+  const [qrCodeScan, setQrCodeScan] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -59,6 +60,9 @@ const FinishQRCodeScanner = () => {
       setScanned(false);
     };
   }, []);
+
+  console.log('scannedValue',scannedValue);
+  
 
   const onActivePress = async (value: any) => {
     const customer = await getAsyncUserInfo();
@@ -84,17 +88,16 @@ const FinishQRCodeScanner = () => {
 
   console.log(
     "sucessModal",
-    params?.itemData?.lockers[scannedValue?.length-1]?.qr_code
+    params?.itemData?.lockers[scannedValue?.length - 1]?.qr_code
   );
-  console.log('scannedValue?.length 1=',scannedValue?.length);
-  console.log('scannedValue?.length 2=',params?.itemData?.lockers.length);
-  
+  console.log("scannedValue?.length 1=", scannedValue?.length);
+  console.log("scannedValue?.length 2=", params?.itemData?.lockers.length);
 
   const onRentalQueryIsLockedPress = async () => {
     const customer = await getAsyncUserInfo();
     const obj = {
       params: {
-        Qr_code: params?.itemData?.lockers[scannedValue?.length-1]?.qr_code,
+        Qr_code: params?.itemData?.lockers[scannedValue?.length - 1]?.qr_code,
       },
       customer_id: customer,
       onSuccess: (res: any) => {
@@ -124,6 +127,7 @@ const FinishQRCodeScanner = () => {
       setScanned(false);
       setSucessModal(false);
       setFailModal(false);
+      setQrCodeScan("")
       navigationRef.navigate(screenName.profileScreen);
     } else {
       setSucessModal(false);
@@ -147,9 +151,7 @@ const FinishQRCodeScanner = () => {
           },
           customer_id: customer,
           onSuccess: (res: any) => {
-            const updatValue = [...scannedValue, data];
-            setScannedValue(updatValue);
-
+            setQrCodeScan(data)
             setModalShow(true);
           },
           onFailure: (err: any) => {},
@@ -221,15 +223,33 @@ const FinishQRCodeScanner = () => {
       {!sucessModal ? renderCamera() : null}
       {modalShow && (
         <QRCodeScnnerModal
-          totle={scannedValue?.length}
+          totle={scannedValue?.length+1}
           lockersNo={
-            params?.itemData?.lockers[scannedValue?.length-1]?.locker_number
+            params?.itemData?.lockers[scannedValue?.length]?.locker_number
           }
+          qrCode={params?.itemData?.lockers[scannedValue?.length]?.qr_code}
           isVisible={modalShow}
           itemData={params?.itemData}
-          onClose={() => setModalShow(false)}
+          onClose={() => {
+            setScanned(false)
+            setModalShow(false)
+            setScannedValue((prevArray) => [...prevArray]);
+          }}
           oncomfirmPress={() => {
-            onRentalQueryIsLockedPress();
+              let updatValue = [...scannedValue, qrCodeScan];
+              setScannedValue(updatValue);
+            if (updatValue.length === params?.itemData?.lockers.length) {
+              const qeCodelist = [];
+              updatValue?.map((item) => {
+                qeCodelist.push(item);
+              });
+              onActivePress(qeCodelist);
+              setModalShow(false);
+              setScanned(false);
+            } else {
+              setModalShow(false);
+              setScanned(false);
+            }
           }}
         />
       )}

@@ -148,9 +148,19 @@ const QRCodeScannerScreen = () => {
   }
   return (
     <View style={styles.container}>
-      {/* <View>
-        <Text style={styles.headerTextMain}>Kaamera luba ei antud</Text>
-      </View> */}
+       <View>
+        <Text
+          style={[
+            styles.headerTextMain1,
+            { color: colors.Roheline2, alignSelf: "center" },
+          ]}
+        >
+          Scan QR code from locker
+        </Text>
+        <Text style={styles.headerTextMain}>
+          {params?.itemData?.lockers[scannedValue?.length]?.locker_number}
+        </Text>
+      </View>
       {!sucessModal ? renderCamera() : null}
       {modalShow && (
         <ReactNativeModal isVisible={modalShow}>
