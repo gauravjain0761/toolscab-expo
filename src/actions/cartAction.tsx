@@ -5,14 +5,17 @@ import { GET, POST, api } from "../helper/apiConstants";
 import { RootState } from "../helper/types";
 import { setAsyncUserInfo } from "../helper/asyncStorage";
 import { Alert } from "react-native";
-import { GET_ACTIVE_RENTALS_DETAILS_DATA, GET_CART_DETAILS_DATA } from "./dispatchTypes";
+import {
+  GET_ACTIVE_RENTALS_DETAILS_DATA,
+  GET_CART_DETAILS_DATA,
+} from "./dispatchTypes";
 
 export const addItemToCartAction =
   (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
   async (dispatch) => {
     let headers = {
       Accept: "application/json",
-      customer_id: request.params?.customer_id
+      customer_id: request.params?.customer_id,
     };
 
     return makeAPIRequest({
@@ -38,7 +41,7 @@ export const getShoppingCartAction =
   async (dispatch) => {
     let headers = {
       Accept: "application/json",
-      customer_id: request.params?.customer_id
+      customer_id: request.params?.customer_id,
     };
 
     return makeAPIRequest({
@@ -64,7 +67,7 @@ export const getActiveRentalsAction =
   async (dispatch) => {
     let headers = {
       Accept: "application/json",
-      customer_id: request.params?.customer_id
+      customer_id: request.params?.customer_id,
     };
 
     return makeAPIRequest({
@@ -76,7 +79,10 @@ export const getActiveRentalsAction =
       .then(async (response: any) => {
         if (response.status === 200) {
           if (request.onSuccess) request.onSuccess(response?.data);
-          dispatch({ type: GET_ACTIVE_RENTALS_DETAILS_DATA, payload: response?.data });
+          dispatch({
+            type: GET_ACTIVE_RENTALS_DETAILS_DATA,
+            payload: response?.data,
+          });
         }
       })
       .catch((error) => {
@@ -85,12 +91,12 @@ export const getActiveRentalsAction =
       });
   };
 
-  export const getStartRentalsAction =
+export const getStartRentalsAction =
   (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
   async (dispatch) => {
     let headers = {
       Accept: "application/json",
-      customer_id: request?.customer_id
+      customer_id: request?.customer_id,
     };
 
     return makeAPIRequest({
@@ -105,17 +111,17 @@ export const getActiveRentalsAction =
         }
       })
       .catch((error) => {
-        console.log('error?.response?.data',error?.response?.data);
+        console.log("error?.response?.data", error?.response?.data);
         if (request.onFailure) request.onFailure(error.response);
       });
   };
 
-  export const getFinishRentalAction =
+export const getFinishRentalAction =
   (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
   async (dispatch) => {
     let headers = {
       Accept: "application/json",
-      customer_id: request?.customer_id
+      customer_id: request?.customer_id,
     };
 
     return makeAPIRequest({
@@ -134,13 +140,12 @@ export const getActiveRentalsAction =
       });
   };
 
-
-  export const removeItemFromCartAction =
+export const removeItemFromCartAction =
   (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
   async (dispatch) => {
     let headers = {
       Accept: "application/json",
-      customer_id: request?.customer_id
+      customer_id: request?.customer_id,
     };
 
     return makeAPIRequest({
@@ -160,13 +165,12 @@ export const getActiveRentalsAction =
       });
   };
 
-
-  export const rentalOpenLockerAction =
+export const rentalOpenLockerAction =
   (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
   async (dispatch) => {
     let headers = {
       Accept: "application/json",
-      customer_id: request?.customer_id
+      customer_id: request?.customer_id,
     };
 
     return makeAPIRequest({
@@ -176,11 +180,43 @@ export const getActiveRentalsAction =
       params: request.params,
     })
       .then(async (response: any) => {
+        console.log("rentalOpenLockerAction", response?.data);
+
         if (response.status === 200) {
           if (request.onSuccess) request.onSuccess(response?.data);
         }
       })
       .catch((error) => {
+        alert(error?.response?.data?.detail);
+        console.log('error?.response?.data',error?.response?.data);
+        
+        if (request.onFailure) request.onFailure(error.response);
+      });
+  };
+export const rentalQueryIsLockedAction =
+  (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
+  async (dispatch) => {
+    let headers = {
+      Accept: "application/json",
+      customer_id: request?.customer_id,
+    };
+
+    return makeAPIRequest({
+      method: GET,
+      url: api.rentalQueryIsLocked,
+      headers: headers,
+      params: request.params,
+    })
+      .then(async (response: any) => {
+        console.log("rentalQueryIsLockedAction", response?.data);
+
+        if (response.status === 200 || response.status === 204) {
+          if (request.onSuccess) request.onSuccess(response?.data);
+        }
+      })
+      .catch((error) => {
+        console.log('error?.response?.data',error?.response?.data);
+        
         alert(error?.response?.data?.detail);
         if (request.onFailure) request.onFailure(error.response);
       });

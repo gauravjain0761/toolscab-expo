@@ -113,8 +113,12 @@ const ProfileScreen = () => {
   };
 
   const onFinishPress = (item: any) => {
-    setLocarShow(true);
+    // setLocarShow(true);
     setItemDate(item);
+    //@ts-ignore
+    navigationRef.navigate(screenName.finishQRCodeScanner, {
+      itemData: item,
+    });
   };
 
   const onPessRemoveRental = async(item: any) => {
@@ -433,7 +437,7 @@ const ProfileScreen = () => {
           </View>
           <View style={{ height: 150 }} />
           <FooterView />
-          {locarShow && (
+          {/* {locarShow && (
             <QRCodeScnnerModal
               totle={1}
               lockersNo={itemData?.lockers[0]?.locker_number}
@@ -450,7 +454,7 @@ const ProfileScreen = () => {
                 setLocarShow(false);
               }}
             />
-          )}
+          )} */}
         </ScrollView>
       </View>
     );

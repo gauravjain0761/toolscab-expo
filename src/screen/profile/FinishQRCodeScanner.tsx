@@ -11,6 +11,7 @@ import {
   Button,
   Image,
   ImageBackground,
+  Alert,
 } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { Camera } from "expo-camera";
@@ -19,7 +20,12 @@ import CommonGreenBtn from "../../components/reusableComponent/CommonGreenBtn";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { screenName } from "../../helper/constants";
 import { useDispatch } from "react-redux";
-import { getFinishRentalAction, getStartRentalsAction } from "../../actions/cartAction";
+import {
+  getFinishRentalAction,
+  getStartRentalsAction,
+  rentalOpenLockerAction,
+  rentalQueryIsLockedAction,
+} from "../../actions/cartAction";
 import { colors } from "../../theme/Colors";
 import ReactNativeModal from "react-native-modal";
 import { icons } from "../../theme/Icons";
@@ -54,9 +60,8 @@ const FinishQRCodeScanner = () => {
     };
   }, []);
 
-  const onActivePress = async(value: any) => {
+  const onActivePress = async (value: any) => {
     const customer = await getAsyncUserInfo();
-
     const obj = {
       data: {
         rental_id: params?.itemData?.rental_id,
@@ -64,11 +69,11 @@ const FinishQRCodeScanner = () => {
       },
       customer_id: customer,
       onSuccess: (res: any) => {
-        setLockersValue(res)
-       setLocarShow(true)
+        setLockersValue(res);
+        setLocarShow(true);
       },
       onFailure: (err) => {
-        setErrorText(err?.data?.detail)
+        setErrorText(err?.data?.detail);
         setSucessModal(true);
         setFailModal(true);
         setScannedValue([]);
@@ -77,7 +82,41 @@ const FinishQRCodeScanner = () => {
     dispatch(getFinishRentalAction(obj));
   };
 
-  console.log("sucessModal", sucessModal);
+  console.log(
+    "sucessModal",
+    params?.itemData?.lockers[scannedValue?.length-1]?.qr_code
+  );
+  console.log('scannedValue?.length 1=',scannedValue?.length);
+  console.log('scannedValue?.length 2=',params?.itemData?.lockers.length);
+  
+
+  const onRentalQueryIsLockedPress = async () => {
+    const customer = await getAsyncUserInfo();
+    const obj = {
+      params: {
+        Qr_code: params?.itemData?.lockers[scannedValue?.length-1]?.qr_code,
+      },
+      customer_id: customer,
+      onSuccess: (res: any) => {
+        if (scannedValue.length === params?.itemData?.lockers.length) {
+          const qeCodelist = [];
+          scannedValue?.map((item) => {
+            qeCodelist.push(item);
+          });
+          onActivePress(qeCodelist);
+          setModalShow(false);
+          setScanned(false);
+        } else {
+          setModalShow(false);
+          setScanned(false);
+        }
+      },
+      onFailure: (err) => {
+        // setErrorText(err?.data?.detail);
+      },
+    };
+    dispatch(rentalQueryIsLockedAction(obj));
+  };
 
   const onsubmitPress = () => {
     if (failModal == false) {
@@ -93,16 +132,39 @@ const FinishQRCodeScanner = () => {
     }
   };
 
-  const handleBarCodeScanned = ({ data }) => {
+  const handleBarCodeScanned = async ({ data }) => {
+    const customer = await getAsyncUserInfo();
+
     setScanned(true);
     const updateData = scannedValue.filter((item) => item == data);
     if (updateData.length == 0) {
-      const updatValue = [...scannedValue, data];
-      setScannedValue(updatValue);
-      if (updatValue.length === params?.itemData?.lockers.length) {
-        onActivePress(updatValue);
+      let QRData = params?.itemData?.lockers[scannedValue?.length]?.qr_code;
+      if (data == QRData) {
+        const obj = {
+          params: {
+            rental_id: params?.itemData?.rental_id,
+            Qr_code: QRData,
+          },
+          customer_id: customer,
+          onSuccess: (res: any) => {
+            const updatValue = [...scannedValue, data];
+            setScannedValue(updatValue);
+
+            setModalShow(true);
+          },
+          onFailure: (err: any) => {},
+        };
+        dispatch(rentalOpenLockerAction(obj));
       } else {
-        setModalShow(true);
+        Alert.alert("QR-kood ei ühti", "", [
+          {
+            text: "Jah",
+            onPress: () => {
+              setScannedValue((prevArray) => [...prevArray]);
+              setScanned(false);
+            },
+          },
+        ]);
       }
     } else {
       setScannedValue((prevArray) => [...prevArray]);
@@ -141,27 +203,36 @@ const FinishQRCodeScanner = () => {
     );
   }
 
-  console.log('scannedValue?.length,scannedValue?.length',scannedValue?.length);
-  
   return (
     <View style={styles.container}>
-      {/* <View>
-        <Text style={styles.headerTextMain}>Kaamera luba ei antud</Text>
-      </View> */}
+      <View>
+        <Text
+          style={[
+            styles.headerTextMain1,
+            { color: colors.Roheline2, alignSelf: "center" },
+          ]}
+        >
+          Scan QR code from locker
+        </Text>
+        <Text style={styles.headerTextMain}>
+          {params?.itemData?.lockers[scannedValue?.length]?.locker_number}
+        </Text>
+      </View>
       {!sucessModal ? renderCamera() : null}
-     {modalShow && <QRCodeScnnerModal
-        totle={scannedValue?.length+1}
-        lockersNo={
-          params?.itemData?.lockers[scannedValue?.length]?.locker_number
-        }
-        isVisible={modalShow}
-        itemData={params?.itemData}
-        onClose={() => setModalShow(false)}
-        oncomfirmPress={()=>{
-          setModalShow(false);
-          setScanned(false);
-        }}
-      />}
+      {modalShow && (
+        <QRCodeScnnerModal
+          totle={scannedValue?.length}
+          lockersNo={
+            params?.itemData?.lockers[scannedValue?.length-1]?.locker_number
+          }
+          isVisible={modalShow}
+          itemData={params?.itemData}
+          onClose={() => setModalShow(false)}
+          oncomfirmPress={() => {
+            onRentalQueryIsLockedPress();
+          }}
+        />
+      )}
       {sucessModal && (
         <ReactNativeModal isVisible={sucessModal}>
           <View

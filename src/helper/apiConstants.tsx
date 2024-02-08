@@ -42,6 +42,7 @@ export const api = {
   terminateInvalidStart:"Rental/TerminateInvalidStart",
   rateService:"Rental/RateService",
   rentalOpenLocker:'Rental/OpenLocker',
+  rentalQueryIsLocked:"Rental/QueryIsLocked",
 
 
   //html

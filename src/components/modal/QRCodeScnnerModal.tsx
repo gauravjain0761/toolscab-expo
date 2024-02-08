@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   ImageBackground,
   Platform,
+  Alert,
 } from "react-native";
 import Modal from "react-native-modal";
 import { colors } from "../../theme/Colors";
@@ -24,8 +25,8 @@ type Props = {
   onClose: () => void;
   oncomfirmPress: () => void;
   itemData: any;
-  totle:any,
-  lockersNo:any,
+  totle: any;
+  lockersNo: any;
 };
 
 // create a component
@@ -35,23 +36,50 @@ const QRCodeScnnerModal = ({
   oncomfirmPress,
   itemData,
   totle,
-  lockersNo
+  lockersNo,
 }: Props) => {
   const navigationRef = useNavigation();
   const [selectTab, setSelectedTab] = useState(1);
+  const [checkBoxData, setCheckBoxData] = useState(
+    itemData?.components.map((item) => {
+      return { ...item, isSelect: false };
+    })
+  );
+  const [mainCheckBox, setMainCheckBox] = useState(false);
 
   const onFirstTimePress = () => {
-    oncomfirmPress();
+    const updatedata = checkBoxData.filter((item) => item.isSelect == true);
+    if (updatedata.length && mainCheckBox) {
+      oncomfirmPress();
+    } else {
+      Alert.alert("Valige märkeruut");
+    }
   };
 
   const onClosePress = () => {
     onClose();
   };
 
-  const CheckBoxText = ({ title, redColor, onPress }: any) => {
+  const CheckBoxText = ({
+    title,
+    redColor,
+    select,
+    onSelectionChange,
+  }: any) => {
     return (
-      <TouchableOpacity style={styles.checkViewStyle} onPress={onPress}>
-        <View style={styles.checkBox} />
+      <View style={styles.checkViewStyle}>
+        <TouchableOpacity
+          onPress={onSelectionChange}
+          style={[
+            styles.checkBox,
+            {
+              backgroundColor: select ? colors.green : colors.white,
+              borderColor: select ? colors.green : colors.grey_6,
+            },
+          ]}
+        >
+          <Image source={icons.done} style={{ width: 14, height: 14 }} />
+        </TouchableOpacity>
         <Text
           style={[
             styles.checkText,
@@ -63,7 +91,7 @@ const QRCodeScnnerModal = ({
         >
           {title}
         </Text>
-      </TouchableOpacity>
+      </View>
     );
   };
 
@@ -169,10 +197,10 @@ const QRCodeScnnerModal = ({
         backdropOpacity={0.2}
         isVisible={isVisible}
         onBackButtonPress={() => {
-          onClosePress();
+          // onClosePress();
         }}
         onBackdropPress={() => {
-          onClosePress();
+          // onClosePress();
         }}
       >
         <View style={styles.containerMob}>
@@ -180,7 +208,9 @@ const QRCodeScnnerModal = ({
             <View style={{ marginHorizontal: 24, marginTop: 30 }}>
               <View style={styles.logoStyleMob}>
                 <View style={styles.listView}>
-                  <Text style={styles.listText}>{`${totle}/${itemData?.lockers?.length}`}</Text>
+                  <Text
+                    style={styles.listText}
+                  >{`${totle}/${itemData?.lockers?.length}`}</Text>
                 </View>
                 <Image
                   source={icons.qrcodecart}
@@ -189,25 +219,50 @@ const QRCodeScnnerModal = ({
               </View>
 
               <View style={{ marginTop: 60, marginBottom: 30 }}>
-                {itemData?.components?.map((item: any) => {
-                  return <CheckBoxText title={item.product_name} />;
+                {checkBoxData?.map((item: any) => {
+                  return (
+                    <CheckBoxText
+                      title={item.product_name}
+                      select={item.isSelect}
+                      onSelectionChange={() => {
+                        const updateData = checkBoxData?.map((list: any) => {
+                          if (list.product_name == item.product_name) {
+                            return { ...list, isSelect: !list.isSelect };
+                          } else {
+                            return { ...list };
+                          }
+                        });
+                        setCheckBoxData(updateData);
+                      }}
+                    />
+                  );
                 })}
                 <CheckBoxText
                   title={`${itemData?.main_product?.product_name},${itemData?.main_product?.brand}`}
+                  select={mainCheckBox}
+                  onSelectionChange={() => {
+                    setMainCheckBox(!mainCheckBox);
+                  }}
                 />
               </View>
-              <View style={{ alignSelf:'center' }}>
+              <View style={{ alignSelf: "center" }}>
                 <Text style={styles.headerSubTextMob}>
                   {"Pane need asjad\nkappi nr"}
                 </Text>
                 <Text
                   style={[
                     styles.headerSubTextMob,
-                    { fontSize: 36, lineHeight: 40,marginLeft:20,marginTop:15 },
+                    {
+                      fontSize: 36,
+                      lineHeight: 40,
+                      marginLeft: 20,
+                      marginTop: 15,
+                    },
                   ]}
                 >
-                  {lockersNo}
+                  {`${lockersNo}`}
                 </Text>
+                <Text style={styles.headerSubTextMob}>{" ja sulge uks!"}</Text>
               </View>
               <View
                 style={{
@@ -403,6 +458,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 4,
     borderColor: colors.grey_D1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   checkViewStyle: {
     flexDirection: "row",

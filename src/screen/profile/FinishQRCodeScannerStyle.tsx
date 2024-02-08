@@ -56,8 +56,13 @@ const styles = {
     ...defaultFont(400, 20, colors.black),
   },
   headerTextMain:{
+    alignSelf:"center",
     marginBottom: 20,
-    ...defaultFont(400, 30, colors.black),
+    ...defaultFont(400, 34, colors.black),
+  },
+  headerTextMain1:{
+    marginBottom: 20,
+    ...defaultFont(400, 24, colors.black),
   },
   textstyle1:{
     alignSelf:"center",
