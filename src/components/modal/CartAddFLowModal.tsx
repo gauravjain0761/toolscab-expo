@@ -67,7 +67,11 @@ const CartAddFLowModal = ({
         problemDescription: inputSadValue,
       },
       customer_id: customer,
-      onSuccess: (res: any) => {},
+      onSuccess: (res: any) => {
+        onClosePress()
+        //@ts-ignore
+        navigationRef.navigate(screenName.cartScreen)
+      },
       onFailure: () => {
         // setSelectedTab(3);
         // setInputSadValue("");

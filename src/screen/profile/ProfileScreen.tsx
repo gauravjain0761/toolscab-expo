@@ -54,7 +54,7 @@ const ProfileScreen = () => {
   const [itemData, setItemDate] = useState([]);
   const [locarShow, setLocarShow] = useState(false);
 
-  console.log("getActiveRental", getActiveRental);
+  console.log("getActiveRental", JSON.stringify(getActiveRental));
 
   const { getPaymentList } = useSelector((state) => state.cart);
   const isFocused = useIsFocused();

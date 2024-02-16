@@ -79,6 +79,7 @@ const LoginPaymentModalWeb = ({
     if (selectTab == 1) {
       onCardItemClick();
     } else {
+      setSelectedTab(1);
       oncomfirmPress();
     }
   };
@@ -270,11 +271,11 @@ const LoginPaymentModalWeb = ({
                   marginTop: 20,
                 }}
               >
-                <CommonGreenBtn
+              {selectTab == 1 &&  <CommonGreenBtn
                   title="Loobun"
                   onPress={onClosePress}
                   style={styles.btnLeftSideMob}
-                />
+                />}
                 <CommonGreenBtn
                   title={selectTab == 1 ? "Nõustun" : "Rendikorv"}
                   onPress={onFirstTimePress}
